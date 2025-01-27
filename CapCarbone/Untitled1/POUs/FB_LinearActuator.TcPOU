@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <POU Name="FB_LinearActuator" Id="{ea18bd47-f142-4882-be0a-b1771c69605b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LinearActuator
+VAR
+    bEnable          : BOOL;         
+END_VAR
+
+VAR_INPUT
+	bRelayForward    : POINTER TO BOOL; 
+    bRelayReverse    : POINTER TO BOOL; 
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Enable" Id="{5781204b-ff90-43fa-8680-a505886ae8fc}">
+      <Declaration><![CDATA[METHOD Enable : BOOL
+VAR_INPUT
+    bEnableCmd : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bEnable := bEnableCmd;
+IF NOT bEnable THEN
+
+	bRelayForward^ := FALSE;
+	bRelayReverse^ := FALSE;
+END_IF;
+Enable := bEnable;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{97589f9e-12e3-42ec-a9fa-23e9e6bb3543}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+  bInitRetains : BOOL;
+  bInCopyCode  : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FB_init := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveForward" Id="{05889208-3945-4579-8e80-ba06223a15bb}">
+      <Declaration><![CDATA[METHOD MoveForward : BOOL
+VAR_INPUT
+    bStart : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bEnable THEN
+	bRelayForward^ := bStart;  
+	bRelayReverse^ := FALSE;   
+	MoveForward := bStart;
+ELSE
+	MoveForward := FALSE;
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveReverse" Id="{fc96ee79-2f9e-44d9-b4a7-e028c83a156a}">
+      <Declaration><![CDATA[METHOD MoveReverse : BOOL
+VAR_INPUT
+    bStart : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bEnable THEN
+	bRelayReverse^ := bStart;  
+	bRelayForward^ := FALSE;   
+	MoveReverse := bStart;
+ELSE
+	MoveReverse := FALSE;
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Stop" Id="{ed4bc20c-08fd-49e2-8da7-e700d0af9ca8}">
+      <Declaration><![CDATA[METHOD Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+bRelayForward^ := FALSE;
+bRelayReverse^ := FALSE;
+Stop := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_LinearActuator">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.Enable">
+      <LineId Id="8" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.FB_init">
+      <LineId Id="21" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.MoveForward">
+      <LineId Id="8" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="11" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.MoveReverse">
+      <LineId Id="8" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.Stop">
+      <LineId Id="6" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

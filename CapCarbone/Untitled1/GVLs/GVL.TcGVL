@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <GVL Name="GVL" Id="{84031c49-9b58-4990-8455-46264bcb9bf2}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	// Digital output variables (linked to EL2809 outputs)
+	Relay1_Forward : BOOL := FALSE; // Forward relay for LinearActuator 1
+	Relay1_Reverse : BOOL := FALSE; // Reverse relay for LinearActuator 1
+	Relay2_Forward : BOOL := FALSE; // Forward relay for LinearActuator 2
+	Relay2_Reverse : BOOL := FALSE; // Reverse relay for LinearActuator 2
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

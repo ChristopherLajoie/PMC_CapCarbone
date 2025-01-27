@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <POU Name="FB_StepperMotor" Id="{bbe3d249-0f45-4d4f-9e26-26a436162bb5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_StepperMotor
+VAR
+    fbPower       : MC_Power;
+	fbstop        : MC_Halt;
+    fbMoveAbs     : MC_MoveAbsolute;
+	fbhome		  : MC_Home;
+    AxisRef       : AXIS_REF;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Enable" Id="{b4ed9b41-5152-4967-b132-962092157051}">
+      <Declaration><![CDATA[METHOD Enable : BOOL
+VAR_INPUT
+    bEnable : BOOL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbPower(Axis := AxisRef, Enable := bEnable);
+Enable := NOT fbPower.Error;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{9d664a39-5dd4-4344-b1ab-aba2f4872a25}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+    bInitRetains : BOOL;            // System-managed retains (not used here)
+    bInCopyCode : BOOL;             // System-managed copy code (not used here)
+    Axis        : AXIS_REF;         
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ AxisRef := Axis;                
+ FB_Init := TRUE;                ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Home" Id="{8276e0ce-98e0-421a-babf-511ef600c743}">
+      <Declaration><![CDATA[METHOD Home : BOOL
+VAR_INPUT
+    bExecute : BOOL;     
+END_VAR
+
+VAR
+    bBusy    : BOOL;
+    bDone    : BOOL;
+    bError   : BOOL;
+    nErrID   : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbHome(
+    Execute       := bExecute,
+	Axis		  := AxisRef,
+	Position      := 0.0,       
+    HomingMode    := 1,         
+    Done          => bDone,
+    Busy          => bBusy,
+    Error         => bError,
+    ErrorID       => nErrID
+);
+
+IF bDone THEN
+    //Do something
+ELSIF bError THEN
+    //Do something
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveToPosition" Id="{59187d53-eaea-489c-80e7-2ef214427a40}">
+      <Declaration><![CDATA[METHOD MoveToPosition : BOOL
+VAR_INPUT
+    fPosition : LREAL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbMoveAbs(Axis := AxisRef, Execute := TRUE, Position := fPosition);
+MoveToPosition := NOT fbMoveAbs.Error;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Stop" Id="{9b515f94-46a2-4ab1-aca0-af2dcdfe9f04}">
+      <Declaration><![CDATA[METHOD Stop : BOOL
+VAR_INPUT
+    bEnable : BOOL;
+	bStopCommand : BOOL;
+	fDecel : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbStop(Axis := AxisRef, Execute := bStopCommand, Deceleration := fDecel);
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_StepperMotor">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.Enable">
+      <LineId Id="11" Count="0" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.FB_init">
+      <LineId Id="14" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.Home">
+      <LineId Id="17" Count="1" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="25" Count="4" />
+      <LineId Id="31" Count="4" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.MoveToPosition">
+      <LineId Id="14" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.Stop">
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
