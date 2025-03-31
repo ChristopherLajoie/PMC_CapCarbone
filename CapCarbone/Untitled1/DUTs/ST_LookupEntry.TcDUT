@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ST_LookupEntry" Id="{4d49d0d4-76cf-4230-b62c-1fe72c9a6d59}">
+    <Declaration><![CDATA[TYPE ST_LookupEntry :
+STRUCT
+    nX : INT;
+    sY : STRING;
+    sValue: POINTER TO FB_LinearActuator;
+	sCommand: POINTER TO ST_LinearActuatorCommand;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

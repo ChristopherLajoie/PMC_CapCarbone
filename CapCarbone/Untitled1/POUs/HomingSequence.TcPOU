@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <POU Name="HomingSequence" Id="{bd409a7b-d104-4d15-9147-5cd44e8557d6}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM HomingSequence
+VAR
+    bHomingSuccess : BOOL := FALSE;
+    bStepperHomingSuccess : BOOL;
+    bLinearActuatorHomingSuccess : BOOL;
+    bError : BOOL;
+    nErrorID : UDINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bStepperError : BOOL;
+bLinearActuatorError : BOOL;
+
+// Call Stepper Motor Homing
+bStepperHomingSuccess := FB_StepperMotor.Home();
+bStepperError := StepperMotor.bError;  // Assuming StepperMotor has a bError flag
+
+// Call Linear Actuator Homing
+bLinearActuatorHomingSuccess := LinearActuator.Home();
+bLinearActuatorError := LinearActuator.bError;  // Assuming LinearActuator has a bError flag
+
+// Evaluate Homing Results
+IF NOT bStepperHomingSuccess OR bStepperError THEN
+    // Trigger stepper motor homing alarm
+    CALL AlarmHandler.Trigger(ALARM_STEPPER_HOMING_FAILED, "Stepper motor homing failed");
+    bError := TRUE;
+END_IF
+
+IF NOT bLinearActuatorHomingSuccess OR bLinearActuatorError THEN
+    // Trigger linear actuator homing alarm
+    CALL AlarmHandler.Trigger(ALARM_LINEAR_ACTUATOR_HOMING_FAILED, "Linear actuator homing failed");
+    bError := TRUE;
+END_IF
+
+// If both failed, raise a general homing failure alarm
+IF bError THEN
+    CALL AlarmHandler.Trigger(ALARM_HOMING_GENERAL_FAILURE, "Actuators homing failed");
+    Start := FALSE;
+ELSE
+    bHomingSuccess := TRUE;
+    Start := TRUE;
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="HomingSequence">
+      <LineId Id="17" Count="1" />
+      <LineId Id="20" Count="29" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

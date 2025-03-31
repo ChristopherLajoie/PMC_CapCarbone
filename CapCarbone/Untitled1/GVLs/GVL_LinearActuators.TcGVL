@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <GVL Name="GVL_LinearActuators" Id="{26bc995d-8661-4016-8cce-d90189369a8f}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	
+	Cha1 : ST_LinearActuator := (
+		sName := 'Chariot1',
+		bProxIn := Prox1In ,  
+		bProxOut := Prox1Out , 
+		bFwdDO := ADR(Relay1_Forward), 
+		bBckwDO := ADR(Relay1_Reverse)
+		);
+	
+	Comp1 : ST_LinearActuator := (
+		sName := 'Compressor1',
+		bProxIn := Prox2In,  
+		bProxOut := Prox2Out, 
+		bFwdDO := ADR(Relay2_Forward), 
+		bBckwDO := ADR(Relay2_Reverse)
+		);
+	
+	Sens1 : ST_LinearActuator := (
+		sName := 'Sensor1',
+		bProxIn := Prox3In,  
+		bProxOut := Prox3Out, 
+		bFwdDO := ADR(Relay3_Forward), 
+		bBckwDO := ADR(Relay3_Reverse)
+		);
+	
+	Cha2 : ST_LinearActuator := (
+		sName := 'Chariot2',
+		bProxIn := Prox4In,  
+		bProxOut := Prox4Out, 
+		bFwdDO := ADR(Relay4_Forward), 
+		bBckwDO := ADR(Relay4_Reverse)
+		);
+
+	Cha3 : ST_LinearActuator := (
+		sName := 'Chariot3',
+		bProxIn := Prox5In,  
+		bProxOut := Prox5Out, 
+		bFwdDO := ADR(Relay5_Forward), 
+		bBckwDO := ADR(Relay5_Reverse)
+		);
+	
+	HeatC3 : ST_LinearActuator := (
+		sName := 'HeatExCoupola3',
+		bProxIn := Prox6In,  
+		bProxOut := Prox6Out, 
+		bFwdDO := ADR(Relay6_Forward), 
+		bBckwDO := ADR(Relay6_Reverse)
+		);
+		
+		
+	RegenC3 : ST_LinearActuator := (
+		sName := 'RegenCoupola3',
+		bProxIn := Prox8In,  
+		bProxOut := Prox8Out, 
+		bFwdDO := ADR(Relay8_Forward), 
+		bBckwDO := ADR(Relay8_Reverse)
+		);
+	
+	Ch4 : ST_LinearActuator := (
+		sName := 'Chariot4',
+		bProxIn := Prox7In,  
+		bProxOut := Prox7Out, 
+		bFwdDO := ADR(Relay7_Forward), 
+		bBckwDO := ADR(Relay7_Reverse)
+		);
+	
+	ProxOutRisingEdge : BOOL := TRUE;  // Optional param for out proximity edge detection
+    ProxInRisingEdge : BOOL := TRUE;   // Optional param for in proximity edge detection
+	
+	Chariot1 :    FB_LinearActuator(Actuator := ADR(Cha1));
+    Compressor1: FB_LinearActuator(Actuator := ADR(Comp1));
+    Sensor1:  FB_LinearActuator(Actuator := ADR(Sens1));
+    Chariot2:     FB_LinearActuator(Actuator := ADR(Cha2));
+    Chariot3 :    FB_LinearActuator(Actuator := ADR(Cha3));
+    HeatExCoupola3: FB_LinearActuator(Actuator := ADR(HeatC3));
+    RegenCoupola3:  FB_LinearActuator(Actuator := ADR(RegenC3));
+    Chariot4:     FB_LinearActuator(Actuator := ADR(Ch4));
+	
+	Chariot1Command : ST_LinearActuatorCommand;
+	Compressor1Command : ST_LinearActuatorCommand;
+	Sensor1Command : ST_LinearActuatorCommand;
+	Chariot2Command : ST_LinearACtuatorCommand;
+	Chariot3Command : ST_LinearActuatorCommand;
+	HeatExCoupola3Command : ST_LinearActuatorCommand;
+	RegenCoupola3Command : ST_LinearActuatorCommand;
+	Chariot4Command : ST_LinearActuatorCommand;
+	
+	aLookupTable : ARRAY[1..100] OF ST_LookupEntry := [
+		(nX := 1, sY := 'Chariot', sValue := ADR(Chariot1), sCommand := ADR(Chariot1Command)),
+		(nX := 1, sY := 'Compressor', sValue := ADR(Compressor1), sCommand := ADR(Compressor1Command)),
+		(nX := 1, sY := 'Sensor', sValue := ADR(Sensor1), sCommand := ADR(Sensor1Command)),
+		(nX := 2, sY := 'Chariot', sValue := ADR(Chariot2), sCommand := ADR(Chariot2Command)),
+		(nX := 3, sY := 'HeatExCoupola', sValue := ADR(HeatExCoupola3), sCommand := ADR(HeatExCoupola3Command)),
+		(nX := 3, sY := 'RegenCoupola', sValue := ADR(RegenCoupola3), sCommand := ADR(RegenCoupola3Command)),
+		(nX := 3, sY := 'Chariot', sValue := ADR(Chariot3), sCommand := ADR(Chariot3Command)),
+		(nX := 4, sY := 'Chariot', sValue := ADR(Chariot4), sCommand := ADR(Chariot4Command))
+	];
+    nEntryCount : INT := 8;  
+		
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

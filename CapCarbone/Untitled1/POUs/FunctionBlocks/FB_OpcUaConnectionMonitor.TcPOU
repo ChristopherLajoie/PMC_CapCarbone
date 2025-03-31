@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="FB_OpcUaConnectionMonitor" Id="{e0d1e9b6-ff9b-43d8-9b8e-c87ebd77158a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_OpcUaConnectionMonitor
+VAR_INPUT
+    bEnable              : BOOL := TRUE;    // Enable monitoring
+    dtCurrentTime        : DT;              // Current PLC time
+END_VAR
+
+VAR
+    fbCycleTimer         : TON;             // Cycle timer for status updates
+    bFirstCycle          : BOOL := TRUE;    // First cycle flag
+    udiLastTestValue     : UDINT := 0;      // Test value for change detection
+    fbLastCommTimer      : TON;             // Timer to detect communication loss
+    dtLastActiveComm     : DT;              // Timestamp of last confirmed communication
+END_VAR
+
+VAR_OUTPUT
+    bConnectionActive    : BOOL := FALSE;   // Connection status output
+    sStatus              : STRING;          // Status message
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Execute" Id="{791e7739-d03b-4f52-affc-e9e06db64ec8}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+VAR_INPUT
+END_VAR
+VAR
+    tTimeoutCheck        : TIME := T#10S;   // Time to wait before marking connection as lost
+    bChangeDetected      : BOOL;            // Flag to indicate if value has changed
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Only execute if enabled
+    IF NOT (bEnable AND g_bEnableConnectionMonitor) THEN
+        g_sConnectionStatus := 'Monitoring disabled';
+        g_udiConnectionStatusCode := 9999;
+        g_bOpcUaConnected := FALSE;
+        bConnectionActive := FALSE;
+        sStatus := g_sConnectionStatus;
+        RETURN;
+    END_IF
+    
+    // Initialize on first cycle
+    IF bFirstCycle THEN
+        g_dtLastCommunication := dtCurrentTime;
+        dtLastActiveComm := dtCurrentTime;
+        udiLastTestValue := g_udiOpcUaTestValue;
+        g_sConnectionStatus := 'Initializing';
+        g_udiConnectionStatusCode := 1;
+        bFirstCycle := FALSE;
+    END_IF;
+
+    // ----------------------------------------------------------------
+    // Method 1: Check if the test value has changed (indicating an external client wrote to it)
+    // ----------------------------------------------------------------
+    bChangeDetected := (g_udiOpcUaTestValue <> udiLastTestValue);
+    
+    // Update our tracking of the test value
+    udiLastTestValue := g_udiOpcUaTestValue;
+    
+    // If we detected a change, update the communication timestamp
+    IF bChangeDetected THEN
+        g_dtLastCommunication := dtCurrentTime;
+        dtLastActiveComm := dtCurrentTime;
+        fbLastCommTimer(IN := FALSE);
+    END_IF
+
+    // Check for communication timeout
+    fbLastCommTimer(
+        IN := NOT bChangeDetected,
+        PT := tTimeoutCheck
+    );
+    
+    // Update connection status based on timeout
+    IF fbLastCommTimer.Q THEN
+        g_bOpcUaConnected := FALSE;
+        g_sConnectionStatus := 'Connection timeout - no activity detected';
+        g_udiConnectionStatusCode := 2;
+    ELSE
+        g_bOpcUaConnected := TRUE;
+        g_sConnectionStatus := 'Connected';
+        g_udiConnectionStatusCode := 0;
+    END_IF
+    
+    // Update output status
+    bConnectionActive := g_bOpcUaConnected;
+    sStatus := g_sConnectionStatus;
+    
+    Execute := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{09f3715f-9ddd-4c74-a3bc-620c1bc03625}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset the connection monitor
+g_bOpcUaConnected := FALSE;
+g_sConnectionStatus := 'Reset';
+g_udiConnectionStatusCode := 0;
+g_dtLastCommunication := dtCurrentTime;
+bFirstCycle := TRUE;
+
+Reset := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_OpcUaConnectionMonitor">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_OpcUaConnectionMonitor.Execute">
+      <LineId Id="1" Count="56" />
+    </LineIds>
+    <LineIds Name="FB_OpcUaConnectionMonitor.Reset">
+      <LineId Id="1" Count="8" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

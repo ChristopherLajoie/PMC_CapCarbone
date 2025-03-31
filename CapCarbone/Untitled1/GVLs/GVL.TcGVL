@@ -1,12 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL" Id="{84031c49-9b58-4990-8455-46264bcb9bf2}">
-    <Declaration><![CDATA[VAR_GLOBAL
-	// Digital output variables (linked to EL2809 outputs)
-	Relay1_Forward : BOOL := FALSE; // Forward relay for LinearActuator 1
-	Relay1_Reverse : BOOL := FALSE; // Reverse relay for LinearActuator 1
-	Relay2_Forward : BOOL := FALSE; // Forward relay for LinearActuator 2
-	Relay2_Reverse : BOOL := FALSE; // Reverse relay for LinearActuator 2
+    <Declaration><![CDATA[{attribute 'global_init_slot' := '1'}
+VAR_GLOBAL
+	
+	// LinearActuators Relays
+	Relay1_Forward : BOOL := FALSE; 
+	Relay1_Reverse : BOOL := FALSE; 
+	Relay2_Forward : BOOL := FALSE; 
+	Relay2_Reverse : BOOL := FALSE; 
+	Relay3_Forward : BOOL := FALSE; 
+	Relay3_Reverse : BOOL := FALSE; 
+	Relay4_Forward : BOOL := FALSE; 
+	Relay4_Reverse : BOOL := FALSE; 
+	Relay5_Forward : BOOL := FALSE; 
+	Relay5_Reverse : BOOL := FALSE; 
+	Relay6_Forward : BOOL := FALSE; 
+	Relay6_Reverse : BOOL := FALSE; 
+	Relay7_Forward : BOOL := FALSE; 
+	Relay7_Reverse : BOOL := FALSE; 
+	Relay8_Forward : BOOL := FALSE; 
+	Relay8_Reverse : BOOL := FALSE; 
+	
+	// LinearActuators ProxSensors
+	Prox1In : BOOL := TRUE;
+	Prox1Out : BOOL := FALSE;
+	Prox2In : BOOL := TRUE;
+	Prox2Out : BOOL := FALSE;
+	Prox3In : BOOL := TRUE;
+	Prox3Out : BOOL := FALSE;
+	Prox4In : BOOL := TRUE;
+	Prox4Out : BOOL := FALSE;
+	Prox5In : BOOL := TRUE;
+	Prox5Out : BOOL := FALSE;
+	Prox6In : BOOL := TRUE;
+	Prox6Out : BOOL := FALSE;
+	Prox7In : BOOL := TRUE;
+	Prox7Out : BOOL := FALSE;
+	Prox8In : BOOL := TRUE;
+	Prox8Out : BOOL := FALSE;
+	
+	//OPC_UA Command variables
+	
+	RequestedActuator : STRING;
+	StepperCommand : ST_StepperMotorCommand;
+	LinearActuatorCommand : ST_LinearActuatorCommand;
+	
+	//Cycle variables
+	HeatExchangeRunning: BOOL := FALSE;
+	StartHeatExchange: BOOL := FALSE;
+	
+	AdsorptionRunning: BOOL := FALSE;
+	StartAdsorption: BOOL := FALSE;
+	
+	RegenerationRunning: BOOL := FALSE;
+	StartRegeneration: BOOL := FALSE;
+	
+	CONTROL : BOOL := FALSE;
+	
+	
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

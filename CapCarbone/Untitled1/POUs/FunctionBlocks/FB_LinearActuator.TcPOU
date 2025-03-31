@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="FB_LinearActuator" Id="{7b9c3bff-54cb-4df9-8ad3-e1094e9996e8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LinearActuator
+VAR
+    eState : ENUM_LinearActuatorState := LAS_LinearActuator_Uninitialized;
+    tTimeout : TIME := T#10S;
+    bError : BOOL;
+    sErrorMsg : STRING(80);
+    pActuator : POINTER TO ST_LinearActuator;
+	
+	bproxOutRisingEdge : BOOL := TRUE;  
+	bProxInRisingEdge : BOOL := TRUE;   
+	r_trig_proxOut : R_TRIG;            
+	f_trig_proxOut : F_TRIG;            
+	r_trig_proxIn : R_TRIG;             
+	f_trig_proxIn : F_TRIG;             
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CanReset" Id="{e451c082-6390-4897-b2c0-f7f1baa90012}">
+      <Declaration><![CDATA[METHOD CanReset : BOOL
+VAR
+	i : UINT;
+	Unacknowledged : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF eState = LAS_LinearActuator_Error THEN
+	
+    // Only allow reset if the alarm has been acknowledged
+	FOR i := 1 TO MAX_ALARMS DO
+		IF AlarmArray[i].sType = 'LinearActuator' THEN
+			IF NOT AlarmArray[i].bAcked THEN
+				Unacknowledged := TRUE;
+			END_IF
+		END_IF
+		
+    CanReset := NOT Unacknowledged;
+	END_FOR
+	
+ELSE
+    CanReset := TRUE;
+END_IF
+
+Unacknowledged := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Extend" Id="{afb44406-33a7-4c96-9c8b-3094883b11ba}">
+      <Declaration><![CDATA[METHOD Extend : INT
+VAR
+    bTimeOut : BOOL;
+	tStartTime : TIME;
+	bProxOutDetected : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Extend := 0;
+bTimeOut := FALSE;
+
+r_trig_proxOut(CLK := pActuator^.bProxOut);
+f_trig_proxOut(CLK := pActuator^.bProxOut);
+bProxOutDetected := (bProxOutRisingEdge AND r_trig_proxOut.Q) OR (NOT bProxOutRisingEdge AND f_trig_proxOut.Q);
+
+CASE eState OF
+    LAS_LinearActuator_Retracted:
+		pActuator^.bFwdDO^ := TRUE;
+		pActuator^.bBckwDO^ := FALSE;
+		
+        IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut)) THEN
+            eState := LAS_LinearActuator_Extending;
+            tStartTime := TIME();  
+        END_IF
+
+    LAS_LinearActuator_Extending:
+        IF (bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut) THEN
+            eState := LAS_LinearActuator_Extended;
+            pActuator^.bFwdDO^ := FALSE;
+            pActuator^.bBckwDO^ := FALSE;
+        END_IF
+
+        
+        IF (TIME() - tStartTime) > tTimeout THEN
+            eState := LAS_LinearActuator_Error;
+            bError := TRUE;
+            LinearActuatorMotionTimedOut := TRUE;
+        END_IF
+
+    LAS_LinearActuator_Extended:
+        Extend := 1;
+
+    LAS_LinearActuator_Error:
+		Extend := -1;
+        IF CanReset() THEN
+			Reset();
+		END_IF
+		
+	LAS_LinearActuator_Unknown:
+		Extend := -1;
+		LinearActuatorPositionUnknown := TRUE;
+
+    ELSE
+        // default catch-all
+END_CASE
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{31a08d74-0598-4ca5-bdeb-9db6cc80d5d2}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+
+VAR_INPUT
+	bInitRetains : BOOL;            // System-managed retains (not used here)
+    bInCopyCode : BOOL;             // System-managed copy code (not used here)
+	Actuator : POINTER TO ST_LinearActuator;  // Parameter for initialization
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[pActuator := Actuator;
+bProxOutRisingEdge := ProxOutRisingEdge;
+bProxInRisingEdge := ProxInRisingEdge;
+
+r_trig_proxOut(CLK := pActuator^.bProxOut);
+f_trig_proxOut(CLK := pActuator^.bProxOut);
+r_trig_proxIn(CLK := pActuator^.bProxIn);
+f_trig_proxIn(CLK := pActuator^.bProxIn);
+
+// Check positions according to edge detection settings
+IF (bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn) THEN
+    IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut)) THEN
+        eState := LAS_LinearActuator_Retracted;
+    ELSE
+        eState := LAS_LinearActuator_Unknown;
+        LinearActuatorPositionUnknown := TRUE;
+    END_IF
+ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut) THEN
+    IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn)) THEN
+        eState := LAS_LinearActuator_Extended;
+    ELSE
+        eState := LAS_LinearActuator_Unknown;
+        LinearActuatorPositionUnknown := TRUE;
+    END_IF
+ELSE
+    eState := LAS_LinearActuator_Unknown;
+    LinearActuatorPositionUnknown := TRUE;
+END_IF
+
+FB_Init := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Home" Id="{f928c3cc-e926-4d68-aa06-e49d712546af}">
+      <Declaration><![CDATA[METHOD Home : INT
+VAR
+    bTimeOut : BOOL;
+	tStartTime : TIME;
+	bProxInDetected : BOOL;  
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Home := 0;
+
+r_trig_proxIn(CLK := pActuator^.bProxIn);
+f_trig_proxIn(CLK := pActuator^.bProxIn);
+bProxInDetected := (bProxInRisingEdge AND r_trig_proxIn.Q) OR (NOT bProxInRisingEdge AND f_trig_proxIn.Q);
+
+CASE eState OF
+    LAS_LinearActuator_Extended:
+		pActuator^.bFwdDO^ := FALSE;
+		pActuator^.bBckwDO^ := TRUE;
+		
+        IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn)) THEN
+            eState := LAS_LinearActuator_Retracting;
+            tStartTime := TIME();
+        END_IF
+
+    LAS_LinearActuator_Retracting:
+        IF (bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn) THEN
+            eState := LAS_LinearActuator_Retracted;
+            pActuator^.bFwdDO^ := FALSE;
+            pActuator^.bBckwDO^ := FALSE;
+        END_IF
+
+        IF (TIME() - tStartTime) > tTimeout THEN
+            eState := LAS_LinearActuator_Error;
+            bError := TRUE;
+            LinearActuatorMotionTimedOut := TRUE;
+        END_IF
+
+    LAS_LinearActuator_Retracted:
+        Home := 1;
+
+    LAS_LinearActuator_Error:
+		Home := -1;
+        IF CanReset() THEN
+			Reset();
+		END_IF
+	
+	LAS_LinearActuator_Unknown:
+		Home := -1;
+		LinearActuatorPositionUnknown := TRUE;
+    
+    ELSE
+        // default catch-all
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{ecdda1b9-dec3-446e-af49-02346c123f36}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+VAR
+	i : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF eState = LAS_LinearActuator_Error THEN
+	
+    IF (bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn) THEN	
+        eState := LAS_LinearActuator_Retracted;
+		bError := FALSE;
+		
+		FOR i := 1 TO MAX_ALARMS DO
+			IF AlarmArray[i].sType = 'LinearActuator' THEN
+				AlarmArray[i].bCondition := FALSE;
+			END_IF
+		END_FOR
+		
+    ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut) THEN
+        eState := LAS_LinearActuator_Extended;
+		bError := FALSE;
+		
+		FOR i := 1 TO MAX_ALARMS DO
+			IF AlarmArray[i].sType = 'LinearActuator' THEN
+				AlarmArray[i].bCondition := FALSE;
+			END_IF
+		END_FOR
+    ELSE
+        eState := LAS_LinearActuator_Unknown;
+    END_IF
+END_IF
+
+Reset := (eState <> LAS_LinearActuator_Error);]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_LinearActuator">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.CanReset">
+      <LineId Id="1" Count="17" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.Extend">
+      <LineId Id="1" Count="1" />
+      <LineId Id="47" Count="2" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="4" Count="1" />
+      <LineId Id="51" Count="2" />
+      <LineId Id="6" Count="5" />
+      <LineId Id="15" Count="3" />
+      <LineId Id="20" Count="12" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="33" Count="4" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="38" Count="6" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.FB_init">
+      <LineId Id="1" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="3" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="20" Count="20" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.Home">
+      <LineId Id="1" Count="0" />
+      <LineId Id="44" Count="3" />
+      <LineId Id="2" Count="2" />
+      <LineId Id="48" Count="2" />
+      <LineId Id="5" Count="5" />
+      <LineId Id="14" Count="3" />
+      <LineId Id="19" Count="11" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="31" Count="4" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="36" Count="4" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.Reset">
+      <LineId Id="1" Count="26" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

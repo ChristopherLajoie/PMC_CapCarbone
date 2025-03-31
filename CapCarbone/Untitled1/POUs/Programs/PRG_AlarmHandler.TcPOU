@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="PRG_AlarmHandler" Id="{9a3c7606-d751-41ab-a4a7-f5ba1886e12f}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_AlarmHandler
+VAR
+    fbAlarmManager : FB_AlarmManager;
+	fbConnectionMonitor : FB_OpcUaConnectionMonitor;
+    bEnableMonitor      : BOOL := TRUE;
+    bResetMonitor       : BOOL := FALSE;
+    bResetTrigger       : R_TRIG;
+    dtCurrentTime       : DT;
+    ulSystemTimeMS      : ULINT; // System time in milliseconds (64-bit)
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Get current PLC time (simpler approach using system task time)
+ulSystemTimeMS := F_GetSystemTime();
+// Convert to DATE_AND_TIME using a base date
+// Use UDINT to limit to reasonable time range for DT conversion
+dtCurrentTime := DT#1970-01-01-00:00 + UDINT_TO_TIME(ULINT_TO_UDINT(ulSystemTimeMS MOD 16#FFFFFFFF));
+
+// Set alarm conditions based on actual system states using alarm IDs
+fbAlarmManager.SetAlarmCondition(1001, LinearActuatorPositionUnknown);
+fbAlarmManager.SetAlarmCondition(1002, LinearActuatorMotionTimedOut);
+fbAlarmManager.SetAlarmCondition(2001, StepperMotorPowerUpFailed);
+fbAlarmManager.SetAlarmCondition(2002, StepperMotorHomeOperationFailed);
+fbAlarmManager.SetAlarmCondition(2003, StepperMotorHomeOperationInterrupted);
+fbAlarmManager.SetAlarmCondition(2004, StepperMotorMotionOperationFailed);
+fbAlarmManager.SetAlarmCondition(2005, StepperMotorMotionOperationInterrupted);
+fbAlarmManager.SetAlarmCondition(2006, StepperMotorResetOperationFailed);
+fbAlarmManager.SetAlarmCondition(9999, EStopEnabled);
+
+fbAlarmManager.Execute();
+
+// Execute connection monitoring
+fbConnectionMonitor(
+	bEnable := bEnableMonitor, 
+	dtCurrentTime := dtCurrentTime
+);
+fbConnectionMonitor.Execute();
+
+// Handle reset trigger
+bResetTrigger(CLK := bResetMonitor);
+IF bResetTrigger.Q THEN
+	fbConnectionMonitor.Reset();
+	bResetMonitor := FALSE;
+END_IF;
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_AlarmHandler">
+      <LineId Id="1" Count="33" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

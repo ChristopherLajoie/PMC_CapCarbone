@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <DUT Name="AlarmIndex" Id="{bd0326f0-ee60-4061-8139-3387143b2f81}">
+    <Declaration><![CDATA[TYPE AlarmIndex :
+(	
+	//Stepper Motors Alarms
+	StepperHomingFailed := 0,
+    StepperPositionUnknown := 1,
+    StepperMotionTimedOut := 2,
+	
+	//Linear Actuators Alarms
+    LinearActuatorHomingFailed := 3,
+    LinearActuatorPositionUnknown := 4,
+	LinearActuatorMotionTimedOut := 5,
+	
+	//Process Alarms
+	
+    //Safety Alarms
+	EStopEnabled := 6
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

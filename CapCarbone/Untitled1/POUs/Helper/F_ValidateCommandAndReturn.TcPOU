@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="F_ValidateString" Id="{5bf38083-f57f-42fe-bd4b-0d91866b7467}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_ValidateCommandAndReturn : BOOL
+VAR_INPUT
+    sInput : STRING;
+END_VAR
+VAR_OUTPUT
+    bIsValid : BOOL;
+    nX : INT;
+    sY : STRING;
+END_VAR
+VAR
+    nUnderscorePos : INT;
+    sNumber : STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bIsValid := FALSE;
+nX := 0;
+sY := '';
+
+// Check if string starts with "R"
+IF LEFT(sInput, 1) <> 'R' THEN
+    RETURN;
+END_IF;
+
+// Find the underscore position
+nUnderscorePos := FIND(sInput, '_');
+IF nUnderscorePos = 0 THEN
+    RETURN;
+END_IF;
+
+// Extract the digit (X) between "R" and "_"
+sNumber := MID(sInput, 1, nUnderscorePos - 2);
+nX := STRING_TO_INT(sNumber);
+IF nX < 1 OR nX > 4 THEN
+    RETURN;
+END_IF;
+
+// Extract the value part (Y) after "_"
+sY := RIGHT(sInput, LEN(sInput) - nUnderscorePos);
+
+// Check if Y is one of the allowed values
+IF sY = 'Chariot' OR 
+   sY = 'Compressor' OR 
+   sY = 'Sensor' OR 
+   sY = 'HeatExCoupola' OR 
+   sY = 'Home' OR 
+   sY = 'Motor' THEN
+    bIsValid := TRUE;
+ELSE
+    sY := '';  // Reset to empty if invalid
+END_IF;]]></ST>
+    </Implementation>
+    <LineIds Name="F_ValidateString">
+      <LineId Id="1" Count="35" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

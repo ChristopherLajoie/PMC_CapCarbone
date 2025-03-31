@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="PRG_CommandHandler" Id="{b534ce1c-328a-4a1f-bd2e-b4f58fd46cee}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_CommandHandler
+VAR
+	IsValid : BOOL;
+	bIsLinearActuator : BOOL;
+	bIsStepperMotor : BOOL;
+	nX : INT;
+	sY : STRING;
+	i: INT;
+	Result: INT := 0;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IsValid := F_ValidateCommand(sInput := RequestedActuator, nX => nX, sY => sY);
+
+IF NOT IsValid THEN 
+	//Alarm
+	RETURN; 
+END_IF
+
+bIsLinearActuator := 
+	sY = 'Chariot' OR
+	sY = 'Compressor' OR
+	sY = 'Sensor' OR
+	sY = 'HeatExCoupola' OR
+	sY = 'RegenCoupola';
+
+IF bIsLinearActuator THEN
+	IF F_GetCommandMember(nX, sY)^.Command THEN
+		Result := F_GetCommandValue(nX, sY)^.Extend();
+	ELSE
+		Result := F_GetCommandValue(nX, sY)^.Home();
+	END_IF
+	
+	IF Result = 1  THEN 
+		F_GetCommandMember(nX, sY)^.Status := 1;
+		RequestedActuator := 'none';
+	ELSIF Result = -1 THEN
+		F_GetCommandMember(nX, sY)^.Status := -1;
+		RequestedActuator := 'none';
+	END_IF
+	
+END_IF
+
+
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_CommandHandler">
+      <LineId Id="2" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="164" Count="6" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="176" Count="0" />
+      <LineId Id="180" Count="1" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="196" Count="4" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="195" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="182" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

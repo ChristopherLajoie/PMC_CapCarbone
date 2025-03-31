@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <POU Name="AlarmInit" Id="{5de57df6-e3cf-4e7b-aa3b-e5783cfad859}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM AlarmInit
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Stepper Motors Alarms
+g_aAlarms[StepperHomingFailed].sMessage := '';
+g_aAlarms[StepperPositionUnknown].sMessage := 'Low Flow Alarm';
+g_aAlarms[StepperMotionTimedOut].sMessage  := 'Door Open Alarm';
+
+//Linear Actuators Alarms
+g_aAlarms[LinearActuatorHomingFailed].sMessage  := 'Emergency Stop';
+g_aAlarms[LinearActuatorPositionUnknown].sMessage  := 'PLC Battery Fault';
+g_aAlarms[LinearActuatorMotionTimedOut].sMessage  := 'PLC Battery Fault';
+
+//Safety Alarms
+g_aAlarms[EStopEnabled].sMessage  := 'Emergency Stop Is Enabled';
+
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="AlarmInit">
+      <LineId Id="26" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

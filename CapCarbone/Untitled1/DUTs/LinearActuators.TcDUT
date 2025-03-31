@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <DUT Name="LinearActuators" Id="{4c2d017e-a95b-4758-9a08-7a5390045dd4}">
+    <Declaration><![CDATA[TYPE LinearActuators :
+(
+	enum_member := 0
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

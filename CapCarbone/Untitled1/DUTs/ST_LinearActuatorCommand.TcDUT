@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ST_LinearActuatorCommand" Id="{d6c8a43d-3db1-4d34-b13c-c3bf98cd4666}">
+    <Declaration><![CDATA[TYPE ST_LinearActuatorCommand :
+STRUCT
+	Command : BOOL;
+	Status : INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

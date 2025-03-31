@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <GVL Name="GVL_Alarms" Id="{637d89bc-47d1-47bf-b0f7-7f6be8b20113}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	g_nActiveAlarms : UINT;
+	g_nUnackedAlarms: UINT;
+	g_AlarmErrorIDs : ARRAY[1..20] OF UDINT;
+	MAX_ALARMS      : UINT := 20;
+	
+	AlarmArray : ARRAY[1..20] OF ST_Alarm := [
+	(nID := 1001, sMessage := 'Linear Actuator Position Unknown', 	  sType := 'LinearActuator', nSeverity := 3),
+	(nID := 1002, sMessage := 'Linear Actuator Motion Timed Out', 	  sType := 'LinearActuator', nSeverity := 2),
+	(nID := 2001, sMessage := 'Stepper Motor Power-Up Failed with ID :', 	  	  sType := 'StepperMotor',   nSeverity := 3),
+	(nID := 2002, sMessage := 'Stepper Motor Homing Failed with ID :',  sType := 'StepperMotor',   nSeverity := 3),
+	(nID := 2003, sMessage := 'Stepper Motor Homing Interrupted', sType := 'StepperMotor', nSeverity := 3),
+	(nID := 2004, sMessage := 'Stepper Movement Failed with ID :', 		  sType := 'StepperMotor',   nSeverity := 3),
+	(nID := 2005, sMessage := 'Stepper Movement Interrupted', sType := 'StepperMotor', nSeverity := 3),
+    (nID := 2006, sMessage := 'Stepper Reset Operation Failed with Id :', 	  sType := 'StepperMotor',   nSeverity := 3),
+	(nID := 9999, sMessage := 'EStop Enabled', 						  sType := 'Emergency',      nSeverity := 4)
+	];
+	
+	LinearActuatorPositionUnknown : BOOL := FALSE;
+	LinearActuatorMotionTimedOut : BOOL := FALSE;
+	StepperMotorPowerUpFailed : BOOL := FALSE;
+	StepperMotorHomeOperationFailed : BOOL := FALSE;
+	StepperMotorHomeOperationInterrupted : BOOL := FALSE;
+	StepperMotorMotionOperationFailed : BOOL := FALSE;
+	StepperMotorMotionOperationInterrupted : BOOl := FALSE;
+	StepperMotorResetOperationFailed : BOOL := FALSE;
+	EStopEnabled : BOOL := FALSE;
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

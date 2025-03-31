@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ENUM_LinearActuatorState" Id="{e13fae61-1d33-40ac-94bf-60784179cf13}">
+    <Declaration><![CDATA[TYPE ENUM_LinearActuatorState :
+(
+	LAS_LinearActuator_Uninitialized := 0,
+    LAS_LinearActuator_Extending := 2,
+    LAS_LinearActuator_Extended := 3,
+    LAS_LinearActuator_Retracting := 4,
+    LAS_LinearActuator_Retracted := 5,
+    LAS_LinearActuator_Error := 6,
+	LAS_LinearActuator_Unknown := 7
+);
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

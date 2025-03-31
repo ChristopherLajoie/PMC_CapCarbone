@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <POU Name="AlarmManager" Id="{f3f110a0-c02c-438f-8b0d-cee98c1ad17d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AlarmManager
+VAR
+    fbAlarmHandler : ARRAY[0..AlarmIndex.Last - 1] OF AlarmHandler;
+	idx : AlarmIndex;
+END_VAR
+
+VAR_IN_OUT
+    aAlarms : ARRAY[0..AlarmIndex.Last - 1] OF Alarm;
+END_VAR
+
+VAR_OUTPUT
+    // optional: if you want to track any overall status
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[FOR idx := 0 TO AlarmIndex.Last - 1 DO
+    fbAlarmHandler[idx](
+        bEnable := TRUE,
+        stAlarm := aAlarms[idx]
+    );
+END_FOR]]></ST>
+    </Implementation>
+    <LineIds Name="AlarmManager">
+      <LineId Id="22" Count="4" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

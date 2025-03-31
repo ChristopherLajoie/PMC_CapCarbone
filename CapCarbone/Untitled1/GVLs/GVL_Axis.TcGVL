@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <GVL Name="GVL_Axis" Id="{fbf55f38-8215-4244-998d-826cf1c53444}">
+    <Declaration><![CDATA[{attribute 'TcLinkTo'}
+VAR_GLOBAL
+    Stepper1 : AXIS_REF;
+	Stepper2 : AXIS_REF;
+	Stepper3 : AXIS_REF;
+	Stepper4 : AXIS_REF;
+	
+	Axis1 : FB_StepperMotor(Axis := ADR(Stepper1));
+    Axis2 : FB_StepperMotor(Axis := ADR(Stepper2));
+    Axis3 : FB_StepperMotor(Axis := ADR(Stepper3));
+    Axis4 : FB_StepperMotor(Axis := ADR(Stepper4));
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

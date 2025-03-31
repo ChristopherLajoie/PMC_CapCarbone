@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ST_LinearActuator" Id="{f3142039-0736-403e-a4ef-3aa3c757da47}">
+    <Declaration><![CDATA[TYPE ST_LinearActuator :
+STRUCT
+	sName : STRING(50);
+	bProxIn : BOOL;  // Digital Input: Proximity sensor "In"
+    bProxOut : BOOL; // Digital Input: Proximity sensor "Out"
+    bFwdDO   : POINTER TO BOOL; // Digital Output: Forward movement
+    bBckwDO  : POINTER TO BOOL; // Digital Output: Backward movement
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

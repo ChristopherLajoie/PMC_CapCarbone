@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <Task Name="AlarmHandler" Id="{533ec0ba-90f1-41b7-ba38-4ea900261069}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>10000</CycleTime>
+    <Priority>10</Priority>
+    <PouCall>
+      <Name>PRG_AlarmHandler</Name>
+    </PouCall>
+    <TaskFBGuid>{b0fa2dc9-6c73-4cff-9d7c-6d2a719584e5}</TaskFBGuid>
+    <Fb_init>{8bf1bfec-010a-44ed-a813-3054a0673416}</Fb_init>
+    <Fb_exit>{e47f586e-5c2d-4e6b-945e-e7d7bf1a33b7}</Fb_exit>
+    <CycleUpdate>{28d696c9-64fa-4c4b-a681-1d2be628eb38}</CycleUpdate>
+    <PostCycleUpdate>{07dd193f-4547-4067-9f14-2d84403bff62}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

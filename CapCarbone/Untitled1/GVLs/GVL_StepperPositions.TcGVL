@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.14">
+  <GVL Name="GVL_StepperPositions" Id="{c2f6fd97-ad34-482e-ab3f-a05b94edec73}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	Pos11 : LREAL := 0;
+	Pos12 : LREAL := 500;
+	Pos13 : LREAL := 615;
+	Pos14 : LREAL := 1000;
+	Pos15 : LREAL := 1205;
+	Pos21 : LREAL := 0;
+	Pos22 : LREAL := 955;
+	Pos31 : LREAL := 45;
+	Pos32 : LREAL := 145;
+	Pos33 : LREAL := 600;
+	Pos34 : LREAL := 645;
+	Pos35 : LREAL := 1250;
+	Pos41 : LREAL := 0;
+	Pos42 : LREAL := 955;
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
