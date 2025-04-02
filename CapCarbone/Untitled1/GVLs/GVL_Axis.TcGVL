@@ -12,6 +12,12 @@ VAR_GLOBAL
     Axis2 : FB_StepperMotor(Axis := ADR(Stepper2));
     Axis3 : FB_StepperMotor(Axis := ADR(Stepper3));
     Axis4 : FB_StepperMotor(Axis := ADR(Stepper4));
+	
+	Axis1Command : ST_StepperMotorCommand;
+	Axis2Command : ST_StepperMotorCommand;
+	Axis3Command : ST_StepperMotorCommand;
+	Axis4Command : ST_StepperMotorCommand;
+	
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

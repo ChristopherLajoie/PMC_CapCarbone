@@ -7,7 +7,7 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
     bIsValid : BOOL;
-    nX : INT;
+    nX : SINT;
     sY : STRING;
 END_VAR
 VAR
@@ -33,7 +33,7 @@ END_IF;
 
 // Extract the digit (X) between "R" and "_"
 sNumber := MID(sInput, 1, nUnderscorePos - 1);
-nX := STRING_TO_INT(sNumber);
+nX := STRING_TO_SINT(sNumber);
 IF nX < 1 OR nX > 4 THEN
     RETURN;
 END_IF;

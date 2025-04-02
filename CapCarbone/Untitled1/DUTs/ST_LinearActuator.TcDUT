@@ -4,10 +4,12 @@
     <Declaration><![CDATA[TYPE ST_LinearActuator :
 STRUCT
 	sName : STRING(50);
-	bProxIn : BOOL;  // Digital Input: Proximity sensor "In"
-    bProxOut : BOOL; // Digital Input: Proximity sensor "Out"
+	bProxIn : POINTER TO BOOL;  // Digital Input: Proximity sensor "In"
+    bProxOut : POINTER TO BOOL; // Digital Input: Proximity sensor "Out"
     bFwdDO   : POINTER TO BOOL; // Digital Output: Forward movement
     bBckwDO  : POINTER TO BOOL; // Digital Output: Backward movement
+	tmrTimeout : TON;
+	bInProgress : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

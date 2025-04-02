@@ -50,41 +50,41 @@ Unacknowledged := FALSE;]]></ST>
     <Method Name="Extend" Id="{afb44406-33a7-4c96-9c8b-3094883b11ba}">
       <Declaration><![CDATA[METHOD Extend : INT
 VAR
-    bTimeOut : BOOL;
-	tStartTime : TIME;
 	bProxOutDetected : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Extend := 0;
-bTimeOut := FALSE;
 
-r_trig_proxOut(CLK := pActuator^.bProxOut);
-f_trig_proxOut(CLK := pActuator^.bProxOut);
+r_trig_proxOut(CLK := pActuator^.bProxOut^);
+f_trig_proxOut(CLK := pActuator^.bProxOut^);
 bProxOutDetected := (bProxOutRisingEdge AND r_trig_proxOut.Q) OR (NOT bProxOutRisingEdge AND f_trig_proxOut.Q);
 
+pActuator^.tmrTimeout(IN := pActuator^.bInProgress, PT := T#10S);
 CASE eState OF
     LAS_LinearActuator_Retracted:
 		pActuator^.bFwdDO^ := TRUE;
 		pActuator^.bBckwDO^ := FALSE;
+		pActuator^.bInProgress := FALSE; 
 		
-        IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut)) THEN
+        IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^)) THEN
             eState := LAS_LinearActuator_Extending;
-            tStartTime := TIME();  
+            pActuator^.bInProgress := TRUE; 
         END_IF
 
     LAS_LinearActuator_Extending:
-        IF (bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut) THEN
+        IF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
             eState := LAS_LinearActuator_Extended;
             pActuator^.bFwdDO^ := FALSE;
             pActuator^.bBckwDO^ := FALSE;
-        END_IF
-
-        
-        IF (TIME() - tStartTime) > tTimeout THEN
+			pActuator^.bInProgress := FALSE; 
+		END_IF
+		
+        IF pActuator^.tmrTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             bError := TRUE;
             LinearActuatorMotionTimedOut := TRUE;
+			pActuator^.bInProgress := FALSE; 
         END_IF
 
     LAS_LinearActuator_Extended:
@@ -120,21 +120,21 @@ END_VAR]]></Declaration>
 bProxOutRisingEdge := ProxOutRisingEdge;
 bProxInRisingEdge := ProxInRisingEdge;
 
-r_trig_proxOut(CLK := pActuator^.bProxOut);
-f_trig_proxOut(CLK := pActuator^.bProxOut);
-r_trig_proxIn(CLK := pActuator^.bProxIn);
-f_trig_proxIn(CLK := pActuator^.bProxIn);
+r_trig_proxOut(CLK := pActuator^.bProxOut^);
+f_trig_proxOut(CLK := pActuator^.bProxOut^);
+r_trig_proxIn(CLK := pActuator^.bProxIn^);
+f_trig_proxIn(CLK := pActuator^.bProxIn^);
 
 // Check positions according to edge detection settings
-IF (bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn) THEN
-    IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut)) THEN
+IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN
+    IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^)) THEN
         eState := LAS_LinearActuator_Retracted;
     ELSE
         eState := LAS_LinearActuator_Unknown;
         LinearActuatorPositionUnknown := TRUE;
     END_IF
-ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut) THEN
-    IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn)) THEN
+ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
+    IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^)) THEN
         eState := LAS_LinearActuator_Extended;
     ELSE
         eState := LAS_LinearActuator_Unknown;
@@ -151,38 +151,41 @@ FB_Init := TRUE;]]></ST>
     <Method Name="Home" Id="{f928c3cc-e926-4d68-aa06-e49d712546af}">
       <Declaration><![CDATA[METHOD Home : INT
 VAR
-    bTimeOut : BOOL;
-	tStartTime : TIME;
 	bProxInDetected : BOOL;  
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Home := 0;
 
-r_trig_proxIn(CLK := pActuator^.bProxIn);
-f_trig_proxIn(CLK := pActuator^.bProxIn);
+r_trig_proxIn(CLK := pActuator^.bProxIn^);
+f_trig_proxIn(CLK := pActuator^.bProxIn^);
 bProxInDetected := (bProxInRisingEdge AND r_trig_proxIn.Q) OR (NOT bProxInRisingEdge AND f_trig_proxIn.Q);
+
+pActuator^.tmrTimeout(IN := pActuator^.bInProgress, PT := T#10S);
 
 CASE eState OF
     LAS_LinearActuator_Extended:
 		pActuator^.bFwdDO^ := FALSE;
 		pActuator^.bBckwDO^ := TRUE;
+		pActuator^.bInProgress := FALSE; 
 		
-        IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn)) THEN
+        IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^)) THEN
             eState := LAS_LinearActuator_Retracting;
-            tStartTime := TIME();
+            pActuator^.bInProgress := TRUE; 
         END_IF
 
     LAS_LinearActuator_Retracting:
-        IF (bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn) THEN
+        IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN
             eState := LAS_LinearActuator_Retracted;
             pActuator^.bFwdDO^ := FALSE;
             pActuator^.bBckwDO^ := FALSE;
+			pActuator^.bInProgress := FALSE; 
         END_IF
-
-        IF (TIME() - tStartTime) > tTimeout THEN
+		
+        IF pActuator^.tmrTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             bError := TRUE;
             LinearActuatorMotionTimedOut := TRUE;
+			pActuator^.bInProgress := FALSE; 
         END_IF
 
     LAS_LinearActuator_Retracted:
@@ -211,7 +214,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF eState = LAS_LinearActuator_Error THEN
 	
-    IF (bProxInRisingEdge AND pActuator^.bProxIn) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn) THEN	
+    IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN	
         eState := LAS_LinearActuator_Retracted;
 		bError := FALSE;
 		
@@ -221,7 +224,7 @@ END_VAR]]></Declaration>
 			END_IF
 		END_FOR
 		
-    ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut) THEN
+    ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
         eState := LAS_LinearActuator_Extended;
 		bError := FALSE;
 		
@@ -245,15 +248,24 @@ Reset := (eState <> LAS_LinearActuator_Error);]]></ST>
       <LineId Id="1" Count="17" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Extend">
-      <LineId Id="1" Count="1" />
+      <LineId Id="1" Count="0" />
       <LineId Id="47" Count="2" />
       <LineId Id="3" Count="0" />
+      <LineId Id="79" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="4" Count="1" />
-      <LineId Id="51" Count="2" />
+      <LineId Id="51" Count="1" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="53" Count="0" />
       <LineId Id="6" Count="5" />
       <LineId Id="15" Count="3" />
-      <LineId Id="20" Count="12" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="61" Count="2" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="27" Count="5" />
       <LineId Id="45" Count="0" />
       <LineId Id="33" Count="4" />
       <LineId Id="46" Count="0" />
@@ -271,11 +283,18 @@ Reset := (eState <> LAS_LinearActuator_Error);]]></ST>
     <LineIds Name="FB_LinearActuator.Home">
       <LineId Id="1" Count="0" />
       <LineId Id="44" Count="3" />
-      <LineId Id="2" Count="2" />
-      <LineId Id="48" Count="2" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="3" Count="1" />
+      <LineId Id="48" Count="1" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="50" Count="0" />
       <LineId Id="5" Count="5" />
       <LineId Id="14" Count="3" />
-      <LineId Id="19" Count="11" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="63" Count="5" />
+      <LineId Id="25" Count="5" />
       <LineId Id="41" Count="0" />
       <LineId Id="31" Count="4" />
       <LineId Id="42" Count="0" />

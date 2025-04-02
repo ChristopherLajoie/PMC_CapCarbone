@@ -5,10 +5,12 @@
 VAR
 	IsValid : BOOL;
 	bIsLinearActuator : BOOL;
-	bIsStepperMotor : BOOL;
-	nX : INT;
+	nX : SINT;
 	sY : STRING;
 	i: INT;
+	bIshomeCmd: BOOL;
+	bIsMoveCmd: BOOL;
+	CurrentPosition : LREAL;
 	Result: INT := 0;
 END_VAR
 ]]></Declaration>
@@ -27,23 +29,47 @@ bIsLinearActuator :=
 	sY = 'HeatExCoupola' OR
 	sY = 'RegenCoupola';
 
+bIsHomeCmd := sY = 'Home';
+bIsMoveCmd := sY = 'Motor';
+
+//ADD CANCEL LOGIC (STOP METHOD AND GET eState)
 IF bIsLinearActuator THEN
-	IF F_GetCommandMember(nX, sY)^.Command THEN
-		Result := F_GetCommandValue(nX, sY)^.Extend();
+	IF F_GetLinearCommandMember(nX, sY)^.Command THEN
+		Result := F_GetLinearCommandValue(nX, sY)^.Extend();
 	ELSE
-		Result := F_GetCommandValue(nX, sY)^.Home();
+		Result := F_GetLinearCommandValue(nX, sY)^.Home();
 	END_IF
 	
 	IF Result = 1  THEN 
-		F_GetCommandMember(nX, sY)^.Status := 1;
+		F_GetLinearCommandMember(nX, sY)^.Status := 1;
 		RequestedActuator := 'none';
 	ELSIF Result = -1 THEN
-		F_GetCommandMember(nX, sY)^.Status := -1;
+		F_GetLinearCommandMember(nX, sY)^.Status := -1;
 		RequestedActuator := 'none';
 	END_IF
 	
+ELSIF bIsHomeCmd OR bIsMoveCmd THEN
+	
+	IF F_GetStepperCommandMember(nX, sY)^.Homing THEN
+		Result := F_GetStepperCommandValue(nX, sY)^.Home(TRUE);
+	ELSE
+		Result := F_GetStepperCommandValue(nX, sy)^.MoveToPosition(fPosition := F_GetStepperCommandMember(nX, sY)^.Command, fCurrentPosition => CurrentPosition);
+		F_GetStepperCommandMember(nX, sY)^.Position := CurrentPosition;
+	END_IF
+	
+	IF Result = 1 AND bIsHomeCmd THEN 
+		F_GetStepperCommandMember(nX, sY)^.Homed := TRUE;
+		RequestedActuator := 'none';
+	ELSIF Result = 1 AND NOT bIsHomeCmd THEN
+		RequestedActuator := 'none';
+	ELSIF Result = -1 AND bIsHomeCmd THEN
+		F_GetStepperCommandMember(nX, sY)^.Homed := FALSE;
+		RequestedActuator := 'none';
+	ELSIF Result = -1 AND NOT bIsHomeCmd THEN
+		F_GetStepperCommandMember(nX, sY)^.Position := -1;
+		RequestedActuator := 'none';
+	END_IF
 END_IF
-
 
 
 
@@ -55,7 +81,11 @@ END_IF
       <LineId Id="39" Count="0" />
       <LineId Id="37" Count="1" />
       <LineId Id="164" Count="6" />
-      <LineId Id="175" Count="0" />
+      <LineId Id="231" Count="0" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="244" Count="0" />
+      <LineId Id="232" Count="0" />
       <LineId Id="174" Count="0" />
       <LineId Id="178" Count="0" />
       <LineId Id="176" Count="0" />
@@ -65,9 +95,24 @@ END_IF
       <LineId Id="196" Count="4" />
       <LineId Id="203" Count="0" />
       <LineId Id="195" Count="0" />
+      <LineId Id="206" Count="0" />
       <LineId Id="204" Count="0" />
+      <LineId Id="243" Count="0" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="216" Count="2" />
+      <LineId Id="229" Count="0" />
+      <LineId Id="219" Count="1" />
+      <LineId Id="222" Count="0" />
+      <LineId Id="233" Count="0" />
+      <LineId Id="224" Count="0" />
+      <LineId Id="230" Count="0" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="225" Count="0" />
+      <LineId Id="237" Count="2" />
+      <LineId Id="226" Count="0" />
+      <LineId Id="240" Count="0" />
+      <LineId Id="221" Count="0" />
       <LineId Id="182" Count="0" />
-      <LineId Id="42" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="72" Count="0" />
       <LineId Id="71" Count="0" />

@@ -5,48 +5,48 @@
 	
 	Cha1 : ST_LinearActuator := (
 		sName := 'Chariot1',
-		bProxIn := Prox1In ,  
-		bProxOut := Prox1Out , 
+		bProxIn := ADR(Prox1In) ,  
+		bProxOut := ADR(Prox1Out) , 
 		bFwdDO := ADR(Relay1_Forward), 
 		bBckwDO := ADR(Relay1_Reverse)
 		);
 	
 	Comp1 : ST_LinearActuator := (
 		sName := 'Compressor1',
-		bProxIn := Prox2In,  
-		bProxOut := Prox2Out, 
+		bProxIn := ADR(Prox2In),  
+		bProxOut := ADR(Prox2Out), 
 		bFwdDO := ADR(Relay2_Forward), 
 		bBckwDO := ADR(Relay2_Reverse)
 		);
 	
 	Sens1 : ST_LinearActuator := (
 		sName := 'Sensor1',
-		bProxIn := Prox3In,  
-		bProxOut := Prox3Out, 
+		bProxIn := ADR(Prox3In),  
+		bProxOut := ADR(Prox3Out), 
 		bFwdDO := ADR(Relay3_Forward), 
 		bBckwDO := ADR(Relay3_Reverse)
 		);
 	
 	Cha2 : ST_LinearActuator := (
 		sName := 'Chariot2',
-		bProxIn := Prox4In,  
-		bProxOut := Prox4Out, 
+		bProxIn := ADR(Prox4In),  
+		bProxOut := ADR(Prox4Out), 
 		bFwdDO := ADR(Relay4_Forward), 
 		bBckwDO := ADR(Relay4_Reverse)
 		);
 
 	Cha3 : ST_LinearActuator := (
 		sName := 'Chariot3',
-		bProxIn := Prox5In,  
-		bProxOut := Prox5Out, 
+		bProxIn := ADR(Prox5In),  
+		bProxOut := ADR(Prox5Out), 
 		bFwdDO := ADR(Relay5_Forward), 
 		bBckwDO := ADR(Relay5_Reverse)
 		);
 	
 	HeatC3 : ST_LinearActuator := (
 		sName := 'HeatExCoupola3',
-		bProxIn := Prox6In,  
-		bProxOut := Prox6Out, 
+		bProxIn := ADR(Prox6In),  
+		bProxOut := ADR(Prox6Out), 
 		bFwdDO := ADR(Relay6_Forward), 
 		bBckwDO := ADR(Relay6_Reverse)
 		);
@@ -54,18 +54,26 @@
 		
 	RegenC3 : ST_LinearActuator := (
 		sName := 'RegenCoupola3',
-		bProxIn := Prox8In,  
-		bProxOut := Prox8Out, 
+		bProxIn := ADR(Prox8In),  
+		bProxOut := ADR(Prox8Out), 
 		bFwdDO := ADR(Relay8_Forward), 
 		bBckwDO := ADR(Relay8_Reverse)
 		);
 	
 	Ch4 : ST_LinearActuator := (
 		sName := 'Chariot4',
-		bProxIn := Prox7In,  
-		bProxOut := Prox7Out, 
+		bProxIn := ADR(Prox7In),  
+		bProxOut := ADR(Prox7Out), 
 		bFwdDO := ADR(Relay7_Forward), 
 		bBckwDO := ADR(Relay7_Reverse)
+		);
+	
+	Comp3 : ST_LinearActuator := (
+		sName := 'Compressor3',
+		bProxIn := ADR(Prox9In),
+		bProxOut := ADR(Prox9Out),
+		bFwdDO := ADR(Relay9_Forward),
+		bBckwDO := ADR(Relay9_Reverse)
 		);
 	
 	ProxOutRisingEdge : BOOL := TRUE;  // Optional param for out proximity edge detection
@@ -78,6 +86,7 @@
     Chariot3 :    FB_LinearActuator(Actuator := ADR(Cha3));
     HeatExCoupola3: FB_LinearActuator(Actuator := ADR(HeatC3));
     RegenCoupola3:  FB_LinearActuator(Actuator := ADR(RegenC3));
+	Compressor3:	FB_LinearActuator(Actuator := ADR(Comp3));
     Chariot4:     FB_LinearActuator(Actuator := ADR(Ch4));
 	
 	Chariot1Command : ST_LinearActuatorCommand;
@@ -88,6 +97,7 @@
 	HeatExCoupola3Command : ST_LinearActuatorCommand;
 	RegenCoupola3Command : ST_LinearActuatorCommand;
 	Chariot4Command : ST_LinearActuatorCommand;
+	Compressor3Command : ST_LinearActuatorCommand;
 	
 	aLookupTable : ARRAY[1..100] OF ST_LookupEntry := [
 		(nX := 1, sY := 'Chariot', sValue := ADR(Chariot1), sCommand := ADR(Chariot1Command)),
@@ -97,9 +107,18 @@
 		(nX := 3, sY := 'HeatExCoupola', sValue := ADR(HeatExCoupola3), sCommand := ADR(HeatExCoupola3Command)),
 		(nX := 3, sY := 'RegenCoupola', sValue := ADR(RegenCoupola3), sCommand := ADR(RegenCoupola3Command)),
 		(nX := 3, sY := 'Chariot', sValue := ADR(Chariot3), sCommand := ADR(Chariot3Command)),
-		(nX := 4, sY := 'Chariot', sValue := ADR(Chariot4), sCommand := ADR(Chariot4Command))
+		(nX := 3, sY := 'Compressor', sValue := ADR(Compressor3), sCommand := ADR(Compressor3Command)),
+		(nX := 4, sY := 'Chariot', sValue := ADR(Chariot4), sCommand := ADR(Chariot4Command)),
+		(nX := 1, sY := 'Home', sValue := ADR(Axis1), sCommand := ADR(Axis1Command)),
+		(nX := 1, sY := 'Motor', sValue := ADR(Axis1), sCommand := ADR(Axis1Command)),
+		(nX := 2, sY := 'Home', sValue := ADR(Axis2), sCommand := ADR(Axis2Command)),
+		(nX := 2, sY := 'Motor', sValue := ADR(Axis2), sCommand := ADR(Axis2Command)),
+		(nX := 3, sY := 'Home', sValue := ADR(Axis3), sCommand := ADR(Axis3Command)),
+		(nX := 3, sY := 'Motor', sValue := ADR(Axis3), sCommand := ADR(Axis3Command)),
+		(nX := 4, sY := 'Motor', sValue := ADR(Axis4), sCommand := ADR(Axis4Command)),
+		(nX := 4, sY := 'Motor', sValue := ADR(Axis4), sCommand := ADR(Axis4Command))
 	];
-    nEntryCount : INT := 8;  
+    nEntryCount : INT := 17;  
 		
 END_VAR]]></Declaration>
   </GVL>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="F_GetLinearCommandMember" Id="{f146fafc-1dbc-4211-a37b-7ae1ea261da6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_GetLinearCommandmember : POINTER TO ST_LinearActuatorCommand
+VAR_INPUT
+    nX : SINT;
+    sY : STRING;
+END_VAR
+VAR
+    i : INT;
+    pResult: POINTER TO ST_LinearActuatorCommand;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[FOR i := 1 TO nEntryCount DO
+    IF aLookupTable[i].nX = nX AND aLookupTable[i].sY = sY THEN
+			pResult := aLookupTable[i].sCommand;
+        EXIT;
+    END_IF;
+END_FOR;
+
+F_GetLinearCommandMember := pResult;]]></ST>
+    </Implementation>
+    <LineIds Name="F_GetLinearCommandMember">
+      <LineId Id="1" Count="7" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

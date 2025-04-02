@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_StepperMotor
 VAR
 	pAxis : POINTER TO AXIS_REF;
+	fRead : MC_ReadActualPosition;
     fbPower    : MC_Power;
     fbstop     : MC_Halt;
     fbMoveAbs  : MC_MoveAbsolute;
@@ -138,12 +139,16 @@ VAR_INPUT
     fAccel    : LREAL := 500.0;  // Acceleration in mm/s²
     fDecel    : LREAL := 500.0;  // Deceleration in mm/s²
 END_VAR
-]]></Declaration>
+
+VAR_OUTPUT
+	fCurrentPosition : LREAL;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[MoveToPosition := 0;
 
 CASE eState OF
 	LAS_Stepper_Idle:
+		fRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
 		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, 
           Velocity := fVelocity, Acceleration := fAccel, Deceleration := fDecel);
 		
@@ -152,6 +157,7 @@ CASE eState OF
 		END_IF
 			
 	LAS_Stepper_Moving:
+		fRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
 		IF fbhome.Busy THEN
 			IF fbHome.Error THEN
 				eState := LAS_Stepper_Error;
@@ -174,6 +180,7 @@ CASE eState OF
 		END_IF
 	
 	LAS_STEPPER_ERROR:
+		fRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
 		MoveToPosition := -1; 
 		IF CanReset() THEN
 			Reset(bExecute := TRUE);
@@ -291,7 +298,12 @@ END_CASE]]></ST>
     </LineIds>
     <LineIds Name="FB_StepperMotor.MoveToPosition">
       <LineId Id="39" Count="1" />
-      <LineId Id="1" Count="31" />
+      <LineId Id="1" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="3" Count="7" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="11" Count="21" />
+      <LineId Id="43" Count="0" />
       <LineId Id="38" Count="0" />
       <LineId Id="33" Count="4" />
     </LineIds>

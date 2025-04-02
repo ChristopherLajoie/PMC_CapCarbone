@@ -87,10 +87,16 @@
     <Compile Include="POUs\Helper\F_GetAlarmIndex.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Helper\F_GetCommandMember.TcPOU">
+    <Compile Include="POUs\Helper\F_GetLinearCommandMember.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Helper\F_GetCommandValue.TcPOU">
+    <Compile Include="POUs\Helper\F_GetLinearCommandValue.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Helper\F_GetStepperCommandMember.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Helper\F_GetStepperCommandValue.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Helper\F_ValidateCommand.TcPOU">

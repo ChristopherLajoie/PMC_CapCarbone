@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
-  <POU Name="F_GetCommandMember" Id="{9045c638-9720-46a2-b827-c9973b392da0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION F_GetCommandmember : POINTER TO ST_LinearActuatorCommand
+  <POU Name="F_GetStepperCommandMember" Id="{9cd98949-e41e-4d8c-8a33-9e491ab78a2f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_GetStepperCommandMember : POINTER TO ST_StepperMotorCommand
 VAR_INPUT
-    nX : INT;
+    nX : SINT;
     sY : STRING;
 END_VAR
 VAR
     i : INT;
-    pResult: POINTER TO ST_LinearActuatorCommand;
+    pResult: POINTER TO ST_StepperMotorCommand;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[FOR i := 1 TO nEntryCount DO
@@ -18,9 +18,9 @@ END_VAR]]></Declaration>
     END_IF;
 END_FOR;
 
-F_GetCommandValue := pResult;]]></ST>
+F_GetStepperCommandMember := pResult;]]></ST>
     </Implementation>
-    <LineIds Name="F_GetCommandMember">
+    <LineIds Name="F_GetStepperCommandMember">
       <LineId Id="1" Count="7" />
     </LineIds>
   </POU>

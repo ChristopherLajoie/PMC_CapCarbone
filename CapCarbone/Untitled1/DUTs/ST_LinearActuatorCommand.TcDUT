@@ -4,7 +4,7 @@
     <Declaration><![CDATA[TYPE ST_LinearActuatorCommand :
 STRUCT
 	Command : BOOL;
-	Status : INT;
+	Status : SINT;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

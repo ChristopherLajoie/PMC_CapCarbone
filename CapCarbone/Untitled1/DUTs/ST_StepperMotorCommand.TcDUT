@@ -3,9 +3,9 @@
   <DUT Name="ST_StepperMotorCommand" Id="{6e8dec26-6f30-4f23-8fa3-4e0f61826fd7}">
     <Declaration><![CDATA[TYPE ST_StepperMotorCommand :
 STRUCT
-	Command : INT;
-	Position : INT;
 	Homing : BOOL;
+	Command : LREAL;
+	Position : LREAL;
 	Homed : BOOL;
 END_STRUCT
 END_TYPE

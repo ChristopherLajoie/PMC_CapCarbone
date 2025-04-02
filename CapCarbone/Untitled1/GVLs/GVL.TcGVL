@@ -21,6 +21,8 @@ VAR_GLOBAL
 	Relay7_Reverse : BOOL := FALSE; 
 	Relay8_Forward : BOOL := FALSE; 
 	Relay8_Reverse : BOOL := FALSE; 
+	Relay9_Forward : BOOL := FALSE; 
+	Relay9_Reverse : BOOL := FALSE; 
 	
 	// LinearActuators ProxSensors
 	Prox1In : BOOL := TRUE;
@@ -39,12 +41,12 @@ VAR_GLOBAL
 	Prox7Out : BOOL := FALSE;
 	Prox8In : BOOL := TRUE;
 	Prox8Out : BOOL := FALSE;
+	Prox9In : BOOL := TRUE;
+	Prox9Out : BOOL := FALSE;
 	
 	//OPC_UA Command variables
 	
 	RequestedActuator : STRING;
-	StepperCommand : ST_StepperMotorCommand;
-	LinearActuatorCommand : ST_LinearActuatorCommand;
 	
 	//Cycle variables
 	HeatExchangeRunning: BOOL := FALSE;
@@ -57,7 +59,6 @@ VAR_GLOBAL
 	StartRegeneration: BOOL := FALSE;
 	
 	CONTROL : BOOL := FALSE;
-	
 	
 END_VAR]]></Declaration>
   </GVL>

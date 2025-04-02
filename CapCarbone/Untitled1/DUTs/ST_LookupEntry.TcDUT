@@ -3,7 +3,7 @@
   <DUT Name="ST_LookupEntry" Id="{4d49d0d4-76cf-4230-b62c-1fe72c9a6d59}">
     <Declaration><![CDATA[TYPE ST_LookupEntry :
 STRUCT
-    nX : INT;
+    nX : SINT;
     sY : STRING;
     sValue: POINTER TO FB_LinearActuator;
 	sCommand: POINTER TO ST_LinearActuatorCommand;
