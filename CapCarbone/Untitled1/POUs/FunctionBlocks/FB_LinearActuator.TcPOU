@@ -85,6 +85,7 @@ CASE eState OF
             bError := TRUE;
             LinearActuatorMotionTimedOut := TRUE;
 			pActuator^.bInProgress := FALSE; 
+			pActuator^.bFwdDO^ := FALSE;
         END_IF
 
     LAS_LinearActuator_Extended:
@@ -107,14 +108,14 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_init" Id="{31a08d74-0598-4ca5-bdeb-9db6cc80d5d2}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-
+    <Method Name="FB_Init" Id="{70258f52-1024-4f1a-abb0-a262de844735}">
+      <Declaration><![CDATA[METHOD FB_Init: BOOL
 VAR_INPUT
-	bInitRetains : BOOL;            // System-managed retains (not used here)
-    bInCopyCode : BOOL;             // System-managed copy code (not used here)
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
 	Actuator : POINTER TO ST_LinearActuator;  // Parameter for initialization
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[pActuator := Actuator;
 bProxOutRisingEdge := ProxOutRisingEdge;
@@ -124,7 +125,6 @@ r_trig_proxOut(CLK := pActuator^.bProxOut^);
 f_trig_proxOut(CLK := pActuator^.bProxOut^);
 r_trig_proxIn(CLK := pActuator^.bProxIn^);
 f_trig_proxIn(CLK := pActuator^.bProxIn^);
-
 // Check positions according to edge detection settings
 IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN
     IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^)) THEN
@@ -186,6 +186,7 @@ CASE eState OF
             bError := TRUE;
             LinearActuatorMotionTimedOut := TRUE;
 			pActuator^.bInProgress := FALSE; 
+			pActuator^.bBckwDO^ := FALSE;
         END_IF
 
     LAS_LinearActuator_Retracted:
@@ -210,6 +211,10 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD Reset : BOOL
 VAR
 	i : UINT;
+END_VAR
+
+VAR_OUTPUT
+	State : SINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF eState = LAS_LinearActuator_Error THEN
@@ -217,7 +222,7 @@ END_VAR]]></Declaration>
     IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN	
         eState := LAS_LinearActuator_Retracted;
 		bError := FALSE;
-		
+		State := 0;
 		FOR i := 1 TO MAX_ALARMS DO
 			IF AlarmArray[i].sType = 'LinearActuator' THEN
 				AlarmArray[i].bCondition := FALSE;
@@ -227,7 +232,7 @@ END_VAR]]></Declaration>
     ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
         eState := LAS_LinearActuator_Extended;
 		bError := FALSE;
-		
+		State := 1;
 		FOR i := 1 TO MAX_ALARMS DO
 			IF AlarmArray[i].sType = 'LinearActuator' THEN
 				AlarmArray[i].bCondition := FALSE;
@@ -235,10 +240,10 @@ END_VAR]]></Declaration>
 		END_FOR
     ELSE
         eState := LAS_LinearActuator_Unknown;
+		State := -1;
     END_IF
 END_IF
-
-Reset := (eState <> LAS_LinearActuator_Error);]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LinearActuator">
@@ -265,20 +270,15 @@ Reset := (eState <> LAS_LinearActuator_Error);]]></ST>
       <LineId Id="59" Count="0" />
       <LineId Id="61" Count="2" />
       <LineId Id="74" Count="0" />
+      <LineId Id="80" Count="0" />
       <LineId Id="27" Count="5" />
       <LineId Id="45" Count="0" />
       <LineId Id="33" Count="4" />
       <LineId Id="46" Count="0" />
       <LineId Id="38" Count="6" />
     </LineIds>
-    <LineIds Name="FB_LinearActuator.FB_init">
-      <LineId Id="1" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="16" Count="3" />
-      <LineId Id="2" Count="0" />
-      <LineId Id="20" Count="20" />
-      <LineId Id="13" Count="0" />
+    <LineIds Name="FB_LinearActuator.FB_Init">
+      <LineId Id="1" Count="28" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Home">
       <LineId Id="1" Count="0" />
@@ -294,6 +294,7 @@ Reset := (eState <> LAS_LinearActuator_Error);]]></ST>
       <LineId Id="14" Count="3" />
       <LineId Id="54" Count="1" />
       <LineId Id="63" Count="5" />
+      <LineId Id="72" Count="0" />
       <LineId Id="25" Count="5" />
       <LineId Id="41" Count="0" />
       <LineId Id="31" Count="4" />
@@ -301,7 +302,10 @@ Reset := (eState <> LAS_LinearActuator_Error);]]></ST>
       <LineId Id="36" Count="4" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Reset">
-      <LineId Id="1" Count="26" />
+      <LineId Id="1" Count="22" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="27" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

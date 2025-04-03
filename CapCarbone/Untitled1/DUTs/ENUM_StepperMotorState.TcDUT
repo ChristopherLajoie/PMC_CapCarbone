@@ -7,7 +7,9 @@
     LAS_Stepper_Moving := 2,
     LAS_Stepper_Idle := 3,
     LAS_Stepper_Error := 6,
-	LAS_Stepper_Offline := 7
+	LAS_Stepper_Offline := 7,
+	LAS_Stepper_FastPass := 1,
+	LAS_Stepper_SlowPass := 4
 );
 END_TYPE]]></Declaration>
   </DUT>

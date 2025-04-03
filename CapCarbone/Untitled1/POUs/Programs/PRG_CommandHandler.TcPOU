@@ -7,15 +7,19 @@ VAR
 	bIsLinearActuator : BOOL;
 	nX : SINT;
 	sY : STRING;
+	sZ : STRING;
 	i: INT;
 	bIshomeCmd: BOOL;
 	bIsMoveCmd: BOOL;
+	bIsResetCmd: BOOL;
 	CurrentPosition : LREAL;
 	Result: INT := 0;
+	Cmd: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IsValid := F_ValidateCommand(sInput := RequestedActuator, nX => nX, sY => sY);
+      <ST><![CDATA[//ADD CANCEL LOGIC (STOP METHOD AND GET eState)
+IsValid := F_ValidateCommand(sInput := RequestedActuator, nX => nX, sY => sY, sZ => sZ);
 
 IF NOT IsValid THEN 
 	//Alarm
@@ -31,43 +35,67 @@ bIsLinearActuator :=
 
 bIsHomeCmd := sY = 'Home';
 bIsMoveCmd := sY = 'Motor';
+bIsResetCmd := sZ = 'Reset';
 
-//ADD CANCEL LOGIC (STOP METHOD AND GET eState)
 IF bIsLinearActuator THEN
-	IF F_GetLinearCommandMember(nX, sY)^.Command THEN
-		Result := F_GetLinearCommandValue(nX, sY)^.Extend();
+	IF bIsResetCmd THEN
+		F_GetLinearCommandValue(nX, sY)^.Reset(State => Result);
+		RequestedActuator := 'none';
 	ELSE
-		Result := F_GetLinearCommandValue(nX, sY)^.Home();
-	END_IF
-	
-	IF Result = 1  THEN 
-		F_GetLinearCommandMember(nX, sY)^.Status := 1;
-		RequestedActuator := 'none';
-	ELSIF Result = -1 THEN
-		F_GetLinearCommandMember(nX, sY)^.Status := -1;
-		RequestedActuator := 'none';
+		IF F_GetLinearCommandMember(nX, sY)^.Command THEN
+			Result := F_GetLinearCommandValue(nX, sY)^.Extend();
+		ELSE
+			Result := F_GetLinearCommandValue(nX, sY)^.Home();
+		END_IF
+		
+		IF Result = 1  THEN 
+			IF F_GetLinearCommandMember(nX, sY)^.Command THEN
+				F_GetLinearCommandMember(nX, sY)^.Status := 1;
+				RequestedActuator := 'none';
+			ELSE
+				F_GetLinearCommandMember(nX, sY)^.Status := 0;
+				RequestedActuator := 'none';
+			END_IF
+		ELSIF Result = -1 THEN
+			F_GetLinearCommandMember(nX, sY)^.Status := -1;
+			RequestedActuator := 'none';
+		END_IF
 	END_IF
 	
 ELSIF bIsHomeCmd OR bIsMoveCmd THEN
+	F_GetStepperCommandValue(nX, sY)^.GetPosition(fCurrentPosition => CurrentPosition);
 	
-	IF F_GetStepperCommandMember(nX, sY)^.Homing THEN
-		Result := F_GetStepperCommandValue(nX, sY)^.Home(TRUE);
+	IF bIsResetCmd THEN
+		Result := F_GetStepperCommandValue(nX, sY)^.Reset(TRUE);
+		
+		IF Result = -1 THEN
+			F_GetStepperCommandMember(nX, sY)^.Position := -1;
+			RequestedActuator := 'none';
+		ELSIF Result = 1 THEN
+			F_GetStepperCommandMember(nX, sY)^.Position := CurrentPosition;
+			RequestedActuator := 'none';
+		END_IF
 	ELSE
-		Result := F_GetStepperCommandValue(nX, sy)^.MoveToPosition(fPosition := F_GetStepperCommandMember(nX, sY)^.Command, fCurrentPosition => CurrentPosition);
-		F_GetStepperCommandMember(nX, sY)^.Position := CurrentPosition;
-	END_IF
-	
-	IF Result = 1 AND bIsHomeCmd THEN 
-		F_GetStepperCommandMember(nX, sY)^.Homed := TRUE;
-		RequestedActuator := 'none';
-	ELSIF Result = 1 AND NOT bIsHomeCmd THEN
-		RequestedActuator := 'none';
-	ELSIF Result = -1 AND bIsHomeCmd THEN
-		F_GetStepperCommandMember(nX, sY)^.Homed := FALSE;
-		RequestedActuator := 'none';
-	ELSIF Result = -1 AND NOT bIsHomeCmd THEN
-		F_GetStepperCommandMember(nX, sY)^.Position := -1;
-		RequestedActuator := 'none';
+		IF F_GetStepperCommandMember(nX, sY)^.Homing THEN
+			Result := F_GetStepperCommandValue(nX, sY)^.Home(TRUE);
+		ELSE
+			Result := F_GetStepperCommandValue(nX, sy)^.MoveToPosition(fPosition := F_GetStepperCommandMember(nX, sY)^.Command);
+			F_GetStepperCommandMember(nX, sY)^.Position := CurrentPosition;
+		END_IF
+		
+		IF Result = 1 AND bIsHomeCmd THEN 
+			F_GetStepperCommandMember(nX, sY)^.Homed := TRUE;
+			F_GetStepperCommandMember(nX, sY)^.Homing := FALSE;
+			RequestedActuator := 'none';
+		ELSIF Result = 1 AND NOT bIsHomeCmd THEN
+			RequestedActuator := 'none';
+		ELSIF Result = -1 AND bIsHomeCmd THEN
+			F_GetStepperCommandMember(nX, sY)^.Homed := FALSE;
+			RequestedActuator := 'none';
+		ELSIF Result = -1 AND NOT bIsHomeCmd THEN
+			F_GetStepperCommandMember(nX, sY)^.Position := -1;
+			RequestedActuator := 'none';
+		END_IF
 	END_IF
 END_IF
 
@@ -76,6 +104,7 @@ END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="PRG_CommandHandler">
+      <LineId Id="246" Count="0" />
       <LineId Id="2" Count="0" />
       <LineId Id="18" Count="1" />
       <LineId Id="39" Count="0" />
@@ -84,26 +113,43 @@ END_IF
       <LineId Id="231" Count="0" />
       <LineId Id="210" Count="0" />
       <LineId Id="241" Count="0" />
-      <LineId Id="244" Count="0" />
-      <LineId Id="232" Count="0" />
+      <LineId Id="245" Count="0" />
+      <LineId Id="249" Count="0" />
       <LineId Id="174" Count="0" />
+      <LineId Id="253" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="255" Count="0" />
       <LineId Id="178" Count="0" />
       <LineId Id="176" Count="0" />
       <LineId Id="180" Count="1" />
       <LineId Id="124" Count="0" />
       <LineId Id="194" Count="0" />
-      <LineId Id="196" Count="4" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="257" Count="1" />
+      <LineId Id="260" Count="3" />
+      <LineId Id="259" Count="0" />
+      <LineId Id="199" Count="1" />
       <LineId Id="203" Count="0" />
       <LineId Id="195" Count="0" />
       <LineId Id="206" Count="0" />
+      <LineId Id="264" Count="0" />
       <LineId Id="204" Count="0" />
+      <LineId Id="269" Count="1" />
+      <LineId Id="265" Count="1" />
+      <LineId Id="275" Count="0" />
+      <LineId Id="274" Count="0" />
+      <LineId Id="273" Count="0" />
+      <LineId Id="267" Count="0" />
+      <LineId Id="277" Count="2" />
+      <LineId Id="276" Count="0" />
       <LineId Id="243" Count="0" />
       <LineId Id="207" Count="0" />
       <LineId Id="216" Count="2" />
-      <LineId Id="229" Count="0" />
+      <LineId Id="272" Count="0" />
       <LineId Id="219" Count="1" />
       <LineId Id="222" Count="0" />
       <LineId Id="233" Count="0" />
+      <LineId Id="280" Count="0" />
       <LineId Id="224" Count="0" />
       <LineId Id="230" Count="0" />
       <LineId Id="234" Count="0" />
@@ -112,6 +158,7 @@ END_IF
       <LineId Id="226" Count="0" />
       <LineId Id="240" Count="0" />
       <LineId Id="221" Count="0" />
+      <LineId Id="268" Count="0" />
       <LineId Id="182" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="72" Count="0" />

@@ -45,82 +45,110 @@ END_IF
 Unacknowledged := FALSE;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_init" Id="{9d664a39-5dd4-4344-b1ab-aba2f4872a25}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
+    <Method Name="FB_Init" Id="{aae538f2-84d5-46d9-a4e2-9cefceb9bd59}">
+      <Declaration><![CDATA[METHOD FB_Init: BOOL
 VAR_INPUT
-    bInitRetains : BOOL;  // System-managed retains
-    bInCopyCode  : BOOL;  // System-managed copy code
-	Axis : POINTER TO AXIS_REF;  // Parameter for initialization
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+	init_axis : POINTER TO AXIS_REF;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[pAxis := Axis; 
+        <ST><![CDATA[pAxis := init_axis;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetPosition" Id="{c99d767f-ea4a-49f6-ba95-aa6815963f09}">
+      <Declaration><![CDATA[METHOD GetPosition : BOOL
+VAR_OUTPUT
+	fCurrentPosition : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Init(Axis := pAxis);
+fRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
 
-CASE eState OF 
-	LAS_Stepper_Uninitialized:
-		fbPower(Axis := pAxis^, Enable := TRUE);
-		IF fbPower.Busy THEN
-			IF fbPower.Error THEN
-		
-				nErrID := fbPower.ErrorID;
-				eState := LAS_Stepper_Error;
-				StepperMotorPowerUpFailed := TRUE;
-				FB_init := FALSE;
-			END_IF
-			
-		ELSIF fbPower.Status THEN
-			FB_Init := TRUE; 
-			eState := LAS_Stepper_Idle;
-			nErrID := 0;
-		END_IF
-		
-	ELSE
-		eState := LAS_Stepper_Offline;
-		
+IF fRead.Busy THEN
+	IF fRead.Error THEN
+		//Alarm for error reading
+	END_IF
 
-END_CASE]]></ST>
+ELSE
+	IF NOT fRead.Valid THEN
+		fCurrentPosition := -1;
+	END_IF
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Home" Id="{8276e0ce-98e0-421a-babf-511ef600c743}">
       <Declaration><![CDATA[METHOD Home : INT
 VAR_INPUT
     bExecute : BOOL;     
+END_VAR
+VAR
+	Currentpos : LREAL;
+	Currentpass : STRING := 'Fast';
+    FastPass : ST_HomingOptions := (SearchVelocity := 50.0, SyncVelocity := 15.0);
+    SlowPass : ST_HomingOptions := (SearchVelocity := 5.0, SyncVelocity := 2.0);
+	ReferencePos : LREAL := 10.0;                
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Home := 0;
+Init(Axis := pAxis);
+GetPosition(fCurrentPosition => Currentpos);
 
 CASE eState OF
 	LAS_Stepper_Idle:
-		fbHome(Axis := pAxis^, Execute := bExecute, HomingMode := 1);
-		
-		IF fbHome.Busy THEN
-			eState := LAS_Stepper_Moving;
+		IF Currentpass = 'Fast' THEN
+			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := FastPass);
+			eState := LAS_Stepper_FastPass;
+			
+		ELSIF Currentpass = 'Slow' THEN
+			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := SlowPass);
 		END_IF
-			
-	LAS_Stepper_Moving:
-		IF fbhome.Busy THEN
-			IF fbHome.Error THEN
-				eState := LAS_Stepper_Error;
-				
-				StepperMotorHomeOperationFailed := TRUE;
-				g_AlarmErrorIDs[F_GetAlarmIndex(2002)] := fbHome.ErrorID;
-				
-				nErrID := fbHome.ErrorID;
-				Home := -1;
-			END_IF
 		
-		ELSIF fbHome.CommandAborted THEN
-			eState := LAS_Stepper_Error;
+	LAS_Stepper_FastPass:
+        fbHome(Axis := pAxis^, bCalibrationCam := NOT bSimulatedLimitSwitch);
+    	
+        IF fbHome.Error THEN
+            eState := LAS_Stepper_Error;
+            StepperMotorHomeOperationFailed := TRUE;
+            g_AlarmErrorIDs[F_GetAlarmIndex(2002)] := fbHome.ErrorID;
+            nErrID := fbHome.ErrorID;
+            Home := -1;
+        ELSIF fbHome.CommandAborted THEN
+            eState := LAS_Stepper_Error;
+            StepperMotorHomeOperationInterrupted := TRUE;
+            Home := -1;
+            fbHome(Axis := pAxis^, Execute := FALSE);
+        ELSIF fbHome.Done THEN
+            fbHome(Axis := pAxis^, Execute := FALSE);
 			
-			StepperMotorHomeOperationInterrupted := TRUE;
-			Home := -1;
-			
-		ELSIF fbHome.Done THEN
-			eState := LAS_Stepper_Idle;
-			
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := bSimulatedLimitSwitch, Options := SlowPass);
+            eState := LAS_Stepper_SlowPass;
+        END_IF
+	
+	LAS_Stepper_SlowPass:
+        fbHome(Axis := pAxis^, bCalibrationCam := bSimulatedLimitSwitch);
+   	
+        IF fbHome.Error THEN
+            eState := LAS_Stepper_Error;
+            StepperMotorHomeOperationFailed := TRUE;
+            g_AlarmErrorIDs[F_GetAlarmIndex(2002)] := fbHome.ErrorID;
+            nErrID := fbHome.ErrorID;
+            Home := -1;
+        ELSIF fbHome.CommandAborted THEN
+            eState := LAS_Stepper_Error;
+            StepperMotorHomeOperationInterrupted := TRUE;
+            Home := -1;
+            fbHome(Axis := pAxis^, Execute := FALSE);
+        ELSIF fbHome.Done THEN
+            fbHome(Axis := pAxis^, Execute := FALSE);
+			Currentpass := 'Fast';
 			Home := 1; 
-			nErrID := 0;
-		END_IF
+            eState := LAS_Stepper_Idle;
+        END_IF
 	
 	LAS_Stepper_Error:
 		Home := -1;
@@ -131,6 +159,48 @@ CASE eState OF
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Init" Id="{fa5103ef-9b92-4848-8e64-2a4a389deecc}">
+      <Declaration><![CDATA[METHOD Init : BOOL
+VAR_INPUT
+	Axis : POINTER TO AXIS_REF;  // Parameter for initialization
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[pAxis := Axis; 
+
+CASE eState OF 
+    LAS_Stepper_Uninitialized:
+        fbPower(Axis := pAxis^, Enable := TRUE, Enable_positive := TRUE, Enable_Negative := TRUE);
+        
+		IF fbPower.Status THEN
+			Init := TRUE; 
+			eState := LAS_Stepper_Idle;
+			nErrID := 0;
+			//Enable := FALSE;
+			
+		ELSIF fbPower.Error THEN	
+			nErrID := fbPower.ErrorID;
+			eState := LAS_Stepper_Error;
+			StepperMotorPowerUpFailed := TRUE;
+			Init := FALSE;
+			//Enable := FALSE;
+		END_IF
+      
+	  ELSE
+	  	
+	  	fbPower(Axis := pAxis^, Enable := TRUE, Enable_positive := TRUE, Enable_Negative := TRUE);
+		IF fbPower.Error THEN	
+			nErrID := fbPower.ErrorID;
+			eState := LAS_Stepper_Error;
+			StepperMotorPowerUpFailed := TRUE;
+			Init := FALSE;
+			//Enable := FALSE;
+		END_IF
+				
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="MoveToPosition" Id="{59187d53-eaea-489c-80e7-2ef214427a40}">
       <Declaration><![CDATA[METHOD MoveToPosition : INT
 VAR_INPUT
@@ -139,27 +209,21 @@ VAR_INPUT
     fAccel    : LREAL := 500.0;  // Acceleration in mm/s²
     fDecel    : LREAL := 500.0;  // Deceleration in mm/s²
 END_VAR
-
-VAR_OUTPUT
-	fCurrentPosition : LREAL;
-END_VAR]]></Declaration>
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[MoveToPosition := 0;
-
+Init(Axis := pAxis);
 CASE eState OF
 	LAS_Stepper_Idle:
-		fRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
 		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, 
           Velocity := fVelocity, Acceleration := fAccel, Deceleration := fDecel);
+	
+		eState := LAS_Stepper_Moving;
 		
-		IF fbHome.Busy THEN
-			eState := LAS_Stepper_Moving;
-		END_IF
-			
 	LAS_Stepper_Moving:
-		fRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
-		IF fbhome.Busy THEN
-			IF fbHome.Error THEN
+		IF fbMoveAbs.Busy THEN
+			fbMoveAbs(Axis := pAxis^);
+			IF fbMoveAbs.Error THEN
 				eState := LAS_Stepper_Error;
 				
 				nErrID := fbMoveAbs.ErrorID;
@@ -167,20 +231,20 @@ CASE eState OF
 				MoveToPosition := -1;
 			END_IF
 		
-		ELSIF fbHome.CommandAborted THEN
+		ELSIF fbMoveAbs.CommandAborted THEN
 			eState := LAS_Stepper_Error;
 			StepperMotorMotionOperationInterrupted := TRUE;
+			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
 			MoveToPosition := -1;
 			
-		ELSIF fbHome.Done THEN
+		ELSIF fbMoveAbs.Done THEN
 			eState := LAS_Stepper_Idle;
-			
+			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
 			MoveToPosition := 1; 
 			nErrID := 0;
 		END_IF
 	
 	LAS_STEPPER_ERROR:
-		fRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
 		MoveToPosition := -1; 
 		IF CanReset() THEN
 			Reset(bExecute := TRUE);
@@ -200,7 +264,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Reset := 0;
-
+Init(Axis := pAxis);
 IF eState = LAS_Stepper_Error THEN
 	fbReset(Axis := pAxis^, Execute := bExecute);
 	
@@ -227,7 +291,7 @@ IF eState = LAS_Stepper_Error THEN
 			END_FOR
 			
 		ELSE
-			eState := LAS_Stepper_Offline;
+			eState := LAS_Stepper_Uninitialized;
 		END_IF
 		
 	END_IF
@@ -244,7 +308,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Stop := 0;
-
+Init(Axis := pAxis);
 CASE eState OF
 	LAS_Stepper_Idle:
 		//Stepper is already stopped
@@ -287,23 +351,54 @@ END_CASE]]></ST>
     <LineIds Name="FB_StepperMotor.CanReset">
       <LineId Id="1" Count="17" />
     </LineIds>
-    <LineIds Name="FB_StepperMotor.FB_init">
-      <LineId Id="1" Count="24" />
+    <LineIds Name="FB_StepperMotor.FB_Init">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.GetPosition">
+      <LineId Id="15" Count="0" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="40" Count="1" />
-      <LineId Id="1" Count="33" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="1" Count="1" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="77" Count="1" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="59" Count="11" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="103" Count="2" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="83" Count="2" />
+      <LineId Id="87" Count="13" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="33" Count="1" />
       <LineId Id="42" Count="0" />
       <LineId Id="35" Count="4" />
     </LineIds>
+    <LineIds Name="FB_StepperMotor.Init">
+      <LineId Id="1" Count="32" />
+    </LineIds>
     <LineIds Name="FB_StepperMotor.MoveToPosition">
-      <LineId Id="39" Count="1" />
-      <LineId Id="1" Count="1" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="3" Count="7" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="11" Count="21" />
-      <LineId Id="43" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="1" Count="4" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="2" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="12" Count="10" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="23" Count="9" />
       <LineId Id="38" Count="0" />
       <LineId Id="33" Count="4" />
     </LineIds>

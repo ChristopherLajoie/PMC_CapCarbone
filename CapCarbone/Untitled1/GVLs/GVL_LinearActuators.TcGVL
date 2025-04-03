@@ -60,7 +60,7 @@
 		bBckwDO := ADR(Relay8_Reverse)
 		);
 	
-	Ch4 : ST_LinearActuator := (
+	Cha4 : ST_LinearActuator := (
 		sName := 'Chariot4',
 		bProxIn := ADR(Prox7In),  
 		bProxOut := ADR(Prox7Out), 
@@ -87,7 +87,7 @@
     HeatExCoupola3: FB_LinearActuator(Actuator := ADR(HeatC3));
     RegenCoupola3:  FB_LinearActuator(Actuator := ADR(RegenC3));
 	Compressor3:	FB_LinearActuator(Actuator := ADR(Comp3));
-    Chariot4:     FB_LinearActuator(Actuator := ADR(Ch4));
+    Chariot4:     FB_LinearActuator(Actuator := ADR(Cha4));
 	
 	Chariot1Command : ST_LinearActuatorCommand;
 	Compressor1Command : ST_LinearActuatorCommand;

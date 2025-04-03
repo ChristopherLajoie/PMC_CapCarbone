@@ -9,16 +9,20 @@ VAR_OUTPUT
     bIsValid : BOOL;
     nX : SINT;
     sY : STRING;
+	sZ : STRING;
 END_VAR
 VAR
-    nUnderscorePos : INT;
+    nFirstUnderscorePos : INT;
+	nSecondUnderScorePos: INT;
     sNumber : STRING;
+	sRemainder : STRING;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[bIsValid := FALSE;
 nX := 0;
 sY := '';
+sZ := '';
 
 // Check if string starts with "R"
 IF LEFT(sInput, 1) <> 'R' THEN
@@ -26,22 +30,42 @@ IF LEFT(sInput, 1) <> 'R' THEN
 END_IF;
 
 // Find the underscore position
-nUnderscorePos := FIND(sInput, '_');
-IF nUnderscorePos = 0 THEN
+nFirstUnderscorePos := FIND(sInput, '_');
+IF nFirstUnderscorePos = 0 THEN
     RETURN;
 END_IF;
 
 // Extract the digit (X) between "R" and "_"
-sNumber := MID(sInput, 1, nUnderscorePos - 1);
+sNumber := MID(sInput, 1, nFirstUnderscorePos - 1);
 nX := STRING_TO_SINT(sNumber);
 IF nX < 1 OR nX > 4 THEN
     RETURN;
 END_IF;
 
-// Extract the value part (Y) after "_"
-sY := RIGHT(sInput, LEN(sInput) - nUnderscorePos);
+// For the second underscore, we need to create a substring after the first underscore
+sRemainder := RIGHT(sInput, LEN(sInput) - nFirstUnderscorePos);
+nSecondUnderscorePos := FIND(sRemainder, '_');
 
-// Check if Y is one of the allowed values
+// Extract Y (different extraction depending on format)
+IF nSecondUnderscorePos = 0 THEN
+    // Old format (RX_Y) - Y is everything after first underscore
+    sY := RIGHT(sInput, LEN(sInput) - nFirstUnderscorePos);
+ELSE
+    // New format (RX_Y_Z)
+    // Y is between underscores, adjusting for the substring
+    sY := LEFT(sRemainder, nSecondUnderscorePos - 1);
+    
+    // Extract Z after second underscore in the remainder
+    sZ := RIGHT(sRemainder, LEN(sRemainder) - nSecondUnderscorePos);
+    
+    // Check Z validity (must be 'Reset')
+    IF sZ <> 'Reset' THEN
+        sZ := '';  // Reset to empty if invalid
+        RETURN;    // Invalid Z means invalid command
+    END_IF;
+END_IF;
+
+// Check if Y is one of the allowed values (same for both formats)
 IF sY = 'Chariot' OR 
    sY = 'Compressor' OR 
    sY = 'Sensor' OR 
@@ -52,15 +76,17 @@ IF sY = 'Chariot' OR
     bIsValid := TRUE;
 ELSE
     sY := '';  // Reset to empty if invalid
+    sZ := '';  // Reset Z as well
 END_IF;
 
 F_ValidateCommand := bIsValid;]]></ST>
     </Implementation>
     <LineIds Name="F_ValidateCommand">
-      <LineId Id="1" Count="29" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="31" Count="5" />
-      <LineId Id="40" Count="0" />
+      <LineId Id="1" Count="2" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="4" Count="17" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="76" Count="36" />
       <LineId Id="39" Count="0" />
     </LineIds>
   </POU>

@@ -139,7 +139,7 @@ END_VAR
                         <o>
                           <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">"TRUE AND CONTROL"</v>
+                            <v n="Value">"NEXT AND CONTROL"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">2248L</v>
@@ -9338,7 +9338,7 @@ END_VAR
     </Implementation>
     <Action Name="Init_active" Id="{5c5a4762-0aa1-4229-b1f3-28106bdbec26}">
       <Implementation>
-        <ST><![CDATA[//Empty]]></ST>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Action>
     <Action Name="Step0_active" Id="{db2326b2-d2ee-4be5-a2c2-64ce527b69ac}">
@@ -10171,7 +10171,7 @@ NEXT := 0;]]></ST>
       </XmlArchive>
     </ObjectProperties>
     <LineIds Name="PRG_Cycle.Init_active">
-      <LineId Id="1" Count="0" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.Step0_active">
       <LineId Id="1" Count="0" />

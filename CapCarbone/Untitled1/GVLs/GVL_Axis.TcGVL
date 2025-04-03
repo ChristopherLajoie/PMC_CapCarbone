@@ -8,15 +8,17 @@ VAR_GLOBAL
 	Stepper3 : AXIS_REF;
 	Stepper4 : AXIS_REF;
 	
-	Axis1 : FB_StepperMotor(Axis := ADR(Stepper1));
-    Axis2 : FB_StepperMotor(Axis := ADR(Stepper2));
-    Axis3 : FB_StepperMotor(Axis := ADR(Stepper3));
-    Axis4 : FB_StepperMotor(Axis := ADR(Stepper4));
+	Axis1 : FB_StepperMotor(init_axis := ADR(Stepper1));
+    Axis2 : FB_StepperMotor(init_axis := ADR(Stepper2));
+    Axis3 : FB_StepperMotor(init_axis := ADR(Stepper3));
+    Axis4 : FB_StepperMotor(init_axis := ADR(Stepper4));
 	
 	Axis1Command : ST_StepperMotorCommand;
 	Axis2Command : ST_StepperMotorCommand;
 	Axis3Command : ST_StepperMotorCommand;
 	Axis4Command : ST_StepperMotorCommand;
+	
+	bSimulatedLimitSwitch : BOOL;
 	
 END_VAR]]></Declaration>
   </GVL>
