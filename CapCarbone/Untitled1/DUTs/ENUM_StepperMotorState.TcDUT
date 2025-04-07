@@ -9,7 +9,8 @@
     LAS_Stepper_Error := 6,
 	LAS_Stepper_Offline := 7,
 	LAS_Stepper_FastPass := 1,
-	LAS_Stepper_SlowPass := 4
+	LAS_Stepper_SlowPass := 4,
+	LAS_Stepper_WaitingForTrigger := 5
 );
 END_TYPE]]></Declaration>
   </DUT>

@@ -8,6 +8,7 @@ VAR
 	nX : SINT;
 	sY : STRING;
 	sZ : STRING;
+	ready : BOOL := FALSE;
 	i: INT;
 	bIshomeCmd: BOOL;
 	bIsMoveCmd: BOOL;
@@ -37,6 +38,9 @@ bIsHomeCmd := sY = 'Home';
 bIsMoveCmd := sY = 'Motor';
 bIsResetCmd := sZ = 'Reset';
 
+IF bIsHomeCmd THEN
+	ready := F_GetStepperCommandMember(nX, sY)^.Homing;
+END_IF
 IF bIsLinearActuator THEN
 	IF bIsResetCmd THEN
 		F_GetLinearCommandValue(nX, sY)^.Reset(State => Result);
@@ -76,9 +80,9 @@ ELSIF bIsHomeCmd OR bIsMoveCmd THEN
 			RequestedActuator := 'none';
 		END_IF
 	ELSE
-		IF F_GetStepperCommandMember(nX, sY)^.Homing THEN
+		IF ready THEN
 			Result := F_GetStepperCommandValue(nX, sY)^.Home(TRUE);
-		ELSE
+		ELSIF bIsMoveCmd THEN
 			Result := F_GetStepperCommandValue(nX, sy)^.MoveToPosition(fPosition := F_GetStepperCommandMember(nX, sY)^.Command);
 			F_GetStepperCommandMember(nX, sY)^.Position := CurrentPosition;
 		END_IF
@@ -114,7 +118,9 @@ END_IF
       <LineId Id="210" Count="0" />
       <LineId Id="241" Count="0" />
       <LineId Id="245" Count="0" />
+      <LineId Id="281" Count="0" />
       <LineId Id="249" Count="0" />
+      <LineId Id="282" Count="1" />
       <LineId Id="174" Count="0" />
       <LineId Id="253" Count="1" />
       <LineId Id="256" Count="0" />

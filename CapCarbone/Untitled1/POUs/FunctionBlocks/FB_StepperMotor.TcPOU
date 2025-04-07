@@ -91,47 +91,29 @@ VAR
 	Currentpass : STRING := 'Fast';
     FastPass : ST_HomingOptions := (SearchVelocity := 50.0, SyncVelocity := 15.0);
     SlowPass : ST_HomingOptions := (SearchVelocity := 5.0, SyncVelocity := 2.0);
-	ReferencePos : LREAL := 10.0;                
+	ReferencePos : LREAL := 10.0;    
+	bPreviousSwitchState: BOOL := FALSE;
+	bFirstEdgeDetected: BOOL := FALSE;            
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Home := 0;
+        <ST><![CDATA[//Home := 0;
 Init(Axis := pAxis);
 GetPosition(fCurrentPosition => Currentpos);
 
 CASE eState OF
-	LAS_Stepper_Idle:
-		IF Currentpass = 'Fast' THEN
-			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := FastPass);
-			eState := LAS_Stepper_FastPass;
-			
-		ELSIF Currentpass = 'Slow' THEN
-			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := SlowPass);
-		END_IF
-		
-	LAS_Stepper_FastPass:
-        fbHome(Axis := pAxis^, bCalibrationCam := NOT bSimulatedLimitSwitch);
-    	
-        IF fbHome.Error THEN
-            eState := LAS_Stepper_Error;
-            StepperMotorHomeOperationFailed := TRUE;
-            g_AlarmErrorIDs[F_GetAlarmIndex(2002)] := fbHome.ErrorID;
-            nErrID := fbHome.ErrorID;
-            Home := -1;
-        ELSIF fbHome.CommandAborted THEN
-            eState := LAS_Stepper_Error;
-            StepperMotorHomeOperationInterrupted := TRUE;
-            Home := -1;
-            fbHome(Axis := pAxis^, Execute := FALSE);
-        ELSIF fbHome.Done THEN
-            fbHome(Axis := pAxis^, Execute := FALSE);
-			
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := bSimulatedLimitSwitch, Options := SlowPass);
+    LAS_Stepper_Idle:
+        IF Currentpass = 'Fast' THEN
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := FastPass);
+            eState := LAS_Stepper_FastPass;
+            
+        ELSIF Currentpass = 'Slow' THEN
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := SlowPass);
             eState := LAS_Stepper_SlowPass;
         END_IF
-	
-	LAS_Stepper_SlowPass:
-        fbHome(Axis := pAxis^, bCalibrationCam := bSimulatedLimitSwitch);
-   	
+        
+    LAS_Stepper_FastPass:
+        fbHome(Axis := pAxis^, bCalibrationCam := NOT bSimulatedLimitSwitch);
+        
         IF fbHome.Error THEN
             eState := LAS_Stepper_Error;
             StepperMotorHomeOperationFailed := TRUE;
@@ -145,17 +127,46 @@ CASE eState OF
             fbHome(Axis := pAxis^, Execute := FALSE);
         ELSIF fbHome.Done THEN
             fbHome(Axis := pAxis^, Execute := FALSE);
-			Currentpass := 'Fast';
-			Home := 1; 
+            
+            // Instead of starting slow pass immediately, transition to waiting state
+            eState := LAS_Stepper_WaitingForTrigger;
+        END_IF
+    
+    LAS_Stepper_WaitingForTrigger:
+        // Wait for the limit switch to be false before starting slow pass
+        IF NOT bSimulatedLimitSwitch THEN
+            // Now that the switch is false, start the slow pass
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := SlowPass);
+            eState := LAS_Stepper_SlowPass;
+        END_IF
+    
+    LAS_Stepper_SlowPass:
+        fbHome(Axis := pAxis^, bCalibrationCam := NOT bSimulatedLimitSwitch);
+        
+        IF fbHome.Error THEN
+            eState := LAS_Stepper_Error;
+            StepperMotorHomeOperationFailed := TRUE;
+            g_AlarmErrorIDs[F_GetAlarmIndex(2002)] := fbHome.ErrorID;
+            nErrID := fbHome.ErrorID;
+            Home := -1;
+        ELSIF fbHome.CommandAborted THEN
+            eState := LAS_Stepper_Error;
+            StepperMotorHomeOperationInterrupted := TRUE;
+            Home := -1;
+            fbHome(Axis := pAxis^, Execute := FALSE);
+        ELSIF fbHome.Done THEN
+            fbHome(Axis := pAxis^, Execute := FALSE);
+            Currentpass := 'Fast';
+            Home := 1; 
             eState := LAS_Stepper_Idle;
         END_IF
-	
-	LAS_Stepper_Error:
-		Home := -1;
-		IF CanReset() THEN
-			Reset(bExecute := TRUE);
-		END_IF
-		
+    
+    LAS_Stepper_Error:
+        Home := -1;
+        IF CanReset() THEN
+            Reset(bExecute := TRUE);
+        END_IF
+        
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -362,29 +373,8 @@ END_CASE]]></ST>
       <LineId Id="40" Count="1" />
       <LineId Id="48" Count="0" />
       <LineId Id="51" Count="0" />
-      <LineId Id="1" Count="1" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="3" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="79" Count="0" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="77" Count="1" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="56" Count="1" />
-      <LineId Id="59" Count="11" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="103" Count="2" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="81" Count="0" />
-      <LineId Id="83" Count="2" />
-      <LineId Id="87" Count="13" />
-      <LineId Id="102" Count="0" />
-      <LineId Id="101" Count="0" />
-      <LineId Id="82" Count="0" />
-      <LineId Id="33" Count="1" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="35" Count="4" />
+      <LineId Id="125" Count="66" />
+      <LineId Id="39" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Init">
       <LineId Id="1" Count="32" />
