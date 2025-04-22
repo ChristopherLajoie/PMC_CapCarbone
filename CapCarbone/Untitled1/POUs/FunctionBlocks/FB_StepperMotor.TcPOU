@@ -313,8 +313,7 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD Stop : INT
 VAR_INPUT
     bEnable : BOOL;
-	bStopCommand : BOOL;
-	fDecel : LREAL;
+	fDecel    : LREAL := 500.0;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -326,7 +325,7 @@ CASE eState OF
 		Stop := 1;
 			
 	LAS_Stepper_Moving:
-		fbStop(Axis := pAxis^, Execute := bStopCommand, Deceleration := fDecel);
+		fbStop(Axis := pAxis^, Execute := bEnable, Deceleration := fDecel);
 		
 		IF fbStop.Busy THEN
 			IF fbStop.Error THEN

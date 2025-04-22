@@ -3,173 +3,214 @@
   <POU Name="PRG_CommandHandler" Id="{b534ce1c-328a-4a1f-bd2e-b4f58fd46cee}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_CommandHandler
 VAR
-	IsValid : BOOL;
-	bIsLinearActuator : BOOL;
+	bisValidCmd : BOOL;
+	bCancelCmd : BOOL;
+	bHome : BOOL;
+	bisLinearActuator : BOOL;
+	LinearActuator : POINTER TO FB_LinearActuator;
+	LinearTable : POINTER TO FB_StepperMotor;
+	LinearActuatorCmd : POINTER TO ST_LinearActuatorCommand;
+	LinearTableCmd : POINTER TO ST_StepperMotorCommand;
 	nX : SINT;
 	sY : STRING;
 	sZ : STRING;
-	ready : BOOL := FALSE;
 	i: INT;
-	bIshomeCmd: BOOL;
-	bIsMoveCmd: BOOL;
-	bIsResetCmd: BOOL;
+	bisLinearTableHomeCmd: BOOL;
+	bisLinearTableMoveCmd: BOOL;
+	bisResetCmd: BOOL;
 	CurrentPosition : LREAL;
 	Result: INT := 0;
-	Cmd: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//ADD CANCEL LOGIC (STOP METHOD AND GET eState)
-IsValid := F_ValidateCommand(sInput := RequestedActuator, nX => nX, sY => sY, sZ => sZ);
+bisValidCmd := F_ValidateCommand(sInput := sRequestedActuator, nX => nX, sY => sY, sZ => sZ);
 
-IF NOT IsValid THEN 
+IF NOT bisValidCmd THEN 
 	//Alarm
 	RETURN; 
 END_IF
 
-bIsLinearActuator := 
+LinearActuator := F_GetLinearCommandValue(nX, sY);
+LinearActuatorCmd :=  F_GetLinearCommandMember(nX, sY);
+LinearTable := F_GetStepperCommandValue(nX, sY);
+LinearTableCmd := F_GetStepperCommandMember(nX, sY);
+
+bisLinearActuator := 
 	sY = 'Chariot' OR
 	sY = 'Compressor' OR
 	sY = 'Sensor' OR
 	sY = 'HeatExCoupola' OR
 	sY = 'RegenCoupola';
 
-bIsHomeCmd := sY = 'Home';
-bIsMoveCmd := sY = 'Motor';
-bIsResetCmd := sZ = 'Reset';
+bisLinearTableHomeCmd := sY = 'Home' AND LinearTableCmd^.Homing;
+bisLinearTableMoveCmd := sY = 'Motor';
+bisResetCmd := sZ = 'Reset';
 
-IF bIsHomeCmd THEN
-	ready := F_GetStepperCommandMember(nX, sY)^.Homing;
-END_IF
 IF bIsLinearActuator THEN
-	IF bIsResetCmd THEN
-		F_GetLinearCommandValue(nX, sY)^.Reset(State => Result);
-		RequestedActuator := 'none';
-	ELSE
-		IF F_GetLinearCommandMember(nX, sY)^.Command THEN
-			Result := F_GetLinearCommandValue(nX, sY)^.Extend();
-		ELSE
-			Result := F_GetLinearCommandValue(nX, sY)^.Home();
-		END_IF
-		
-		IF Result = 1  THEN 
-			IF F_GetLinearCommandMember(nX, sY)^.Command THEN
-				F_GetLinearCommandMember(nX, sY)^.Status := 1;
-				RequestedActuator := 'none';
-			ELSE
-				F_GetLinearCommandMember(nX, sY)^.Status := 0;
-				RequestedActuator := 'none';
-			END_IF
-		ELSIF Result = -1 THEN
-			F_GetLinearCommandMember(nX, sY)^.Status := -1;
-			RequestedActuator := 'none';
-		END_IF
-	END_IF
-	
-ELSIF bIsHomeCmd OR bIsMoveCmd THEN
-	F_GetStepperCommandValue(nX, sY)^.GetPosition(fCurrentPosition => CurrentPosition);
-	
-	IF bIsResetCmd THEN
-		Result := F_GetStepperCommandValue(nX, sY)^.Reset(TRUE);
-		
-		IF Result = -1 THEN
-			F_GetStepperCommandMember(nX, sY)^.Position := -1;
-			RequestedActuator := 'none';
-		ELSIF Result = 1 THEN
-			F_GetStepperCommandMember(nX, sY)^.Position := CurrentPosition;
-			RequestedActuator := 'none';
-		END_IF
-	ELSE
-		IF ready THEN
-			Result := F_GetStepperCommandValue(nX, sY)^.Home(TRUE);
-		ELSIF bIsMoveCmd THEN
-			Result := F_GetStepperCommandValue(nX, sy)^.MoveToPosition(fPosition := F_GetStepperCommandMember(nX, sY)^.Command);
-			F_GetStepperCommandMember(nX, sY)^.Position := CurrentPosition;
-		END_IF
-		
-		IF Result = 1 AND bIsHomeCmd THEN 
-			F_GetStepperCommandMember(nX, sY)^.Homed := TRUE;
-			F_GetStepperCommandMember(nX, sY)^.Homing := FALSE;
-			RequestedActuator := 'none';
-		ELSIF Result = 1 AND NOT bIsHomeCmd THEN
-			RequestedActuator := 'none';
-		ELSIF Result = -1 AND bIsHomeCmd THEN
-			F_GetStepperCommandMember(nX, sY)^.Homed := FALSE;
-			RequestedActuator := 'none';
-		ELSIF Result = -1 AND NOT bIsHomeCmd THEN
-			F_GetStepperCommandMember(nX, sY)^.Position := -1;
-			RequestedActuator := 'none';
-		END_IF
-	END_IF
+	ProcessLinearActuator();
+
+ELSIF bisLinearTableHomeCmd THEN
+	ProcessLinearTable(bHome := TRUE);
+
+ELSIF bisLinearTableMoveCmd THEN
+	ProcessLinearTable(bhome := FALSE);
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="ProcessLinearActuator" Id="{fa11d454-59c0-4fad-b564-0953d0ce78c6}">
+      <Declaration><![CDATA[METHOD ProcessLinearActuator
+VAR
+	bisExtendCmd : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bisExtendCmd := LinearActuatorCmd^.Command;
+
+IF sRequestedActuator = 'none' THEN 
+	LinearActuatorCmd^.Status := -1;
+	RETURN;
 END_IF
 
+IF bIsResetCmd THEN
+	LinearActuator^.Reset(State => Result);
+	sRequestedActuator := 'none';
+	RETURN;
+END_IF
 
+IF bisExtendCmd THEN
+	Result := LinearActuator^.Extend();
+ELSE
+	Result := LinearActuator^.Home();
+END_IF
 
-]]></ST>
-    </Implementation>
+CASE Result OF
+	1:
+		sRequestedActuator := 'none';
+		
+		IF bisExtendCmd THEN
+			LinearActuatorCmd^.Status := 1;
+		ELSE
+			LinearActuatorCmd^.Status := 0;
+		END_IF
+	
+	0:
+		//Continue
+		
+	-1:
+		sRequestedActuator := 'none';
+		LinearActuatorCmd^.Status := -1;
+
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ProcessLinearTable" Id="{b89bcaac-8269-4091-97df-2a76137525f9}">
+      <Declaration><![CDATA[METHOD ProcessLinearTable
+VAR_INPUT
+	bHome : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
+
+IF sRequestedActuator = 'none' THEN 
+	Result := LinearTable^.Stop(TRUE);
+	
+	RETURN;
+END_IF
+
+IF bisResetCmd THEN
+	Result := LinearTable^.Reset(TRUE);
+	
+	CASE Result OF
+		1:
+			sRequestedActuator := 'none';
+			LinearTableCmd^.Position := CurrentPosition;
+			RETURN;
+			
+		0:
+			//Continue
+			
+		-1:
+			sRequestedActuator := 'none';
+			LinearTableCmd^.Position := -1;
+			RETURN;
+	END_CASE
+END_IF
+
+IF bHome THEN
+	Result := LinearTable^.Home(TRUE);
+	
+ELSE 
+	Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.Command);
+    LinearTableCmd^.Position := CurrentPosition;
+END_IF
+
+CASE Result OF
+	1:
+		sRequestedActuator := 'none';
+		
+		IF bHome THEN	
+			LinearTableCmd^.Homed := TRUE;
+            LinearTableCmd^.Homing := FALSE;
+		END_IF
+	
+	0:
+		//Continue
+	
+	-1:
+		sRequestedActuator := 'none';
+		
+		IF bHome THEN	
+			LinearTableCmd^.Homed := FALSE;
+            LinearTableCmd^.Homing := FALSE;
+		ELSE
+			LinearTableCmd^.Position := -1;
+		END_IF
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="PRG_CommandHandler">
       <LineId Id="246" Count="0" />
       <LineId Id="2" Count="0" />
       <LineId Id="18" Count="1" />
       <LineId Id="39" Count="0" />
       <LineId Id="37" Count="1" />
-      <LineId Id="164" Count="6" />
+      <LineId Id="164" Count="0" />
+      <LineId Id="295" Count="0" />
+      <LineId Id="297" Count="2" />
+      <LineId Id="304" Count="0" />
+      <LineId Id="165" Count="5" />
       <LineId Id="231" Count="0" />
       <LineId Id="210" Count="0" />
       <LineId Id="241" Count="0" />
       <LineId Id="245" Count="0" />
-      <LineId Id="281" Count="0" />
-      <LineId Id="249" Count="0" />
-      <LineId Id="282" Count="1" />
-      <LineId Id="174" Count="0" />
-      <LineId Id="253" Count="1" />
-      <LineId Id="256" Count="0" />
-      <LineId Id="255" Count="0" />
-      <LineId Id="178" Count="0" />
-      <LineId Id="176" Count="0" />
-      <LineId Id="180" Count="1" />
-      <LineId Id="124" Count="0" />
-      <LineId Id="194" Count="0" />
-      <LineId Id="196" Count="0" />
-      <LineId Id="257" Count="1" />
-      <LineId Id="260" Count="3" />
-      <LineId Id="259" Count="0" />
-      <LineId Id="199" Count="1" />
-      <LineId Id="203" Count="0" />
-      <LineId Id="195" Count="0" />
-      <LineId Id="206" Count="0" />
-      <LineId Id="264" Count="0" />
-      <LineId Id="204" Count="0" />
-      <LineId Id="269" Count="1" />
-      <LineId Id="265" Count="1" />
-      <LineId Id="275" Count="0" />
-      <LineId Id="274" Count="0" />
-      <LineId Id="273" Count="0" />
-      <LineId Id="267" Count="0" />
-      <LineId Id="277" Count="2" />
-      <LineId Id="276" Count="0" />
-      <LineId Id="243" Count="0" />
-      <LineId Id="207" Count="0" />
-      <LineId Id="216" Count="2" />
-      <LineId Id="272" Count="0" />
-      <LineId Id="219" Count="1" />
-      <LineId Id="222" Count="0" />
-      <LineId Id="233" Count="0" />
-      <LineId Id="280" Count="0" />
-      <LineId Id="224" Count="0" />
-      <LineId Id="230" Count="0" />
-      <LineId Id="234" Count="0" />
-      <LineId Id="225" Count="0" />
-      <LineId Id="237" Count="2" />
-      <LineId Id="226" Count="0" />
-      <LineId Id="240" Count="0" />
-      <LineId Id="221" Count="0" />
-      <LineId Id="268" Count="0" />
-      <LineId Id="182" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="13" Count="0" />
+      <LineId Id="286" Count="0" />
+      <LineId Id="285" Count="0" />
+      <LineId Id="287" Count="0" />
+      <LineId Id="291" Count="0" />
+      <LineId Id="288" Count="0" />
+      <LineId Id="292" Count="0" />
+      <LineId Id="301" Count="0" />
+      <LineId Id="300" Count="0" />
+      <LineId Id="302" Count="0" />
+      <LineId Id="293" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_CommandHandler.ProcessLinearActuator">
+      <LineId Id="1" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="2" Count="30" />
+    </LineIds>
+    <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
+      <LineId Id="1" Count="0" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="3" Count="48" />
     </LineIds>
   </POU>
 </TcPlcObject>

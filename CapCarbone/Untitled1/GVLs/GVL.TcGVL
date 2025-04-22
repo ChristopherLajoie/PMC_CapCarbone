@@ -46,7 +46,7 @@ VAR_GLOBAL
 	
 	//OPC_UA Command variables
 	
-	RequestedActuator : STRING;
+	sRequestedActuator : STRING;
 	
 	//Cycle variables
 	HeatExchangeRunning: BOOL := FALSE;
