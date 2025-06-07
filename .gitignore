@@ -361,3 +361,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+_CompileInfo/
+
+*.plcproj
+*.tmc
+*.tsproj
+*.bak
+*.tclrs
+*.~u
+_Boot/
