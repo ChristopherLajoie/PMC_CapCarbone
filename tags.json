@@ -1,0 +1,303 @@
+{
+  "name": "OPC_tags",
+  "tagType": "Folder",
+  "tags": [
+    {
+      "name": "Rail_4",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R4_Stepper_Reset_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R4_Stepper_PowerUp_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R4_Stepper_Motion_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R4_Stepper_Homing_Interrupted",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R4_Stepper_Homing_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R4_Stepper_Motion_Interrupted",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        }
+      ]
+    },
+    {
+      "name": "Rail_1",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Compressor_UnknownState",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Stepper_Homing_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Sensor_MotionTimedOut",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Stepper_Motion_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Compressor_MotionTimedOut",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Stepper_PowerUp_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Stepper_Reset_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Stepper_Homing_Interrupted",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R1_Stepper_Motion_Interrupted",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "opcItemPath": "nsu\u003durn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.LinearActuatorMotionTimedOut",
+          "dataType": "Boolean",
+          "name": "R1_Sensor_UnknownState",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        }
+      ]
+    },
+    {
+      "name": "MachineSecurity",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "E-Stop_1",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "Door_1",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "Door_2",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "E-Stop_2",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        }
+      ]
+    },
+    {
+      "name": "Rail_2",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R2_Stepper_Motion_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R2_Stepper_Reset_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R2_Stepper_PowerUp_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R2_Stepper_Homing_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R2_Stepper_Motion_Interrupted",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R2_Stepper_Homing_Interrupted",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        }
+      ]
+    },
+    {
+      "name": "Rail_3",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_Stepper_PowerUp_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_RegenCoupola_MotionTimedOut",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_Compressor_MotionTimedOut",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_Stepper_Motion_Interrupted",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_Stepper_Homing_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_Stepper_Motion_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_HeatExCoupola_UnknownState",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_Stepper_Reset_Failed",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_Compressor_UnknownState",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_HeatExCoupola_MotionTimedOut",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_Stepper_Homing_Interrupted",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        },
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "R3_RegenCoupola_UnknownState",
+          "tagType": "AtomicTag",
+          "opcServer": "TcOpcUaServer@ChristopherPC"
+        }
+      ]
+    }
+  ]
+}
