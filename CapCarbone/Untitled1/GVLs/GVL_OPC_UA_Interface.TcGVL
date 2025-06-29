@@ -2,18 +2,21 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_OPC_UA_Interface" Id="{23c8f46c-56cc-41ff-81b7-22aab65a4bb4}">
     <Declaration><![CDATA[VAR_GLOBAL
-    g_bIgnitionConnected : BOOL;
-	
-	// Connection monitoring variables - exposed via OPC UA
-    g_bOpcUaConnected            : BOOL := FALSE;   // Connection status indicator
-    g_sConnectionStatus          : STRING := 'Initializing'; // Descriptive status
-    g_udiConnectionStatusCode    : UDINT := 0;      // Numeric status code
-    g_dtLastCommunication        : DT;              // Timestamp of last communication
+    // Simplified OPC UA interface - just the data we need
     
-    // Internal variables - not necessarily exposed via OPC UA
-    g_bEnableConnectionMonitor   : BOOL := TRUE;    // Enable/disable monitoring
-	
-	g_udiOpcUaTestValue  : UDINT := 0;      // OPC UA test value for change detection
+    // Alarm integration for Ignition
+    g_AlarmArrayForOPC : ARRAY[1..20] OF ST_Alarm;  // Copy for OPC UA
+    g_nActiveAlarmsOPC : UINT;                       // Active alarm count
+    g_nUnackedAlarmsOPC : UINT;                      // Unacked alarm count
+    
+    // Alarm acknowledgment from Ignition  
+    g_AlarmAckRequest : UINT := 0;                   // Alarm ID to acknowledge (0 = none)
+    g_AlarmAckTrigger : BOOL := FALSE;               // Trigger acknowledgment
+    
+    // Simple connection status (derived from tag quality)
+    g_bOpcUaConnected : BOOL := FALSE;               // TRUE if tags have good quality
+    g_sConnectionStatus : STRING := 'Checking...';   // Simple status message
+    
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

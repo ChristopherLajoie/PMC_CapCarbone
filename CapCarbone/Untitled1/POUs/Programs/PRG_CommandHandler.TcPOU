@@ -20,43 +20,154 @@ VAR
 	bisResetCmd: BOOL;
 	CurrentPosition : LREAL;
 	Result: INT := 0;
+	
+	sActiveCommand : STRING := 'none';          // Currently executing command
+    bOperationInProgress : BOOL := FALSE;       // Operation state tracking
+    bCancelInProgress : BOOL := FALSE;          // Cancel operation active
+    tmrCancelTimeout : TON;                     // Cancel timeout timer
+    tCancelTimeout : TIME := T#5S;              // Cancel timeout duration
+    nCancelResult : INT := 0;                   // Cancel operation result
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//ADD CANCEL LOGIC (STOP METHOD AND GET eState)
-bisValidCmd := F_ValidateCommand(sInput := sRequestedActuator, nX => nX, sY => sY, sZ => sZ);
-
-IF NOT bisValidCmd THEN 
-	//Alarm
-	RETURN; 
+      <ST><![CDATA[// ============================================================================
+// 1. CANCEL LOGIC - Check cancel request first (highest priority)
+// ============================================================================
+IF CancelMove AND bOperationInProgress AND NOT bCancelInProgress THEN
+    bCancelInProgress := TRUE;
+    tmrCancelTimeout(IN := FALSE); // Reset timer
 END_IF
 
-LinearActuator := F_GetLinearCommandValue(nX, sY);
-LinearActuatorCmd :=  F_GetLinearCommandMember(nX, sY);
-LinearTable := F_GetStepperCommandValue(nX, sY);
-LinearTableCmd := F_GetStepperCommandMember(nX, sY);
+// Process active cancel operation
+IF bCancelInProgress THEN
+    ProcessCancelOperation();
+    RETURN; // Skip normal processing during cancel
+END_IF
 
-bisLinearActuator := 
-	sY = 'Chariot' OR
-	sY = 'Compressor' OR
-	sY = 'Sensor' OR
-	sY = 'HeatExCoupola' OR
-	sY = 'RegenCoupola';
+// ============================================================================
+// 2. NEW COMMAND LOGIC - Start new command if idle
+// ============================================================================
+IF NOT bOperationInProgress AND sRequestedActuator <> 'none' THEN
+    // Validate and lock onto the new command
+    bisValidCmd := F_ValidateCommand(sInput := sRequestedActuator, nX => nX, sY => sY, sZ => sZ);
+    
+    IF NOT bisValidCmd THEN 
+        sRequestedActuator := 'none'; // Clear invalid command
+        RETURN; 
+    END_IF
+    
+    // Lock onto this command
+    sActiveCommand := sRequestedActuator;
+    bOperationInProgress := TRUE;
+    
+    // Parse the locked command (ignore any future changes to sRequestedActuator)
+    LinearActuator := F_GetLinearCommandValue(nX, sY);
+    LinearActuatorCmd := F_GetLinearCommandMember(nX, sY);
+    LinearTable := F_GetStepperCommandValue(nX, sY);
+    LinearTableCmd := F_GetStepperCommandMember(nX, sY);
+    
+    bisLinearActuator := 
+        sY = 'Chariot' OR
+        sY = 'Compressor' OR
+        sY = 'Sensor' OR
+        sY = 'HeatExCoupola' OR
+        sY = 'RegenCoupola';
+    
+    bisLinearTableHomeCmd := sY = 'Home' AND LinearTableCmd^.Homing;
+    bisLinearTableMoveCmd := sY = 'Motor';
+    bisResetCmd := sZ = 'Reset';
+END_IF
 
-bisLinearTableHomeCmd := sY = 'Home' AND LinearTableCmd^.Homing;
-bisLinearTableMoveCmd := sY = 'Motor';
-bisResetCmd := sZ = 'Reset';
-
-IF bIsLinearActuator THEN
-	ProcessLinearActuator();
-
-ELSIF bisLinearTableHomeCmd THEN
-	ProcessLinearTable(bHome := TRUE);
-
-ELSIF bisLinearTableMoveCmd THEN
-	ProcessLinearTable(bhome := FALSE);
+// ============================================================================
+// 3. ACTIVE COMMAND PROCESSING - Continue with locked command
+// ============================================================================
+IF bOperationInProgress AND NOT bCancelInProgress THEN
+	
+    IF bisLinearActuator THEN
+        ProcessLinearActuator();
+    ELSIF bisLinearTableHomeCmd THEN
+        ProcessLinearTable(bHome := TRUE);
+    ELSIF bisLinearTableMoveCmd THEN
+        ProcessLinearTable(bHome := FALSE);
+    END_IF
 END_IF]]></ST>
     </Implementation>
+    <Method Name="ProcessCancelOperation" Id="{ac957e77-13a6-4f5c-8c3f-8b6fbdb8d91f}">
+      <Declaration><![CDATA[
+METHOD ProcessCancelOperation
+VAR
+    bCancelComplete : BOOL := FALSE;
+    bTimeoutExpired : BOOL := FALSE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Start cancel timeout timer
+tmrCancelTimeout(IN := TRUE, PT := tCancelTimeout);
+bTimeoutExpired := tmrCancelTimeout.Q;
+
+IF bisLinearActuator THEN
+    // Linear Actuator Cancel - Should complete immediately
+    nCancelResult := LinearActuator^.Cancel();
+    
+    IF nCancelResult = 1 THEN
+        // Cancel successful
+        LinearActuatorCmd^.Status := -2; // Cancelled status
+        bCancelComplete := TRUE;
+    ELSIF nCancelResult = -1 THEN
+        // Cancel failed - but still complete the cancel operation
+        LinearActuatorCmd^.Status := -1; // Error status
+        bCancelComplete := TRUE;
+    END_IF
+    
+ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
+    // Stepper Motor Cancel - Use Stop method
+    nCancelResult := LinearTable^.Stop(TRUE);
+    
+    IF nCancelResult = 1 THEN
+		
+        // Stop successful
+        LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
+        LinearTableCmd^.Position := CurrentPosition;
+        
+        IF bisLinearTableHomeCmd THEN
+            LinearTableCmd^.Homed := FALSE;
+            LinearTableCmd^.Homing := FALSE;
+        END_IF
+        
+        bCancelComplete := TRUE;
+        
+    ELSIF nCancelResult = -1 OR bTimeoutExpired THEN
+        // Stop failed or timed out
+        IF bisLinearTableHomeCmd THEN
+            LinearTableCmd^.Homed := FALSE;
+            LinearTableCmd^.Homing := FALSE;
+        ELSE
+            LinearTableCmd^.Position := -1; // Error position
+        END_IF
+        
+        bCancelComplete := TRUE;
+        
+        // Log timeout alarm if needed
+        IF bTimeoutExpired THEN
+            // Could trigger a specific cancel timeout alarm here
+        END_IF
+    END_IF
+END_IF
+
+// Complete cancel operation
+IF bCancelComplete THEN
+    // Clean up state
+    sActiveCommand := 'none';
+    sRequestedActuator := 'none';  // Clear like normal completion
+    bOperationInProgress := FALSE;
+    bCancelInProgress := FALSE;
+    CancelMove := FALSE;           // Reset cancel trigger
+    tmrCancelTimeout(IN := FALSE); // Stop timeout timer
+    nCancelResult := 0;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="ProcessLinearActuator" Id="{fa11d454-59c0-4fad-b564-0953d0ce78c6}">
       <Declaration><![CDATA[METHOD ProcessLinearActuator
 VAR
@@ -66,40 +177,43 @@ END_VAR
       <Implementation>
         <ST><![CDATA[bisExtendCmd := LinearActuatorCmd^.Command;
 
-IF sRequestedActuator = 'none' THEN 
-	LinearActuatorCmd^.Status := -1;
-	RETURN;
+// Check for reset command
+IF bisResetCmd THEN
+    LinearActuator^.Reset(State => Result);
+    sActiveCommand := 'none';
+    sRequestedActuator := 'none';
+    bOperationInProgress := FALSE;
+    RETURN;
 END_IF
 
-IF bIsResetCmd THEN
-	LinearActuator^.Reset(State => Result);
-	sRequestedActuator := 'none';
-	RETURN;
-END_IF
-
+// Execute movement command
 IF bisExtendCmd THEN
-	Result := LinearActuator^.Extend();
+    Result := LinearActuator^.Extend();
 ELSE
-	Result := LinearActuator^.Home();
+    Result := LinearActuator^.Home();
 END_IF
 
+// Handle results
 CASE Result OF
-	1:
-		sRequestedActuator := 'none';
-		
-		IF bisExtendCmd THEN
-			LinearActuatorCmd^.Status := 1;
-		ELSE
-			LinearActuatorCmd^.Status := 0;
-		END_IF
-	
-	0:
-		//Continue
-		
-	-1:
-		sRequestedActuator := 'none';
-		LinearActuatorCmd^.Status := -1;
-
+    1: // Success
+        sActiveCommand := 'none';
+        sRequestedActuator := 'none';
+        bOperationInProgress := FALSE;
+        
+        IF bisExtendCmd THEN
+            LinearActuatorCmd^.Status := 1;
+        ELSE
+            LinearActuatorCmd^.Status := 0;
+        END_IF
+    
+    0: // Continue
+        // Operation in progress, continue
+        
+    -1: // Error
+        sActiveCommand := 'none';
+        sRequestedActuator := 'none';
+        bOperationInProgress := FALSE;
+        LinearActuatorCmd^.Status := -1;
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -112,105 +226,83 @@ END_VAR
       <Implementation>
         <ST><![CDATA[LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
 
-IF sRequestedActuator = 'none' THEN 
-	Result := LinearTable^.Stop(TRUE);
-	
-	RETURN;
-END_IF
-
+// Check for reset command
 IF bisResetCmd THEN
-	Result := LinearTable^.Reset(TRUE);
-	
-	CASE Result OF
-		1:
-			sRequestedActuator := 'none';
-			LinearTableCmd^.Position := CurrentPosition;
-			RETURN;
-			
-		0:
-			//Continue
-			
-		-1:
-			sRequestedActuator := 'none';
-			LinearTableCmd^.Position := -1;
-			RETURN;
-	END_CASE
+    Result := LinearTable^.Reset(TRUE);
+    
+    CASE Result OF
+        1: // Reset success
+            sActiveCommand := 'none';
+            sRequestedActuator := 'none';
+            bOperationInProgress := FALSE;
+            LinearTableCmd^.Position := CurrentPosition;
+            RETURN;
+            
+        0: // Reset in progress
+            // Continue
+            
+        -1: // Reset failed
+            sActiveCommand := 'none';
+            sRequestedActuator := 'none';
+            bOperationInProgress := FALSE;
+            LinearTableCmd^.Position := -1;
+            RETURN;
+    END_CASE
 END_IF
 
+// Execute movement command
 IF bHome THEN
-	Result := LinearTable^.Home(TRUE);
-	
+    Result := LinearTable^.Home(TRUE);
 ELSE 
-	Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.Command);
+    Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.Command);
     LinearTableCmd^.Position := CurrentPosition;
 END_IF
 
+// Handle results
 CASE Result OF
-	1:
-		sRequestedActuator := 'none';
-		
-		IF bHome THEN	
-			LinearTableCmd^.Homed := TRUE;
+    1: // Success
+        sActiveCommand := 'none';
+        sRequestedActuator := 'none';
+        bOperationInProgress := FALSE;
+        
+        IF bHome THEN    
+            LinearTableCmd^.Homed := TRUE;
             LinearTableCmd^.Homing := FALSE;
-		END_IF
-	
-	0:
-		//Continue
-	
-	-1:
-		sRequestedActuator := 'none';
-		
-		IF bHome THEN	
-			LinearTableCmd^.Homed := FALSE;
+        END_IF
+    
+    0: // Continue
+        // Operation in progress, continue
+    
+    -1: // Error
+        sActiveCommand := 'none';
+        sRequestedActuator := 'none';
+        bOperationInProgress := FALSE;
+        
+        IF bHome THEN    
+            LinearTableCmd^.Homed := FALSE;
             LinearTableCmd^.Homing := FALSE;
-		ELSE
-			LinearTableCmd^.Position := -1;
-		END_IF
+        ELSE
+            LinearTableCmd^.Position := -1;
+        END_IF
 END_CASE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="PRG_CommandHandler">
-      <LineId Id="246" Count="0" />
-      <LineId Id="2" Count="0" />
-      <LineId Id="18" Count="1" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="37" Count="1" />
-      <LineId Id="164" Count="0" />
-      <LineId Id="295" Count="0" />
-      <LineId Id="297" Count="2" />
-      <LineId Id="304" Count="0" />
-      <LineId Id="165" Count="5" />
-      <LineId Id="231" Count="0" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="241" Count="0" />
-      <LineId Id="245" Count="0" />
-      <LineId Id="286" Count="0" />
-      <LineId Id="285" Count="0" />
-      <LineId Id="287" Count="0" />
-      <LineId Id="291" Count="0" />
-      <LineId Id="288" Count="0" />
-      <LineId Id="292" Count="0" />
-      <LineId Id="301" Count="0" />
-      <LineId Id="300" Count="0" />
-      <LineId Id="302" Count="0" />
+      <LineId Id="354" Count="51" />
+      <LineId Id="416" Count="0" />
+      <LineId Id="406" Count="6" />
       <LineId Id="293" Count="0" />
     </LineIds>
+    <LineIds Name="PRG_CommandHandler.ProcessCancelOperation">
+      <LineId Id="1" Count="64" />
+    </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearActuator">
-      <LineId Id="1" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="36" Count="1" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="2" Count="30" />
+      <LineId Id="38" Count="38" />
+      <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
-      <LineId Id="1" Count="0" />
-      <LineId Id="52" Count="1" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="54" Count="1" />
-      <LineId Id="2" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="3" Count="48" />
+      <LineId Id="58" Count="59" />
+      <LineId Id="51" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

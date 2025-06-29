@@ -4,12 +4,12 @@
     <Declaration><![CDATA[PROGRAM PRG_AlarmHandler
 VAR
     fbAlarmManager : FB_AlarmManager;
-	fbConnectionMonitor : FB_OpcUaConnectionMonitor;
     bEnableMonitor      : BOOL := TRUE;
     bResetMonitor       : BOOL := FALSE;
     bResetTrigger       : R_TRIG;
     dtCurrentTime       : DT;
     ulSystemTimeMS      : ULINT; // System time in milliseconds (64-bit)
+	i : UINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Get current PLC time (simpler approach using system task time)
@@ -31,24 +31,35 @@ fbAlarmManager.SetAlarmCondition(9999, EStopEnabled);
 
 fbAlarmManager.Execute();
 
-// Execute connection monitoring
-fbConnectionMonitor(
-	bEnable := bEnableMonitor, 
-	dtCurrentTime := dtCurrentTime
-);
-fbConnectionMonitor.Execute();
+FOR i := 1 TO MAX_ALARMS DO
+    g_AlarmArrayForOPC[i] := AlarmArray[i];
+END_FOR
+
+g_nActiveAlarmsOPC := g_nActiveAlarms;
+g_nUnackedAlarmsOPC := g_nUnackedAlarms;
+
+// Process acknowledgments from Ignition
+IF g_AlarmAckTrigger AND g_AlarmAckRequest > 0 THEN
+    fbAlarmManager.AcknowledgeAlarm(g_AlarmAckRequest);
+    g_AlarmAckRequest := 0;
+    g_AlarmAckTrigger := FALSE;
+END_IF
 
 // Handle reset trigger
 bResetTrigger(CLK := bResetMonitor);
 IF bResetTrigger.Q THEN
-	fbConnectionMonitor.Reset();
 	bResetMonitor := FALSE;
 END_IF;
 
 ]]></ST>
     </Implementation>
     <LineIds Name="PRG_AlarmHandler">
-      <LineId Id="1" Count="33" />
+      <LineId Id="1" Count="17" />
+      <LineId Id="36" Count="7" />
+      <LineId Id="122" Count="5" />
+      <LineId Id="135" Count="3" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="32" Count="2" />
     </LineIds>
   </POU>
 </TcPlcObject>

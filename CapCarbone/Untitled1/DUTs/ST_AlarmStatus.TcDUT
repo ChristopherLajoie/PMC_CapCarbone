@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ST_AlarmStatus" Id="{9fc21891-414b-4f31-bfd1-c9c274e5d56c}">
+    <Declaration><![CDATA[TYPE ST_AlarmStatus :
+STRUCT
+    // Query result
+    bFound          : BOOL;            // TRUE if alarm ID was found
+    
+    // Alarm state information
+    bActive         : BOOL;            // Alarm is currently active
+    bAcked          : BOOL;            // Alarm has been acknowledged
+    
+    // Alarm details
+    nSeverity       : UINT;            // Severity level (1=Info, 2=Warning, 3=Error, 4=Critical)
+    sMessage        : STRING(255);     // Current alarm message (dynamic message if available)
+    nTimestamp      : ULINT;           // Timestamp when alarm was triggered
+    nAckTimestamp   : ULINT;           // Timestamp when acknowledged (0 if not acked)
+    
+    // Additional useful info
+    nID             : UDINT;           // Alarm ID for reference
+    sType           : STRING(255);     // Alarm type/category
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

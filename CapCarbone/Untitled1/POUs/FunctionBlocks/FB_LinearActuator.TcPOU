@@ -19,6 +19,72 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="Cancel" Id="{fb95bc7a-c6f6-46a4-ad31-adc69398fdb2}">
+      <Declaration><![CDATA[METHOD Cancel : INT
+VAR
+    bValidPosition : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// ============================================================================
+// 1. IMMEDIATE SAFETY - Turn off all outputs first
+// ============================================================================
+pActuator^.bFwdDO^ := FALSE;
+pActuator^.bBckwDO^ := FALSE;
+pActuator^.bInProgress := FALSE;
+
+// Stop the timeout timer
+pActuator^.tmrTimeout(IN := FALSE);
+
+// ============================================================================
+// 2. DETERMINE CURRENT POSITION - Read proximity sensors
+// ============================================================================
+// Update edge detection triggers
+r_trig_proxIn(CLK := pActuator^.bProxIn^);
+f_trig_proxIn(CLK := pActuator^.bProxIn^);
+r_trig_proxOut(CLK := pActuator^.bProxOut^);
+f_trig_proxOut(CLK := pActuator^.bProxOut^);
+
+// Check for retracted position
+IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN
+    IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^)) THEN
+        // Retracted position - only In sensor active
+        eState := LAS_LinearActuator_Retracted;
+        bValidPosition := TRUE;
+    END_IF
+END_IF
+
+// Check for extended position  
+IF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
+    IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^)) THEN
+        // Extended position - only Out sensor active
+        eState := LAS_LinearActuator_Extended;
+        bValidPosition := TRUE;
+    END_IF
+END_IF
+
+// ============================================================================
+// 3. HANDLE INVALID/UNKNOWN POSITIONS
+// ============================================================================
+IF NOT bValidPosition THEN
+    // Both sensors active, neither active, or sensor error
+    eState := LAS_LinearActuator_Unknown;
+    LinearActuatorPositionUnknown := TRUE;
+    Cancel := -1; // Return error code
+    RETURN;
+END_IF
+
+// ============================================================================
+// 4. SUCCESSFUL CANCEL - Clear any error conditions
+// ============================================================================
+bError := FALSE;
+
+// Clear any linear actuator alarms since we successfully stopped
+// (The alarm manager will handle clearing the actual alarm conditions)
+
+Cancel := 1; // Return success]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="CanReset" Id="{e451c082-6390-4897-b2c0-f7f1baa90012}">
       <Declaration><![CDATA[METHOD CanReset : BOOL
 VAR
@@ -248,6 +314,9 @@ END_IF
     </Method>
     <LineIds Name="FB_LinearActuator">
       <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LinearActuator.Cancel">
+      <LineId Id="1" Count="56" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.CanReset">
       <LineId Id="1" Count="17" />

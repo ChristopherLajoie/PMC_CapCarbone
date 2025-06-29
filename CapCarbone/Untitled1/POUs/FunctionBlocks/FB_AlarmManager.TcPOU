@@ -13,11 +13,30 @@ VAR
     aAlarmPrevState : ARRAY[1..20] OF BOOL; // Previous state of each alarm condition
     nConfiguredAlarms : UINT := 0;     // Number of configured alarms (determined at runtime)
 END_VAR
-
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="AcknowledgeAlarm" Id="{0da5b733-db9b-4125-8fd6-592c1ce351ca}">
+      <Declaration><![CDATA[METHOD AcknowledgeAlarm : BOOL
+VAR_INPUT
+    nAlarmID    : UINT;
+END_VAR
+VAR
+    i           : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO MAX_ALARMS DO
+    IF AlarmArray[i].nID = nAlarmID THEN
+        IF AlarmArray[i].bActive AND NOT AlarmArray[i].bAcked THEN
+            AlarmArray[i].bAckRequest := TRUE;
+            AcknowledgeAlarm := TRUE;
+        END_IF
+        EXIT;
+    END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Execute" Id="{30fb5a1e-6341-4ac7-8fe9-b6a5414b5ea9}">
       <Declaration><![CDATA[METHOD Execute : BOOL
 VAR_INPUT
@@ -60,6 +79,47 @@ END_FOR
 FB_init := TRUE;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetAlarmStatus" Id="{2e9724aa-7182-4fe4-a833-1913e33eeaf3}">
+      <Declaration><![CDATA[METHOD GetAlarmStatus : ST_AlarmStatus
+VAR_INPUT
+    nAlarmID    : UINT;
+END_VAR
+VAR_OUTPUT
+    stStatus    : ST_AlarmStatus;  // You'll need to create this DUT
+END_VAR
+VAR
+    i           : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Initialize output
+stStatus.bFound := FALSE;
+stStatus.bActive := FALSE;
+stStatus.bAcked := FALSE;
+stStatus.nSeverity := 0;
+stStatus.sMessage := '';
+stStatus.nTimestamp := 0;
+stStatus.nAckTimestamp := 0;
+stStatus.nID := 0;
+stStatus.sType := '';
+
+FOR i := 1 TO MAX_ALARMS DO
+    IF AlarmArray[i].nID = nAlarmID THEN
+        stStatus.bFound := TRUE;
+        stStatus.bActive := AlarmArray[i].bActive;
+        stStatus.bAcked := AlarmArray[i].bAcked;
+        stStatus.nSeverity := AlarmArray[i].nSeverity;
+        stStatus.sMessage := AlarmArray[i].sDynamicMessage;
+        stStatus.nTimestamp := AlarmArray[i].nTimestamp;
+        stStatus.nAckTimestamp := AlarmArray[i].nAckTimestamp;
+        stStatus.nID := AlarmArray[i].nID;
+        stStatus.sType := AlarmArray[i].sType;
+        EXIT;
+    END_IF
+END_FOR
+
+GetAlarmStatus := stStatus;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="ProcessAlarms" Id="{d8b82382-c457-4aa2-bba1-c00c8e2e71c3}">
       <Declaration><![CDATA[METHOD ProcessAlarms : BOOL
 VAR
@@ -79,33 +139,27 @@ ulCurrentTime := F_GetSystemTime();
 
 // Process each configured alarm
 FOR i := 1 TO nConfiguredAlarms DO
-	// Skip processing if the alarm is not configured (ID = 0)
-	IF AlarmArray[i].nID = 0 THEN
-		CONTINUE;
-	END_IF
+    // Skip processing if the alarm is not configured (ID = 0)
+    IF AlarmArray[i].nID = 0 THEN
+        CONTINUE;
+    END_IF
 
-	// Calculate edge conditions
-	bRisingEdge := NOT aAlarmPrevState[i] AND AlarmArray[i].bCondition;
-	bFallingEdge := aAlarmPrevState[i] AND NOT AlarmArray[i].bCondition;
-	
-	// Process alarm activation
-	IF bRisingEdge THEN
-		AlarmArray[i].bActive := TRUE;
-		AlarmArray[i].bAcked := FALSE;
-		AlarmArray[i].nTimestamp := ulCurrentTime;
-		
-		// If this alarm might have an associated error ID (message ends with ':')
+    // Calculate edge conditions
+    bRisingEdge := NOT aAlarmPrevState[i] AND AlarmArray[i].bCondition;
+    bFallingEdge := aAlarmPrevState[i] AND NOT AlarmArray[i].bCondition;
+    
+    // Process alarm activation
+    IF bRisingEdge THEN
+        AlarmArray[i].bActive := TRUE;
+        AlarmArray[i].bAcked := FALSE;
+        AlarmArray[i].nTimestamp := ulCurrentTime;
+        
+        // Create dynamic message with error ID if available
         IF RIGHT(AlarmArray[i].sMessage, 1) = ':' THEN
-            // Get the error ID from the global array
-            AlarmArray[i].nID := g_AlarmErrorIDs[i];
-            
-            // Only append if there's actually an error ID
-            IF AlarmArray[i].nID <> 0 THEN
-				sTemp := CONCAT(AlarmArray[i].sMessage, ' ');
-                AlarmArray[i].sDynamicMessage := CONCAT(
-                    sTemp,
-                    UDINT_TO_STRING(AlarmArray[i].nID)
-                );
+            // Get the error ID from the global array (DON'T overwrite the alarm ID!)
+            IF g_AlarmErrorIDs[i] <> 0 THEN
+                sTemp := CONCAT(AlarmArray[i].sMessage, ' ');
+                AlarmArray[i].sDynamicMessage := CONCAT(sTemp, UDINT_TO_STRING(g_AlarmErrorIDs[i]));
             ELSE
                 AlarmArray[i].sDynamicMessage := AlarmArray[i].sMessage;
             END_IF
@@ -113,30 +167,32 @@ FOR i := 1 TO nConfiguredAlarms DO
             // For standard messages, just use the original
             AlarmArray[i].sDynamicMessage := AlarmArray[i].sMessage;
         END_IF
-	END_IF
-	
-	// Process alarm deactivation
-	IF bFallingEdge THEN
-		AlarmArray[i].bActive := FALSE;
-	END_IF
-	
-	// Process acknowledgment requests from OPC UA
-	IF AlarmArray[i].bAckRequest AND AlarmArray[i].bActive AND NOT AlarmArray[i].bAcked THEN
-		AlarmArray[i].bAcked := TRUE;
-		AlarmArray[i].nAckTimestamp := ulCurrentTime;
-		AlarmArray[i].bAckRequest := FALSE; // Reset the request flag
-	END_IF
-	
-	// Store current state for next cycle
-	aAlarmPrevState[i] := AlarmArray[i].bCondition;
-	
-	// Update counters
-	IF AlarmArray[i].bActive THEN
-		nActiveCount := nActiveCount + 1;
-		IF NOT AlarmArray[i].bAcked THEN
-			nUnackedCount := nUnackedCount + 1;
-		END_IF
-	END_IF
+    END_IF
+    
+    // Process alarm deactivation
+    IF bFallingEdge THEN
+        AlarmArray[i].bActive := FALSE;
+        // Clear the error ID when alarm clears
+        g_AlarmErrorIDs[i] := 0;
+    END_IF
+    
+    // Process acknowledgment requests from OPC UA
+    IF AlarmArray[i].bAckRequest AND AlarmArray[i].bActive AND NOT AlarmArray[i].bAcked THEN
+        AlarmArray[i].bAcked := TRUE;
+        AlarmArray[i].nAckTimestamp := ulCurrentTime;
+        AlarmArray[i].bAckRequest := FALSE; // Reset the request flag
+    END_IF
+    
+    // Store current state for next cycle
+    aAlarmPrevState[i] := AlarmArray[i].bCondition;
+    
+    // Update counters
+    IF AlarmArray[i].bActive THEN
+        nActiveCount := nActiveCount + 1;
+        IF NOT AlarmArray[i].bAcked THEN
+            nUnackedCount := nUnackedCount + 1;
+        END_IF
+    END_IF
 END_FOR
 
 // Update global counters
@@ -146,30 +202,75 @@ g_nUnackedAlarms := nUnackedCount;
 ProcessAlarms := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="SetAlarmCondition" Id="{e55506a6-2167-4718-b401-bb3689092b8f}">
+    <Method Name="SetAlarmCondition" Id="{c29bdefa-3d9a-4d19-9816-5fa1950870da}">
       <Declaration><![CDATA[METHOD SetAlarmCondition : BOOL
 VAR_INPUT
-    nIndex      : UINT;        // Index in the alarm array (1-20)
-    bCondition  : BOOL;        // Current state of the alarm condition
+    nAlarmID    : UINT;        // Alarm ID (1001, 1002, etc.)
+    bCondition  : BOOL;        // Current alarm condition
 END_VAR
 VAR
-    i           : UINT;        // Loop counter
-    bFound      : BOOL := FALSE; // Flag to indicate if alarm was found
+    i           : UINT;
+    bFound      : BOOL := FALSE;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ FOR i := 1 TO MAX_ALARMS DO
-        IF AlarmArray[i].nID = nIndex THEN
-            AlarmArray[i].bCondition := bCondition;
-            bFound := TRUE;
-            EXIT;  
-        END_IF
-    END_FOR
-    
-    SetAlarmCondition := bFound;]]></ST>
+        <ST><![CDATA[FOR i := 1 TO MAX_ALARMS DO
+    IF AlarmArray[i].nID = nAlarmID THEN
+        AlarmArray[i].bCondition := bCondition;
+        bFound := TRUE;
+        EXIT;  
+    END_IF
+END_FOR
+
+SetAlarmCondition := bFound;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetAlarmConditionByID" Id="{e55506a6-2167-4718-b401-bb3689092b8f}">
+      <Declaration><![CDATA[METHOD SetAlarmConditionByID : BOOL
+VAR_INPUT
+    nAlarmID    : UINT;        // Changed name to be clear
+    bCondition  : BOOL;
+END_VAR
+VAR
+    i           : UINT;
+    bFound      : BOOL := FALSE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO MAX_ALARMS DO
+    IF AlarmArray[i].nID = nAlarmID THEN
+        AlarmArray[i].bCondition := bCondition;
+        bFound := TRUE;
+        EXIT;  
+    END_IF
+END_FOR
+
+SetAlarmConditionByID := bFound;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetAlarmErrorID" Id="{54cf936c-bcca-4fe6-9e54-27d80dc2e0f5}">
+      <Declaration><![CDATA[METHOD SetAlarmErrorID : BOOL
+VAR_INPUT
+    nAlarmID    : UINT;        // Alarm ID 
+    nErrorID    : UDINT;       // Error ID from MC functions
+END_VAR
+VAR
+    nIndex      : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nIndex := F_GetAlarmIndex(nAlarmID);
+
+IF nIndex > 0 AND nIndex <= MAX_ALARMS THEN
+    g_AlarmErrorIDs[nIndex] := nErrorID;
+    SetAlarmErrorID := TRUE;
+ELSE
+    SetAlarmErrorID := FALSE;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_AlarmManager">
       <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AlarmManager.AcknowledgeAlarm">
+      <LineId Id="1" Count="8" />
     </LineIds>
     <LineIds Name="FB_AlarmManager.Execute">
       <LineId Id="1" Count="4" />
@@ -177,11 +278,23 @@ END_VAR]]></Declaration>
     <LineIds Name="FB_AlarmManager.FB_init">
       <LineId Id="1" Count="15" />
     </LineIds>
+    <LineIds Name="FB_AlarmManager.GetAlarmStatus">
+      <LineId Id="16" Count="25" />
+      <LineId Id="15" Count="0" />
+    </LineIds>
     <LineIds Name="FB_AlarmManager.ProcessAlarms">
-      <LineId Id="1" Count="73" />
+      <LineId Id="80" Count="68" />
+      <LineId Id="74" Count="0" />
     </LineIds>
     <LineIds Name="FB_AlarmManager.SetAlarmCondition">
       <LineId Id="1" Count="8" />
+    </LineIds>
+    <LineIds Name="FB_AlarmManager.SetAlarmConditionByID">
+      <LineId Id="10" Count="7" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AlarmManager.SetAlarmErrorID">
+      <LineId Id="1" Count="7" />
     </LineIds>
   </POU>
 </TcPlcObject>
