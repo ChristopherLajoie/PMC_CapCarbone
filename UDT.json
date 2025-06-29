@@ -1,0 +1,68 @@
+{
+  "tags": [
+    {
+      "typeColor": -10719104,
+      "name": "ActuatorStruct",
+      "typeId": "",
+      "parameters": {
+        "Name": {
+          "dataType": "String",
+          "value": ""
+        }
+      },
+      "tagType": "UdtType",
+      "tags": [
+        {
+          "valueSource": "memory",
+          "dataType": "Boolean",
+          "name": "Command",
+          "value": false,
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "memory",
+          "dataType": "Int1",
+          "name": "Status",
+          "tooltip": "",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "MotorStruct",
+      "typeId": "",
+      "parameters": {
+        "Name": {
+          "dataType": "String"
+        }
+      },
+      "tagType": "UdtType",
+      "tags": [
+        {
+          "valueSource": "memory",
+          "name": "Command",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "memory",
+          "dataType": "Boolean",
+          "name": "Homed",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "memory",
+          "dataType": "Boolean",
+          "name": "Homing",
+          "value": false,
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "memory",
+          "dataType": "Int4",
+          "name": "Position",
+          "tagType": "AtomicTag"
+        }
+      ]
+    }
+  ]
+}
