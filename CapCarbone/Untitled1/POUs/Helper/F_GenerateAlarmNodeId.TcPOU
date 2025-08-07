@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="F_GenerateAlarmNodeId" Id="{434e7f09-6f87-4808-b650-b68b476940ab}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_GenerateAlarmNodeId : STRING(255)
+VAR_INPUT
+    sAlarmName      : STRING(100);  // e.g., "R1_Compressor_MotionTimedOut"
+    sComponent      : STRING(50);   // "Alarms" or sAlarmName
+    sProperty       : STRING(50);   // e.g., "IsActive", "HasActive", "Priority"
+    sProvider       : STRING(50) := '[default]'; // Ignition provider name
+END_VAR
+VAR
+    sResult : STRING(255);
+    sTemp   : STRING(255);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Build: ns=2;s=[provider]AlarmName.Component.Property
+sResult := 'ns=2;s=';
+sResult := CONCAT(sResult, sProvider);
+sResult := CONCAT(sResult, sAlarmName);
+sResult := CONCAT(sResult, '.');
+sResult := CONCAT(sResult, sComponent);
+sResult := CONCAT(sResult, '.');
+sResult := CONCAT(sResult, sProperty);
+
+F_GenerateAlarmNodeId := sResult;]]></ST>
+    </Implementation>
+    <LineIds Name="F_GenerateAlarmNodeId">
+      <LineId Id="1" Count="9" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

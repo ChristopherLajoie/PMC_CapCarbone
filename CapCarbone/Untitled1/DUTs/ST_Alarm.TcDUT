@@ -10,15 +10,8 @@ STRUCT
     
     // Metadata for alarm management
     nID             : UDINT;            // Unique ID for identification
-    sMessage        : STRING(255);     // Descriptive message
-	sDynamicMessage : STRING(255);
-	sType			: STRING(255);	   // Category of alarm
     nSeverity       : UINT;            // Severity level (1=Info, 2=Warning, 3=Error, 4=Critical)
-    nTimestamp      : ULINT;           // Timestamp when triggered
-    nAckTimestamp   : ULINT;           // Timestamp when acknowledged
     
-    // Acknowledgment handling
-    bAckRequest     : BOOL;            // OPC UA writeable variable - set to TRUE to acknowledge
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

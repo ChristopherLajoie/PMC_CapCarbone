@@ -31,8 +31,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// ============================================================================
-// 1. CANCEL LOGIC - Check cancel request first (highest priority)
+      <ST><![CDATA[// 1. CANCEL LOGIC - Check cancel request first (highest priority)
 // ============================================================================
 IF CancelMove AND bOperationInProgress AND NOT bCancelInProgress THEN
     bCancelInProgress := TRUE;
@@ -288,10 +287,9 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="PRG_CommandHandler">
-      <LineId Id="354" Count="51" />
-      <LineId Id="416" Count="0" />
-      <LineId Id="406" Count="6" />
+      <LineId Id="581" Count="57" />
       <LineId Id="293" Count="0" />
+      <LineId Id="640" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessCancelOperation">
       <LineId Id="1" Count="64" />

@@ -69,7 +69,7 @@ END_IF
 IF NOT bValidPosition THEN
     // Both sensors active, neither active, or sensor error
     eState := LAS_LinearActuator_Unknown;
-    LinearActuatorPositionUnknown := TRUE;
+    //LinearActuatorPositionUnknown := TRUE;
     Cancel := -1; // Return error code
     RETURN;
 END_IF
@@ -95,16 +95,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF eState = LAS_LinearActuator_Error THEN
 	
-    // Only allow reset if the alarm has been acknowledged
-	FOR i := 1 TO MAX_ALARMS DO
-		IF AlarmArray[i].sType = 'LinearActuator' THEN
-			IF NOT AlarmArray[i].bAcked THEN
-				Unacknowledged := TRUE;
-			END_IF
-		END_IF
-		
+    // Only allow reset if the alarm has been acknowledged		
     CanReset := NOT Unacknowledged;
-	END_FOR
+
 	
 ELSE
     CanReset := TRUE;
@@ -149,7 +142,7 @@ CASE eState OF
         IF pActuator^.tmrTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             bError := TRUE;
-            LinearActuatorMotionTimedOut := TRUE;
+            //LinearActuatorMotionTimedOut := TRUE;
 			pActuator^.bInProgress := FALSE; 
 			pActuator^.bFwdDO^ := FALSE;
         END_IF
@@ -165,7 +158,7 @@ CASE eState OF
 		
 	LAS_LinearActuator_Unknown:
 		Extend := -1;
-		LinearActuatorPositionUnknown := TRUE;
+		//LinearActuatorPositionUnknown := TRUE;
 
     ELSE
         // default catch-all
@@ -197,18 +190,18 @@ IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT
         eState := LAS_LinearActuator_Retracted;
     ELSE
         eState := LAS_LinearActuator_Unknown;
-        LinearActuatorPositionUnknown := TRUE;
+        //LinearActuatorPositionUnknown := TRUE;
     END_IF
 ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
     IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^)) THEN
         eState := LAS_LinearActuator_Extended;
     ELSE
         eState := LAS_LinearActuator_Unknown;
-        LinearActuatorPositionUnknown := TRUE;
+        //LinearActuatorPositionUnknown := TRUE;
     END_IF
 ELSE
     eState := LAS_LinearActuator_Unknown;
-    LinearActuatorPositionUnknown := TRUE;
+    //LinearActuatorPositionUnknown := TRUE;
 END_IF
 
 FB_Init := TRUE;]]></ST>
@@ -250,7 +243,7 @@ CASE eState OF
         IF pActuator^.tmrTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             bError := TRUE;
-            LinearActuatorMotionTimedOut := TRUE;
+            //LinearActuatorMotionTimedOut := TRUE;
 			pActuator^.bInProgress := FALSE; 
 			pActuator^.bBckwDO^ := FALSE;
         END_IF
@@ -266,7 +259,7 @@ CASE eState OF
 	
 	LAS_LinearActuator_Unknown:
 		Home := -1;
-		LinearActuatorPositionUnknown := TRUE;
+		//LinearActuatorPositionUnknown := TRUE;
     
     ELSE
         // default catch-all
@@ -289,21 +282,13 @@ END_VAR]]></Declaration>
         eState := LAS_LinearActuator_Retracted;
 		bError := FALSE;
 		State := 0;
-		FOR i := 1 TO MAX_ALARMS DO
-			IF AlarmArray[i].sType = 'LinearActuator' THEN
-				AlarmArray[i].bCondition := FALSE;
-			END_IF
-		END_FOR
+		//Reset
 		
     ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
         eState := LAS_LinearActuator_Extended;
 		bError := FALSE;
 		State := 1;
-		FOR i := 1 TO MAX_ALARMS DO
-			IF AlarmArray[i].sType = 'LinearActuator' THEN
-				AlarmArray[i].bCondition := FALSE;
-			END_IF
-		END_FOR
+		//Reset
     ELSE
         eState := LAS_LinearActuator_Unknown;
 		State := -1;
@@ -319,7 +304,8 @@ END_IF
       <LineId Id="1" Count="56" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.CanReset">
-      <LineId Id="1" Count="17" />
+      <LineId Id="1" Count="2" />
+      <LineId Id="11" Count="7" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Extend">
       <LineId Id="1" Count="0" />
@@ -371,7 +357,9 @@ END_IF
       <LineId Id="36" Count="4" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Reset">
-      <LineId Id="1" Count="22" />
+      <LineId Id="1" Count="5" />
+      <LineId Id="11" Count="5" />
+      <LineId Id="21" Count="2" />
       <LineId Id="28" Count="0" />
       <LineId Id="24" Count="1" />
       <LineId Id="27" Count="0" />

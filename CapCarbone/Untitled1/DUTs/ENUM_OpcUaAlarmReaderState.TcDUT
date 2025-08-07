@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ENUM_OpcUaAlarmReaderState" Id="{801e58df-8c38-4e04-98cc-dfe3a914f1bd}">
+    <Declaration><![CDATA[// State enumeration
+TYPE ENUM_OpcUaAlarmReaderState :
+(
+    IDLE := 0,
+    CONNECTING := 1,
+    CONNECTED := 2,
+    GETTING_HANDLES := 3,
+    READING_DATA := 4,
+    PROCESSING_DATA := 5,
+    ERROR_STATE := 6,
+    DISCONNECTING := 7
+);
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

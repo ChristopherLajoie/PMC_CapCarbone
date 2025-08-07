@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <GVL Name="Device_1_Client_1" Id="{2c1430a3-e59f-46f1-af76-2f6b00348763}">
+    <Declaration><![CDATA[{attribute 'linkalways'}
+VAR_GLOBAL
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Inputs^Status^Connected'}
+	bConnected AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Inputs^Status^ReadBusy'}
+	bReadBusy AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Inputs^Status^KeepAlives'}
+	bKeepAlives AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Inputs^Status^StmState'}
+	nStmState AT %I* : BYTE;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Outputs^Control^ResetStm'}
+	bResetStm AT %Q* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Outputs^Control^Execute'}
+	bExecute AT %Q* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Outputs^Control^Write Enable'}
+	bWrite_Enable AT %Q* : BOOL;
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsAcked^Inputs^Value'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsAcked AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsAcked^Inputs^TimeStamp'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_tsIsAcked AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsAcked^Inputs^ErrorCode'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_errIsAcked AT %I* : UDINT;
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsActive^Inputs^Value'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsActive AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsActive^Inputs^TimeStamp'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_tsIsActive AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsActive^Inputs^ErrorCode'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_errIsActive AT %I* : UDINT;
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsClear^Inputs^Value'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsClear AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsClear^Inputs^TimeStamp'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_tsIsClear AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsClear^Inputs^ErrorCode'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_errIsClear AT %I* : UDINT;
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsShelved^Inputs^Value'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsShelved AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsShelved^Inputs^TimeStamp'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_tsIsShelved AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Tag Providers.default.Security.Status.R1_Compressor_MotionTimedOut.IsShelved^Inputs^ErrorCode'}
+	Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_errIsShelved AT %I* : UDINT;
+
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

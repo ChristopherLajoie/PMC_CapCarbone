@@ -3,63 +3,76 @@
   <POU Name="PRG_AlarmHandler" Id="{9a3c7606-d751-41ab-a4a7-f5ba1886e12f}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_AlarmHandler
 VAR
-    fbAlarmManager : FB_AlarmManager;
-    bEnableMonitor      : BOOL := TRUE;
-    bResetMonitor       : BOOL := FALSE;
-    bResetTrigger       : R_TRIG;
-    dtCurrentTime       : DT;
-    ulSystemTimeMS      : ULINT; // System time in milliseconds (64-bit)
-	i : UINT;
+    // OPC UA Alarm Reader
+    fbAlarmReader : FB_OpcUaAlarmReader;
+    
+    // Configuration (MODIFY THESE)
+    sServerIP : STRING(255) := '192.168.0.183';
+    nServerPort : UINT := 62541;
+    sOpcUsername : STRING(100) := 'christopherlajoie';     // OPC UA Username
+    sOpcPassword : STRING(100) := 'password';     // OPC UA Password
+    bStartTest : BOOL := FALSE;                // Set to TRUE to start connection
+    bStopTest : BOOL := FALSE;                 // Set to TRUE to stop connection
+    
+    // Status monitoring (READ ONLY)
+    bConnected : BOOL;              // TRUE when connected to server
+    bError : BOOL;                  // TRUE if error occurred
+    sErrorText : STRING(255);       // Error description
+    nReadCount : UINT;              // Number of successful reads
+    
+    // Example alarm data (READ ONLY)
+    bAlarm1_Active : BOOL;          // Is first alarm active?
+    bAlarm1_Acked : BOOL;           // Is first alarm acknowledged?
+    sAlarm1_Name : STRING(100);     // Name of first alarm
+    
+    // Internal variables
+    bFirstRun : BOOL := TRUE;
+    sServerUrl : STRING(255);
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Get current PLC time (simpler approach using system task time)
-ulSystemTimeMS := F_GetSystemTime();
-// Convert to DATE_AND_TIME using a base date
-// Use UDINT to limit to reasonable time range for DT conversion
-dtCurrentTime := DT#1970-01-01-00:00 + UDINT_TO_TIME(ULINT_TO_UDINT(ulSystemTimeMS MOD 16#FFFFFFFF));
-
-// Set alarm conditions based on actual system states using alarm IDs
-fbAlarmManager.SetAlarmCondition(1001, LinearActuatorPositionUnknown);
-fbAlarmManager.SetAlarmCondition(1002, LinearActuatorMotionTimedOut);
-fbAlarmManager.SetAlarmCondition(2001, StepperMotorPowerUpFailed);
-fbAlarmManager.SetAlarmCondition(2002, StepperMotorHomeOperationFailed);
-fbAlarmManager.SetAlarmCondition(2003, StepperMotorHomeOperationInterrupted);
-fbAlarmManager.SetAlarmCondition(2004, StepperMotorMotionOperationFailed);
-fbAlarmManager.SetAlarmCondition(2005, StepperMotorMotionOperationInterrupted);
-fbAlarmManager.SetAlarmCondition(2006, StepperMotorResetOperationFailed);
-fbAlarmManager.SetAlarmCondition(9999, EStopEnabled);
-
-fbAlarmManager.Execute();
-
-FOR i := 1 TO MAX_ALARMS DO
-    g_AlarmArrayForOPC[i] := AlarmArray[i];
-END_FOR
-
-g_nActiveAlarmsOPC := g_nActiveAlarms;
-g_nUnackedAlarmsOPC := g_nUnackedAlarms;
-
-// Process acknowledgments from Ignition
-IF g_AlarmAckTrigger AND g_AlarmAckRequest > 0 THEN
-    fbAlarmManager.AcknowledgeAlarm(g_AlarmAckRequest);
-    g_AlarmAckRequest := 0;
-    g_AlarmAckTrigger := FALSE;
+      <ST><![CDATA[// One-time setup
+IF bFirstRun THEN
+    // Build server URL
+    sServerUrl := CONCAT('opc.tcp://', CONCAT(CONCAT(sServerIP, CONCAT(':', UINT_TO_STRING(nServerPort))),'/discovery'));
+    
+    // Configure the OPC UA reader
+    fbAlarmReader.sServerUrl := sServerUrl;
+    fbAlarmReader.sUsername := sOpcUsername;   // Pass username to function block
+    fbAlarmReader.sPassword := sOpcPassword;   // Pass password to function block
+    bFirstRun := FALSE;
 END_IF
 
-// Handle reset trigger
-bResetTrigger(CLK := bResetMonitor);
-IF bResetTrigger.Q THEN
-	bResetMonitor := FALSE;
-END_IF;
+// Handle start/stop commands
+IF bStartTest THEN
+    fbAlarmReader.bConnect := TRUE;
+    bStartTest := FALSE;  // Reset trigger
+END_IF
 
-]]></ST>
+IF bStopTest THEN
+    fbAlarmReader.bDisconnect := TRUE;
+    bStopTest := FALSE;  // Reset trigger
+END_IF
+
+// Execute the alarm reader
+fbAlarmReader.Execute();
+
+// Update status variables
+bConnected := fbAlarmReader.bConnected;
+bError := fbAlarmReader.bError;
+sErrorText := fbAlarmReader.sErrorText;
+nReadCount := fbAlarmReader.nReadCounter;
+
+// Extract example alarm data (if available)
+IF bConnected AND nReadCount > 0 THEN
+    // Get data from first alarm in the array
+    bAlarm1_Active := fbAlarmReader.aIndividualAlarmStatus[1].bIsActive;
+    bAlarm1_Acked := fbAlarmReader.aIndividualAlarmStatus[1].bIsAcked;
+    sAlarm1_Name := fbAlarmReader.aIndividualAlarmStatus[1].sAlarmName;
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="PRG_AlarmHandler">
-      <LineId Id="1" Count="17" />
-      <LineId Id="36" Count="7" />
-      <LineId Id="122" Count="5" />
-      <LineId Id="135" Count="3" />
-      <LineId Id="140" Count="0" />
-      <LineId Id="32" Count="2" />
+      <LineId Id="68" Count="37" />
+      <LineId Id="34" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

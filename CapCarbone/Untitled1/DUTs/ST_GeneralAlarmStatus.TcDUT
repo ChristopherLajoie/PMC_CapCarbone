@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ST_GeneralAlarmStatus" Id="{d8fd1d65-036e-4061-9563-78c13ff70134}">
+    <Declaration><![CDATA[TYPE ST_GeneralAlarmStatus :
+STRUCT
+    sForAlarmTag        : STRING(100); // Which alarm tag this status belongs to
+    nActiveAckCount     : UINT;        // Count for THIS alarm tag only
+    nActiveUnackCount   : UINT;        // Count for THIS alarm tag only  
+    nClearUnackCount    : UINT;        // Count for THIS alarm tag only
+    bHasActive          : BOOL;        // TRUE if THIS alarm tag is active
+    bHasUnacknowledged  : BOOL;        // TRUE if THIS alarm tag is unacknowledged
+    sHighestAckedName   : STRING(100); // Highest acked alarm for THIS tag
+    nHighestAckedPriority: UINT;       // Priority for THIS tag
+    sHighestActiveName  : STRING(100); // Highest active alarm for THIS tag  
+    nHighestActivePriority: UINT;      // Priority for THIS tag
+    sHighestUnackedName : STRING(100); // Highest unacked alarm for THIS tag
+    nHighestUnackedPriority: UINT;     // Priority for THIS tag
+    dtLastActiveTime    : DT;          // Last active time for THIS tag
+    nShelvedCount       : UINT;        // Shelved count for THIS tag
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

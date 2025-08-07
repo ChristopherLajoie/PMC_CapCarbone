@@ -2,33 +2,169 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_Alarms" Id="{637d89bc-47d1-47bf-b0f7-7f6be8b20113}">
     <Declaration><![CDATA[VAR_GLOBAL
-	g_nActiveAlarms : UINT;
-	g_nUnackedAlarms: UINT;
-	g_AlarmErrorIDs : ARRAY[1..20] OF UDINT;
-	MAX_ALARMS      : UINT := 20;
 	
-	AlarmArray : ARRAY[1..20] OF ST_Alarm := [
-	(nID := 1001, sMessage := 'Linear Actuator Position Unknown', 	  sType := 'LinearActuator', nSeverity := 3),
-	(nID := 1002, sMessage := 'Linear Actuator Motion Timed Out', 	  sType := 'LinearActuator', nSeverity := 2),
-	(nID := 2001, sMessage := 'Stepper Motor Power-Up Failed with ID :', 	  	  sType := 'StepperMotor',   nSeverity := 3),
-	(nID := 2002, sMessage := 'Stepper Motor Homing Failed with ID :',  sType := 'StepperMotor',   nSeverity := 3),
-	(nID := 2003, sMessage := 'Stepper Motor Homing Interrupted', sType := 'StepperMotor', nSeverity := 3),
-	(nID := 2004, sMessage := 'Stepper Movement Failed with ID :', 		  sType := 'StepperMotor',   nSeverity := 3),
-	(nID := 2005, sMessage := 'Stepper Movement Interrupted', sType := 'StepperMotor', nSeverity := 3),
-    (nID := 2006, sMessage := 'Stepper Reset Operation Failed with Id :', 	  sType := 'StepperMotor',   nSeverity := 3),
-	(nID := 9999, sMessage := 'EStop Enabled', 						  sType := 'Emergency',      nSeverity := 4)
-	];
+	//ALERTS
+	R1_Sensor_UnknownState : ST_Alarm := (
+		nID := 1001,
+		nSeverity := 1);
 	
-	LinearActuatorPositionUnknown : BOOL := FALSE;
-	LinearActuatorMotionTimedOut : BOOL := FALSE;
-	StepperMotorPowerUpFailed : BOOL := FALSE;
-	StepperMotorHomeOperationFailed : BOOL := FALSE;
-	StepperMotorHomeOperationInterrupted : BOOL := FALSE;
-	StepperMotorMotionOperationFailed : BOOL := FALSE;
-	StepperMotorMotionOperationInterrupted : BOOl := FALSE;
-	StepperMotorResetOperationFailed : BOOL := FALSE;
-	EStopEnabled : BOOL := FALSE;
+	R1_Sensor_MotionTimedOut : ST_Alarm := (
+		nID := 1002,
+		nSeverity := 1);
 	
+	R1_Compressor_UnknownState : ST_Alarm := (
+		nID := 1003,
+		nSeverity := 1);
+	
+	R1_Compressor_MotionTimedOut : ST_Alarm := (
+		nID := 1004,
+		nSeverity := 1);
+	
+	R1_Stepper_Motion_Failed : ST_Alarm := (
+		nID := 1005,
+		nSeverity := 1);
+	
+	R1_Stepper_Homing_Failed : ST_Alarm := (
+		nID := 1006,
+		nSeverity := 1);
+	
+	R1_Stepper_Homing_Interrupted : ST_Alarm := (
+		nID := 1007,
+		nSeverity := 1);
+	
+	R1_Stepper_Motion_Interrupted : ST_Alarm := (
+		nID := 1008,
+		nSeverity := 1);
+	
+	R1_Stepper_PowerUp_Failed : ST_Alarm := (
+		nID := 1009,
+		nSeverity := 1);
+	
+	R1_Stepper_Reset_Failed : ST_Alarm := (
+		nID := 1010,
+		nSeverity := 1);
+		
+	R2_Stepper_PowerUp_Failed : ST_Alarm := (
+		nID := 2001,
+		nSeverity := 1);
+	
+	R2_Stepper_Homing_Failed : ST_Alarm := (
+		nID := 2002,
+		nSeverity := 1);
+	
+	R2_Stepper_Homing_Interrupted : ST_Alarm := (
+		nID := 2003,
+		nSeverity := 1);
+	
+	R2_Stepper_Motion_Failed : ST_Alarm := (
+		nID := 2004,
+		nSeverity := 1);
+	
+	R2_Stepper_Motion_Interrupted : ST_Alarm := (
+		nID := 2005,
+		nSeverity := 1);
+	
+	R2_Stepper_Reset_Failed : ST_Alarm := (
+		nID := 2006,
+		nSeverity := 1);
+	
+	R3_Compressor_UnknownState : ST_Alarm := (
+		nID := 3001,
+		nSeverity := 1);
+	
+	R3_Compressor_MotionTimedOut : ST_Alarm := (
+		nID := 3002,
+		nSeverity := 1);
+	
+	R3_HeatExCoupola_UnknownState : ST_Alarm := (
+		nID := 3003,
+		nSeverity := 1);
+	
+	R3_HeatExCoupola_MotionTimedOut : ST_Alarm := (
+		nID := 3004,
+		nSeverity := 1);
+	
+	R3_RegenCoupola_UnknownState : ST_Alarm := (
+		nID := 3005,
+		nSeverity := 1);
+	
+	R3_RegenCoupola_MotionTimedOut : ST_Alarm := (
+		nID := 3006,
+		nSeverity := 1);
+	
+	R3_Stepper_PowerUp_Failed : ST_Alarm := (
+		nID := 3007,
+		nSeverity := 1);
+	
+	R3_Stepper_Homing_Failed : ST_Alarm := (
+		nID := 3008,
+		nSeverity := 1);
+	
+	R3_Stepper_Homing_Interrupted : ST_Alarm := (
+		nID := 3009,
+		nSeverity := 1);
+	
+	R3_Stepper_Motion_Failed : ST_Alarm := (
+		nID := 3010,
+		nSeverity := 1);
+	
+	R3_Stepper_Motion_Interrupted : ST_Alarm := (
+		nID := 3011,
+		nSeverity := 1);
+	
+	R3_Stepper_Reset_Failed : ST_Alarm := (
+		nID := 3012,
+		nSeverity := 1);
+		
+	R4_Stepper_PowerUp_Failed : ST_Alarm := (
+		nID := 4001,
+		nSeverity := 1);
+	
+	R4_Stepper_Homing_Failed : ST_Alarm := (
+		nID := 4002,
+		nSeverity := 1);
+	
+	R4_Stepper_Homing_Interrupted : ST_Alarm := (
+		nID := 4003,
+		nSeverity := 1);
+	
+	R4_Stepper_Motion_Failed : ST_Alarm := (
+		nID := 4004,
+		nSeverity := 1);
+	
+	R4_Stepper_Motion_Interrupted : ST_Alarm := (
+		nID := 4005,
+		nSeverity := 1);
+	
+	R4_Stepper_Reset_Failed : ST_Alarm := (
+		nID := 4006,
+		nSeverity := 1);
+	
+	//MACHINE SECURITY
+	Door_1 : ST_Alarm := (
+		nID := 9001,
+		nSeverity := 2);
+	
+	Door_2 : ST_Alarm := (
+		nID := 9002,
+		nSeverity := 2);
+	
+	Door_3 : ST_Alarm := (
+		nID := 9003,
+		nSeverity := 2);
+	
+	E_Stop_1 : ST_Alarm := (
+		nID := 9004,
+		nSeverity := 2);
+	
+	E_Stop_2 : ST_Alarm := (
+		nID := 9005,
+		nSeverity := 2);
+	
+	E_Stop_3 : ST_Alarm := (
+		nID := 9006,
+		nSeverity := 2);
+
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
