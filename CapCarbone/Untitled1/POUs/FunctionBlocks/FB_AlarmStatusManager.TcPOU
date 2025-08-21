@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="FB_AlarmStatusManager" Id="{05451d1b-b510-43ab-83d4-ae190ad58e7b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AlarmStatusManager
+VAR_INPUT
+    bMaintenanceMode : BOOL;  // Enable maintenance override
+END_VAR
+
+VAR_OUTPUT
+    stSystemStatus : ST_SystemAlarmStatus;  // Complete system status
+END_VAR
+
+VAR
+    i : INT;
+    bFirstRun : BOOL := TRUE;
+    
+    // Simple alarm mapping - just alarm pointer and zone number
+    aZoneAlarmMap : ARRAY[1..50] OF ST_AlarmZoneMap;
+    aGlobalAlarmMap : ARRAY[1..10] OF ST_AlarmZoneMap;
+    nZoneAlarmCount : INT := 0;
+    nGlobalAlarmCount : INT := 0;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// MAIN IMPLEMENTATION
+// ============================================================================
+// INITIALIZE ALARM MAPPING (First run only)
+// ============================================================================
+IF bFirstRun THEN
+    InitializeAlarmMapping();
+    bFirstRun := FALSE;
+END_IF
+
+// ============================================================================
+// RESET ALL ZONES TO OK
+// ============================================================================
+FOR i := 1 TO 4 DO
+    stSystemStatus.aZoneStatus[i].bOkToRun := TRUE;
+    stSystemStatus.aZoneStatus[i].nHighestSeverity := 0;
+END_FOR
+
+stSystemStatus.bGlobalOkToRun := TRUE;
+stSystemStatus.bAllZonesOk := TRUE;
+stSystemStatus.bMaintenanceMode := bMaintenanceMode;
+
+// ============================================================================
+// PROCESS ALL ZONE ALARMS WITH LOOP
+// ============================================================================
+FOR i := 1 TO nZoneAlarmCount DO
+    ProcessZoneAlarm(aZoneAlarmMap[i]);
+END_FOR
+
+// ============================================================================
+// PROCESS ALL GLOBAL ALARMS WITH LOOP  
+// ============================================================================
+FOR i := 1 TO nGlobalAlarmCount DO
+    ProcessGlobalAlarm(aGlobalAlarmMap[i]);
+END_FOR
+
+// ============================================================================
+// CALCULATE FINAL SYSTEM STATUS
+// ============================================================================
+stSystemStatus.bAllZonesOk := 
+    stSystemStatus.aZoneStatus[1].bOkToRun AND 
+    stSystemStatus.aZoneStatus[2].bOkToRun AND 
+    stSystemStatus.aZoneStatus[3].bOkToRun AND 
+    stSystemStatus.aZoneStatus[4].bOkToRun;]]></ST>
+    </Implementation>
+    <Method Name="AddGlobalAlarmMap" Id="{56d5821f-0579-476b-ba8f-df5f4e0e136c}">
+      <Declaration><![CDATA[METHOD AddGlobalAlarmMap : BOOL
+VAR_INPUT
+    pAlarm : POINTER TO ST_Alarm;      // Pointer to your existing ST_Alarm
+    pOpcActive : POINTER TO BOOL;      // Pointer to OPC UA IsActive
+    pOpcShelved : POINTER TO BOOL;     // Pointer to OPC UA IsShelved
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nGlobalAlarmCount >= 10 THEN
+    AddGlobalAlarmMap := FALSE;
+    RETURN;
+END_IF
+
+nGlobalAlarmCount := nGlobalAlarmCount + 1;
+aGlobalAlarmMap[nGlobalAlarmCount].pAlarm := pAlarm;
+aGlobalAlarmMap[nGlobalAlarmCount].pOpcActive := pOpcActive;
+aGlobalAlarmMap[nGlobalAlarmCount].pOpcShelved := pOpcShelved;
+aGlobalAlarmMap[nGlobalAlarmCount].nZone := 0;  // Global
+
+AddGlobalAlarmMap := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AddZoneAlarmMap" Id="{579d4c7d-f24b-4527-b246-e584412bf718}">
+      <Declaration><![CDATA[METHOD AddZoneAlarmMap : BOOL
+VAR_INPUT
+    pAlarm : POINTER TO ST_Alarm;      // Pointer to your existing ST_Alarm
+    pOpcActive : POINTER TO BOOL;      // Pointer to OPC UA IsActive
+    pOpcShelved : POINTER TO BOOL;     // Pointer to OPC UA IsShelved  
+    nZone : SINT;                      // Zone number
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF nZoneAlarmCount >= 50 THEN
+    AddZoneAlarmMap := FALSE;
+    RETURN;
+END_IF
+
+nZoneAlarmCount := nZoneAlarmCount + 1;
+aZoneAlarmMap[nZoneAlarmCount].pAlarm := pAlarm;
+aZoneAlarmMap[nZoneAlarmCount].pOpcActive := pOpcActive;
+aZoneAlarmMap[nZoneAlarmCount].pOpcShelved := pOpcShelved;
+aZoneAlarmMap[nZoneAlarmCount].nZone := nZone;
+
+AddZoneAlarmMap := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="InitializeAlarmMapping" Id="{8fadc453-1a7a-4053-a3f2-cb87200f0a42}">
+      <Declaration><![CDATA[METHOD InitializeAlarmMapping : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nZoneAlarmCount := 0;
+nGlobalAlarmCount := 0;
+
+// ========================================================================
+// ZONE ALARMS - Map your existing ST_Alarm to zones
+// ========================================================================
+
+// R1 Alarms
+(*AddZoneAlarmMap(ADR(GVL_Alarms.R1_Sensor_UnknownState), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_UnknownState_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_UnknownState_IsShelved), 1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Sensor_MotionTimedOut), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_MotionTimedOut_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_MotionTimedOut_IsShelved), 1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Compressor_UnknownState), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_UnknownState_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_UnknownState_IsShelved), 1);*)
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Compressor_MotionTimedOut), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsShelved), 1);
+
+(*AddZoneAlarmMap(ADR(GVL_Alarms.R1_Stepper_Motion_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Motion_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Motion_Failed_IsShelved), 1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Stepper_Homing_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Homing_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Homing_Failed_IsShelved), 1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Stepper_Homing_Interrupted), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Homing_Interrupted_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Homing_Interrupted_IsShelved), 1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Stepper_Motion_Interrupted), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Motion_Interrupted_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Motion_Interrupted_IsShelved), 1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Stepper_PowerUp_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_PowerUp_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_PowerUp_Failed_IsShelved), 1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Stepper_Reset_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Reset_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Reset_Failed_IsShelved), 1);
+
+// R2 Alarms
+AddZoneAlarmMap(ADR(GVL_Alarms.R2_Stepper_PowerUp_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_PowerUp_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_PowerUp_Failed_IsShelved), 2);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R2_Stepper_Homing_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Homing_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Homing_Failed_IsShelved), 2);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R2_Stepper_Homing_Interrupted), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Homing_Interrupted_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Homing_Interrupted_IsShelved), 2);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R2_Stepper_Motion_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Motion_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Motion_Failed_IsShelved), 2);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R2_Stepper_Motion_Interrupted), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Motion_Interrupted_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Motion_Interrupted_IsShelved), 2);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R2_Stepper_Reset_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Reset_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R2_Stepper_Reset_Failed_IsShelved), 2);
+
+// R3 Alarms
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_Compressor_UnknownState), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Compressor_UnknownState_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Compressor_UnknownState_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_Compressor_MotionTimedOut), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Compressor_MotionTimedOut_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Compressor_MotionTimedOut_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_HeatExCoupola_UnknownState), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_HeatExCoupola_UnknownState_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_HeatExCoupola_UnknownState_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_HeatExCoupola_MotionTimedOut), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_HeatExCoupola_MotionTimedOut_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_HeatExCoupola_MotionTimedOut_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_RegenCoupola_UnknownState), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_RegenCoupola_UnknownState_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_RegenCoupola_UnknownState_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_RegenCoupola_MotionTimedOut), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_RegenCoupola_MotionTimedOut_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_RegenCoupola_MotionTimedOut_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_Stepper_PowerUp_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_PowerUp_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_PowerUp_Failed_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_Stepper_Homing_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Homing_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Homing_Failed_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_Stepper_Homing_Interrupted), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Homing_Interrupted_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Homing_Interrupted_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_Stepper_Motion_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Motion_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Motion_Failed_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_Stepper_Motion_Interrupted), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Motion_Interrupted_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Motion_Interrupted_IsShelved), 3);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R3_Stepper_Reset_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Reset_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R3_Stepper_Reset_Failed_IsShelved), 3);
+
+// R4 Alarms
+AddZoneAlarmMap(ADR(GVL_Alarms.R4_Stepper_PowerUp_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_PowerUp_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_PowerUp_Failed_IsShelved), 4);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R4_Stepper_Homing_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Homing_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Homing_Failed_IsShelved), 4);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R4_Stepper_Homing_Interrupted), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Homing_Interrupted_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Homing_Interrupted_IsShelved), 4);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R4_Stepper_Motion_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Motion_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Motion_Failed_IsShelved), 4);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R4_Stepper_Motion_Interrupted), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Motion_Interrupted_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Motion_Interrupted_IsShelved), 4);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R4_Stepper_Reset_Failed), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Reset_Failed_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R4_Stepper_Reset_Failed_IsShelved), 4);
+
+// ========================================================================
+// GLOBAL SAFETY ALARMS - No zone, always block entire system
+// ========================================================================
+
+AddGlobalAlarmMap(ADR(GVL_Alarms.Door_1), 
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_Door_1_IsActive),
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_Door_1_IsShelved));
+
+AddGlobalAlarmMap(ADR(GVL_Alarms.Door_2), 
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_Door_2_IsActive),
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_Door_2_IsShelved));
+
+AddGlobalAlarmMap(ADR(GVL_Alarms.Door_3), 
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_Door_3_IsActive),
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_Door_3_IsShelved));
+
+AddGlobalAlarmMap(ADR(GVL_Alarms.E_Stop_1), 
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_E_Stop_1_IsActive),
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_E_Stop_1_IsShelved));
+
+AddGlobalAlarmMap(ADR(GVL_Alarms.E_Stop_2), 
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_E_Stop_2_IsActive),
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_E_Stop_2_IsShelved));
+
+AddGlobalAlarmMap(ADR(GVL_Alarms.E_Stop_3), 
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_E_Stop_3_IsActive),
+                  ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_E_Stop_3_IsShelved));*)
+
+InitializeAlarmMapping := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ProcessGlobalAlarm" Id="{df3c8dcc-1639-41f3-a80d-3d9bfae36834}">
+      <Declaration><![CDATA[METHOD ProcessGlobalAlarm : BOOL
+VAR_INPUT
+    stAlarmMap : ST_AlarmZoneMap;
+END_VAR
+VAR
+    pAlarm : POINTER TO ST_Alarm;
+    bOpcActive : BOOL;
+    bOpcShelved : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Check pointers
+IF stAlarmMap.pAlarm = 0 OR stAlarmMap.pOpcActive = 0 OR stAlarmMap.pOpcShelved = 0 THEN
+    ProcessGlobalAlarm := FALSE;
+    RETURN;
+END_IF
+
+// Get alarm data
+pAlarm := stAlarmMap.pAlarm;
+bOpcActive := stAlarmMap.pOpcActive^;    // From Ignition OPC UA
+bOpcShelved := stAlarmMap.pOpcShelved^;  // From Ignition OPC UA
+
+// Update the alarm's bActive status from OPC UA
+pAlarm^.bActive := bOpcActive;
+
+// Global alarms always block when active (regardless of severity)
+IF bOpcActive AND NOT bOpcShelved THEN
+    stSystemStatus.bGlobalOkToRun := FALSE;
+END_IF
+
+ProcessGlobalAlarm := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ProcessZoneAlarm" Id="{2dfd239b-192b-4991-b143-7c60f3898bff}">
+      <Declaration><![CDATA[METHOD ProcessZoneAlarm : BOOL
+VAR_INPUT
+    stAlarmMap : ST_AlarmZoneMap;
+END_VAR
+VAR
+    pAlarm : POINTER TO ST_Alarm;
+    bOpcActive : BOOL;
+    bOpcShelved : BOOL;
+    nZone : SINT;
+    nSeverity : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Check pointers
+IF stAlarmMap.pAlarm = 0 OR stAlarmMap.pOpcActive = 0 OR stAlarmMap.pOpcShelved = 0 THEN
+    ProcessZoneAlarm := FALSE;
+    RETURN;
+END_IF
+
+// Get alarm data
+pAlarm := stAlarmMap.pAlarm;
+bOpcActive := stAlarmMap.pOpcActive^;    // From Ignition OPC UA
+bOpcShelved := stAlarmMap.pOpcShelved^;  // From Ignition OPC UA
+nZone := stAlarmMap.nZone;
+nSeverity := pAlarm^.nSeverity;          // From your ST_Alarm
+
+// Update the alarm's bActive status from OPC UA
+pAlarm^.bActive := bOpcActive;
+
+// Process if active and not shelved
+IF bOpcActive AND NOT bOpcShelved THEN
+    // Update highest severity for this zone
+    IF nSeverity > stSystemStatus.aZoneStatus[nZone].nHighestSeverity THEN
+        stSystemStatus.aZoneStatus[nZone].nHighestSeverity := nSeverity;
+    END_IF
+    
+    // Apply blocking logic based on severity
+    CASE nSeverity OF
+        1, 2:  // Info, Warning - No blocking
+            // Already updated severity above
+            
+        3:     // Error - Block unless maintenance mode
+            IF NOT bMaintenanceMode THEN
+                stSystemStatus.aZoneStatus[nZone].bOkToRun := FALSE;
+            END_IF
+            
+        4:     // Critical - Always block
+            stSystemStatus.aZoneStatus[nZone].bOkToRun := FALSE;
+    END_CASE
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AlarmStatusManager">
+      <LineId Id="1" Count="42" />
+    </LineIds>
+    <LineIds Name="FB_AlarmStatusManager.AddGlobalAlarmMap">
+      <LineId Id="1" Count="11" />
+    </LineIds>
+    <LineIds Name="FB_AlarmStatusManager.AddZoneAlarmMap">
+      <LineId Id="1" Count="12" />
+    </LineIds>
+    <LineIds Name="FB_AlarmStatusManager.InitializeAlarmMapping">
+      <LineId Id="1" Count="175" />
+    </LineIds>
+    <LineIds Name="FB_AlarmStatusManager.ProcessGlobalAlarm">
+      <LineId Id="1" Count="20" />
+    </LineIds>
+    <LineIds Name="FB_AlarmStatusManager.ProcessZoneAlarm">
+      <LineId Id="1" Count="36" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

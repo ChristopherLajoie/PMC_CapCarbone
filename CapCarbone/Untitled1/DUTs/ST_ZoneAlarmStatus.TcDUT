@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ST_ZoneAlarmStatus" Id="{667a1402-e997-4e2e-8691-3d80689897d4}">
+    <Declaration><![CDATA[TYPE ST_ZoneAlarmStatus :
+STRUCT
+    bOkToRun : BOOL;           // FALSE if any Error/Critical active in this zone
+    nHighestSeverity : UINT;   // 0=None, 1=Info, 2=Warning, 3=Error, 4=Critical
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

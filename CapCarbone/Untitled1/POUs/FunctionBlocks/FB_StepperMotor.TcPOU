@@ -290,7 +290,7 @@ IF eState = LAS_Stepper_Error THEN
 		IF fbPower.Status THEN
 			eState := LAS_Stepper_Idle;
 			
-			//Reset
+			//Reset all error flags?
 			
 		ELSE
 			eState := LAS_Stepper_Uninitialized;

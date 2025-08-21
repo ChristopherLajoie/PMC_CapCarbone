@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ST_AlarmZoneMap" Id="{3434e8f6-ec2d-40c4-9ebe-a32c0e1fef45}">
+    <Declaration><![CDATA[TYPE ST_AlarmZoneMap :
+STRUCT
+    pAlarm : POINTER TO ST_Alarm;      // Pointer to your existing ST_Alarm in GVL_Alarms
+    pOpcActive : POINTER TO BOOL;      // Pointer to OPC UA IsActive variable
+    pOpcShelved : POINTER TO BOOL;     // Pointer to OPC UA IsShelved variable
+    nZone : SINT;                      // Zone number (0 = global)
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

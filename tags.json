@@ -1,7 +1,438 @@
 {
-  "valueSource": "memory",
-  "dataType": "Boolean",
-  "name": "IsAcked",
-  "value": false,
-  "tagType": "AtomicTag"
+  "name": "Control_Tags",
+  "tagType": "Folder",
+  "tags": [
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003durn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.CancelMove",
+      "dataType": "Boolean",
+      "name": "CancelMove",
+      "tagType": "AtomicTag",
+      "opcServer": "TcOpcUaServer@ChristopherPC"
+    },
+    {
+      "name": "Rail_1",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "name": "R1_Sensor",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 1 sensor tubes"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": true,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R1_Chariot",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 1 chariot"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "opc",
+              "opcItemPath": "nsu\u003durn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_LinearActuators.Chariot1Command.Command",
+              "value": true,
+              "opcServer": "TcOpcUaServer@ChristopherPC",
+              "name": "Command",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R1_Compressor",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 1 compressor"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": true,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R1_Motor",
+          "typeId": "MotorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 1 motor"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "valueSource": "opc",
+              "opcItemPath": "nsu\u003durn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Axis.Axis1Command.Command",
+              "value": 45,
+              "opcServer": "TcOpcUaServer@ChristopherPC",
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "opc",
+              "opcItemPath": "nsu\u003durn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Axis.Axis1Command.Position",
+              "value": 50,
+              "opcServer": "TcOpcUaServer@ChristopherPC",
+              "name": "Position",
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "opc",
+              "opcItemPath": "nsu\u003durn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Axis.Axis1Command.Homing",
+              "value": true,
+              "opcServer": "TcOpcUaServer@ChristopherPC",
+              "name": "Homing",
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "opc",
+              "opcItemPath": "nsu\u003durn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Axis.Axis1Command.Homed",
+              "value": false,
+              "opcServer": "TcOpcUaServer@ChristopherPC",
+              "name": "Homed",
+              "tagType": "AtomicTag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Rail_4",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "name": "R4_Chariot",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 4 chariot"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": true,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R4_Motor",
+          "typeId": "MotorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 4 motor"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": true,
+              "name": "Homed",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": true,
+              "name": "Homing",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 19,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 50,
+              "name": "Position",
+              "tagType": "AtomicTag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Rail_2",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "name": "R2_Chariot",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 2 actuator"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": true,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R2_Motor",
+          "typeId": "MotorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 2 motor"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": 0,
+              "name": "Position",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": true,
+              "name": "Homing",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 88,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": true,
+              "name": "Homed",
+              "tagType": "AtomicTag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "UI_Control",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "memory",
+          "dataType": "Boolean",
+          "name": "ControlMode",
+          "value": false,
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "memory",
+          "dataType": "Int1",
+          "name": "CurrentPopup",
+          "value": 4,
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "valueSource": "memory",
+      "dataType": "Boolean",
+      "name": "STOP",
+      "tagGroup": "Security",
+      "value": true,
+      "tagType": "AtomicTag"
+    },
+    {
+      "name": "Fans",
+      "tagType": "Folder"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003durn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.sRequestedActuator",
+      "dataType": "String",
+      "name": "RequestedActuator",
+      "value": "None",
+      "tagType": "AtomicTag",
+      "opcServer": "TcOpcUaServer@ChristopherPC"
+    },
+    {
+      "valueSource": "memory",
+      "dataType": "Boolean",
+      "name": "START",
+      "tagGroup": "Security",
+      "tagType": "AtomicTag"
+    },
+    {
+      "name": "Boiler",
+      "tagType": "Folder"
+    },
+    {
+      "name": "Rail_3",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "name": "R3_RegenCoupola",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 3 heat regeneration coupola"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": true,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R3_HeatExCoupola",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 3 heat exchange coupola"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": true,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R3_Compressor",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 3 compressor"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": false,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R3_Motor",
+          "typeId": "MotorStruct",
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": true,
+              "name": "Homed",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 44,
+              "name": "Position",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 0,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": true,
+              "name": "Homing",
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "R3_Chariot",
+          "typeId": "ActuatorStruct",
+          "parameters": {
+            "Name": {
+              "dataType": "String",
+              "value": "Rail 3 chariot"
+            }
+          },
+          "tagType": "UdtInstance",
+          "tags": [
+            {
+              "value": true,
+              "name": "Command",
+              "tagType": "AtomicTag"
+            },
+            {
+              "value": 0,
+              "name": "Status",
+              "tagType": "AtomicTag"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

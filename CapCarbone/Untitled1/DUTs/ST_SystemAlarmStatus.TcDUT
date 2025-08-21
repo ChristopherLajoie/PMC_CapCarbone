@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ST_SystemAlarmStatus" Id="{38326c80-3fc2-48b3-a36c-496b6b07f475}">
+    <Declaration><![CDATA[TYPE ST_SystemAlarmStatus :
+STRUCT
+    bGlobalOkToRun : BOOL;                              // E-stop, doors clear
+    bAllZonesOk : BOOL;                                 // For PRG_Cycle
+    aZoneStatus : ARRAY[1..4] OF ST_ZoneAlarmStatus;    // Rail 1-4 status
+    bMaintenanceMode : BOOL;                            // System-wide maintenance
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>
