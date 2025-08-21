@@ -1,0 +1,8 @@
+- Add alarm .bcondition flag setting and unsetting where needed in the code.
+- Update every button in the control page to send the command in one code line to avoid misfire.
+- Add alarm status checking logic in cycle and commandhandler. Also figure out synchronisation between cycle and        commandhandler.
+- Add missing tags of OpcUA server connection in TwinCAT3 client, link them to their GVL and uncomment accordingly in InitializeAlarmMapping.
+- Test more thoroughly ignition alarm status script 
+- Add acknowledge status fetching to alarmstatusmanager and use it in Canreset function for both actuators, that way .bcondition flags can only be set to false in reset functions.
+
+
