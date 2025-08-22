@@ -5,11 +5,25 @@
 VAR
     fbAlarmStatusManager : FB_AlarmStatusManager;
     bMaintenanceMode : BOOL := FALSE;
+	bInitComplete : BOOL := FALSE;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);]]></ST>
+      <ST><![CDATA[IF NOT bInitComplete THEN
+    Axis1.nRail := 1;
+    Axis2.nRail := 2; 
+    Axis3.nRail := 3;
+    Axis4.nRail := 4;
+	
+    bInitComplete := TRUE;
+END_IF
+
+fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);]]></ST>
     </Implementation>
     <LineIds Name="PRG_AlarmHandler">
+      <LineId Id="50" Count="0" />
+      <LineId Id="43" Count="3" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="47" Count="2" />
       <LineId Id="34" Count="0" />
     </LineIds>
   </POU>

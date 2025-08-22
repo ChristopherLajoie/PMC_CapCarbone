@@ -2,6 +2,6 @@
 - Add alarm status checking logic in cycle and commandhandler. Also figure out synchronisation between cycle and        commandhandler.
 - Add missing tags of OpcUA server connection in TwinCAT3 client, link them to their GVL and uncomment accordingly in InitializeAlarmMapping.
 - Test more thoroughly ignition alarm status script 
-- Add acknowledge status fetching to alarmstatusmanager and use it in Canreset function for both actuators, that way .bcondition flags can only be set to false in reset functions.
+- Figure out if .bcondition reset for stepper motors is in reset method or after successful action (Like successful power-up after power-up failed)
 
 

@@ -2,6 +2,9 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="FB_StepperMotor" Id="{bbe3d249-0f45-4d4f-9e26-26a436162bb5}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_StepperMotor
+VAR_INPUT
+	nRail 	   : SINT := 0;
+END_VAR
 VAR
 	pAxis : POINTER TO AXIS_REF;
 	fRead : MC_ReadActualPosition;
@@ -20,23 +23,53 @@ END_VAR]]></Declaration>
     <Method Name="CanReset" Id="{ae20159f-e14a-44fa-b0a2-97b4ba5a70bf}">
       <Declaration><![CDATA[METHOD CanReset : BOOL
 VAR
-	i : UINT;
-	Unacknowledged : BOOL := FALSE;
-END_VAR
-]]></Declaration>
+    bAllAlarmsAcked : BOOL := TRUE;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF eState = LAS_Stepper_Error THEN
-	
-    // Only allow reset if the alarm has been acknowledged
-		
-    CanReset := NOT Unacknowledged;
-
-	
-ELSE
+        <ST><![CDATA[IF eState <> LAS_Stepper_Error THEN
     CanReset := TRUE;
+    RETURN;
 END_IF
 
-Unacknowledged := FALSE;]]></ST>
+// Check all stepper-related alarms for this rail are acknowledged
+CASE nRail OF
+    1: // Rail 1 stepper alarms
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Motion_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Homing_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Homing_Interrupted.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Motion_Interrupted.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_PowerUp_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Reset_Failed.bAcked;
+        
+    2: // Rail 2 stepper alarms
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_PowerUp_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Homing_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Homing_Interrupted.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Motion_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Motion_Interrupted.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Reset_Failed.bAcked;
+        
+    3: // Rail 3 stepper alarms
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_PowerUp_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Homing_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Homing_Interrupted.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Motion_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Motion_Interrupted.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Reset_Failed.bAcked;
+        
+    4: // Rail 4 stepper alarms
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_PowerUp_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Homing_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Homing_Interrupted.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Motion_Failed.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Motion_Interrupted.bAcked;
+        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Reset_Failed.bAcked;
+        
+    ELSE
+        bAllAlarmsAcked := FALSE; // Invalid rail number
+END_CASE
+
+CanReset := bAllAlarmsAcked;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{aae538f2-84d5-46d9-a4e2-9cefceb9bd59}">
@@ -387,8 +420,8 @@ END_CASE
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.CanReset">
-      <LineId Id="1" Count="2" />
-      <LineId Id="10" Count="8" />
+      <LineId Id="19" Count="42" />
+      <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.FB_Init">
       <LineId Id="1" Count="0" />

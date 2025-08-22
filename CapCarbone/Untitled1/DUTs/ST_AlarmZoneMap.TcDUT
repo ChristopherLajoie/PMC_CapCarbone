@@ -6,6 +6,7 @@ STRUCT
     pAlarm : POINTER TO ST_Alarm;      // Pointer to your existing ST_Alarm in GVL_Alarms
     pOpcActive : POINTER TO BOOL;      // Pointer to OPC UA IsActive variable
     pOpcShelved : POINTER TO BOOL;     // Pointer to OPC UA IsShelved variable
+	pOpcAcked : POINTER TO BOOL;
     nZone : SINT;                      // Zone number (0 = global)
 END_STRUCT
 END_TYPE]]></Declaration>

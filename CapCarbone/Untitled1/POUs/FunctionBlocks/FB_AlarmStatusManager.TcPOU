@@ -71,6 +71,7 @@ VAR_INPUT
     pAlarm : POINTER TO ST_Alarm;      // Pointer to your existing ST_Alarm
     pOpcActive : POINTER TO BOOL;      // Pointer to OPC UA IsActive
     pOpcShelved : POINTER TO BOOL;     // Pointer to OPC UA IsShelved
+	pOpcAcked : POINTER TO BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF nGlobalAlarmCount >= 10 THEN
@@ -82,6 +83,7 @@ nGlobalAlarmCount := nGlobalAlarmCount + 1;
 aGlobalAlarmMap[nGlobalAlarmCount].pAlarm := pAlarm;
 aGlobalAlarmMap[nGlobalAlarmCount].pOpcActive := pOpcActive;
 aGlobalAlarmMap[nGlobalAlarmCount].pOpcShelved := pOpcShelved;
+aGlobalAlarmMap[nGlobalAlarmCount].pOpcAcked := pOpcAcked;
 aGlobalAlarmMap[nGlobalAlarmCount].nZone := 0;  // Global
 
 AddGlobalAlarmMap := TRUE;]]></ST>
@@ -93,6 +95,7 @@ VAR_INPUT
     pAlarm : POINTER TO ST_Alarm;      // Pointer to your existing ST_Alarm
     pOpcActive : POINTER TO BOOL;      // Pointer to OPC UA IsActive
     pOpcShelved : POINTER TO BOOL;     // Pointer to OPC UA IsShelved  
+	pOpcAcked : POINTER TO BOOL;
     nZone : SINT;                      // Zone number
 END_VAR]]></Declaration>
       <Implementation>
@@ -106,6 +109,7 @@ nZoneAlarmCount := nZoneAlarmCount + 1;
 aZoneAlarmMap[nZoneAlarmCount].pAlarm := pAlarm;
 aZoneAlarmMap[nZoneAlarmCount].pOpcActive := pOpcActive;
 aZoneAlarmMap[nZoneAlarmCount].pOpcShelved := pOpcShelved;
+aZoneAlarmMap[nZoneAlarmCount].pOpcAcked := pOpcAcked;
 aZoneAlarmMap[nZoneAlarmCount].nZone := nZone;
 
 AddZoneAlarmMap := TRUE;]]></ST>
@@ -139,7 +143,9 @@ AddZoneAlarmMap(ADR(GVL_Alarms.R1_Compressor_UnknownState),
 
 AddZoneAlarmMap(ADR(GVL_Alarms.R1_Compressor_MotionTimedOut), 
                 ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsActive),
-                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsShelved), 1);
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsShelved),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsAcked), 
+                1);
 
 (*AddZoneAlarmMap(ADR(GVL_Alarms.R1_Stepper_Motion_Failed), 
                 ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Stepper_Motion_Failed_IsActive),
@@ -304,10 +310,11 @@ VAR
     pAlarm : POINTER TO ST_Alarm;
     bOpcActive : BOOL;
     bOpcShelved : BOOL;
+	bOpcAcked : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Check pointers
-IF stAlarmMap.pAlarm = 0 OR stAlarmMap.pOpcActive = 0 OR stAlarmMap.pOpcShelved = 0 THEN
+IF stAlarmMap.pAlarm = 0 OR stAlarmMap.pOpcActive = 0 OR stAlarmMap.pOpcShelved = 0 OR stAlarmMap.pOpcAcked = 0 THEN
     ProcessGlobalAlarm := FALSE;
     RETURN;
 END_IF
@@ -316,9 +323,11 @@ END_IF
 pAlarm := stAlarmMap.pAlarm;
 bOpcActive := stAlarmMap.pOpcActive^;    // From Ignition OPC UA
 bOpcShelved := stAlarmMap.pOpcShelved^;  // From Ignition OPC UA
+bOpcAcked := stAlarmMap.pOpcAcked^; 
 
 // Update the alarm's bActive status from OPC UA
 pAlarm^.bActive := bOpcActive;
+pAlarm^.bAcked := bOpcAcked;   
 
 // Global alarms always block when active (regardless of severity)
 IF bOpcActive AND NOT bOpcShelved THEN
@@ -338,12 +347,13 @@ VAR
     pAlarm : POINTER TO ST_Alarm;
     bOpcActive : BOOL;
     bOpcShelved : BOOL;
+	bOpcAcked : BOOL;
     nZone : SINT;
     nSeverity : UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Check pointers
-IF stAlarmMap.pAlarm = 0 OR stAlarmMap.pOpcActive = 0 OR stAlarmMap.pOpcShelved = 0 THEN
+IF stAlarmMap.pAlarm = 0 OR stAlarmMap.pOpcActive = 0 OR stAlarmMap.pOpcShelved = 0 OR stAlarmMap.pOpcAcked = 0 THEN
     ProcessZoneAlarm := FALSE;
     RETURN;
 END_IF
@@ -352,11 +362,13 @@ END_IF
 pAlarm := stAlarmMap.pAlarm;
 bOpcActive := stAlarmMap.pOpcActive^;    // From Ignition OPC UA
 bOpcShelved := stAlarmMap.pOpcShelved^;  // From Ignition OPC UA
+bOpcAcked := stAlarmMap.pOpcAcked^;
 nZone := stAlarmMap.nZone;
 nSeverity := pAlarm^.nSeverity;          // From your ST_Alarm
 
 // Update the alarm's bActive status from OPC UA
 pAlarm^.bActive := bOpcActive;
+pAlarm^.bAcked := bOpcAcked;
 
 // Process if active and not shelved
 IF bOpcActive AND NOT bOpcShelved THEN
@@ -385,19 +397,33 @@ END_IF]]></ST>
       <LineId Id="1" Count="42" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.AddGlobalAlarmMap">
-      <LineId Id="1" Count="11" />
+      <LineId Id="1" Count="8" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="10" Count="2" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.AddZoneAlarmMap">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="8" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="11" Count="2" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.InitializeAlarmMapping">
-      <LineId Id="1" Count="175" />
+      <LineId Id="1" Count="19" />
+      <LineId Id="177" Count="3" />
+      <LineId Id="23" Count="153" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.ProcessGlobalAlarm">
-      <LineId Id="1" Count="20" />
+      <LineId Id="1" Count="9" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="11" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="14" Count="7" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.ProcessZoneAlarm">
-      <LineId Id="1" Count="36" />
+      <LineId Id="1" Count="9" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="16" Count="21" />
     </LineIds>
   </POU>
 </TcPlcObject>

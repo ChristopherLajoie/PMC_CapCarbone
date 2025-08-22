@@ -88,22 +88,45 @@ Cancel := 1; // Return success]]></ST>
     <Method Name="CanReset" Id="{e451c082-6390-4897-b2c0-f7f1baa90012}">
       <Declaration><![CDATA[METHOD CanReset : BOOL
 VAR
-	i : UINT;
-	Unacknowledged : BOOL := FALSE;
-END_VAR
-]]></Declaration>
+    bAllAlarmsAcked : BOOL := TRUE;
+    sActuatorName : STRING(50);
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF eState = LAS_LinearActuator_Error THEN
-	
-    // Only allow reset if the alarm has been acknowledged		
-    CanReset := NOT Unacknowledged;
-
-	
-ELSE
+        <ST><![CDATA[IF eState <> LAS_LinearActuator_Error THEN
     CanReset := TRUE;
+    RETURN;
 END_IF
 
-Unacknowledged := FALSE;]]></ST>
+// Use the existing sName from the actuator structure
+sActuatorName := pActuator^.sName;
+
+// Check alarms based on actuator name
+IF sActuatorName = 'Sensor1' THEN
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Sensor_UnknownState.bAcked;
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Sensor_MotionTimedOut.bAcked;
+    
+ELSIF sActuatorName = 'Compressor1' THEN
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Compressor_UnknownState.bAcked;
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Compressor_MotionTimedOut.bAcked;
+    
+ELSIF sActuatorName = 'Compressor3' THEN
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Compressor_UnknownState.bAcked;
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Compressor_MotionTimedOut.bAcked;
+    
+ELSIF sActuatorName = 'HeatExCoupola3' THEN
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_HeatExCoupola_UnknownState.bAcked;
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_HeatExCoupola_MotionTimedOut.bAcked;
+    
+ELSIF sActuatorName = 'RegenCoupola3' THEN
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_RegenCoupola_UnknownState.bAcked;
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_RegenCoupola_MotionTimedOut.bAcked;
+    
+// Add other actuators as needed...
+ELSE
+    bAllAlarmsAcked := FALSE; // Unknown actuator
+END_IF
+
+CanReset := bAllAlarmsAcked;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Extend" Id="{afb44406-33a7-4c96-9c8b-3094883b11ba}">
@@ -269,32 +292,59 @@ END_CASE]]></ST>
     <Method Name="Reset" Id="{ecdda1b9-dec3-446e-af49-02346c123f36}">
       <Declaration><![CDATA[METHOD Reset : BOOL
 VAR
-	i : UINT;
+    i : UINT;
+    sActuatorName : STRING(50);
 END_VAR
-
 VAR_OUTPUT
-	State : SINT;
+    State : SINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF eState = LAS_LinearActuator_Error THEN
-	
-    IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN	
+    
+    // Use the existing sName from the actuator structure
+    sActuatorName := pActuator^.sName;
+    
+    IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN    
         eState := LAS_LinearActuator_Retracted;
-		bError := FALSE;
-		State := 0;
-		//Reset
-		
+        bError := FALSE;
+        State := 0;
+        
+        // CLEAR ALARM CONDITIONS - position is now known
+        IF sActuatorName = 'Sensor1' THEN
+            GVL_Alarms.R1_Sensor_UnknownState.bCondition := FALSE;
+            GVL_Alarms.R1_Sensor_MotionTimedOut.bCondition := FALSE;
+        ELSIF sActuatorName = 'Compressor1' THEN
+            GVL_Alarms.R1_Compressor_UnknownState.bCondition := FALSE;
+            GVL_Alarms.R1_Compressor_MotionTimedOut.bCondition := FALSE;
+        ELSIF sActuatorName = 'Compressor3' THEN
+            GVL_Alarms.R3_Compressor_UnknownState.bCondition := FALSE;
+            GVL_Alarms.R3_Compressor_MotionTimedOut.bCondition := FALSE;
+        // Add other actuators...
+        END_IF
+        
     ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
         eState := LAS_LinearActuator_Extended;
-		bError := FALSE;
-		State := 1;
-		//Reset
+        bError := FALSE;
+        State := 1;
+        
+        // CLEAR ALARM CONDITIONS - position is now known
+        IF sActuatorName = 'Sensor1' THEN
+            GVL_Alarms.R1_Sensor_UnknownState.bCondition := FALSE;
+            GVL_Alarms.R1_Sensor_MotionTimedOut.bCondition := FALSE;
+        ELSIF sActuatorName = 'Compressor1' THEN
+            GVL_Alarms.R1_Compressor_UnknownState.bCondition := FALSE;
+            GVL_Alarms.R1_Compressor_MotionTimedOut.bCondition := FALSE;
+        ELSIF sActuatorName = 'Compressor3' THEN
+            GVL_Alarms.R3_Compressor_UnknownState.bCondition := FALSE;
+            GVL_Alarms.R3_Compressor_MotionTimedOut.bCondition := FALSE;
+        // Add other actuators...
+        END_IF
+        
     ELSE
         eState := LAS_LinearActuator_Unknown;
-		State := -1;
+        State := -1;
     END_IF
-END_IF
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LinearActuator">
@@ -304,8 +354,8 @@ END_IF
       <LineId Id="1" Count="56" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.CanReset">
-      <LineId Id="1" Count="2" />
-      <LineId Id="11" Count="7" />
+      <LineId Id="51" Count="33" />
+      <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Extend">
       <LineId Id="1" Count="0" />
@@ -357,11 +407,7 @@ END_IF
       <LineId Id="36" Count="4" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Reset">
-      <LineId Id="1" Count="5" />
-      <LineId Id="11" Count="5" />
-      <LineId Id="21" Count="2" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="24" Count="1" />
+      <LineId Id="29" Count="44" />
       <LineId Id="27" Count="0" />
     </LineIds>
   </POU>
