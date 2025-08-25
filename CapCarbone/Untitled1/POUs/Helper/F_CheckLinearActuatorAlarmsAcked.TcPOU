@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="F_CheckLinearActuatorAlarmsAcked" Id="{d218ecbe-e10a-48b8-844c-5ea9ae4f9f10}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_CheckLinearActuatorAlarmsAcked : BOOL
+VAR_INPUT
+    sActuatorName : STRING(50);    // e.g., 'Compressor1', 'HeatExCoupola3'
+END_VAR
+VAR
+    nRail : SINT;
+    sBaseType : STRING(50);
+    sLastChar : STRING(1);
+    nNameLength : INT;
+    bAllAlarmsAcked : BOOL := TRUE;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ============================================================================
+// EXTRACT RAIL NUMBER FROM ACTUATOR NAME
+// ============================================================================
+nNameLength := LEN(sActuatorName);
+IF nNameLength > 0 THEN
+    sLastChar := RIGHT(sActuatorName, 1);
+    nRail := STRING_TO_SINT(sLastChar);
+    
+    // Extract base type (everything except the last character)
+    sBaseType := LEFT(sActuatorName, nNameLength - 1);
+ELSE
+    F_CheckLinearActuatorAlarmsAcked := FALSE;
+    RETURN;
+END_IF
+
+// ============================================================================
+// VALIDATE RAIL NUMBER
+// ============================================================================
+IF nRail < 1 OR nRail > 4 THEN
+    F_CheckLinearActuatorAlarmsAcked := FALSE;
+    RETURN;
+END_IF
+
+// ============================================================================
+// CHECK ALL RELATED ALARMS ARE ACKNOWLEDGED
+// ============================================================================
+CASE nRail OF
+    1: // Rail 1 Alarms
+        IF sBaseType = 'Sensor' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Sensor_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Sensor_MotionTimedOut.bAcked;
+            
+        ELSIF sBaseType = 'Compressor' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Compressor_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Compressor_MotionTimedOut.bAcked;
+            
+        ELSIF sBaseType = 'Chariot' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Chariot_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Chariot_MotionTimedOut.bAcked;
+            
+        ELSE
+            bAllAlarmsAcked := FALSE; // Unknown actuator type
+        END_IF
+        
+    2: // Rail 2 Alarms
+        IF sBaseType = 'Chariot' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Chariot_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Chariot_MotionTimedOut.bAcked;
+            
+        ELSE
+            bAllAlarmsAcked := FALSE; // Unknown actuator type
+        END_IF
+        
+    3: // Rail 3 Alarms
+        IF sBaseType = 'Compressor' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Compressor_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Compressor_MotionTimedOut.bAcked;
+            
+        ELSIF sBaseType = 'HeatExCoupola' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_HeatExCoupola_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_HeatExCoupola_MotionTimedOut.bAcked;
+            
+        ELSIF sBaseType = 'RegenCoupola' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_RegenCoupola_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_RegenCoupola_MotionTimedOut.bAcked;
+            
+        ELSIF sBaseType = 'Chariot' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Chariot_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Chariot_MotionTimedOut.bAcked;
+            
+        ELSE
+            bAllAlarmsAcked := FALSE; // Unknown actuator type
+        END_IF
+        
+    4: // Rail 4 Alarms
+        IF sBaseType = 'Chariot' THEN
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Chariot_UnknownState.bAcked;
+            bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Chariot_MotionTimedOut.bAcked;
+            
+        ELSE
+            bAllAlarmsAcked := FALSE; // Unknown actuator type
+        END_IF
+        
+    ELSE
+        bAllAlarmsAcked := FALSE; // Invalid rail number
+END_CASE
+
+F_CheckLinearActuatorAlarmsAcked := bAllAlarmsAcked;]]></ST>
+    </Implementation>
+    <LineIds Name="F_CheckLinearActuatorAlarmsAcked">
+      <LineId Id="1" Count="87" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

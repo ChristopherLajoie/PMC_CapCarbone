@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="F_GetStepperAlarmCondition" Id="{f26f56a2-1647-4587-ad9f-9fa1a487ca5b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_GetStepperAlarmCondition : POINTER TO BOOL
+VAR_INPUT
+    nRail : SINT;              // Rail number (1, 2, 3, or 4)
+    sAlarmType : STRING(50);   // e.g., 'Motion_Failed', 'Homing_Failed', 'PowerUp_Failed'
+END_VAR
+VAR
+    pResult : POINTER TO BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ============================================================================
+// VALIDATE RAIL NUMBER
+// ============================================================================
+IF nRail < 1 OR nRail > 4 THEN
+    F_GetStepperAlarmCondition := 0;
+    RETURN;
+END_IF
+
+// ============================================================================
+// MAP TO SPECIFIC ALARMS BASED ON RAIL AND ALARM TYPE
+// ============================================================================
+IF nRail = 1 THEN
+    // Rail 1 Stepper Alarms
+    IF sAlarmType = 'Motion_Failed' THEN
+        pResult := ADR(GVL_Alarms.R1_Stepper_Motion_Failed.bCondition);
+    ELSIF sAlarmType = 'Homing_Failed' THEN
+        pResult := ADR(GVL_Alarms.R1_Stepper_Homing_Failed.bCondition);
+    ELSIF sAlarmType = 'Homing_Interrupted' THEN
+        pResult := ADR(GVL_Alarms.R1_Stepper_Homing_Interrupted.bCondition);
+    ELSIF sAlarmType = 'Motion_Interrupted' THEN
+        pResult := ADR(GVL_Alarms.R1_Stepper_Motion_Interrupted.bCondition);
+    ELSIF sAlarmType = 'PowerUp_Failed' THEN
+        pResult := ADR(GVL_Alarms.R1_Stepper_PowerUp_Failed.bCondition);
+    ELSIF sAlarmType = 'Reset_Failed' THEN
+        pResult := ADR(GVL_Alarms.R1_Stepper_Reset_Failed.bCondition);
+    END_IF
+    
+ELSIF nRail = 2 THEN
+    // Rail 2 Stepper Alarms
+    IF sAlarmType = 'Motion_Failed' THEN
+        pResult := ADR(GVL_Alarms.R2_Stepper_Motion_Failed.bCondition);
+    ELSIF sAlarmType = 'Homing_Failed' THEN
+        pResult := ADR(GVL_Alarms.R2_Stepper_Homing_Failed.bCondition);
+    ELSIF sAlarmType = 'Homing_Interrupted' THEN
+        pResult := ADR(GVL_Alarms.R2_Stepper_Homing_Interrupted.bCondition);
+    ELSIF sAlarmType = 'Motion_Interrupted' THEN
+        pResult := ADR(GVL_Alarms.R2_Stepper_Motion_Interrupted.bCondition);
+    ELSIF sAlarmType = 'PowerUp_Failed' THEN
+        pResult := ADR(GVL_Alarms.R2_Stepper_PowerUp_Failed.bCondition);
+    ELSIF sAlarmType = 'Reset_Failed' THEN
+        pResult := ADR(GVL_Alarms.R2_Stepper_Reset_Failed.bCondition);
+    END_IF
+    
+ELSIF nRail = 3 THEN
+    // Rail 3 Stepper Alarms
+    IF sAlarmType = 'Motion_Failed' THEN
+        pResult := ADR(GVL_Alarms.R3_Stepper_Motion_Failed.bCondition);
+    ELSIF sAlarmType = 'Homing_Failed' THEN
+        pResult := ADR(GVL_Alarms.R3_Stepper_Homing_Failed.bCondition);
+    ELSIF sAlarmType = 'Homing_Interrupted' THEN
+        pResult := ADR(GVL_Alarms.R3_Stepper_Homing_Interrupted.bCondition);
+    ELSIF sAlarmType = 'Motion_Interrupted' THEN
+        pResult := ADR(GVL_Alarms.R3_Stepper_Motion_Interrupted.bCondition);
+    ELSIF sAlarmType = 'PowerUp_Failed' THEN
+        pResult := ADR(GVL_Alarms.R3_Stepper_PowerUp_Failed.bCondition);
+    ELSIF sAlarmType = 'Reset_Failed' THEN
+        pResult := ADR(GVL_Alarms.R3_Stepper_Reset_Failed.bCondition);
+    END_IF
+    
+ELSIF nRail = 4 THEN
+    // Rail 4 Stepper Alarms
+    IF sAlarmType = 'Motion_Failed' THEN
+        pResult := ADR(GVL_Alarms.R4_Stepper_Motion_Failed.bCondition);
+    ELSIF sAlarmType = 'Homing_Failed' THEN
+        pResult := ADR(GVL_Alarms.R4_Stepper_Homing_Failed.bCondition);
+    ELSIF sAlarmType = 'Homing_Interrupted' THEN
+        pResult := ADR(GVL_Alarms.R4_Stepper_Homing_Interrupted.bCondition);
+    ELSIF sAlarmType = 'Motion_Interrupted' THEN
+        pResult := ADR(GVL_Alarms.R4_Stepper_Motion_Interrupted.bCondition);
+    ELSIF sAlarmType = 'PowerUp_Failed' THEN
+        pResult := ADR(GVL_Alarms.R4_Stepper_PowerUp_Failed.bCondition);
+    ELSIF sAlarmType = 'Reset_Failed' THEN
+        pResult := ADR(GVL_Alarms.R4_Stepper_Reset_Failed.bCondition);
+    END_IF
+END_IF
+
+F_GetStepperAlarmCondition := pResult;]]></ST>
+    </Implementation>
+    <LineIds Name="F_GetStepperAlarmCondition">
+      <LineId Id="1" Count="76" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

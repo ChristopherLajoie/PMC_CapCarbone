@@ -23,6 +23,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD Cancel : INT
 VAR
     bValidPosition : BOOL := FALSE;
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -69,20 +70,19 @@ END_IF
 IF NOT bValidPosition THEN
     // Both sensors active, neither active, or sensor error
     eState := LAS_LinearActuator_Unknown;
-    //LinearActuatorPositionUnknown := TRUE;
-    Cancel := -1; // Return error code
+    Cancel := -1;
+	
+	pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+		
+	IF pAlarmCondition <> 0 THEN
+		pAlarmCondition^ := TRUE;
+	END_IF
+	
     RETURN;
 END_IF
 
-// ============================================================================
-// 4. SUCCESSFUL CANCEL - Clear any error conditions
-// ============================================================================
 bError := FALSE;
-
-// Clear any linear actuator alarms since we successfully stopped
-// (The alarm manager will handle clearing the actual alarm conditions)
-
-Cancel := 1; // Return success]]></ST>
+Cancel := 1; ]]></ST>
       </Implementation>
     </Method>
     <Method Name="CanReset" Id="{e451c082-6390-4897-b2c0-f7f1baa90012}">
@@ -97,34 +97,14 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-// Use the existing sName from the actuator structure
-sActuatorName := pActuator^.sName;
-
-// Check alarms based on actuator name
-IF sActuatorName = 'Sensor1' THEN
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Sensor_UnknownState.bAcked;
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Sensor_MotionTimedOut.bAcked;
-    
-ELSIF sActuatorName = 'Compressor1' THEN
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Compressor_UnknownState.bAcked;
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Compressor_MotionTimedOut.bAcked;
-    
-ELSIF sActuatorName = 'Chariot1' THEN
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Chariot_UnknownState.bAcked;
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Chariot_MotionTimedOut.bAcked;
-    
-// Add other actuators 
-ELSE
-    bAllAlarmsAcked := FALSE; // Unknown actuator
-END_IF
-
-CanReset := bAllAlarmsAcked; //Maybe return exit code to indicate cant reset alarm(s) not acknowledged]]></ST>
+CanReset := F_CheckLinearActuatorAlarmsAcked(pActuator^.sName);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Extend" Id="{afb44406-33a7-4c96-9c8b-3094883b11ba}">
       <Declaration><![CDATA[METHOD Extend : INT
 VAR
 	bProxOutDetected : BOOL;
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -157,7 +137,13 @@ CASE eState OF
         IF pActuator^.tmrTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             bError := TRUE;
-			R1_Compressor_MotionTimedOut.bCondition := TRUE;
+			
+			pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'MotionTimedOut');
+			
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+			
 			pActuator^.bInProgress := FALSE; 
 			pActuator^.bFwdDO^ := FALSE;
         END_IF
@@ -167,13 +153,15 @@ CASE eState OF
 
     LAS_LinearActuator_Error:
 		Extend := -1;
-        //IF CanReset() THEN
-			//Reset();
-		//END_IF
 		
 	LAS_LinearActuator_Unknown:
 		Extend := -1;
-		//LinearActuatorPositionUnknown := TRUE;
+		
+		pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+			
+		IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := TRUE;
+		END_IF
 
     ELSE
         // default catch-all
@@ -187,7 +175,11 @@ END_CASE
 VAR_INPUT
     bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
-	Actuator : POINTER TO ST_LinearActuator;  // Parameter for initialization
+	Actuator : POINTER TO ST_LinearActuator;  
+END_VAR
+
+VAR
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -199,24 +191,39 @@ r_trig_proxOut(CLK := pActuator^.bProxOut^);
 f_trig_proxOut(CLK := pActuator^.bProxOut^);
 r_trig_proxIn(CLK := pActuator^.bProxIn^);
 f_trig_proxIn(CLK := pActuator^.bProxIn^);
+
 // Check positions according to edge detection settings
 IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN
     IF NOT ((bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^)) THEN
         eState := LAS_LinearActuator_Retracted;
     ELSE
         eState := LAS_LinearActuator_Unknown;
-        //LinearActuatorPositionUnknown := TRUE;
+        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+			
+		IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := TRUE;
+		END_IF
+		
     END_IF
 ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
     IF NOT ((bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^)) THEN
         eState := LAS_LinearActuator_Extended;
     ELSE
         eState := LAS_LinearActuator_Unknown;
-        //LinearActuatorPositionUnknown := TRUE;
+        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+			
+		IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := TRUE;
+		END_IF
+		
     END_IF
 ELSE
     eState := LAS_LinearActuator_Unknown;
-    //LinearActuatorPositionUnknown := TRUE;
+    pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+			
+	IF pAlarmCondition <> 0 THEN
+		pAlarmCondition^ := TRUE;
+	END_IF
 END_IF
 
 FB_Init := TRUE;]]></ST>
@@ -226,6 +233,7 @@ FB_Init := TRUE;]]></ST>
       <Declaration><![CDATA[METHOD Home : INT
 VAR
 	bProxInDetected : BOOL;  
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Home := 0;
@@ -258,8 +266,12 @@ CASE eState OF
         IF pActuator^.tmrTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             bError := TRUE;
-			R1_Compressor_MotionTimedOut.bCondition := TRUE;
-            //LinearActuatorMotionTimedOut := TRUE;
+			pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'MotionTimedOut');
+			
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+			
 			pActuator^.bInProgress := FALSE; 
 			pActuator^.bBckwDO^ := FALSE;
         END_IF
@@ -269,13 +281,15 @@ CASE eState OF
 
     LAS_LinearActuator_Error:
 		Home := -1;
-        //IF CanReset() THEN
-			//Reset();
-		//END_IF
 	
 	LAS_LinearActuator_Unknown:
 		Home := -1;
-		//LinearActuatorPositionUnknown := TRUE;
+		
+		pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+		
+		IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := TRUE;
+		END_IF
     
     ELSE
         // default catch-all
@@ -287,6 +301,7 @@ END_CASE]]></ST>
 VAR
     i : UINT;
     sActuatorName : STRING(50);
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR
 VAR_OUTPUT
     State : SINT;
@@ -302,17 +317,14 @@ END_VAR]]></Declaration>
         bError := FALSE;
         State := 0;
         
-        // CLEAR ALARM CONDITIONS - position is now known
-        IF sActuatorName = 'Sensor1' THEN
-            GVL_Alarms.R1_Sensor_UnknownState.bCondition := FALSE;
-            GVL_Alarms.R1_Sensor_MotionTimedOut.bCondition := FALSE;
-        ELSIF sActuatorName = 'Compressor1' THEN
-            GVL_Alarms.R1_Compressor_UnknownState.bCondition := FALSE;
-            GVL_Alarms.R1_Compressor_MotionTimedOut.bCondition := FALSE;
-        ELSIF sActuatorName = 'Chariot1' THEN
-            GVL_Alarms.R1_Chariot_UnknownState.bCondition := FALSE;
-            GVL_Alarms.R1_Chariot_MotionTimedOut.bCondition := FALSE;
-        // Add other actuators...
+        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+        IF pAlarmCondition <> 0 THEN
+            pAlarmCondition^ := FALSE;
+        END_IF
+        
+        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'MotionTimedOut');
+        IF pAlarmCondition <> 0 THEN
+            pAlarmCondition^ := FALSE;
         END_IF
         
     ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
@@ -320,22 +332,26 @@ END_VAR]]></Declaration>
         bError := FALSE;
         State := 1;
         
-        // CLEAR ALARM CONDITIONS - position is now known
-        IF sActuatorName = 'Sensor1' THEN
-            GVL_Alarms.R1_Sensor_UnknownState.bCondition := FALSE;
-            GVL_Alarms.R1_Sensor_MotionTimedOut.bCondition := FALSE;
-        ELSIF sActuatorName = 'Compressor1' THEN
-            GVL_Alarms.R1_Compressor_UnknownState.bCondition := FALSE;
-            GVL_Alarms.R1_Compressor_MotionTimedOut.bCondition := FALSE;
-        ELSIF sActuatorName = 'Chariot1' THEN
-            GVL_Alarms.R1_Chariot_UnknownState.bCondition := FALSE;
-            GVL_Alarms.R1_Chariot_MotionTimedOut.bCondition := FALSE;
-        // Add other actuators...
+         // CLEAR ALARM CONDITIONS dynamically - position is now known
+        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+        IF pAlarmCondition <> 0 THEN
+            pAlarmCondition^ := FALSE;
+        END_IF
+        
+        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'MotionTimedOut');
+        IF pAlarmCondition <> 0 THEN
+            pAlarmCondition^ := FALSE;
         END_IF
         
     ELSE
         eState := LAS_LinearActuator_Unknown;
         State := -1;
+		
+		pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+			
+		IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := TRUE;
+		END_IF
     END_IF
 END_IF]]></ST>
       </Implementation>
@@ -344,11 +360,18 @@ END_IF]]></ST>
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Cancel">
-      <LineId Id="1" Count="56" />
+      <LineId Id="1" Count="42" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="60" Count="3" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="51" Count="1" />
+      <LineId Id="57" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.CanReset">
-      <LineId Id="51" Count="20" />
-      <LineId Id="80" Count="4" />
+      <LineId Id="51" Count="4" />
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Extend">
@@ -368,17 +391,35 @@ END_IF]]></ST>
       <LineId Id="75" Count="0" />
       <LineId Id="59" Count="0" />
       <LineId Id="61" Count="1" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="84" Count="3" />
       <LineId Id="81" Count="0" />
+      <LineId Id="83" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="27" Count="5" />
       <LineId Id="45" Count="0" />
-      <LineId Id="33" Count="4" />
+      <LineId Id="36" Count="1" />
       <LineId Id="46" Count="0" />
-      <LineId Id="38" Count="6" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="89" Count="3" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="39" Count="5" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.FB_Init">
-      <LineId Id="1" Count="28" />
+      <LineId Id="1" Count="7" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="9" Count="5" />
+      <LineId Id="31" Count="3" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="16" Count="5" />
+      <LineId Id="36" Count="3" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="41" Count="3" />
+      <LineId Id="26" Count="3" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Home">
       <LineId Id="1" Count="0" />
@@ -394,17 +435,32 @@ END_IF]]></ST>
       <LineId Id="14" Count="3" />
       <LineId Id="54" Count="1" />
       <LineId Id="63" Count="3" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="75" Count="1" />
       <LineId Id="73" Count="0" />
-      <LineId Id="67" Count="1" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="68" Count="0" />
       <LineId Id="72" Count="0" />
       <LineId Id="25" Count="5" />
       <LineId Id="41" Count="0" />
-      <LineId Id="31" Count="4" />
+      <LineId Id="34" Count="1" />
       <LineId Id="42" Count="0" />
-      <LineId Id="36" Count="4" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="80" Count="3" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="37" Count="3" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Reset">
-      <LineId Id="29" Count="44" />
+      <LineId Id="29" Count="9" />
+      <LineId Id="74" Count="7" />
+      <LineId Id="50" Count="6" />
+      <LineId Id="82" Count="8" />
+      <LineId Id="68" Count="4" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="92" Count="3" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="73" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>
   </POU>

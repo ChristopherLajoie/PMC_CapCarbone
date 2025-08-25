@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="F_GetLinearActuatorAlarmCondition" Id="{7f3504dd-74b2-4ad4-a071-94abfe09591c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_GetLinearActuatorAlarmCondition : POINTER TO BOOL
+VAR_INPUT
+    sActuatorName : STRING(50);    // e.g., 'Compressor1', 'HeatExCoupola3'
+    sAlarmType : STRING(50);       // e.g., 'MotionTimedOut', 'UnknownState'
+END_VAR
+VAR
+    nRail : SINT;
+    sBaseType : STRING(50);
+    sLastChar : STRING(1);
+    nNameLength : INT;
+    pResult : POINTER TO BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ============================================================================
+// EXTRACT RAIL NUMBER FROM ACTUATOR NAME
+// ============================================================================
+nNameLength := LEN(sActuatorName);
+IF nNameLength > 0 THEN
+    sLastChar := RIGHT(sActuatorName, 1);
+    nRail := STRING_TO_SINT(sLastChar);
+    
+    // Extract base type (everything except the last character)
+    sBaseType := LEFT(sActuatorName, nNameLength - 1);
+ELSE
+    F_GetLinearActuatorAlarmCondition := 0;
+    RETURN;
+END_IF
+
+// ============================================================================
+// VALIDATE RAIL NUMBER
+// ============================================================================
+IF nRail < 1 OR nRail > 4 THEN
+    F_GetLinearActuatorAlarmCondition := 0;
+    RETURN;
+END_IF
+
+// ============================================================================
+// MAP TO SPECIFIC ALARMS BASED ON RAIL, BASE TYPE, AND ALARM TYPE
+// ============================================================================
+IF nRail = 1 THEN
+    // Rail 1 Alarms
+    IF sBaseType = 'Sensor' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R1_Sensor_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R1_Sensor_UnknownState.bCondition);
+        END_IF
+        
+    ELSIF sBaseType = 'Compressor' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R1_Compressor_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R1_Compressor_UnknownState.bCondition);
+        END_IF
+        
+    ELSIF sBaseType = 'Chariot' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R1_Chariot_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R1_Chariot_UnknownState.bCondition);
+        END_IF
+    END_IF
+    
+ELSIF nRail = 2 THEN
+    // Rail 2 Alarms
+    IF sBaseType = 'Chariot' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R2_Chariot_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R2_Chariot_UnknownState.bCondition);
+        END_IF
+    END_IF
+    
+ELSIF nRail = 3 THEN
+    // Rail 3 Alarms
+    IF sBaseType = 'Compressor' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R3_Compressor_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R3_Compressor_UnknownState.bCondition);
+        END_IF
+        
+    ELSIF sBaseType = 'HeatExCoupola' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R3_HeatExCoupola_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R3_HeatExCoupola_UnknownState.bCondition);
+        END_IF
+        
+    ELSIF sBaseType = 'RegenCoupola' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R3_RegenCoupola_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R3_RegenCoupola_UnknownState.bCondition);
+        END_IF
+        
+    ELSIF sBaseType = 'Chariot' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R3_Chariot_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R3_Chariot_UnknownState.bCondition);
+        END_IF
+    END_IF
+    
+ELSIF nRail = 4 THEN
+    // Rail 4 Alarms
+    IF sBaseType = 'Chariot' THEN
+        IF sAlarmType = 'MotionTimedOut' THEN
+            pResult := ADR(GVL_Alarms.R4_Chariot_MotionTimedOut.bCondition);
+        ELSIF sAlarmType = 'UnknownState' THEN
+            pResult := ADR(GVL_Alarms.R4_Chariot_UnknownState.bCondition);
+        END_IF
+    END_IF
+END_IF
+
+F_GetLinearActuatorAlarmCondition := pResult;]]></ST>
+    </Implementation>
+    <LineIds Name="F_GetLinearActuatorAlarmCondition">
+      <LineId Id="1" Count="102" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

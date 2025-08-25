@@ -89,6 +89,12 @@
     <Compile Include="POUs\FunctionBlocks\FB_StepperMotor.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Helper\F_CheckLinearActuatorAlarmsAcked.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Helper\F_CheckStepperAlarmsAcked.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Helper\F_GenerateAlarmNodeId.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -104,7 +110,13 @@
     <Compile Include="POUs\Helper\F_GetStepperCommandValue.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Helper\F_GetStepperAlarmCondition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Helper\F_ValidateCommand.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Helper\F_GetLinearActuatorAlarmCondition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Programs\PRG_AlarmHandler.TcPOU">

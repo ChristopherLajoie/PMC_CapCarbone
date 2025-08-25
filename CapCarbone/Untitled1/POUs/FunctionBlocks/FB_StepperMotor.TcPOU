@@ -31,45 +31,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-// Check all stepper-related alarms for this rail are acknowledged
-CASE nRail OF
-    1: // Rail 1 stepper alarms
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Motion_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Homing_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Homing_Interrupted.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Motion_Interrupted.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_PowerUp_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Stepper_Reset_Failed.bAcked;
-        
-    2: // Rail 2 stepper alarms
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_PowerUp_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Homing_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Homing_Interrupted.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Motion_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Motion_Interrupted.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R2_Stepper_Reset_Failed.bAcked;
-        
-    3: // Rail 3 stepper alarms
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_PowerUp_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Homing_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Homing_Interrupted.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Motion_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Motion_Interrupted.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Stepper_Reset_Failed.bAcked;
-        
-    4: // Rail 4 stepper alarms
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_PowerUp_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Homing_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Homing_Interrupted.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Motion_Failed.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Motion_Interrupted.bAcked;
-        bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R4_Stepper_Reset_Failed.bAcked;
-        
-    ELSE
-        bAllAlarmsAcked := FALSE; // Invalid rail number
-END_CASE
-
-CanReset := bAllAlarmsAcked; //Maybe return exit code to indicate cant reset alarm(s) not acknowledged]]></ST>
+CanReset := F_CheckStepperAlarmsAcked(nRail);]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{aae538f2-84d5-46d9-a4e2-9cefceb9bd59}">
@@ -121,6 +83,7 @@ VAR
 	ReferencePos : LREAL := 10.0;    
 	bPreviousSwitchState: BOOL := FALSE;
 	bFirstEdgeDetected: BOOL := FALSE;
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Init(Axis := pAxis);
@@ -142,13 +105,23 @@ CASE eState OF
         
         IF fbHome.Error THEN
 			IF fbHome.ErrorID = 16#00004B0A THEN
-				//StepperMotorHomeOperationInterrupted := TRUE;
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Interrupted');
+				IF pAlarmCondition <> 0 THEN
+					pAlarmCondition^ := TRUE;
+				END_IF
+				
 				Home := -1;
 				RETURN;
 			END_IF
 			
             eState := LAS_Stepper_Error;
-            //StepperMotorHomeOperationFailed := TRUE;
+            
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+				
             nErrID := fbHome.ErrorID;
             Home := -1;
 
@@ -172,13 +145,23 @@ CASE eState OF
         
         IF fbHome.Error THEN
 			IF fbHome.ErrorID = 16#00004B0A THEN
-				//StepperMotorHomeOperationInterrupted := TRUE;
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Interrupted');
+				IF pAlarmCondition <> 0 THEN
+					pAlarmCondition^ := TRUE;
+				END_IF
+				
 				Home := -1;
 				RETURN;
 			END_IF
 			
             eState := LAS_Stepper_Error;
-            //StepperMotorHomeOperationFailed := TRUE;
+            
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+			
             nErrID := fbHome.ErrorID;
             Home := -1;
 			
@@ -191,9 +174,6 @@ CASE eState OF
     
     LAS_Stepper_Error:
         Home := -1;
-		//IF CanReset() THEN
-			//Reset(bExecute := TRUE);
-        //END_IF
         
 END_CASE]]></ST>
       </Implementation>
@@ -201,7 +181,11 @@ END_CASE]]></ST>
     <Method Name="Init" Id="{fa5103ef-9b92-4848-8e64-2a4a389deecc}">
       <Declaration><![CDATA[METHOD Init : BOOL
 VAR_INPUT
-	Axis : POINTER TO AXIS_REF;  // Parameter for initialization
+	Axis : POINTER TO AXIS_REF;  
+END_VAR
+
+VAR
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -220,7 +204,12 @@ CASE eState OF
 		ELSIF fbPower.Error THEN	
 			nErrID := fbPower.ErrorID;
 			eState := LAS_Stepper_Error;
-			//StepperMotorPowerUpFailed := TRUE;
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+			
 			Init := FALSE;
 			//Enable := FALSE;
 		END_IF
@@ -231,7 +220,12 @@ CASE eState OF
 		IF fbPower.Error THEN	
 			nErrID := fbPower.ErrorID;
 			eState := LAS_Stepper_Error;
-			//StepperMotorPowerUpFailed := TRUE;
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+			
 			Init := FALSE;
 			//Enable := FALSE;
 		END_IF
@@ -247,6 +241,10 @@ VAR_INPUT
     fVelocity : LREAL := 100.0;  // Velocity in mm/s
     fAccel    : LREAL := 500.0;  // Acceleration in mm/s²
     fDecel    : LREAL := 500.0;  // Deceleration in mm/s²
+END_VAR
+
+VAR
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -266,13 +264,23 @@ CASE eState OF
 				eState := LAS_Stepper_Error;
 				
 				nErrID := fbMoveAbs.ErrorID;
-				//StepperMotorMotionOperationFailed := TRUE;
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
+				IF pAlarmCondition <> 0 THEN
+					pAlarmCondition^ := TRUE;
+				END_IF
+				
 				MoveToPosition := -1;
 			END_IF
 		
 		ELSIF fbMoveAbs.CommandAborted THEN
 			eState := LAS_Stepper_Error;
-			//StepperMotorMotionOperationInterrupted := TRUE;
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Interrupted');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+				
 			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
 			MoveToPosition := -1;
 			
@@ -285,9 +293,6 @@ CASE eState OF
 	
 	LAS_STEPPER_ERROR:
 		MoveToPosition := -1; 
-		//IF CanReset() THEN
-			//Reset(bExecute := TRUE);
-		//END_IF
 		
 END_CASE]]></ST>
       </Implementation>
@@ -300,6 +305,7 @@ END_VAR
 
 VAR
 	i : UINT;
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Reset := 0;
@@ -313,7 +319,11 @@ IF eState = LAS_Stepper_Error AND Canreset() THEN
 		eState := LAS_Stepper_Error;
 		nErrID := fbReset.ErrorID;
 		
-		//StepperMotorResetOperationFailed := TRUE;
+		pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
+		IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := TRUE;
+		END_IF
+		
 		Reset := -1;
 		END_IF
 	
@@ -323,7 +333,24 @@ IF eState = LAS_Stepper_Error AND Canreset() THEN
 		IF fbPower.Status THEN
 			eState := LAS_Stepper_Idle;
 			
-			//Reset all error flags?
+			// SHOULD ALL ALARMS BE RESET HERE?
+            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
+            IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+            
+            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+            IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+            
+            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Interrupted');
+            IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+            
+            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Interrupted');
+            IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+            
+            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
+            IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+            
+            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
+            IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
 			
 		ELSE
 			eState := LAS_Stepper_Uninitialized;
@@ -338,6 +365,10 @@ END_IF]]></ST>
 VAR_INPUT
     bEnable : BOOL;
 	fDecel    : LREAL := 500.0;
+END_VAR
+
+VAR
+	pAlarmCondition : POINTER TO BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Stop := 0;
@@ -357,6 +388,12 @@ CASE eState OF
 			fbStop(Axis := pAxis^, Execute := FALSE);
 			eState := LAS_Stepper_Error;
 			nErrID := fbStop.ErrorID;
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, '');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+			
 			Stop := -1;
             
         ELSIF fbStop.Done THEN
@@ -420,7 +457,7 @@ END_CASE
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.CanReset">
-      <LineId Id="19" Count="42" />
+      <LineId Id="19" Count="4" />
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.FB_Init">
@@ -432,25 +469,48 @@ END_CASE
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="729" Count="17" />
-      <LineId Id="799" Count="1" />
+      <LineId Id="799" Count="0" />
+      <LineId Id="812" Count="0" />
+      <LineId Id="814" Count="2" />
+      <LineId Id="813" Count="0" />
+      <LineId Id="817" Count="0" />
       <LineId Id="802" Count="0" />
       <LineId Id="804" Count="0" />
       <LineId Id="801" Count="0" />
       <LineId Id="803" Count="0" />
       <LineId Id="747" Count="1" />
+      <LineId Id="819" Count="2" />
+      <LineId Id="818" Count="0" />
+      <LineId Id="822" Count="0" />
       <LineId Id="750" Count="1" />
       <LineId Id="756" Count="19" />
-      <LineId Id="806" Count="3" />
+      <LineId Id="806" Count="1" />
+      <LineId Id="824" Count="2" />
+      <LineId Id="823" Count="0" />
+      <LineId Id="827" Count="0" />
+      <LineId Id="808" Count="1" />
       <LineId Id="805" Count="0" />
       <LineId Id="810" Count="0" />
       <LineId Id="776" Count="1" />
+      <LineId Id="829" Count="2" />
+      <LineId Id="828" Count="0" />
+      <LineId Id="832" Count="0" />
       <LineId Id="779" Count="1" />
       <LineId Id="811" Count="0" />
-      <LineId Id="786" Count="12" />
+      <LineId Id="786" Count="8" />
+      <LineId Id="798" Count="0" />
       <LineId Id="39" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Init">
-      <LineId Id="1" Count="32" />
+      <LineId Id="1" Count="15" />
+      <LineId Id="35" Count="2" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="17" Count="10" />
+      <LineId Id="40" Count="2" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="28" Count="5" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.MoveToPosition">
       <LineId Id="39" Count="0" />
@@ -459,21 +519,38 @@ END_CASE
       <LineId Id="7" Count="0" />
       <LineId Id="9" Count="2" />
       <LineId Id="45" Count="0" />
-      <LineId Id="12" Count="10" />
+      <LineId Id="12" Count="4" />
+      <LineId Id="48" Count="2" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="17" Count="5" />
+      <LineId Id="53" Count="2" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="56" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="23" Count="9" />
       <LineId Id="38" Count="0" />
-      <LineId Id="33" Count="4" />
+      <LineId Id="36" Count="1" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Reset">
       <LineId Id="32" Count="1" />
-      <LineId Id="1" Count="18" />
+      <LineId Id="1" Count="8" />
+      <LineId Id="34" Count="2" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="11" Count="8" />
+      <LineId Id="38" Count="16" />
       <LineId Id="24" Count="7" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Stop">
       <LineId Id="345" Count="13" />
       <LineId Id="469" Count="0" />
-      <LineId Id="359" Count="2" />
+      <LineId Id="359" Count="1" />
+      <LineId Id="470" Count="0" />
+      <LineId Id="472" Count="2" />
+      <LineId Id="471" Count="0" />
+      <LineId Id="475" Count="0" />
+      <LineId Id="361" Count="0" />
       <LineId Id="367" Count="1" />
       <LineId Id="468" Count="0" />
       <LineId Id="467" Count="0" />
