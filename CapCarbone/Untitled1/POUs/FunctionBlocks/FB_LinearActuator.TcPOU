@@ -109,24 +109,16 @@ ELSIF sActuatorName = 'Compressor1' THEN
     bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Compressor_UnknownState.bAcked;
     bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Compressor_MotionTimedOut.bAcked;
     
-ELSIF sActuatorName = 'Compressor3' THEN
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Compressor_UnknownState.bAcked;
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_Compressor_MotionTimedOut.bAcked;
+ELSIF sActuatorName = 'Chariot1' THEN
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Chariot_UnknownState.bAcked;
+    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R1_Chariot_MotionTimedOut.bAcked;
     
-ELSIF sActuatorName = 'HeatExCoupola3' THEN
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_HeatExCoupola_UnknownState.bAcked;
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_HeatExCoupola_MotionTimedOut.bAcked;
-    
-ELSIF sActuatorName = 'RegenCoupola3' THEN
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_RegenCoupola_UnknownState.bAcked;
-    bAllAlarmsAcked := bAllAlarmsAcked AND GVL_Alarms.R3_RegenCoupola_MotionTimedOut.bAcked;
-    
-// Add other actuators as needed...
+// Add other actuators 
 ELSE
     bAllAlarmsAcked := FALSE; // Unknown actuator
 END_IF
 
-CanReset := bAllAlarmsAcked;]]></ST>
+CanReset := bAllAlarmsAcked; //Maybe return exit code to indicate cant reset alarm(s) not acknowledged]]></ST>
       </Implementation>
     </Method>
     <Method Name="Extend" Id="{afb44406-33a7-4c96-9c8b-3094883b11ba}">
@@ -165,7 +157,7 @@ CASE eState OF
         IF pActuator^.tmrTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             bError := TRUE;
-            //LinearActuatorMotionTimedOut := TRUE;
+			R1_Compressor_MotionTimedOut.bCondition := TRUE;
 			pActuator^.bInProgress := FALSE; 
 			pActuator^.bFwdDO^ := FALSE;
         END_IF
@@ -175,9 +167,9 @@ CASE eState OF
 
     LAS_LinearActuator_Error:
 		Extend := -1;
-        IF CanReset() THEN
-			Reset();
-		END_IF
+        //IF CanReset() THEN
+			//Reset();
+		//END_IF
 		
 	LAS_LinearActuator_Unknown:
 		Extend := -1;
@@ -266,6 +258,7 @@ CASE eState OF
         IF pActuator^.tmrTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             bError := TRUE;
+			R1_Compressor_MotionTimedOut.bCondition := TRUE;
             //LinearActuatorMotionTimedOut := TRUE;
 			pActuator^.bInProgress := FALSE; 
 			pActuator^.bBckwDO^ := FALSE;
@@ -276,9 +269,9 @@ CASE eState OF
 
     LAS_LinearActuator_Error:
 		Home := -1;
-        IF CanReset() THEN
-			Reset();
-		END_IF
+        //IF CanReset() THEN
+			//Reset();
+		//END_IF
 	
 	LAS_LinearActuator_Unknown:
 		Home := -1;
@@ -299,7 +292,7 @@ VAR_OUTPUT
     State : SINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF eState = LAS_LinearActuator_Error THEN
+        <ST><![CDATA[IF eState = LAS_LinearActuator_Error AND Canreset() THEN
     
     // Use the existing sName from the actuator structure
     sActuatorName := pActuator^.sName;
@@ -316,9 +309,9 @@ END_VAR]]></Declaration>
         ELSIF sActuatorName = 'Compressor1' THEN
             GVL_Alarms.R1_Compressor_UnknownState.bCondition := FALSE;
             GVL_Alarms.R1_Compressor_MotionTimedOut.bCondition := FALSE;
-        ELSIF sActuatorName = 'Compressor3' THEN
-            GVL_Alarms.R3_Compressor_UnknownState.bCondition := FALSE;
-            GVL_Alarms.R3_Compressor_MotionTimedOut.bCondition := FALSE;
+        ELSIF sActuatorName = 'Chariot1' THEN
+            GVL_Alarms.R1_Chariot_UnknownState.bCondition := FALSE;
+            GVL_Alarms.R1_Chariot_MotionTimedOut.bCondition := FALSE;
         // Add other actuators...
         END_IF
         
@@ -334,9 +327,9 @@ END_VAR]]></Declaration>
         ELSIF sActuatorName = 'Compressor1' THEN
             GVL_Alarms.R1_Compressor_UnknownState.bCondition := FALSE;
             GVL_Alarms.R1_Compressor_MotionTimedOut.bCondition := FALSE;
-        ELSIF sActuatorName = 'Compressor3' THEN
-            GVL_Alarms.R3_Compressor_UnknownState.bCondition := FALSE;
-            GVL_Alarms.R3_Compressor_MotionTimedOut.bCondition := FALSE;
+        ELSIF sActuatorName = 'Chariot1' THEN
+            GVL_Alarms.R1_Chariot_UnknownState.bCondition := FALSE;
+            GVL_Alarms.R1_Chariot_MotionTimedOut.bCondition := FALSE;
         // Add other actuators...
         END_IF
         
@@ -354,7 +347,8 @@ END_IF]]></ST>
       <LineId Id="1" Count="56" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.CanReset">
-      <LineId Id="51" Count="33" />
+      <LineId Id="51" Count="20" />
+      <LineId Id="80" Count="4" />
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Extend">
@@ -373,7 +367,8 @@ END_IF]]></ST>
       <LineId Id="69" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="59" Count="0" />
-      <LineId Id="61" Count="2" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="81" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="27" Count="5" />
@@ -398,7 +393,9 @@ END_IF]]></ST>
       <LineId Id="5" Count="5" />
       <LineId Id="14" Count="3" />
       <LineId Id="54" Count="1" />
-      <LineId Id="63" Count="5" />
+      <LineId Id="63" Count="3" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="67" Count="1" />
       <LineId Id="72" Count="0" />
       <LineId Id="25" Count="5" />
       <LineId Id="41" Count="0" />

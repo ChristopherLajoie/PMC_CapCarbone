@@ -69,7 +69,7 @@ CASE nRail OF
         bAllAlarmsAcked := FALSE; // Invalid rail number
 END_CASE
 
-CanReset := bAllAlarmsAcked;]]></ST>
+CanReset := bAllAlarmsAcked; //Maybe return exit code to indicate cant reset alarm(s) not acknowledged]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{aae538f2-84d5-46d9-a4e2-9cefceb9bd59}">
@@ -191,9 +191,9 @@ CASE eState OF
     
     LAS_Stepper_Error:
         Home := -1;
-		IF CanReset() THEN
-			Reset(bExecute := TRUE);
-        END_IF
+		//IF CanReset() THEN
+			//Reset(bExecute := TRUE);
+        //END_IF
         
 END_CASE]]></ST>
       </Implementation>
@@ -285,9 +285,9 @@ CASE eState OF
 	
 	LAS_STEPPER_ERROR:
 		MoveToPosition := -1; 
-		IF CanReset() THEN
-			Reset(bExecute := TRUE);
-		END_IF
+		//IF CanReset() THEN
+			//Reset(bExecute := TRUE);
+		//END_IF
 		
 END_CASE]]></ST>
       </Implementation>
@@ -304,7 +304,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Reset := 0;
 Init(Axis := pAxis);
-IF eState = LAS_Stepper_Error THEN
+IF eState = LAS_Stepper_Error AND Canreset() THEN
 	fbReset(Axis := pAxis^, Execute := bExecute);
 	
 	IF fbReset.Busy THEN 
@@ -391,9 +391,9 @@ CASE eState OF
     
     LAS_Stepper_Error:
         Stop := -1;
-        IF CanReset() THEN
-            Reset(bExecute := TRUE);
-        END_IF
+        //IF CanReset() THEN
+            //Reset(bExecute := TRUE);
+        //END_IF
         
     LAS_Stepper_Offline:
         // Can't stop if offline

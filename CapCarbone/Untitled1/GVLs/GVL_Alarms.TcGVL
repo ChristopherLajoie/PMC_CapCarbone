@@ -12,36 +12,44 @@
 		nID := 1002,
 		nSeverity := 1);
 	
-	R1_Compressor_UnknownState : ST_Alarm := (
+	R1_Chariot_UnknownState : ST_Alarm := (
 		nID := 1003,
 		nSeverity := 1);
 	
-	R1_Compressor_MotionTimedOut : ST_Alarm := (
+	R1_Chariot_MotionTimedOut : ST_Alarm := (
 		nID := 1004,
 		nSeverity := 1);
 	
-	R1_Stepper_Motion_Failed : ST_Alarm := (
+	R1_Compressor_UnknownState : ST_Alarm := (
 		nID := 1005,
 		nSeverity := 1);
 	
-	R1_Stepper_Homing_Failed : ST_Alarm := (
+	R1_Compressor_MotionTimedOut : ST_Alarm := (
 		nID := 1006,
 		nSeverity := 1);
 	
-	R1_Stepper_Homing_Interrupted : ST_Alarm := (
+	R1_Stepper_Motion_Failed : ST_Alarm := (
 		nID := 1007,
 		nSeverity := 1);
 	
-	R1_Stepper_Motion_Interrupted : ST_Alarm := (
+	R1_Stepper_Homing_Failed : ST_Alarm := (
 		nID := 1008,
 		nSeverity := 1);
 	
-	R1_Stepper_PowerUp_Failed : ST_Alarm := (
+	R1_Stepper_Homing_Interrupted : ST_Alarm := (
 		nID := 1009,
 		nSeverity := 1);
 	
-	R1_Stepper_Reset_Failed : ST_Alarm := (
+	R1_Stepper_Motion_Interrupted : ST_Alarm := (
 		nID := 1010,
+		nSeverity := 1);
+	
+	R1_Stepper_PowerUp_Failed : ST_Alarm := (
+		nID := 1011,
+		nSeverity := 1);
+	
+	R1_Stepper_Reset_Failed : ST_Alarm := (
+		nID := 1012,
 		nSeverity := 1);
 		
 	R2_Stepper_PowerUp_Failed : ST_Alarm := (
@@ -66,6 +74,14 @@
 	
 	R2_Stepper_Reset_Failed : ST_Alarm := (
 		nID := 2006,
+		nSeverity := 1);
+		
+	R2_Chariot_UnknownState : ST_Alarm := (
+		nID := 2007,
+		nSeverity := 1);
+	
+	R2_Chariot_MotionTimedOut : ST_Alarm := (
+		nID := 2008,
 		nSeverity := 1);
 	
 	R3_Compressor_UnknownState : ST_Alarm := (
@@ -92,28 +108,36 @@
 		nID := 3006,
 		nSeverity := 1);
 	
-	R3_Stepper_PowerUp_Failed : ST_Alarm := (
+	R3_Chariot_UnknownState : ST_Alarm := (
 		nID := 3007,
 		nSeverity := 1);
 	
-	R3_Stepper_Homing_Failed : ST_Alarm := (
+	R3_Chariot_MotionTimedOut : ST_Alarm := (
 		nID := 3008,
 		nSeverity := 1);
-	
-	R3_Stepper_Homing_Interrupted : ST_Alarm := (
+		
+	R3_Stepper_PowerUp_Failed : ST_Alarm := (
 		nID := 3009,
 		nSeverity := 1);
 	
-	R3_Stepper_Motion_Failed : ST_Alarm := (
+	R3_Stepper_Homing_Failed : ST_Alarm := (
 		nID := 3010,
 		nSeverity := 1);
 	
-	R3_Stepper_Motion_Interrupted : ST_Alarm := (
+	R3_Stepper_Homing_Interrupted : ST_Alarm := (
 		nID := 3011,
 		nSeverity := 1);
 	
-	R3_Stepper_Reset_Failed : ST_Alarm := (
+	R3_Stepper_Motion_Failed : ST_Alarm := (
 		nID := 3012,
+		nSeverity := 1);
+	
+	R3_Stepper_Motion_Interrupted : ST_Alarm := (
+		nID := 3013,
+		nSeverity := 1);
+	
+	R3_Stepper_Reset_Failed : ST_Alarm := (
+		nID := 3014,
 		nSeverity := 1);
 		
 	R4_Stepper_PowerUp_Failed : ST_Alarm := (
@@ -138,6 +162,14 @@
 	
 	R4_Stepper_Reset_Failed : ST_Alarm := (
 		nID := 4006,
+		nSeverity := 1);
+	
+	R4_Chariot_UnknownState : ST_Alarm := (
+		nID := 4007,
+		nSeverity := 1);
+	
+	R4_Chariot_MotionTimedOut : ST_Alarm := (
+		nID := 4008,
 		nSeverity := 1);
 	
 	//MACHINE SECURITY

@@ -131,20 +131,38 @@ nGlobalAlarmCount := 0;
 // R1 Alarms
 (*AddZoneAlarmMap(ADR(GVL_Alarms.R1_Sensor_UnknownState), 
                 ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_UnknownState_IsActive),
-                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_UnknownState_IsShelved), 1);
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_UnknownState_IsShelved), 
+				ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_UnknownState_IsAcked), 
+				1);
 
 AddZoneAlarmMap(ADR(GVL_Alarms.R1_Sensor_MotionTimedOut), 
                 ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_MotionTimedOut_IsActive),
-                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_MotionTimedOut_IsShelved), 1);
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_MotionTimedOut_IsShelved), 
+				ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Sensor_MotionTimedOut_IsAcked), 
+				1);*)
 
 AddZoneAlarmMap(ADR(GVL_Alarms.R1_Compressor_UnknownState), 
                 ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_UnknownState_IsActive),
-                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_UnknownState_IsShelved), 1);*)
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_UnknownState_IsShelved), 
+				ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_UnknownState_IsAcked),
+				1);
 
 AddZoneAlarmMap(ADR(GVL_Alarms.R1_Compressor_MotionTimedOut), 
                 ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsActive),
                 ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsShelved),
                 ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Compressor_MotionTimedOut_IsAcked), 
+                1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Chariot_MotionTimedOut), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Chariot_MotionTimedOut_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Chariot_MotionTimedOut_IsShelved),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Chariot_MotionTimedOut_IsAcked), 
+                1);
+
+AddZoneAlarmMap(ADR(GVL_Alarms.R1_Chariot_UnknownState), 
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Chariot_UnknownState_IsActive),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Chariot_UnknownState_IsShelved),
+                ADR(Device_1_Client_1.Tag_Providers_default_Security_Status_R1_Chariot_UnknownState_IsAcked), 
                 1);
 
 (*AddZoneAlarmMap(ADR(GVL_Alarms.R1_Stepper_Motion_Failed), 
@@ -407,9 +425,21 @@ END_IF]]></ST>
       <LineId Id="11" Count="2" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.InitializeAlarmMapping">
-      <LineId Id="1" Count="19" />
+      <LineId Id="1" Count="10" />
+      <LineId Id="182" Count="1" />
+      <LineId Id="12" Count="3" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="16" Count="3" />
+      <LineId Id="185" Count="1" />
+      <LineId Id="20" Count="0" />
       <LineId Id="177" Count="3" />
-      <LineId Id="23" Count="153" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="188" Count="4" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="194" Count="4" />
+      <LineId Id="193" Count="0" />
+      <LineId Id="24" Count="152" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.ProcessGlobalAlarm">
       <LineId Id="1" Count="9" />
