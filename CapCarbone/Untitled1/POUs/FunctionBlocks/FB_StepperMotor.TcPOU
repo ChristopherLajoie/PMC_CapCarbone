@@ -31,7 +31,8 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-CanReset := F_CheckStepperAlarmsAcked(nRail);]]></ST>
+//CanReset := F_CheckStepperAlarmsAcked(nRail);
+CanReset := True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{aae538f2-84d5-46d9-a4e2-9cefceb9bd59}">
@@ -459,6 +460,7 @@ END_CASE
     <LineIds Name="FB_StepperMotor.CanReset">
       <LineId Id="19" Count="4" />
       <LineId Id="18" Count="0" />
+      <LineId Id="24" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.FB_Init">
       <LineId Id="1" Count="0" />

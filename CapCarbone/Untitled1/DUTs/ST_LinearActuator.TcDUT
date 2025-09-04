@@ -3,13 +3,17 @@
   <DUT Name="ST_LinearActuator" Id="{f3142039-0736-403e-a4ef-3aa3c757da47}">
     <Declaration><![CDATA[TYPE ST_LinearActuator :
 STRUCT
-	sName : STRING(50);
-	bProxIn : POINTER TO BOOL;  // Digital Input: Proximity sensor "In"
-    bProxOut : POINTER TO BOOL; // Digital Input: Proximity sensor "Out"
-    bFwdDO   : POINTER TO BOOL; // Digital Output: Forward movement
-    bBckwDO  : POINTER TO BOOL; // Digital Output: Backward movement
-	tmrTimeout : TON;
-	bInProgress : BOOL;
+    sName : STRING(50);
+    bProxIn : POINTER TO BOOL;      
+    bProxOut : POINTER TO BOOL;    
+    bProx2 : POINTER TO BOOL;       
+    bProx3 : POINTER TO BOOL;       
+    bFwdDO   : POINTER TO BOOL;     
+    bBckwDO  : POINTER TO BOOL;     
+    bSpeedControlDO : POINTER TO BOOL; 
+    bFaultDI : POINTER TO BOOL;     
+    tmrTimeout : TON;
+    bInProgress : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

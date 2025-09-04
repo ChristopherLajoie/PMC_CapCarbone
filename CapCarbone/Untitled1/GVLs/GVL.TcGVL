@@ -5,46 +5,54 @@
 VAR_GLOBAL
 	
 	// LinearActuators Relays
-	Relay1_Forward : BOOL := FALSE; 
-	Relay1_Reverse : BOOL := FALSE; 
-	Relay2_Forward : BOOL := FALSE; 
-	Relay2_Reverse : BOOL := FALSE; 
-	Relay3_Forward : BOOL := FALSE; 
-	Relay3_Reverse : BOOL := FALSE; 
-	Relay4_Forward : BOOL := FALSE; 
-	Relay4_Reverse : BOOL := FALSE; 
-	Relay5_Forward : BOOL := FALSE; 
-	Relay5_Reverse : BOOL := FALSE; 
-	Relay6_Forward : BOOL := FALSE; 
-	Relay6_Reverse : BOOL := FALSE; 
-	Relay7_Forward : BOOL := FALSE; 
-	Relay7_Reverse : BOOL := FALSE; 
-	Relay8_Forward : BOOL := FALSE; 
-	Relay8_Reverse : BOOL := FALSE; 
-	Relay9_Forward : BOOL := FALSE; 
-	Relay9_Reverse : BOOL := FALSE; 
+	Cha1_Forward : BOOL := FALSE; 
+	Cha1_Reverse : BOOL := FALSE; 
+	Comp1_Forward : BOOL := FALSE; 
+	Comp1_Reverse : BOOL := FALSE; 
+	Sens1_Forward : BOOL := FALSE; 
+	Sens1_Reverse : BOOL := FALSE; 
+	Cha2_Forward : BOOL := FALSE; 
+	Cha2_Reverse : BOOL := FALSE; 
+	Cha3_Forward : BOOL := FALSE; 
+	Cha3_Reverse : BOOL := FALSE; 
+	HeatC3_Forward : BOOL := FALSE; 
+	HeatC3_Reverse : BOOL := FALSE; 
+	RegenC3_Forward : BOOL := FALSE; 
+	RegenC3_Reverse : BOOL := FALSE; 
+	Comp3_Forward : BOOL := FALSE; 
+	Comp3_Reverse : BOOL := FALSE; 
+	Cha4_Forward : BOOL := FALSE; 
+	Cha4_Reverse : BOOL := FALSE;  
 	
 	// LinearActuators ProxSensors
-	Prox1In : BOOL := TRUE;
-	Prox1Out : BOOL := FALSE;
-	Prox2In : BOOL := TRUE;
-	Prox2Out : BOOL := FALSE;
-	Prox3In : BOOL := TRUE;
-	Prox3Out : BOOL := FALSE;
-	Prox4In : BOOL := TRUE;
-	Prox4Out : BOOL := FALSE;
-	Prox5In : BOOL := TRUE;
-	Prox5Out : BOOL := FALSE;
-	Prox6In : BOOL := TRUE;
-	Prox6Out : BOOL := FALSE;
-	Prox7In : BOOL := TRUE;
-	Prox7Out : BOOL := FALSE;
-	Prox8In : BOOL := TRUE;
-	Prox8Out : BOOL := FALSE;
-	Prox9In : BOOL := TRUE;
-	Prox9Out : BOOL := FALSE;
+	Cha1_In : BOOL := TRUE;
+	Cha1_Out : BOOL := FALSE;
+	Comp1_In : BOOL := TRUE;
+	Comp1_Out : BOOL := FALSE;
+	Sens1_In : BOOL := TRUE;
+	Sens1_Out : BOOL := FALSE;
+	Cha2_In : BOOL := TRUE;
+	Cha2_Out : BOOL := FALSE;
+	Cha3_In : BOOL := TRUE;
+	Cha3_Out : BOOL := FALSE;
+	HeatC3_In : BOOL := TRUE;
+	HeatC3_Out : BOOL := FALSE;
+	HeatC3_2 : BOOL := FALSE;
+	HeatC3_3 : BOOL := FALSE;
+	RegenC3_In : BOOL := TRUE;
+	RegenC3_Out : BOOL := FALSE;
+	RegenC3_2 : BOOL := FALSE;
+	RegenC3_3 : BOOL := FALSE;
+	Comp3_In : BOOL := TRUE;
+	Comp3_Out : BOOL := FALSE;
+	Cha4_In : BOOL := TRUE;
+	Cha4_Out : BOOL := FALSE;
 	
-	//OPC_UA Command variables
+	HeatC3_SpeedControl : BOOL := TRUE;
+	RegenC3_SpeedControl : BOOL := TRUE;
+	
+	HeatC3_Fault : BOOL := TRUE;
+	RegenC3_Fault : BOOL := TRUE;
 	
 	sRequestedActuator : STRING;
 	CancelMove : BOOL;

@@ -9,7 +9,9 @@
     LAS_LinearActuator_Retracting := 4,
     LAS_LinearActuator_Retracted := 5,
     LAS_LinearActuator_Error := 6,
-	LAS_LinearActuator_Unknown := 7
+	LAS_LinearActuator_Unknown := 7,
+	LAS_LinearActuator_AtProx2 := 8,    
+    LAS_LinearActuator_AtProx3 := 9   
 );
 END_TYPE]]></Declaration>
   </DUT>
