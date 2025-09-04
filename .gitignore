@@ -364,7 +364,6 @@ FodyWeavers.xsd
 
 _CompileInfo/
 
-*.tmc
 *.bak
 *.tclrs
 *.~u
