@@ -3,7 +3,7 @@
   <GVL Name="GVL_Alarms" Id="{637d89bc-47d1-47bf-b0f7-7f6be8b20113}">
     <Declaration><![CDATA[VAR_GLOBAL
 	
-	//ALERTS
+	//ALARMS
 	R1_Sensor_UnknownState : ST_Alarm := (
 		nID := 1001,
 		nSeverity := 1);
@@ -55,7 +55,12 @@
 	R1_Stepper_Stop_Failed : ST_Alarm := (
 		nID := 1013,
 		nSeverity := 1);
-		
+	
+	R1_Stepper_UnableToReadPosition : ST_Alarm := (
+		nID := 1014,
+		nSeverity := 1);
+	
+	
 	R2_Stepper_PowerUp_Failed : ST_Alarm := (
 		nID := 2001,
 		nSeverity := 1);
@@ -91,6 +96,11 @@
 	R2_Stepper_Stop_Failed : ST_Alarm := (
 		nID := 2009,
 		nSeverity := 1);
+	
+	R2_Stepper_UnableToReadPosition : ST_Alarm := (
+		nID := 2010,
+		nSeverity := 1);
+	
 	
 	R3_Compressor_UnknownState : ST_Alarm := (
 		nID := 3001,
@@ -151,7 +161,20 @@
 	R3_Stepper_Stop_Failed : ST_Alarm := (
 		nID := 3015,
 		nSeverity := 1);
-		
+	
+	R3_HeatExCoupola_DriveFaulted : ST_Alarm := (
+		nID := 3016,
+		nSeverity := 1);
+	
+	R3_RegenCoupola_DriveFaulted : ST_Alarm := (
+		nID := 3017,
+		nSeverity := 1);
+	
+	R3_Stepper_UnableToReadPosition : ST_Alarm := (
+		nID := 3018,
+		nSeverity := 1);
+	
+	
 	R4_Stepper_PowerUp_Failed : ST_Alarm := (
 		nID := 4001,
 		nSeverity := 1);
@@ -187,6 +210,11 @@
 	R4_Stepper_Stop_Failed : ST_Alarm := (
 		nID := 4009,
 		nSeverity := 1);
+	
+	R4_Stepper_UnableToReadPosition : ST_Alarm := (
+		nID := 4010,
+		nSeverity := 1);
+	
 	
 	//MACHINE SECURITY
 	Door_1 : ST_Alarm := (

@@ -84,6 +84,7 @@ END_IF
 IF bOperationInProgress AND NOT bCancelInProgress THEN
 	
     IF bisLinearActuator THEN
+		LinearActuator^.CheckDriveFault();
         ProcessLinearActuator();
     ELSIF bisLinearTableHomeCmd THEN
         ProcessLinearTable(bHome := TRUE);
@@ -287,7 +288,9 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="PRG_CommandHandler">
-      <LineId Id="581" Count="57" />
+      <LineId Id="581" Count="52" />
+      <LineId Id="641" Count="0" />
+      <LineId Id="634" Count="4" />
       <LineId Id="293" Count="0" />
       <LineId Id="640" Count="0" />
     </LineIds>

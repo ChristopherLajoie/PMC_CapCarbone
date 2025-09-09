@@ -18,7 +18,7 @@ VAR_GLOBAL
 	Axis3Command : ST_StepperMotorCommand;
 	Axis4Command : ST_StepperMotorCommand;
 	
-	bSimulatedLimitSwitch : BOOL;
+	bSimulatedLimitSwitch : BOOL; //CHANGE TO REAL LIMIT SWITCH
 	
 END_VAR]]></Declaration>
   </GVL>

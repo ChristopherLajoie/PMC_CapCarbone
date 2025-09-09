@@ -10,19 +10,14 @@ VAR
     pResult : POINTER TO BOOL;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// ============================================================================
-// VALIDATE RAIL NUMBER
-// ============================================================================
+      <ST><![CDATA[//Validation
 IF nRail < 1 OR nRail > 4 THEN
     F_GetStepperAlarmCondition := 0;
     RETURN;
 END_IF
 
-// ============================================================================
-// MAP TO SPECIFIC ALARMS BASED ON RAIL AND ALARM TYPE
-// ============================================================================
+// Map Alarm to condition boolean
 IF nRail = 1 THEN
-    // Rail 1 Stepper Alarms
     IF sAlarmType = 'Motion_Failed' THEN
         pResult := ADR(GVL_Alarms.R1_Stepper_Motion_Failed.bCondition);
     ELSIF sAlarmType = 'Homing_Failed' THEN
@@ -35,10 +30,13 @@ IF nRail = 1 THEN
         pResult := ADR(GVL_Alarms.R1_Stepper_PowerUp_Failed.bCondition);
     ELSIF sAlarmType = 'Reset_Failed' THEN
         pResult := ADR(GVL_Alarms.R1_Stepper_Reset_Failed.bCondition);
+	ELSIF sAlarmType = 'Stop_Failed' THEN
+        pResult := ADR(GVL_Alarms.R1_Stepper_Stop_Failed.bCondition);
+	ELSIF sAlarmType = 'UnableToReadPosition' THEN
+        pResult := ADR(GVL_Alarms.R1_Stepper_UnableToReadPosition.bCondition);
     END_IF
     
 ELSIF nRail = 2 THEN
-    // Rail 2 Stepper Alarms
     IF sAlarmType = 'Motion_Failed' THEN
         pResult := ADR(GVL_Alarms.R2_Stepper_Motion_Failed.bCondition);
     ELSIF sAlarmType = 'Homing_Failed' THEN
@@ -51,10 +49,13 @@ ELSIF nRail = 2 THEN
         pResult := ADR(GVL_Alarms.R2_Stepper_PowerUp_Failed.bCondition);
     ELSIF sAlarmType = 'Reset_Failed' THEN
         pResult := ADR(GVL_Alarms.R2_Stepper_Reset_Failed.bCondition);
+	ELSIF sAlarmType = 'Stop_Failed' THEN
+        pResult := ADR(GVL_Alarms.R2_Stepper_Stop_Failed.bCondition);
+	ELSIF sAlarmType = 'UnableToReadPosition' THEN
+        pResult := ADR(GVL_Alarms.R2_Stepper_UnableToReadPosition.bCondition);
     END_IF
     
 ELSIF nRail = 3 THEN
-    // Rail 3 Stepper Alarms
     IF sAlarmType = 'Motion_Failed' THEN
         pResult := ADR(GVL_Alarms.R3_Stepper_Motion_Failed.bCondition);
     ELSIF sAlarmType = 'Homing_Failed' THEN
@@ -67,10 +68,13 @@ ELSIF nRail = 3 THEN
         pResult := ADR(GVL_Alarms.R3_Stepper_PowerUp_Failed.bCondition);
     ELSIF sAlarmType = 'Reset_Failed' THEN
         pResult := ADR(GVL_Alarms.R3_Stepper_Reset_Failed.bCondition);
+	ELSIF sAlarmType = 'Stop_Failed' THEN
+        pResult := ADR(GVL_Alarms.R3_Stepper_Stop_Failed.bCondition);
+	ELSIF sAlarmType = 'UnableToReadPosition' THEN
+        pResult := ADR(GVL_Alarms.R3_Stepper_UnableToReadPosition.bCondition);
     END_IF
     
 ELSIF nRail = 4 THEN
-    // Rail 4 Stepper Alarms
     IF sAlarmType = 'Motion_Failed' THEN
         pResult := ADR(GVL_Alarms.R4_Stepper_Motion_Failed.bCondition);
     ELSIF sAlarmType = 'Homing_Failed' THEN
@@ -83,13 +87,33 @@ ELSIF nRail = 4 THEN
         pResult := ADR(GVL_Alarms.R4_Stepper_PowerUp_Failed.bCondition);
     ELSIF sAlarmType = 'Reset_Failed' THEN
         pResult := ADR(GVL_Alarms.R4_Stepper_Reset_Failed.bCondition);
+	ELSIF sAlarmType = 'Stop_Failed' THEN
+        pResult := ADR(GVL_Alarms.R4_Stepper_Stop_Failed.bCondition);
+	ELSIF sAlarmType = 'UnableToReadPosition' THEN
+        pResult := ADR(GVL_Alarms.R4_Stepper_UnableToReadPosition.bCondition);
     END_IF
 END_IF
 
 F_GetStepperAlarmCondition := pResult;]]></ST>
     </Implementation>
     <LineIds Name="F_GetStepperAlarmCondition">
-      <LineId Id="1" Count="76" />
+      <LineId Id="3" Count="5" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="14" Count="11" />
+      <LineId Id="79" Count="3" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="30" Count="11" />
+      <LineId Id="84" Count="2" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="42" Count="2" />
+      <LineId Id="46" Count="11" />
+      <LineId Id="88" Count="2" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="58" Count="2" />
+      <LineId Id="62" Count="11" />
+      <LineId Id="92" Count="2" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="74" Count="3" />
     </LineIds>
   </POU>
 </TcPlcObject>

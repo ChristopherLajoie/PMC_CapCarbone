@@ -6,7 +6,8 @@ VAR
 	SUCCESS : INT;
 	NEXT : BOOL := FALSE;
 END_VAR
-]]></Declaration>
+
+//Utiliser command handler pour cycle aussi a cause des retours de status et position]]></Declaration>
     <Implementation>
       <SFC>
         <XmlArchive>

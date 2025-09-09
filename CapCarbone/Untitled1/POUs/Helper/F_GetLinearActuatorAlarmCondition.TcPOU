@@ -88,6 +88,8 @@ ELSIF nRail = 3 THEN
             pResult := ADR(GVL_Alarms.R3_HeatExCoupola_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
             pResult := ADR(GVL_Alarms.R3_HeatExCoupola_UnknownState.bCondition);
+		ELSIF sAlarmType = 'DriveFaulted' THEN
+			pResult := ADR(GVL_Alarms.R3_HeatExCoupola_DriveFaulted.bCondition);
         END_IF
         
     ELSIF sBaseType = 'RegenCoupola' THEN
@@ -95,6 +97,8 @@ ELSIF nRail = 3 THEN
             pResult := ADR(GVL_Alarms.R3_RegenCoupola_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
             pResult := ADR(GVL_Alarms.R3_RegenCoupola_UnknownState.bCondition);
+		ELSIF sAlarmType = 'DriveFaulted' THEN
+			pResult := ADR(GVL_Alarms.R3_RegenCoupola_DriveFaulted.bCondition);
         END_IF
         
     ELSIF sBaseType = 'Chariot' THEN
@@ -119,7 +123,11 @@ END_IF
 F_GetLinearActuatorAlarmCondition := pResult;]]></ST>
     </Implementation>
     <LineIds Name="F_GetLinearActuatorAlarmCondition">
-      <LineId Id="1" Count="102" />
+      <LineId Id="1" Count="73" />
+      <LineId Id="107" Count="1" />
+      <LineId Id="75" Count="6" />
+      <LineId Id="105" Count="1" />
+      <LineId Id="82" Count="21" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_LinearActuator
 VAR
     eState : ENUM_LinearActuatorState := LAS_LinearActuator_Uninitialized;
-    tTimeout : TIME := T#10S;
+    tTimeout : TIME := T#100S;
     bError : BOOL;
     sErrorMsg : STRING(80);
     pActuator : POINTER TO ST_LinearActuator;
@@ -53,6 +53,9 @@ SetStoppedState();
 // Stop the timeout timer
 pActuator^.tmrTimeout(IN := FALSE);
 
+// Update edge detection ONCE
+UpdateEdgeDetection();
+
 // Determine current position - check all possible positions
 IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN
     eState := LAS_LinearActuator_Retracted;
@@ -61,10 +64,10 @@ ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge A
     eState := LAS_LinearActuator_Extended;
     bValidPosition := TRUE;
 ELSIF bHas4Sensors THEN
-    IF (bProxInRisingEdge AND pActuator^.bProx2^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProx2^) THEN
+    IF (bProx2RisingEdge AND pActuator^.bProx2^) OR (NOT bProx2RisingEdge AND NOT pActuator^.bProx2^) THEN
         eState := LAS_LinearActuator_AtProx2;
         bValidPosition := TRUE;
-    ELSIF (bProxOutRisingEdge AND pActuator^.bProx3^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProx3^) THEN
+    ELSIF (bProx3RisingEdge AND pActuator^.bProx3^) OR (NOT bProx3RisingEdge AND NOT pActuator^.bProx3^) THEN
         eState := LAS_LinearActuator_AtProx3;
         bValidPosition := TRUE;
     END_IF
@@ -87,28 +90,31 @@ bError := FALSE;
 Cancel := 1;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="CanReset" Id="{e451c082-6390-4897-b2c0-f7f1baa90012}">
-      <Declaration><![CDATA[METHOD CanReset : BOOL
+    <Method Name="CheckDriveFault" Id="{fa98b561-2deb-4912-871f-79363f500ba9}">
+      <Declaration><![CDATA[METHOD CheckDriveFault : BOOL
 VAR
-    bAllAlarmsAcked : BOOL := TRUE;
-    sActuatorName : STRING(50);
-END_VAR]]></Declaration>
+	pAlarmCondition : POINTER TO BOOL;
+END_VAR
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF eState <> LAS_LinearActuator_Error THEN
-    CanReset := TRUE;
-    RETURN;
-END_IF
-
-//CanReset := F_CheckLinearActuatorAlarmsAcked(pActuator^.sName);
-CanReset := TRUE;]]></ST>
+        <ST><![CDATA[IF bHas4Sensors THEN
+	pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'DriveFaulted');
+	
+    IF pActuator^.bFaultDI^ := TRUE THEN
+		IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := TRUE;
+		END_IF
+	ELSE
+		IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := FALSE;
+		END_IF
+	END_IF
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Extend" Id="{afb44406-33a7-4c96-9c8b-3094883b11ba}">
       <Declaration><![CDATA[METHOD Extend : INT
 VAR
-    bProxOutDetected : BOOL;
-    bProx2Detected : BOOL;
-    bProx3Detected : BOOL;
     pAlarmCondition : POINTER TO BOOL;
 END_VAR]]></Declaration>
       <Implementation>
@@ -117,12 +123,19 @@ END_VAR]]></Declaration>
 // Update edge detection ONCE at start of method
 UpdateEdgeDetection();
 
-pActuator^.tmrTimeout(IN := pActuator^.bInProgress, PT := T#10S);
+pActuator^.tmrTimeout(IN := pActuator^.bInProgress, PT := tTimeout);
 
 CASE eState OF
-    LAS_LinearActuator_Retracted, LAS_LinearActuator_AtProx2, LAS_LinearActuator_AtProx3:
-        // Start extension from any position
+    LAS_LinearActuator_Retracted:
+        // Start extension from fully retracted position
         SetForwardMovement();
+        eState := LAS_LinearActuator_Extending;
+        
+    LAS_LinearActuator_AtProx2, LAS_LinearActuator_AtProx3:
+        // Continue extension from intermediate positions (don't reset speed)
+        pActuator^.bFwdDO^ := TRUE;
+        pActuator^.bBckwDO^ := FALSE;
+        pActuator^.bInProgress := TRUE;
         eState := LAS_LinearActuator_Extending;
 
     LAS_LinearActuator_Extending:
@@ -240,9 +253,6 @@ FB_Init := TRUE;]]></ST>
     <Method Name="Home" Id="{f928c3cc-e926-4d68-aa06-e49d712546af}">
       <Declaration><![CDATA[METHOD Home : INT
 VAR
-    bProxInDetected : BOOL;
-    bProx2Detected : BOOL;
-    bProx3Detected : BOOL;
     pAlarmCondition : POINTER TO BOOL;
 END_VAR]]></Declaration>
       <Implementation>
@@ -251,12 +261,19 @@ END_VAR]]></Declaration>
 // Update edge detection ONCE at start of method
 UpdateEdgeDetection();
 
-pActuator^.tmrTimeout(IN := pActuator^.bInProgress, PT := T#10S);
+pActuator^.tmrTimeout(IN := pActuator^.bInProgress, PT := tTimeout);
 
 CASE eState OF
-    LAS_LinearActuator_Extended, LAS_LinearActuator_AtProx3, LAS_LinearActuator_AtProx2:
-        // Start retraction from any position
+    LAS_LinearActuator_Extended:
+        // Start retraction from fully extended position
         SetBackwardMovement();
+        eState := LAS_LinearActuator_Retracting;
+
+    LAS_LinearActuator_AtProx3, LAS_LinearActuator_AtProx2:
+        // Continue retraction from intermediate positions (don't reset speed)
+        pActuator^.bFwdDO^ := FALSE;
+        pActuator^.bBckwDO^ := TRUE;
+        pActuator^.bInProgress := TRUE;
         eState := LAS_LinearActuator_Retracting;
 
     LAS_LinearActuator_Retracting:
@@ -326,35 +343,45 @@ VAR_OUTPUT
     State : SINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF eState = LAS_LinearActuator_Error AND CanReset() THEN
+        <ST><![CDATA[
+IF eState = LAS_LinearActuator_Error THEN
     
     sActuatorName := pActuator^.sName;
     
-    // Reset speed to fast
-    IF pActuator^.bSpeedControlDO <> 0 THEN
-        pActuator^.bSpeedControlDO^ := TRUE;  // Fast speed
-    END_IF
+    // Update edge detection ONCE
+    UpdateEdgeDetection();
     
-    // Determine position after reset
+    // Determine position after reset - check all possible positions
     IF (bProxInRisingEdge AND pActuator^.bProxIn^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProxIn^) THEN    
         eState := LAS_LinearActuator_Retracted;
         bError := FALSE;
-        State := 0;
-    ELSIF bHas4Sensors AND ((bProxInRisingEdge AND pActuator^.bProx2^) OR (NOT bProxInRisingEdge AND NOT pActuator^.bProx2^)) THEN
-        eState := LAS_LinearActuator_Retracted;
-        bError := FALSE;
-        State := 0;
+        State := 0;  // Retracted position
     ELSIF (bProxOutRisingEdge AND pActuator^.bProxOut^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProxOut^) THEN
         eState := LAS_LinearActuator_Extended;
         bError := FALSE;
-        State := 1;
-    ELSIF bHas4Sensors AND ((bProxOutRisingEdge AND pActuator^.bProx3^) OR (NOT bProxOutRisingEdge AND NOT pActuator^.bProx3^)) THEN
-        eState := LAS_LinearActuator_Extended;
-        bError := FALSE;
-        State := 1;
+        State := 1;  // Extended position
+    ELSIF bHas4Sensors THEN
+        IF (bProx2RisingEdge AND pActuator^.bProx2^) OR (NOT bProx2RisingEdge AND NOT pActuator^.bProx2^) THEN
+            eState := LAS_LinearActuator_AtProx2;
+            bError := FALSE;
+            State := 2;  // At Prox2 position
+        ELSIF (bProx3RisingEdge AND pActuator^.bProx3^) OR (NOT bProx3RisingEdge AND NOT pActuator^.bProx3^) THEN
+            eState := LAS_LinearActuator_AtProx3;
+            bError := FALSE;
+            State := 3;  // At Prox3 position
+        ELSE
+            eState := LAS_LinearActuator_Unknown;
+            State := -1;  // Unknown position
+            
+            pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+            IF pAlarmCondition <> 0 THEN
+                pAlarmCondition^ := TRUE;
+            END_IF
+            RETURN;
+        END_IF
     ELSE
         eState := LAS_LinearActuator_Unknown;
-        State := -1;
+        State := -1;  // Unknown position
         
         pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
         IF pAlarmCondition <> 0 THEN
@@ -362,6 +389,9 @@ END_VAR]]></Declaration>
         END_IF
         RETURN;
     END_IF
+    
+    // Set outputs to safe state based on actuator type
+    SetStoppedState();
     
     // Clear alarm conditions if position is now known
     pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
@@ -399,7 +429,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[pActuator^.bFwdDO^ := TRUE;
+        <ST><![CDATA[// Both types: Forward TRUE, Backward FALSE
+pActuator^.bFwdDO^ := TRUE;
 pActuator^.bBckwDO^ := FALSE;
 pActuator^.bInProgress := TRUE;
 
@@ -465,43 +496,43 @@ END_IF]]></ST>
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Cancel">
-      <LineId Id="179" Count="4" />
-      <LineId Id="187" Count="31" />
+      <LineId Id="219" Count="39" />
       <LineId Id="57" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LinearActuator.CanReset">
-      <LineId Id="51" Count="4" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="56" Count="0" />
+    <LineIds Name="FB_LinearActuator.CheckDriveFault">
+      <LineId Id="1" Count="12" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Extend">
-      <LineId Id="282" Count="65" />
+      <LineId Id="348" Count="72" />
       <LineId Id="44" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.FB_Init">
-      <LineId Id="159" Count="0" />
-      <LineId Id="162" Count="40" />
+      <LineId Id="203" Count="41" />
       <LineId Id="29" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Home">
-      <LineId Id="274" Count="65" />
+      <LineId Id="340" Count="72" />
       <LineId Id="40" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Reset">
-      <LineId Id="193" Count="46" />
+      <LineId Id="240" Count="59" />
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.SetBackwardMovement">
-      <LineId Id="1" Count="8" />
+      <LineId Id="10" Count="7" />
+      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.SetForwardMovement">
-      <LineId Id="1" Count="7" />
+      <LineId Id="9" Count="7" />
+      <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.SetStoppedState">
-      <LineId Id="1" Count="12" />
+      <LineId Id="14" Count="11" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.UpdateEdgeDetection">
-      <LineId Id="1" Count="22" />
+      <LineId Id="24" Count="21" />
+      <LineId Id="23" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

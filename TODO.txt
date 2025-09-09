@@ -1,11 +1,7 @@
 - Add alarm .bcondition flag setting and unsetting where needed in the code.
 - Add alarm status checking logic in cycle and commandhandler. Also figure out synchronisation between cycle and        commandhandler.
-- Add missing tags of OpcUA server connection in TwinCAT3 client, link them to their GVL and uncomment accordingly in InitializeAlarmMapping.
-- Figure out if .bcondition reset for stepper motors is in reset method or after successful action (Like successful power-up after power-up failed)
-- true and false for commands in control page linear actuator rail 3 script are inverse
-- Boxes have prox sensors for position detection.
-- linear actuator command status isn't implemented
-- reset popup
-- utiliser command handler pour cycle aussi a cause des retours de status et position
+- Create stepper reset hardware check routine
+- Check how to use prox sensors of boxes for position detection.
+- Verify mc_power usage
 
 

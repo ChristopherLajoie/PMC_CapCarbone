@@ -3,10 +3,10 @@
   <DUT Name="ST_SystemAlarmStatus" Id="{38326c80-3fc2-48b3-a36c-496b6b07f475}">
     <Declaration><![CDATA[TYPE ST_SystemAlarmStatus :
 STRUCT
-    bGlobalOkToRun : BOOL;                              // E-stop, doors clear
-    bAllZonesOk : BOOL;                                 // For PRG_Cycle
-    aZoneStatus : ARRAY[1..4] OF ST_ZoneAlarmStatus;    // Rail 1-4 status
-    bMaintenanceMode : BOOL;                            // System-wide maintenance
+    bGlobalOkToRun : BOOL;                            
+    bAllZonesOk : BOOL;                                
+    aZoneStatus : ARRAY[1..5] OF ST_ZoneAlarmStatus;    
+    bMaintenanceMode : BOOL;                          
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>
