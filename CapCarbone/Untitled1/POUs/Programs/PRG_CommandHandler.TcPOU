@@ -2,6 +2,9 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="PRG_CommandHandler" Id="{b534ce1c-328a-4a1f-bd2e-b4f58fd46cee}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_CommandHandler
+VAR_INPUT
+	stAlarmStatus : ST_SystemAlarmStatus;
+END_VAR
 VAR
 	bisValidCmd : BOOL;
 	bCancelCmd : BOOL;
@@ -21,46 +24,55 @@ VAR
 	CurrentPosition : LREAL;
 	Result: INT := 0;
 	
-	sActiveCommand : STRING := 'none';          // Currently executing command
-    bOperationInProgress : BOOL := FALSE;       // Operation state tracking
-    bCancelInProgress : BOOL := FALSE;          // Cancel operation active
-    tmrCancelTimeout : TON;                     // Cancel timeout timer
-    tCancelTimeout : TIME := T#5S;              // Cancel timeout duration
-    nCancelResult : INT := 0;                   // Cancel operation result
+	sActiveCommand : STRING := 'none';         
+    bOperationInProgress : BOOL := FALSE;     
+    bCancelInProgress : BOOL := FALSE;          
+    tmrCancelTimeout : TON;                   
+    tCancelTimeout : TIME := T#5S;             
+    nCancelResult : INT := 0;                   
 	
+	bSafetyOk : BOOL := FALSE;
+    bSafetyTriggeredCancel : BOOL := FALSE;
+    tmrSafetyTimeout : TON;
+    tSafetyTimeout : TIME := T#10S;  
+    bEmergencyStop : BOOL := FALSE;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// 1. CANCEL LOGIC - Check cancel request first (highest priority)
+      <ST><![CDATA[// ============================================================================
+// 1. SAFETY CHECK 
+// ============================================================================
+bSafetyOk := EvaluateSystemSafety();
+
+// ============================================================================
+// 2. CANCEL LOGIC 
 // ============================================================================
 IF CancelMove AND bOperationInProgress AND NOT bCancelInProgress THEN
     bCancelInProgress := TRUE;
-    tmrCancelTimeout(IN := FALSE); // Reset timer
+    tmrCancelTimeout(IN := FALSE); 
 END_IF
 
-// Process active cancel operation
 IF bCancelInProgress THEN
     ProcessCancelOperation();
-    RETURN; // Skip normal processing during cancel
+    RETURN; 
 END_IF
 
 // ============================================================================
-// 2. NEW COMMAND LOGIC - Start new command if idle
+// 4. NEW COMMAND 
 // ============================================================================
-IF NOT bOperationInProgress AND sRequestedActuator <> 'none' THEN
-    // Validate and lock onto the new command
-    bisValidCmd := F_ValidateCommand(sInput := sRequestedActuator, nX => nX, sY => sY, sZ => sZ);
-    
+bisValidCmd := F_ValidateCommand(sInput := sRequestedActuator, nX => nX, sY => sY, sZ => sZ);
+
+IF NOT bOperationInProgress AND sRequestedActuator <> 'none' AND (bSafetyOk OR ValidateCommandSafety(sZ)) THEN
+  
     IF NOT bisValidCmd THEN 
-        sRequestedActuator := 'none'; // Clear invalid command
+        sRequestedActuator := 'none'; 
         RETURN; 
     END_IF
     
-    // Lock onto this command
     sActiveCommand := sRequestedActuator;
     bOperationInProgress := TRUE;
+    bSafetyTriggeredCancel := FALSE;  
     
-    // Parse the locked command (ignore any future changes to sRequestedActuator)
     LinearActuator := F_GetLinearCommandValue(nX, sY);
     LinearActuatorCmd := F_GetLinearCommandMember(nX, sY);
     LinearTable := F_GetStepperCommandValue(nX, sY);
@@ -79,12 +91,10 @@ IF NOT bOperationInProgress AND sRequestedActuator <> 'none' THEN
 END_IF
 
 // ============================================================================
-// 3. ACTIVE COMMAND PROCESSING - Continue with locked command
+// 5. COMMAND EXECUTION 
 // ============================================================================
 IF bOperationInProgress AND NOT bCancelInProgress THEN
-	
     IF bisLinearActuator THEN
-		LinearActuator^.CheckDriveFault();
         ProcessLinearActuator();
     ELSIF bisLinearTableHomeCmd THEN
         ProcessLinearTable(bHome := TRUE);
@@ -93,39 +103,40 @@ IF bOperationInProgress AND NOT bCancelInProgress THEN
     END_IF
 END_IF]]></ST>
     </Implementation>
+    <Method Name="EvaluateSystemSafety" Id="{9dd680db-6fdd-4722-ae01-3267e2a2aa12}">
+      <Declaration><![CDATA[METHOD EvaluateSystemSafety : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[EvaluateSystemSafety := stAlarmStatus.aZoneStatus[1].bOkToRun AND
+                       stAlarmStatus.aZoneStatus[2].bOkToRun AND
+                       stAlarmStatus.aZoneStatus[3].bOkToRun AND
+                       stAlarmStatus.aZoneStatus[4].bOkToRun AND
+                       stAlarmStatus.aZoneStatus[5].bOkToRun;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="ProcessCancelOperation" Id="{ac957e77-13a6-4f5c-8c3f-8b6fbdb8d91f}">
       <Declaration><![CDATA[
 METHOD ProcessCancelOperation
 VAR
     bCancelComplete : BOOL := FALSE;
     bTimeoutExpired : BOOL := FALSE;
+    bSafetyTimeoutExpired : BOOL := FALSE;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Start cancel timeout timer
-tmrCancelTimeout(IN := TRUE, PT := tCancelTimeout);
-bTimeoutExpired := tmrCancelTimeout.Q;
-
-IF bisLinearActuator THEN
-    // Linear Actuator Cancel - Should complete immediately
+        <ST><![CDATA[IF bisLinearActuator THEN
     nCancelResult := LinearActuator^.Cancel();
     
     IF nCancelResult = 1 THEN
-        // Cancel successful
-        LinearActuatorCmd^.Status := -2; // Cancelled status
+        LinearActuatorCmd^.Status := -2;
         bCancelComplete := TRUE;
     ELSIF nCancelResult = -1 THEN
-        // Cancel failed - but still complete the cancel operation
-        LinearActuatorCmd^.Status := -1; // Error status
+        LinearActuatorCmd^.Status := -1; 
         bCancelComplete := TRUE;
     END_IF
     
 ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
-    // Stepper Motor Cancel - Use Stop method
     nCancelResult := LinearTable^.Stop(TRUE);
     
     IF nCancelResult = 1 THEN
-		
-        // Stop successful
         LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
         LinearTableCmd^.Position := CurrentPosition;
         
@@ -136,36 +147,30 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
         
         bCancelComplete := TRUE;
         
-    ELSIF nCancelResult = -1 OR bTimeoutExpired THEN
-        // Stop failed or timed out
+    ELSIF nCancelResult = -1 THEN
         IF bisLinearTableHomeCmd THEN
             LinearTableCmd^.Homed := FALSE;
             LinearTableCmd^.Homing := FALSE;
         ELSE
-            LinearTableCmd^.Position := -1; // Error position
+            LinearTableCmd^.Position := -1; 
         END_IF
         
         bCancelComplete := TRUE;
-        
-        // Log timeout alarm if needed
-        IF bTimeoutExpired THEN
-            // Could trigger a specific cancel timeout alarm here
-        END_IF
     END_IF
 END_IF
 
 // Complete cancel operation
 IF bCancelComplete THEN
-    // Clean up state
     sActiveCommand := 'none';
-    sRequestedActuator := 'none';  // Clear like normal completion
+    sRequestedActuator := 'none';
     bOperationInProgress := FALSE;
     bCancelInProgress := FALSE;
-    CancelMove := FALSE;           // Reset cancel trigger
-    tmrCancelTimeout(IN := FALSE); // Stop timeout timer
+    bSafetyTriggeredCancel := FALSE;
+    CancelMove := FALSE;
+    tmrCancelTimeout(IN := FALSE);
+    tmrSafetyTimeout(IN := FALSE);
     nCancelResult := 0;
-END_IF
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="ProcessLinearActuator" Id="{fa11d454-59c0-4fad-b564-0953d0ce78c6}">
@@ -179,7 +184,7 @@ END_VAR
 
 // Check for reset command
 IF bisResetCmd THEN
-    LinearActuator^.Reset(State => Result);
+    LinearActuator^.Reset(State => Result); //Instantaneous read of prox seonsors
     sActiveCommand := 'none';
     sRequestedActuator := 'none';
     bOperationInProgress := FALSE;
@@ -287,15 +292,40 @@ CASE Result OF
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="ValidateCommandSafety" Id="{b06412f3-9a53-431c-82a1-ed0a29a747c2}">
+      <Declaration><![CDATA[METHOD ValidateCommandSafety : BOOL
+VAR_INPUT
+    sResetFlag : STRING;  
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF sResetFlag = 'Reset' THEN
+    ValidateCommandSafety := TRUE;
+    RETURN;
+END_IF
+
+ValidateCommandSafety := bSafetyOk;]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="PRG_CommandHandler">
-      <LineId Id="581" Count="52" />
-      <LineId Id="641" Count="0" />
-      <LineId Id="634" Count="4" />
-      <LineId Id="293" Count="0" />
+      <LineId Id="655" Count="3" />
+      <LineId Id="670" Count="16" />
+      <LineId Id="736" Count="1" />
+      <LineId Id="687" Count="0" />
+      <LineId Id="690" Count="4" />
+      <LineId Id="701" Count="0" />
+      <LineId Id="703" Count="25" />
+      <LineId Id="730" Count="5" />
       <LineId Id="640" Count="0" />
     </LineIds>
+    <LineIds Name="PRG_CommandHandler.EvaluateSystemSafety">
+      <LineId Id="1" Count="4" />
+    </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessCancelOperation">
-      <LineId Id="1" Count="64" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="78" Count="10" />
+      <LineId Id="90" Count="23" />
+      <LineId Id="121" Count="11" />
+      <LineId Id="65" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearActuator">
       <LineId Id="38" Count="38" />
@@ -304,6 +334,9 @@ END_CASE]]></ST>
     <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
       <LineId Id="58" Count="59" />
       <LineId Id="51" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_CommandHandler.ValidateCommandSafety">
+      <LineId Id="1" Count="5" />
     </LineIds>
   </POU>
 </TcPlcObject>

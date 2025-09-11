@@ -3,7 +3,7 @@
   <Task Name="CommandHandler" Id="{462609d6-e0d9-4301-b3f9-13d8307eb5d2}">
     <!--CycleTime in micro seconds.-->
     <CycleTime>10000</CycleTime>
-    <Priority>8</Priority>
+    <Priority>5</Priority>
     <PouCall>
       <Name>PRG_CommandHandler</Name>
     </PouCall>

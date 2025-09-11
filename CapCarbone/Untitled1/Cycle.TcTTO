@@ -3,7 +3,7 @@
   <Task Name="Cycle" Id="{1f9a0487-7290-4e50-b540-e4c90c376317}">
     <!--CycleTime in micro seconds.-->
     <CycleTime>10000</CycleTime>
-    <Priority>14</Priority>
+    <Priority>8</Priority>
     <PouCall>
       <Name>PRG_Cycle</Name>
     </PouCall>

@@ -17,7 +17,8 @@ END_VAR]]></Declaration>
     bInitComplete := TRUE;
 END_IF
 
-fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);]]></ST>
+fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);
+gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
     </Implementation>
     <LineIds Name="PRG_AlarmHandler">
       <LineId Id="50" Count="0" />
@@ -25,6 +26,7 @@ fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);]]></ST>
       <LineId Id="56" Count="0" />
       <LineId Id="47" Count="2" />
       <LineId Id="34" Count="0" />
+      <LineId Id="58" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

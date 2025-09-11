@@ -58,6 +58,8 @@ VAR_GLOBAL
 	CancelMove : BOOL;
 	StopCycle : BOOL;
 	
+	gSystemAlarmStatus : ST_SystemAlarmStatus;
+	
 	//Cycle variables
 	HeatExchangeRunning: BOOL := FALSE;
 	StartHeatExchange: BOOL := FALSE;

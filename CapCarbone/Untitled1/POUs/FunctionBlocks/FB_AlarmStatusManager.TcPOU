@@ -44,15 +44,7 @@ FOR i := 1 TO nAlarmCount DO
 		ProcessAlarm(aAllAlarms[i].pAlarm, nZone);
 	
     END_IF
-END_FOR
-
-stSystemStatus.bAllZonesOk := 
-    stSystemStatus.aZoneStatus[1].bOkToRun AND 
-    stSystemStatus.aZoneStatus[2].bOkToRun AND 
-    stSystemStatus.aZoneStatus[3].bOkToRun AND 
-    stSystemStatus.aZoneStatus[4].bOkToRun AND
-	stSystemStatus.aZoneStatus[5].bOkToRun;
-]]></ST>
+END_FOR]]></ST>
     </Implementation>
     <Method Name="AddAlarm" Id="{6fdebe5e-54bc-4f7a-9386-b1b99075ac08}">
       <Declaration><![CDATA[METHOD AddAlarm : BOOL
@@ -216,9 +208,6 @@ ProcessAlarm := TRUE;]]></ST>
       <LineId Id="140" Count="0" />
       <LineId Id="150" Count="0" />
       <LineId Id="141" Count="1" />
-      <LineId Id="144" Count="5" />
-      <LineId Id="151" Count="0" />
-      <LineId Id="43" Count="0" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.AddAlarm">
       <LineId Id="1" Count="4" />

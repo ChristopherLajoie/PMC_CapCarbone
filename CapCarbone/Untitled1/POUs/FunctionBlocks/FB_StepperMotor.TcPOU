@@ -20,6 +20,15 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="CheckHardware" Id="{9483b802-41e4-45b6-80c4-0c5089e14c23}">
+      <Declaration><![CDATA[METHOD CheckHardware : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="FB_Init" Id="{aae538f2-84d5-46d9-a4e2-9cefceb9bd59}">
       <Declaration><![CDATA[METHOD FB_Init: BOOL
 VAR_INPUT
@@ -240,6 +249,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[MoveToPosition := 0;
 Init(Axis := pAxis);
+
 CASE eState OF
 	LAS_Stepper_Idle:
 		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, 
@@ -281,7 +291,7 @@ CASE eState OF
 			nErrID := 0;
 		END_IF
 	
-	LAS_STEPPER_ERROR:
+	LAS_Stepper_Error:
 		MoveToPosition := -1; 
 		
 END_CASE]]></ST>
@@ -421,6 +431,9 @@ END_CASE
     <LineIds Name="FB_StepperMotor">
       <LineId Id="1" Count="0" />
     </LineIds>
+    <LineIds Name="FB_StepperMotor.CheckHardware">
+      <LineId Id="1" Count="0" />
+    </LineIds>
     <LineIds Name="FB_StepperMotor.FB_Init">
       <LineId Id="1" Count="0" />
     </LineIds>
@@ -479,6 +492,7 @@ END_CASE
     <LineIds Name="FB_StepperMotor.MoveToPosition">
       <LineId Id="39" Count="0" />
       <LineId Id="44" Count="0" />
+      <LineId Id="57" Count="0" />
       <LineId Id="1" Count="4" />
       <LineId Id="7" Count="0" />
       <LineId Id="9" Count="2" />

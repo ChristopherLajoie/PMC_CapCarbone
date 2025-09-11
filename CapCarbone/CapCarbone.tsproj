@@ -1589,7 +1589,7 @@ only active in subscription mode]]></Comment>
 		<ImageData Id="1004">424d360300000000000036000000280000001000000010000000010018000000000000030000c40e0000c40e00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff8383836d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d838383ff00ffff00ff1d82b51b81b3187eb0167cae1379ab1076a80d73a50b71a3086ea0066c9e046a9c02689a0167994c4c4c8383832287ba67ccff2085b899ffff6fd4ff6fd4ff6fd4ff6fd4ff6fd4ff6fd4ff6fd4ff6fd4ff3ba0d399ffff0167996e6e6e258abd67ccff278cbf99ffff7be0ff7be0ff7be0ff7be0ff7be0ff7be0ff7be0ff7be0ff44a9dc99ffff02689a6d6d6d288dc067ccff2d92c599ffff85ebff85ebff85ebff85ebff85ebff85ebff85ebff85ebff4eb3e699ffff046a9c6d6d6d2a8fc267ccff3398cb99ffff91f7ff91f7ff91f7ff91f7ff91f7ff91f7ff91f7ff91f7ff57bcef99ffff066c9e6d6d6d2d92c56fd4ff3499cc99ffff99ffff99ffff99ffff99ffff99ffff99ffff99ffff99ffff60c5f899ffff086ea06e6e6e2f94c77be0ff2d92c5ffffffffffffffffffffffffffffffffffffffffffffffffffffff81e6ffffffff0b71a38c8c8c3196c985ebff81e6ff2d92c52d92c52d92c52d92c52d92c52d92c5288dc02489bc2085b81c81b41b81b31b81b3ff00ff3398cb91f7ff8ef4ff8ef4ff8ef4ff8ef4ff8ef4ffffffffffffffffffffffffffffffff167cae8c8c8cff00ffff00ff3499ccffffff99ffff99ffff99ffff99ffffffffff258abd2287ba1f84b71d82b51b81b3187eb0ff00ffff00ffff00ffff00ff3499ccffffffffffffffffffffffff2a8fc2ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff3499cc3398cb3196c92f94c7ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
 		<ImageData Id="1005">424d360300000000000036000000280000001000000010000000010018000000000000030000c40e0000c40e00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff868686000000000000000000000000000000000000000000000000000000ff00ffff00ffff00ffff00ffff00ff868686c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00000000ff00ffff00ffff00ff868686c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c0000000ff00ffff00ff868686c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00000000ff00ffff00ff86868600ff00868686868686c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c0000000ff00ffff00ff86868600ff0086868686868600ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00000000ff00ffff00ff86868600ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c0000000ff00ffff00ffff00ff86868600ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00000000ff00ffff00ffff00ffff00ff86868600ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c000ff00c0c0c0000000ff00ffff00ffff00ffff00ffff00ff868686868686868686868686868686868686868686868686868686868686ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
 	</ImageDatas>
-	<Project ProjectGUID="{06418B6F-05C1-450A-BCFB-591E2E8D8474}" Target64Bit="true" AutoPrioManagement="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{06418B6F-05C1-450A-BCFB-591E2E8D8474}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Settings>
 				<Debugger Priority="61"/>
@@ -1602,13 +1602,13 @@ only active in subscription mode]]></Comment>
 				</Target>
 			</Licenses>
 			<Tasks>
-				<Task Id="1" Priority="14" CycleTime="100000" AmsPort="350" AdtTasks="true">
+				<Task Id="1" Priority="8" CycleTime="100000" AmsPort="350" AdtTasks="true">
 					<Name>Cycle</Name>
 				</Task>
-				<Task Id="3" Priority="10" CycleTime="100000" AmsPort="351" AdtTasks="true">
+				<Task Id="3" Priority="3" CycleTime="100000" AmsPort="351" AdtTasks="true">
 					<Name>AlarmHandler</Name>
 				</Task>
-				<Task Id="7" Priority="8" CycleTime="100000" AmsPort="352" AdtTasks="true">
+				<Task Id="7" Priority="5" CycleTime="100000" AmsPort="352" AdtTasks="true">
 					<Name>CommandHandler</Name>
 				</Task>
 				<Task Id="8" Priority="16" CycleTime="400000" AmsPort="353" AdtTasks="true">
@@ -2265,7 +2265,7 @@ only active in subscription mode]]></Comment>
 		</Motion>
 		<Plc>
 			<Project GUID="{06A144AE-15C8-407C-8A20-7ACC04BE137D}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{FBF4B470-7FC9-4F03-6BBC-BF6CE90864E5}" TmcPath="Untitled1\Untitled1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{E75D7F69-76B4-85B3-1A06-5911D306227E}" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" ContextId="2" AreaNo="33">
@@ -2325,7 +2325,7 @@ only active in subscription mode]]></Comment>
 							<ManualConfig>
 								<OTCID>#x02010070</OTCID>
 							</ManualConfig>
-							<Priority>8</Priority>
+							<Priority>5</Priority>
 							<CycleTime>10000000</CycleTime>
 						</Context>
 						<Context>
@@ -2334,7 +2334,7 @@ only active in subscription mode]]></Comment>
 							<ManualConfig>
 								<OTCID>#x02010030</OTCID>
 							</ManualConfig>
-							<Priority>10</Priority>
+							<Priority>3</Priority>
 							<CycleTime>10000000</CycleTime>
 						</Context>
 						<Context>
@@ -2343,14 +2343,14 @@ only active in subscription mode]]></Comment>
 							<ManualConfig>
 								<OTCID>#x02010010</OTCID>
 							</ManualConfig>
-							<Priority>14</Priority>
+							<Priority>8</Priority>
 							<CycleTime>10000000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
-						<TaskPouOid Prio="8" OTCID="#x08502005"/>
-						<TaskPouOid Prio="10" OTCID="#x08502002"/>
-						<TaskPouOid Prio="14" OTCID="#x08502004"/>
+						<TaskPouOid Prio="3" OTCID="#x08502002"/>
+						<TaskPouOid Prio="5" OTCID="#x08502005"/>
+						<TaskPouOid Prio="8" OTCID="#x08502004"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>
