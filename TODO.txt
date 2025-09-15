@@ -1,5 +1,4 @@
 - Add alarm .bcondition flag setting and unsetting where needed in the code.
-- Create stepper reset hardware check routine
 - Check how to use prox sensors of boxes for position detection.
 - Verify mc_power usage
 - Verify how to access EL7062

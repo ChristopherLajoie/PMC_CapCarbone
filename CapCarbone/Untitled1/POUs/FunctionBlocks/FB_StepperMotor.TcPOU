@@ -16,17 +16,114 @@ VAR
     nErrID     : UDINT;               
     fbReset    : MC_Reset;
 	eState	   : ENUM_StepperMotorState := LAS_Stepper_Uninitialized;    
+	
+	// Hardware check variables
+	eHardwareCheckState : ENUM_HardwareCheckState;
+	fHW_OriginalPosition : LREAL;
+	fHW_TestPosition : LREAL;
+	fHW_CurrentPosition : LREAL;
+	fHW_TestDistance : LREAL := 1.5;
+	fHW_PositionTolerance : LREAL := 1.0;
+	fHW_UpperLimit : LREAL;
+	bHW_MovePositive : BOOL;
+	bHW_MovementDetected : BOOL;
+	bHW_CheckStarted : BOOL;
+	fbHW_Timer : TON;
+	eHW_SavedState : ENUM_StepperMotorState; // Save original state
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="CheckHardware" Id="{9483b802-41e4-45b6-80c4-0c5089e14c23}">
-      <Declaration><![CDATA[METHOD CheckHardware : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
+      <Declaration><![CDATA[METHOD CheckHardware : INT
+VAR
+    fOriginalPosition : LREAL;
+    fTestPosition : LREAL;
+    fCurrentPosition : LREAL;
+    fTestDistance : LREAL := 1.5; // Test movement distance in mm
+    fUpperLimit : LREAL;
+    bMovePositive : BOOL;
+    nMoveResult : INT;
+    nReturnResult : INT;
+    bMovementDetected : BOOL;
+    fPositionTolerance : LREAL := 2.0; // Minimum detectable movement
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[CheckHardware := 0; 
+
+GetPosition(fCurrentPosition => fOriginalPosition);
+
+CASE nRail OF
+    1: fUpperLimit := Pos15; 
+    2: fUpperLimit := Pos22;   
+    3: fUpperLimit := Pos35; 
+    4: fUpperLimit := Pos42;  
+    ELSE
+        RETURN; 
+END_CASE
+
+IF (fOriginalPosition + fTestDistance) <= fUpperLimit THEN
+    bMovePositive := TRUE;
+    fTestPosition := fOriginalPosition + fTestDistance;
+ELSIF (fOriginalPosition - fTestDistance) >= 0.0 THEN
+    bMovePositive := FALSE;
+    fTestPosition := fOriginalPosition - fTestDistance;
+ELSE
+    RETURN; 
+END_IF
+
+nMoveResult := MoveToPosition(fPosition := fTestPosition);
+
+CASE nMoveResult OF
+	0:
+		RETURN; //Continue
+	
+	1:
+		GetPosition(fCurrentPosition => fCurrentPosition);
+		IF fCurrentPosition < 0 THEN
+			Checkhardware := -1;
+			RETURN; // Could not read final position, hardware check fails
+		END_IF
+
+	
+	-1:
+		Checkhardware := -1;
+		RETURN;
+END_CASE
+
+// Check if movement was detected
+IF bMovePositive THEN
+    bMovementDetected := (fCurrentPosition - fOriginalPosition) >= fPositionTolerance;
+ELSE
+    bMovementDetected := (fOriginalPosition - fCurrentPosition) >= fPositionTolerance;
+END_IF
+
+IF NOT bMovementDetected THEN
+	Checkhardware := -1;
+    RETURN;
+END_IF
+
+// Return to original position
+nReturnResult := MoveToPosition(fPosition := fOriginalPosition);
+
+CASE nReturnResult OF
+	0:
+		RETURN; //Continue
+	
+	1:
+		GetPosition(fCurrentPosition => fCurrentPosition);
+		IF fCurrentPosition < 0 THEN
+			Checkhardware := -1;
+			RETURN; // Could not read final position, hardware check fails
+		END_IF
+	
+	-1:
+		Checkhardware := -1;
+		RETURN;
+END_CASE
+
+// All tests passed
+CheckHardware := 1;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{aae538f2-84d5-46d9-a4e2-9cefceb9bd59}">
@@ -237,9 +334,9 @@ END_CASE
       <Declaration><![CDATA[METHOD MoveToPosition : INT
 VAR_INPUT
     fPosition : LREAL;  // Target position
-    fVelocity : LREAL := 100.0;  // Velocity in mm/s
-    fAccel    : LREAL := 500.0;  // Acceleration in mm/s²
-    fDecel    : LREAL := 500.0;  // Deceleration in mm/s²
+    fVelocity : LREAL := 1.0;  // Velocity in mm/s
+    fAccel    : LREAL := 0.5;  // Acceleration in mm/s²
+    fDecel    : LREAL := 0.5;  // Deceleration in mm/s²
 END_VAR
 
 VAR
@@ -251,7 +348,7 @@ END_VAR
 Init(Axis := pAxis);
 
 CASE eState OF
-	LAS_Stepper_Idle:
+	LAS_Stepper_Idle, LAS_Stepper_Hardware_Check:
 		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, 
           Velocity := fVelocity, Acceleration := fAccel, Deceleration := fDecel);
 	
@@ -260,20 +357,22 @@ CASE eState OF
 	LAS_Stepper_Moving:
 		IF fbMoveAbs.Busy THEN
 			fbMoveAbs(Axis := pAxis^);
-			IF fbMoveAbs.Error THEN
-				eState := LAS_Stepper_Error;
-				
-				nErrID := fbMoveAbs.ErrorID;
-				
-				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
-				IF pAlarmCondition <> 0 THEN
-					pAlarmCondition^ := TRUE;
-				END_IF
-				
-				MoveToPosition := -1;
+		END_IF
+		IF fbMoveAbs.Error THEN
+			eState := LAS_Stepper_Error;
+			
+			nErrID := fbMoveAbs.ErrorID;
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
 			END_IF
+			
+			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
+			MoveToPosition := -1;
+		END_IF
 		
-		ELSIF fbMoveAbs.CommandAborted THEN
+		IF fbMoveAbs.CommandAborted THEN
 			eState := LAS_Stepper_Error;
 			
 			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Interrupted');
@@ -306,39 +405,206 @@ END_VAR
 VAR
 	i : UINT;
 	pAlarmCondition : POINTER TO BOOL;
+	nResult : INT;
+	nMoveResult : INT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Reset := 0;
 Init(Axis := pAxis);
 
-IF eState = LAS_Stepper_Error THEN
-	fbReset(Axis := pAxis^, Execute := bExecute);
+CASE eState OF
+	LAS_Stepper_Error, LAS_Stepper_Idle:
+		fbReset(Axis := pAxis^, Execute := bExecute);
+		
+		IF fbReset.Busy THEN 
+			IF fbReset.Error THEN
+				eState := LAS_Stepper_Error;
+				nErrID := fbReset.ErrorID;
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
+				IF pAlarmCondition <> 0 THEN
+					pAlarmCondition^ := TRUE;
+				END_IF
+				
+				Reset := -1;
+			END_IF
+		
+		ELSIF fbReset.Done THEN		
+			fbReset(Axis := pAxis^, Execute := FALSE);
+			// Start hardware check
+			eState := LAS_Stepper_Hardware_Check;
+			eHardwareCheckState := HW_GetOriginalPos;
+			bHW_CheckStarted := FALSE;
+		END_IF
 	
-	IF fbReset.Busy THEN 
-		IF fbReset.Error THEN
+	LAS_Stepper_Hardware_Check, LAS_Stepper_Moving:
+		// Hardware check state machine
+		CASE eHardwareCheckState OF
+			HW_GetOriginalPos:
+				// Start timer on first entry
+				IF NOT bHW_CheckStarted THEN
+					bHW_CheckStarted := TRUE;
+					fHW_OriginalPosition := -1;
+				END_IF
+				
+				fbHW_Timer(IN := bHW_CheckStarted, PT := T#10S);
+				
+				// Get original position
+				GetPosition(fCurrentPosition => fHW_OriginalPosition);
+				
+				IF fHW_OriginalPosition >= 0 THEN
+					// Position read successfully, calculate test position
+					CASE nRail OF
+						1: fHW_UpperLimit := Pos15; 
+						2: fHW_UpperLimit := Pos22;   
+						3: fHW_UpperLimit := Pos35; 
+						4: fHW_UpperLimit := Pos42;  
+						ELSE
+							eHardwareCheckState := HW_Failed;
+					END_CASE
+					
+					IF eHardwareCheckState <> HW_Failed THEN
+						IF (fHW_OriginalPosition + fHW_TestDistance) <= fHW_UpperLimit THEN
+							bHW_MovePositive := TRUE;
+							fHW_TestPosition := fHW_OriginalPosition + fHW_TestDistance;
+						ELSIF (fHW_OriginalPosition - fHW_TestDistance) >= 0.0 THEN
+							bHW_MovePositive := FALSE;
+							fHW_TestPosition := fHW_OriginalPosition - fHW_TestDistance;
+						ELSE
+							// Cannot perform hardware check at this position
+							eHardwareCheckState := HW_Failed;
+						END_IF
+						
+						IF eHardwareCheckState <> HW_Failed THEN
+							eHardwareCheckState := HW_StartTestMove;
+						END_IF
+					END_IF
+					
+				ELSIF fbHW_Timer.Q THEN
+					// Timeout getting position
+					eHardwareCheckState := HW_Failed;
+				END_IF
 			
-		eState := LAS_Stepper_Error;
-		nErrID := fbReset.ErrorID;
-		
-		pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
-		IF pAlarmCondition <> 0 THEN
-			pAlarmCondition^ := TRUE;
-		END_IF
-		
-		Reset := -1;
-		END_IF
+			HW_StartTestMove:
+				// MoveToPosition already handles LAS_Stepper_Hardware_Check
+				eHardwareCheckState := HW_WaitTestMove;
+			
+			HW_WaitTestMove:
+				fbHW_Timer(IN := bHW_CheckStarted, PT := T#10S);
+				
+				nMoveResult := MoveToPosition(fPosition := fHW_TestPosition);
+				
+				CASE nMoveResult OF
+					0: // Continue
+						// Check timeout
+						(*IF fbHW_Timer.Q THEN
+							eHardwareCheckState := HW_Failed;
+						END_IF*)
+						
+					1: // Move completed successfully
+						eState := LAS_Stepper_Hardware_Check; // Ensure we stay in hardware check
+						eHardwareCheckState := HW_CheckMovement;
+						
+					-1: // Move failed
+						eHardwareCheckState := HW_Failed;
+				END_CASE
+			
+			HW_CheckMovement:
+				fbHW_Timer(IN := bHW_CheckStarted, PT := T#10S);
+				
+				// Get current position after move
+				GetPosition(fCurrentPosition => fHW_CurrentPosition);
+				
+				IF fHW_CurrentPosition >= 0 THEN
+					// Check if movement was detected
+					IF bHW_MovePositive THEN
+						bHW_MovementDetected := (fHW_CurrentPosition - fHW_OriginalPosition) >= fHW_PositionTolerance;
+					ELSE
+						bHW_MovementDetected := (fHW_OriginalPosition - fHW_CurrentPosition) >= fHW_PositionTolerance;
+					END_IF
+					
+					IF NOT bHW_MovementDetected THEN
+						// Hardware check failed - no movement detected
+						eHardwareCheckState := HW_Failed;
+					ELSE
+						// Movement detected, return to original position
+						eHardwareCheckState := HW_StartReturn;
+					END_IF
+					
+				(*ELSIF fbHW_Timer.Q THEN
+					// Timeout reading position
+					eHardwareCheckState := HW_Failed;*)
+				END_IF
+			
+			HW_StartReturn:
+				// MoveToPosition already handles LAS_Stepper_Hardware_Check  
+				eHardwareCheckState := HW_WaitReturn;
+			
+			HW_WaitReturn:
+				fbHW_Timer(IN := bHW_CheckStarted, PT := T#10S);
+				
+				nMoveResult := MoveToPosition(fPosition := fHW_OriginalPosition);
+				
+				CASE nMoveResult OF
+					0: // Continue
+						// Check timeout
+						(*IF fbHW_Timer.Q THEN
+							eHardwareCheckState := HW_Failed;
+						END_IF*)
+						
+					1: // Return completed successfully
+						eState := LAS_Stepper_Hardware_Check; // Ensure we stay in hardware check
+						eHardwareCheckState := HW_Complete;
+						
+					-1: // Return failed
+						eHardwareCheckState := HW_Failed;
+				END_CASE
+			
+			HW_Complete:
+				// Hardware check completed successfully
+				eState := LAS_Stepper_Idle;
+				bHW_CheckStarted := FALSE;
+				
+				// Clear all alarm conditions
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Interrupted');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Stop_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'UnableToReadPosition');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				Reset := 1;
+			
+			HW_Failed:
+				eState := LAS_Stepper_Error;
+				bHW_CheckStarted := FALSE;
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
+				IF pAlarmCondition <> 0 THEN
+					pAlarmCondition^ := TRUE;
+				END_IF
+				
+				Reset := -1;
+		END_CASE
 	
-	ELSIF fbReset.Done THEN
-		Reset := 1;
-		
-		IF fbPower.Status THEN
-			eState := LAS_Stepper_Idle;					
-		ELSE
-			eState := LAS_Stepper_Uninitialized;
-		END_IF
-		
-	END_IF
-END_IF]]></ST>
+	ELSE
+		// Unknown state during reset
+		Reset := -1;
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="Stop" Id="{9b515f94-46a2-4ab1-aca0-af2dcdfe9f04}">
@@ -432,6 +698,32 @@ END_CASE
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.CheckHardware">
+      <LineId Id="22" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="35" Count="8" />
+      <LineId Id="45" Count="9" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="106" Count="3" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="128" Count="1" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="110" Count="3" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="70" Count="8" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="79" Count="3" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="115" Count="6" />
+      <LineId Id="132" Count="2" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="122" Count="3" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="101" Count="1" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.FB_Init">
@@ -497,9 +789,11 @@ END_CASE
       <LineId Id="7" Count="0" />
       <LineId Id="9" Count="2" />
       <LineId Id="45" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="12" Count="4" />
       <LineId Id="48" Count="2" />
       <LineId Id="47" Count="0" />
+      <LineId Id="59" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="17" Count="5" />
       <LineId Id="53" Count="2" />
@@ -511,14 +805,8 @@ END_CASE
       <LineId Id="36" Count="1" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Reset">
-      <LineId Id="32" Count="1" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="1" Count="8" />
-      <LineId Id="34" Count="2" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="11" Count="7" />
-      <LineId Id="26" Count="5" />
+      <LineId Id="651" Count="194" />
+      <LineId Id="45" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Stop">
       <LineId Id="345" Count="8" />

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <DUT Name="ENUM_HardwareCheckState" Id="{1145764c-a371-4404-85e3-5521a5e8f13f}">
+    <Declaration><![CDATA[TYPE ENUM_HardwareCheckState :
+(
+	HW_Idle := 0,
+	HW_GetOriginalPos := 1,
+	HW_StartTestMove := 2,
+	HW_WaitTestMove := 3,
+	HW_CheckMovement := 4,
+	HW_StartReturn := 5,
+	HW_WaitReturn := 6,
+	HW_Complete := 7,
+	HW_Failed := 8
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

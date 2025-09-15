@@ -142,20 +142,28 @@ END_VAR
 VAR
     sZoneChar : STRING(1);
     nZoneNum : SINT;
+    sAfterR : STRING;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[ParseAlarmZone := 0;
 
 // Check if alarm is global or belongs to a zone
 IF LEN(sAlarmName) >= 3 AND LEFT(sAlarmName, 1) = 'R' THEN
-    sZoneChar := MID(sAlarmName, 1, 1);
+    // Get everything after 'R'
+    sAfterR := RIGHT(sAlarmName, LEN(sAlarmName) - 1);
+    
+    // Get the first character after 'R' (should be the digit)
+    sZoneChar := LEFT(sAfterR, 1);
     nZoneNum := STRING_TO_SINT(sZoneChar);
     
-    IF nZoneNum >= 1 AND nZoneNum <= 4 AND MID(sAlarmName, 2, 1) = '_' THEN
+    // Check if it's a valid zone number and has underscore after it
+    IF nZoneNum >= 1 AND nZoneNum <= 4 AND LEFT(RIGHT(sAfterR, LEN(sAfterR) - 1), 1) = '_' THEN
         ParseAlarmZone := nZoneNum;
-	ELSE
-    	ParseAlarmZone := 5;  // global alarms
+    ELSE
+        ParseAlarmZone := 5;  // global alarms
     END_IF
+ELSE
+    ParseAlarmZone := 5;  // global alarms
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -226,12 +234,9 @@ ProcessAlarm := TRUE;]]></ST>
       <LineId Id="60" Count="9" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.ParseAlarmZone">
-      <LineId Id="2" Count="3" />
-      <LineId Id="7" Count="2" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="16" Count="1" />
-      <LineId Id="14" Count="1" />
+      <LineId Id="2" Count="2" />
+      <LineId Id="18" Count="15" />
+      <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.ProcessAlarm">
       <LineId Id="62" Count="4" />

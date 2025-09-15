@@ -2,9 +2,6 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <POU Name="PRG_CommandHandler" Id="{b534ce1c-328a-4a1f-bd2e-b4f58fd46cee}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_CommandHandler
-VAR_INPUT
-	stAlarmStatus : ST_SystemAlarmStatus;
-END_VAR
 VAR
 	bisValidCmd : BOOL;
 	bCancelCmd : BOOL;
@@ -32,10 +29,10 @@ VAR
     nCancelResult : INT := 0;                   
 	
 	bSafetyOk : BOOL := FALSE;
-    bSafetyTriggeredCancel : BOOL := FALSE;
-    tmrSafetyTimeout : TON;
-    tSafetyTimeout : TIME := T#10S;  
-    bEmergencyStop : BOOL := FALSE;
+	
+	bAwaitingClose : BOOL := FALSE;
+    tmrCloseSignal : TON;
+    tCloseHoldTime : TIME := T#1000MS;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -45,7 +42,24 @@ END_VAR
 bSafetyOk := EvaluateSystemSafety();
 
 // ============================================================================
-// 2. CANCEL LOGIC 
+// 2. CLOSE TIMER HANDLING 
+// ============================================================================
+IF bAwaitingClose THEN
+    tmrCloseSignal(IN := TRUE, PT := tCloseHoldTime);
+    
+    IF tmrCloseSignal.Q THEN
+        // Timer expired, clear the close signal
+        sRequestedActuator := 'none';
+        bAwaitingClose := FALSE;
+        tmrCloseSignal(IN := FALSE);
+    END_IF
+    
+    // Block all other processing while awaiting close acknowledgment
+    RETURN;
+END_IF
+
+// ============================================================================
+// 3. CANCEL LOGIC 
 // ============================================================================
 IF CancelMove AND bOperationInProgress AND NOT bCancelInProgress THEN
     bCancelInProgress := TRUE;
@@ -62,16 +76,18 @@ END_IF
 // ============================================================================
 bisValidCmd := F_ValidateCommand(sInput := sRequestedActuator, nX => nX, sY => sY, sZ => sZ);
 
-IF NOT bOperationInProgress AND sRequestedActuator <> 'none' AND (bSafetyOk OR ValidateCommandSafety(sZ)) THEN
+IF NOT bOperationInProgress AND sRequestedActuator <> 'none' AND sRequestedActuator <> 'close' AND (bSafetyOk OR ValidateCommandSafety(sZ)) THEN
   
     IF NOT bisValidCmd THEN 
-        sRequestedActuator := 'none'; 
+        // Invalid command - signal close immediately
+        sRequestedActuator := 'close';
+        bAwaitingClose := TRUE;
+        tmrCloseSignal(IN := FALSE); // Reset timer
         RETURN; 
     END_IF
     
     sActiveCommand := sRequestedActuator;
-    bOperationInProgress := TRUE;
-    bSafetyTriggeredCancel := FALSE;  
+    bOperationInProgress := TRUE; 
     
     LinearActuator := F_GetLinearCommandValue(nX, sY);
     LinearActuatorCmd := F_GetLinearCommandMember(nX, sY);
@@ -106,11 +122,11 @@ END_IF]]></ST>
     <Method Name="EvaluateSystemSafety" Id="{9dd680db-6fdd-4722-ae01-3267e2a2aa12}">
       <Declaration><![CDATA[METHOD EvaluateSystemSafety : BOOL]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EvaluateSystemSafety := stAlarmStatus.aZoneStatus[1].bOkToRun AND
-                       stAlarmStatus.aZoneStatus[2].bOkToRun AND
-                       stAlarmStatus.aZoneStatus[3].bOkToRun AND
-                       stAlarmStatus.aZoneStatus[4].bOkToRun AND
-                       stAlarmStatus.aZoneStatus[5].bOkToRun;]]></ST>
+        <ST><![CDATA[EvaluateSystemSafety := gSystemAlarmStatus.aZoneStatus[1].bOkToRun AND
+                       gSystemAlarmStatus.aZoneStatus[2].bOkToRun AND
+                       gSystemAlarmStatus.aZoneStatus[3].bOkToRun AND
+                       gSystemAlarmStatus.aZoneStatus[4].bOkToRun AND
+                       gSystemAlarmStatus.aZoneStatus[5].bOkToRun;]]></ST>
       </Implementation>
     </Method>
     <Method Name="ProcessCancelOperation" Id="{ac957e77-13a6-4f5c-8c3f-8b6fbdb8d91f}">
@@ -165,10 +181,10 @@ IF bCancelComplete THEN
     sRequestedActuator := 'none';
     bOperationInProgress := FALSE;
     bCancelInProgress := FALSE;
-    bSafetyTriggeredCancel := FALSE;
     CancelMove := FALSE;
-    tmrCancelTimeout(IN := FALSE);
-    tmrSafetyTimeout(IN := FALSE);
+    sRequestedActuator := 'close';
+    bAwaitingClose := TRUE;
+    tmrCloseSignal(IN := FALSE);
     nCancelResult := 0;
 END_IF]]></ST>
       </Implementation>
@@ -188,6 +204,10 @@ IF bisResetCmd THEN
     sActiveCommand := 'none';
     sRequestedActuator := 'none';
     bOperationInProgress := FALSE;
+	
+	sRequestedActuator := 'close';
+    bAwaitingClose := TRUE;
+    tmrCloseSignal(IN := FALSE); // Reset timer
     RETURN;
 END_IF
 
@@ -198,11 +218,9 @@ ELSE
     Result := LinearActuator^.Home();
 END_IF
 
-// Handle results
 CASE Result OF
     1: // Success
         sActiveCommand := 'none';
-        sRequestedActuator := 'none';
         bOperationInProgress := FALSE;
         
         IF bisExtendCmd THEN
@@ -210,15 +228,24 @@ CASE Result OF
         ELSE
             LinearActuatorCmd^.Status := 0;
         END_IF
+        
+        // NEW: Signal close to HMI
+        sRequestedActuator := 'close';
+        bAwaitingClose := TRUE;
+        tmrCloseSignal(IN := FALSE); // Reset timer
     
     0: // Continue
         // Operation in progress, continue
         
     -1: // Error
         sActiveCommand := 'none';
-        sRequestedActuator := 'none';
         bOperationInProgress := FALSE;
         LinearActuatorCmd^.Status := -1;
+        
+        // NEW: Signal close to HMI
+        sRequestedActuator := 'close';
+        bAwaitingClose := TRUE;
+        tmrCloseSignal(IN := FALSE); // Reset timer
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -238,9 +265,13 @@ IF bisResetCmd THEN
     CASE Result OF
         1: // Reset success
             sActiveCommand := 'none';
-            sRequestedActuator := 'none';
             bOperationInProgress := FALSE;
             LinearTableCmd^.Position := CurrentPosition;
+            
+            // NEW: Signal close to HMI
+            sRequestedActuator := 'close';
+            bAwaitingClose := TRUE;
+            tmrCloseSignal(IN := FALSE); // Reset timer
             RETURN;
             
         0: // Reset in progress
@@ -248,9 +279,13 @@ IF bisResetCmd THEN
             
         -1: // Reset failed
             sActiveCommand := 'none';
-            sRequestedActuator := 'none';
             bOperationInProgress := FALSE;
             LinearTableCmd^.Position := -1;
+            
+            // NEW: Signal close to HMI
+            sRequestedActuator := 'close';
+            bAwaitingClose := TRUE;
+            tmrCloseSignal(IN := FALSE); // Reset timer
             RETURN;
     END_CASE
 END_IF
@@ -258,29 +293,33 @@ END_IF
 // Execute movement command
 IF bHome THEN
     Result := LinearTable^.Home(TRUE);
-ELSE 
+ELSIF NOT bisResetCmd THEN
     Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.Command);
     LinearTableCmd^.Position := CurrentPosition;
 END_IF
 
-// Handle results
 CASE Result OF
     1: // Success
         sActiveCommand := 'none';
-        sRequestedActuator := 'none';
         bOperationInProgress := FALSE;
         
         IF bHome THEN    
             LinearTableCmd^.Homed := TRUE;
             LinearTableCmd^.Homing := FALSE;
         END_IF
-    
+        
+        // NEW: Signal close to HMI
+        sRequestedActuator := 'close';
+        bAwaitingClose := TRUE;
+        tmrCloseSignal(IN := FALSE); // Reset timer
+    	
+		Result := 0;
+		
     0: // Continue
         // Operation in progress, continue
     
     -1: // Error
         sActiveCommand := 'none';
-        sRequestedActuator := 'none';
         bOperationInProgress := FALSE;
         
         IF bHome THEN    
@@ -289,6 +328,12 @@ CASE Result OF
         ELSE
             LinearTableCmd^.Position := -1;
         END_IF
+        
+        // NEW: Signal close to HMI
+        sRequestedActuator := 'close';
+        bAwaitingClose := TRUE;
+        tmrCloseSignal(IN := FALSE); // Reset timer
+		Result := 0;
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -308,12 +353,18 @@ ValidateCommandSafety := bSafetyOk;]]></ST>
     </Method>
     <LineIds Name="PRG_CommandHandler">
       <LineId Id="655" Count="3" />
-      <LineId Id="670" Count="16" />
+      <LineId Id="743" Count="15" />
+      <LineId Id="670" Count="0" />
+      <LineId Id="759" Count="0" />
+      <LineId Id="671" Count="15" />
       <LineId Id="736" Count="1" />
       <LineId Id="687" Count="0" />
-      <LineId Id="690" Count="4" />
+      <LineId Id="690" Count="0" />
+      <LineId Id="760" Count="5" />
+      <LineId Id="694" Count="0" />
       <LineId Id="701" Count="0" />
-      <LineId Id="703" Count="25" />
+      <LineId Id="703" Count="1" />
+      <LineId Id="706" Count="22" />
       <LineId Id="730" Count="5" />
       <LineId Id="640" Count="0" />
     </LineIds>
@@ -324,15 +375,30 @@ ValidateCommandSafety := bSafetyOk;]]></ST>
       <LineId Id="76" Count="0" />
       <LineId Id="78" Count="10" />
       <LineId Id="90" Count="23" />
-      <LineId Id="121" Count="11" />
+      <LineId Id="121" Count="6" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="133" Count="1" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="132" Count="0" />
       <LineId Id="65" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearActuator">
-      <LineId Id="38" Count="38" />
+      <LineId Id="38" Count="7" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="79" Count="2" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="47" Count="8" />
+      <LineId Id="82" Count="27" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
-      <LineId Id="58" Count="59" />
+      <LineId Id="58" Count="5" />
+      <LineId Id="118" Count="25" />
+      <LineId Id="82" Count="9" />
+      <LineId Id="144" Count="14" />
+      <LineId Id="177" Count="1" />
+      <LineId Id="159" Count="17" />
+      <LineId Id="179" Count="0" />
       <LineId Id="51" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ValidateCommandSafety">
