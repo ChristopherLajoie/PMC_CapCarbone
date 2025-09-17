@@ -3,72 +3,10 @@
   <GVL Name="GVL" Id="{84031c49-9b58-4990-8455-46264bcb9bf2}">
     <Declaration><![CDATA[{attribute 'global_init_slot' := '1'}
 VAR_GLOBAL
-	
-	// LinearActuators Relays
-	Cha1_Forward : BOOL := FALSE; 
-	Cha1_Reverse : BOOL := FALSE; 
-	Comp1_Forward : BOOL := FALSE; 
-	Comp1_Reverse : BOOL := FALSE; 
-	Sens1_Forward : BOOL := FALSE; 
-	Sens1_Reverse : BOOL := FALSE; 
-	Cha2_Forward : BOOL := FALSE; 
-	Cha2_Reverse : BOOL := FALSE; 
-	Cha3_Forward : BOOL := FALSE; 
-	Cha3_Reverse : BOOL := FALSE; 
-	HeatC3_Forward : BOOL := FALSE; 
-	HeatC3_Reverse : BOOL := FALSE; 
-	RegenC3_Forward : BOOL := FALSE; 
-	RegenC3_Reverse : BOOL := FALSE; 
-	Comp3_Forward : BOOL := FALSE; 
-	Comp3_Reverse : BOOL := FALSE; 
-	Cha4_Forward : BOOL := FALSE; 
-	Cha4_Reverse : BOOL := FALSE;  
-	
-	// LinearActuators ProxSensors
-	Cha1_In : BOOL := TRUE;
-	Cha1_Out : BOOL := FALSE;
-	Comp1_In : BOOL := TRUE;
-	Comp1_Out : BOOL := FALSE;
-	Sens1_In : BOOL := TRUE;
-	Sens1_Out : BOOL := FALSE;
-	Cha2_In : BOOL := TRUE;
-	Cha2_Out : BOOL := FALSE;
-	Cha3_In : BOOL := TRUE;
-	Cha3_Out : BOOL := FALSE;
-	HeatC3_In : BOOL := TRUE;
-	HeatC3_Out : BOOL := FALSE;
-	HeatC3_2 : BOOL := FALSE;
-	HeatC3_3 : BOOL := FALSE;
-	RegenC3_In : BOOL := TRUE;
-	RegenC3_Out : BOOL := FALSE;
-	RegenC3_2 : BOOL := FALSE;
-	RegenC3_3 : BOOL := FALSE;
-	Comp3_In : BOOL := TRUE;
-	Comp3_Out : BOOL := FALSE;
-	Cha4_In : BOOL := TRUE;
-	Cha4_Out : BOOL := FALSE;
-	
-	HeatC3_SpeedControl : BOOL := TRUE;
-	RegenC3_SpeedControl : BOOL := TRUE;
-	
-	HeatC3_Fault : BOOL := TRUE;
-	RegenC3_Fault : BOOL := TRUE;
-	
-	sRequestedActuator : STRING;
-	CancelMove : BOOL;
+
 	StopCycle : BOOL;
 	
 	gSystemAlarmStatus : ST_SystemAlarmStatus;
-	
-	//Cycle variables
-	HeatExchangeRunning: BOOL := FALSE;
-	StartHeatExchange: BOOL := FALSE;
-	
-	AdsorptionRunning: BOOL := FALSE;
-	StartAdsorption: BOOL := FALSE;
-	
-	RegenerationRunning: BOOL := FALSE;
-	StartRegeneration: BOOL := FALSE;
 	
 	CONTROL : BOOL := FALSE;
 	

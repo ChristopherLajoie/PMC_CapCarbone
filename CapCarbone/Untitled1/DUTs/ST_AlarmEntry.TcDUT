@@ -3,8 +3,8 @@
   <DUT Name="ST_AlarmEntry" Id="{ace690c2-6328-4f6e-b841-e69cd57e66ab}">
     <Declaration><![CDATA[TYPE ST_AlarmEntry :
 STRUCT
-    pAlarm : POINTER TO ST_Alarm;      // Pointer to the alarm
-    sName : STRING(50);                // Alarm name for parsing
+    pAlarm : POINTER TO ST_Alarm;     
+    sName : STRING(50);               
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

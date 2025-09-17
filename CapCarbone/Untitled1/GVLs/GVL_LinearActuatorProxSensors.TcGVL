@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <GVL Name="GVL_LinearActuatorProxSensors" Id="{455d88bd-ac82-447a-b71f-65d156b0bbbc}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	Cha1_In : BOOL := TRUE;
+	Cha1_Out : BOOL := FALSE;
+	Comp1_In : BOOL := TRUE;
+	Comp1_Out : BOOL := FALSE;
+	Sens1_In : BOOL := TRUE;
+	Sens1_Out : BOOL := FALSE;
+	Cha2_In : BOOL := TRUE;
+	Cha2_Out : BOOL := FALSE;
+	Cha3_In : BOOL := TRUE;
+	Cha3_Out : BOOL := FALSE;
+	HeatC3_In : BOOL := TRUE;
+	HeatC3_Out : BOOL := FALSE;
+	HeatC3_2 : BOOL := FALSE;
+	HeatC3_3 : BOOL := FALSE;
+	RegenC3_In : BOOL := TRUE;
+	RegenC3_Out : BOOL := FALSE;
+	RegenC3_2 : BOOL := FALSE;
+	RegenC3_3 : BOOL := FALSE;
+	Comp3_In : BOOL := TRUE;
+	Comp3_Out : BOOL := FALSE;
+	Cha4_In : BOOL := TRUE;
+	Cha4_Out : BOOL := FALSE;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

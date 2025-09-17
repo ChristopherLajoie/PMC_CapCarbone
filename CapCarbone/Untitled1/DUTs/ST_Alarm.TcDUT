@@ -3,15 +3,9 @@
   <DUT Name="ST_Alarm" Id="{62903e3f-1b71-43bd-bca3-90f8ae946812}">
     <Declaration><![CDATA[TYPE ST_Alarm :
 STRUCT
-    // Basic alarm properties
-    bCondition      : BOOL;            // The condition that triggers the alarm
-    bActive         : BOOL;            // Alarm is currently active
-    bAcked          : BOOL;            // Alarm has been acknowledged
-    
-    // Metadata for alarm management
-    nID             : UDINT;            // Unique ID for identification
-    nSeverity       : UINT;            // Severity level (1=Info, 2=Warning, 3=Error, 4=Critical)
-    
+    bCondition      : BOOL;           
+    nID             : UDINT;           
+    nSeverity       : UINT;             
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

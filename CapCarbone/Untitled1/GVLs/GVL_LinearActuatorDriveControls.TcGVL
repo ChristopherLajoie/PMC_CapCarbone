@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <GVL Name="GVL_LinearActuatorDriveControls" Id="{f4396875-a356-4ef4-b034-83cd607c30df}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	HeatC3_SpeedControl : BOOL := TRUE;
+	HeatC3_Fault : BOOL := TRUE;
+	
+	RegenC3_SpeedControl : BOOL := TRUE;
+	RegenC3_Fault : BOOL := TRUE;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

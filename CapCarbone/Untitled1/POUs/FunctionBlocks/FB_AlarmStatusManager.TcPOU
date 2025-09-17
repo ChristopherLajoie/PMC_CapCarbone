@@ -20,7 +20,9 @@ VAR
     nAlarmCount : INT := 0;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Initialize alarm list 
+      <ST><![CDATA[stSystemStatus.bMaintenanceMode := bMaintenanceMode;
+
+// Initialize alarm list 
 IF bFirstRun THEN
     InitializeAlarmList();
     bFirstRun := FALSE;
@@ -32,18 +34,14 @@ FOR i := 1 TO 5 DO
     stSystemStatus.aZoneStatus[i].nHighestSeverity := 0;
 END_FOR
 
-stSystemStatus.bGlobalOkToRun := TRUE;
-stSystemStatus.bAllZonesOk := TRUE;
-stSystemStatus.bMaintenanceMode := bMaintenanceMode;
-
 // Process all alarms 
 FOR i := 1 TO nAlarmCount DO
-    IF aAllAlarms[i].pAlarm <> 0 THEN
-
-		nZone := ParseAlarmZone(aAllAlarms[i].sName);
-		ProcessAlarm(aAllAlarms[i].pAlarm, nZone);
 	
+    IF aAllAlarms[i].pAlarm <> 0 THEN
+		nZone := ParseAlarmZone(aAllAlarms[i].sName);
+		ProcessAlarm(aAllAlarms[i].pAlarm, nZone);	
     END_IF
+	
 END_FOR]]></ST>
     </Implementation>
     <Method Name="AddAlarm" Id="{6fdebe5e-54bc-4f7a-9386-b1b99075ac08}">
@@ -65,7 +63,7 @@ AddAlarm := TRUE;]]></ST>
       <Implementation>
         <ST><![CDATA[nAlarmCount := 0;
 
-// R1 Alarms 
+(* RAIL 1 *)
 AddAlarm(ADR(GVL_Alarms.R1_Sensor_UnknownState), 'R1_Sensor_UnknownState');
 AddAlarm(ADR(GVL_Alarms.R1_Sensor_MotionTimedOut), 'R1_Sensor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R1_Compressor_UnknownState), 'R1_Compressor_UnknownState');
@@ -81,7 +79,7 @@ AddAlarm(ADR(GVL_Alarms.R1_Stepper_Reset_Failed), 'R1_Stepper_Reset_Failed');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_Stop_Failed), 'R1_Stepper_Stop_Failed');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_UnableToReadPosition), 'R1_Stepper_UnableToReadPosition');
 
-// R2 Alarms 
+(* RAIL 2 *)
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_PowerUp_Failed), 'R2_Stepper_PowerUp_Failed');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Homing_Failed), 'R2_Stepper_Homing_Failed');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Homing_Interrupted), 'R2_Stepper_Homing_Interrupted');
@@ -93,7 +91,7 @@ AddAlarm(ADR(GVL_Alarms.R2_Chariot_MotionTimedOut), 'R2_Chariot_MotionTimedOut')
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Stop_Failed), 'R2_Stepper_Stop_Failed');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_UnableToReadPosition), 'R2_Stepper_UnableToReadPosition');
 
-// R3 Alarms
+(* RAIL 3 *)
 AddAlarm(ADR(GVL_Alarms.R3_Compressor_UnknownState), 'R3_Compressor_UnknownState');
 AddAlarm(ADR(GVL_Alarms.R3_Compressor_MotionTimedOut), 'R3_Compressor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_UnknownState), 'R3_HeatExCoupola_UnknownState');
@@ -111,7 +109,7 @@ AddAlarm(ADR(GVL_Alarms.R3_Stepper_Reset_Failed), 'R3_Stepper_Reset_Failed');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_Stop_Failed), 'R3_Stepper_Stop_Failed');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_UnableToReadPosition), 'R3_Stepper_UnableToReadPosition');
 
-// R4 Alarms 
+(* RAIL 4 *)
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_PowerUp_Failed), 'R4_Stepper_PowerUp_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Homing_Failed), 'R4_Stepper_Homing_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Homing_Interrupted), 'R4_Stepper_Homing_Interrupted');
@@ -123,7 +121,7 @@ AddAlarm(ADR(GVL_Alarms.R4_Chariot_MotionTimedOut), 'R4_Chariot_MotionTimedOut')
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Stop_Failed), 'R4_Stepper_Stop_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_UnableToReadPosition), 'R4_Stepper_UnableToReadPosition');
 
-// Global Alarms 
+(* GLOBAL SECURITY *)
 AddAlarm(ADR(GVL_Alarms.Door_1), 'Door_1');
 AddAlarm(ADR(GVL_Alarms.Door_2), 'Door_2');
 AddAlarm(ADR(GVL_Alarms.Door_3), 'Door_3');
@@ -149,19 +147,16 @@ END_VAR]]></Declaration>
 
 // Check if alarm is global or belongs to a zone
 IF LEN(sAlarmName) >= 3 AND LEFT(sAlarmName, 1) = 'R' THEN
-    // Get everything after 'R'
+
     sAfterR := RIGHT(sAlarmName, LEN(sAlarmName) - 1);
     
-    // Get the first character after 'R' (should be the digit)
     sZoneChar := LEFT(sAfterR, 1);
     nZoneNum := STRING_TO_SINT(sZoneChar);
     
-    // Check if it's a valid zone number and has underscore after it
     IF nZoneNum >= 1 AND nZoneNum <= 4 AND LEFT(RIGHT(sAfterR, LEN(sAfterR) - 1), 1) = '_' THEN
         ParseAlarmZone := nZoneNum;
-    ELSE
-        ParseAlarmZone := 5;  // global alarms
     END_IF
+	
 ELSE
     ParseAlarmZone := 5;  // global alarms
 END_IF]]></ST>
@@ -187,8 +182,6 @@ END_IF
 nSeverity := pAlarm^.nSeverity;
 bAlarmActive := pAlarm^.bCondition;  
 
-pAlarm^.bActive := bAlarmActive;
-
 IF bAlarmActive THEN
 
     IF nSeverity > stSystemStatus.aZoneStatus[nZone].nHighestSeverity THEN
@@ -196,14 +189,14 @@ IF bAlarmActive THEN
     END_IF
 
     CASE nSeverity OF
-        1, 2:  // Info, Warning - No blocking (just track severity)
+        1, 2:  // Info, Warning - No blocking 
             
         3:     // Error - Block unless maintenance mode
             IF NOT bMaintenanceMode THEN
                 stSystemStatus.aZoneStatus[nZone].bOkToRun := FALSE;
             END_IF
             
-        4:     // Critical - Always block
+        4:     // Critical 
             stSystemStatus.aZoneStatus[nZone].bOkToRun := FALSE;
     END_CASE
 END_IF
@@ -212,10 +205,15 @@ ProcessAlarm := TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_AlarmStatusManager">
-      <LineId Id="118" Count="20" />
-      <LineId Id="140" Count="0" />
-      <LineId Id="150" Count="0" />
-      <LineId Id="141" Count="1" />
+      <LineId Id="153" Count="1" />
+      <LineId Id="118" Count="10" />
+      <LineId Id="133" Count="2" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="140" Count="1" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="142" Count="0" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.AddAlarm">
       <LineId Id="1" Count="4" />
@@ -235,13 +233,17 @@ ProcessAlarm := TRUE;]]></ST>
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.ParseAlarmZone">
       <LineId Id="2" Count="2" />
-      <LineId Id="18" Count="15" />
+      <LineId Id="18" Count="3" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="32" Count="1" />
       <LineId Id="15" Count="0" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.ProcessAlarm">
       <LineId Id="62" Count="4" />
       <LineId Id="68" Count="2" />
-      <LineId Id="72" Count="1" />
       <LineId Id="75" Count="5" />
       <LineId Id="82" Count="2" />
       <LineId Id="86" Count="10" />

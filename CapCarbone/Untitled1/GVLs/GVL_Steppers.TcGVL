@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
-  <GVL Name="GVL_Axis" Id="{fbf55f38-8215-4244-998d-826cf1c53444}">
+  <GVL Name="GVL_Steppers" Id="{fbf55f38-8215-4244-998d-826cf1c53444}">
     <Declaration><![CDATA[{attribute 'TcLinkTo'}
 VAR_GLOBAL
     Stepper1 : AXIS_REF;
@@ -19,7 +19,6 @@ VAR_GLOBAL
 	Axis4Command : ST_StepperMotorCommand;
 	
 	bSimulatedLimitSwitch : BOOL; //CHANGE TO REAL LIMIT SWITCH
-	
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

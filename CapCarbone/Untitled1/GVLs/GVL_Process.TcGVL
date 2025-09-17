@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <GVL Name="GVL_Process" Id="{5530ada2-e55f-43d2-92c3-584382f4170f}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	HeatExchangeRunning: BOOL := FALSE;
+	StartHeatExchange: BOOL := FALSE;
+	
+	AdsorptionRunning: BOOL := FALSE;
+	StartAdsorption: BOOL := FALSE;
+	
+	RegenerationRunning: BOOL := FALSE;
+	StartRegeneration: BOOL := FALSE;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

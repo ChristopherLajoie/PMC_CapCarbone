@@ -4,8 +4,10 @@
     <Declaration><![CDATA[PROGRAM PRG_AlarmHandler
 VAR
     fbAlarmStatusManager : FB_AlarmStatusManager;
-    bMaintenanceMode : BOOL := FALSE;
 	bInitComplete : BOOL := FALSE;
+	
+	(* MAINTENANCE MODE TOGGLE *)
+    bMaintenanceMode : BOOL := FALSE;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInitComplete THEN
