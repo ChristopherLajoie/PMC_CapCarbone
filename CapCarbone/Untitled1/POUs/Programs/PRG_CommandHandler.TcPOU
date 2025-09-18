@@ -3,9 +3,7 @@
   <POU Name="PRG_CommandHandler" Id="{b534ce1c-328a-4a1f-bd2e-b4f58fd46cee}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_CommandHandler
 VAR
-    // ================================================================
-    // 1. COMMAND & STATE FLAGS
-    // ================================================================
+    // COMMAND & STATE FLAGS
     bisValidCmd           : BOOL;
     bCancelCmd            : BOOL;
     bHome                 : BOOL;
@@ -20,37 +18,27 @@ VAR
     bSafetyOk             : BOOL := FALSE;
     bAwaitingHMIClose     : BOOL := FALSE;
 
-    // ================================================================
-    // 2. REFERENCES TO FUNCTION BLOCKS / STRUCTURES
-    // ================================================================
+    // REFERENCES TO FUNCTION BLOCKS / STRUCTURES
     LinearActuator    : POINTER TO FB_LinearActuator;
     LinearTable       : POINTER TO FB_StepperMotor;
     LinearActuatorCmd : POINTER TO ST_LinearActuatorCommand;
     LinearTableCmd    : POINTER TO ST_StepperMotorCommand;
 
-    // ================================================================
-    // 3. INPUTS / PARAMETERS
-    // ================================================================
+    // INPUTS / PARAMETERS
     nX                 : SINT;
     sY                 : STRING;
     sZ                 : STRING;
     sRequestedActuator : STRING := '';
 
-    // ================================================================
-    // 4. OUTPUTS / RESULTS
-    // ================================================================
+    // OUTPUTS / RESULTS
     CurrentPosition : LREAL;
     Result          : INT := 0;
     nCancelResult   : INT := 0;
 
-    // ================================================================
-    // 5. LOOP / TEMP VARIABLES
-    // ================================================================
+    // LOOP / TEMP VARIABLES
     i : INT;
 
-    // ================================================================
-    // 6. TIMERS
-    // ================================================================
+    // TIMERS
     tmrCancelTimeout   : TON;
     tCancelTimeout     : TIME := T#5S;
 
@@ -164,11 +152,14 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF bisLinearActuator THEN
-    nCancelResult := LinearActuator^.Cancel();
+    nCancelResult := LinearActuator^.Stop();
 	
     CASE nCancelResult OF
         1: // Success
 			LinearActuatorCmd^.Status := -2;
+			
+		0: // Continue
+        	// Operation in progress
 			
        -1: // Failure
 			LinearActuatorCmd^.Status := -1;
@@ -190,7 +181,10 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
             END_IF;
 
             bCancelComplete := TRUE;
-
+			
+		0: // Continue
+        	// Operation in progress
+			
        -1: // Failure
             IF bisLinearTableHomeCmd THEN
                 LinearTableCmd^.Homed := FALSE;
@@ -396,9 +390,15 @@ END_CASE]]></ST>
       <LineId Id="186" Count="0" />
       <LineId Id="138" Count="1" />
       <LineId Id="183" Count="1" />
+      <LineId Id="191" Count="2" />
       <LineId Id="140" Count="0" />
       <LineId Id="185" Count="0" />
-      <LineId Id="141" Count="32" />
+      <LineId Id="141" Count="17" />
+      <LineId Id="195" Count="0" />
+      <LineId Id="159" Count="0" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="160" Count="13" />
       <LineId Id="188" Count="1" />
       <LineId Id="187" Count="0" />
       <LineId Id="175" Count="2" />
