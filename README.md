@@ -6,6 +6,8 @@ Repository for the CapCarbone final year project at the University of Sherbrooke
 
 This project is developped inside the Beckhoff TwinCAT3 environment and uses the Ignition platform for HMI purposes. 
 
+![Overview](Overview.png)
+
 ## Getting Started
 
 ### Dependencies
@@ -25,8 +27,6 @@ This project is developped inside the Beckhoff TwinCAT3 environment and uses the
 A OPC UA server must be set up using the TF6100 Configurator tool available with the standard TwinCAT3 install. Once this is linked with the PLC project, The Ignition client can connect to it and fetch tag values. Paths to the tag values will need to be remmapped when changing environment.
 
 ## Authors
-
-Contributors names and contact info
 
 Christopher Lajoie 
 lajc1503@usherbrooke.ca
