@@ -68,6 +68,8 @@ END_IF
 (* 3. COMMAND CANCEL LOGIC *)
 IF CancelMove AND bOperationInProgress AND NOT bCancelInProgress THEN
     bCancelInProgress := TRUE;
+ELSE
+	CancelMove := FALSE;
 END_IF
 
 IF bCancelInProgress THEN
@@ -168,8 +170,13 @@ END_VAR]]></Declaration>
     bCancelComplete := (nCancelResult <> 0);
 
 ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
-    nCancelResult := LinearTable^.Stop(TRUE);
-
+	
+	IF LinearTable^.KeepAlive() THEN
+		nCancelResult := LinearTable^.Stop(TRUE);
+	ELSE
+		nCancelResult := -1;
+	END_IF
+	
     CASE nCancelResult OF
         1: // Success
             LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
@@ -181,6 +188,7 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
             END_IF;
 
             bCancelComplete := TRUE;
+			LinearTable^.PowerDown();
 			
 		0: // Continue
         	// Operation in progress
@@ -194,6 +202,7 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
             END_IF;
 
             bCancelComplete := TRUE;
+			LinearTable^.PowerDown();
     END_CASE;
 END_IF;
 
@@ -276,13 +285,21 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Get command value
-LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
-
+        <ST><![CDATA[IF LinearTable^.KeepAlive() THEN
+	// Get command value
+	LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
+ELSE
+	//Will hit failure check later this cycle
+END_IF
+	
 (* 1. RESET COMMAND CHECK *)
 IF bisResetCmd THEN
-    Result := LinearTable^.Reset(TRUE);
-    
+	IF LinearTable^.KeepAlive() THEN
+		Result := LinearTable^.Reset(TRUE);
+	ELSE
+		Result := -1;
+	END_IF
+
     CASE Result OF
         1: // Success
 
@@ -294,6 +311,7 @@ IF bisResetCmd THEN
             bAwaitingHMIClose := TRUE;
             tmrHMICloseSignal(IN := FALSE); 
 			
+			LinearTable^.PowerDown();
             RETURN;
             
         0: // Continue
@@ -308,16 +326,25 @@ IF bisResetCmd THEN
             bAwaitingHMIClose := TRUE;
             tmrHMICloseSignal(IN := FALSE);
 			
+			LinearTable^.PowerDown();
             RETURN;
     END_CASE
 END_IF
 
 (* 2. EXECUTE MOVEMENT COMMAND *)
 IF bHome THEN
-    Result := LinearTable^.Home(TRUE);
+	IF LinearTable^.KeepAlive() THEN
+		Result := LinearTable^.Home(TRUE);
+	ELSE
+		Result := -1;
+	END_IF
 ELSE
-    Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.Command);
-    LinearTableCmd^.Position := CurrentPosition;
+	IF LinearTable^.KeepAlive() THEN
+		Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.Command);
+		LinearTableCmd^.Position := CurrentPosition;
+	ELSE
+		Result := -1;
+	END_IF
 END_IF
 
 CASE Result OF
@@ -332,6 +359,8 @@ CASE Result OF
         sRequestedActuator := 'close';
         bAwaitingHMIClose := TRUE;
         tmrHMICloseSignal(IN := FALSE);
+		
+		LinearTable^.PowerDown();
     		
     0: // Continue
         // Operation in progress
@@ -349,11 +378,15 @@ CASE Result OF
         sRequestedActuator := 'close';
         bAwaitingHMIClose := TRUE;
         tmrHMICloseSignal(IN := FALSE); 
+		
+		LinearTable^.PowerDown();
 END_CASE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="PRG_CommandHandler">
-      <LineId Id="772" Count="24" />
+      <LineId Id="772" Count="20" />
+      <LineId Id="851" Count="1" />
+      <LineId Id="793" Count="3" />
       <LineId Id="850" Count="0" />
       <LineId Id="797" Count="8" />
       <LineId Id="807" Count="2" />
@@ -393,12 +426,22 @@ END_CASE]]></ST>
       <LineId Id="191" Count="2" />
       <LineId Id="140" Count="0" />
       <LineId Id="185" Count="0" />
-      <LineId Id="141" Count="17" />
+      <LineId Id="141" Count="4" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="197" Count="0" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="204" Count="1" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="148" Count="10" />
+      <LineId Id="199" Count="0" />
       <LineId Id="195" Count="0" />
       <LineId Id="159" Count="0" />
       <LineId Id="194" Count="0" />
       <LineId Id="196" Count="0" />
-      <LineId Id="160" Count="13" />
+      <LineId Id="160" Count="8" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="169" Count="4" />
       <LineId Id="188" Count="1" />
       <LineId Id="187" Count="0" />
       <LineId Id="175" Count="2" />
@@ -429,12 +472,20 @@ END_CASE]]></ST>
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
-      <LineId Id="180" Count="0" />
-      <LineId Id="58" Count="5" />
+      <LineId Id="193" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="196" Count="3" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="204" Count="2" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="63" Count="0" />
       <LineId Id="118" Count="3" />
       <LineId Id="181" Count="0" />
       <LineId Id="122" Count="1" />
       <LineId Id="125" Count="2" />
+      <LineId Id="187" Count="0" />
       <LineId Id="182" Count="0" />
       <LineId Id="128" Count="5" />
       <LineId Id="135" Count="0" />
@@ -442,13 +493,26 @@ END_CASE]]></ST>
       <LineId Id="136" Count="1" />
       <LineId Id="139" Count="2" />
       <LineId Id="184" Count="0" />
+      <LineId Id="188" Count="0" />
       <LineId Id="142" Count="1" />
-      <LineId Id="82" Count="9" />
+      <LineId Id="82" Count="3" />
+      <LineId Id="208" Count="3" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="213" Count="1" />
+      <LineId Id="217" Count="0" />
+      <LineId Id="215" Count="1" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="218" Count="0" />
+      <LineId Id="91" Count="0" />
       <LineId Id="144" Count="1" />
       <LineId Id="147" Count="6" />
-      <LineId Id="155" Count="7" />
+      <LineId Id="155" Count="2" />
+      <LineId Id="189" Count="1" />
+      <LineId Id="158" Count="4" />
       <LineId Id="164" Count="8" />
       <LineId Id="174" Count="2" />
+      <LineId Id="191" Count="1" />
       <LineId Id="51" Count="0" />
     </LineIds>
   </POU>

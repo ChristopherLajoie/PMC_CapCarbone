@@ -27,7 +27,8 @@ VAR
     // =================
     nErrID : UDINT; // Error ID
     eState : ENUM_StepperMotorState := LAS_Stepper_Uninitialized; // Current state
-
+	bIsUp : BOOL := FALSE;
+	
     // ==========================
     // Hardware check variables
     // ==========================
@@ -58,13 +59,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[pAxis := init_axis;
-
-IF bIsPoweredUp[nRail] THEN
-   eState := LAS_Stepper_Idle;
-ELSE
-   eState := LAS_Stepper_Error;
-END_IF				
-
 ]]></ST>
       </Implementation>
     </Method>
@@ -219,6 +213,39 @@ CASE eState OF
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="KeepAlive" Id="{3a149900-35bd-429f-af64-f1f6cf4f27bc}">
+      <Declaration><![CDATA[METHOD KeepAlive : BOOL
+VAR
+	pAlarmCondition : POINTER TO BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbPower(Axis := pAxis^, Enable := TRUE, Enable_positive := TRUE, Enable_Negative := TRUE);
+
+IF fbPower.Error THEN    
+    eState := LAS_Stepper_Error;
+    bIsUp := FALSE;
+    
+    pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
+    IF pAlarmCondition <> 0 THEN
+        pAlarmCondition^ := TRUE;
+    END_IF
+    
+    KeepAlive := FALSE;
+    
+ELSIF fbPower.Status THEN
+    IF NOT bIsUp THEN
+        eState := LAS_Stepper_Idle;
+        bIsUp := TRUE;
+    END_IF
+    KeepAlive := TRUE;
+    
+ELSE
+    // Power-up in progress
+    KeepAlive := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="MoveToPosition" Id="{59187d53-eaea-489c-80e7-2ef214427a40}">
       <Declaration><![CDATA[METHOD MoveToPosition : INT
 VAR_INPUT
@@ -282,6 +309,20 @@ CASE eState OF
 		MoveToPosition := -1; 
 		
 END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="PowerDown" Id="{4029e6eb-acb2-44b9-9af0-7d14f70094dc}">
+      <Declaration><![CDATA[METHOD PowerDown : BOOL
+VAR
+	pAlarmCondition : POINTER TO BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbPower(Axis := pAxis^, Enable := FALSE);
+
+eState := LAS_Stepper_Uninitialized;
+bIsUp := FALSE;
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{185c3e3a-adea-4170-9d64-3a4611a9e6c3}">
@@ -547,13 +588,7 @@ END_CASE
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.FB_Init">
-      <LineId Id="1" Count="0" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="47" Count="1" />
-      <LineId Id="50" Count="1" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="1" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.GetPosition">
       <LineId Id="1" Count="3" />
@@ -595,6 +630,9 @@ END_CASE
       <LineId Id="798" Count="0" />
       <LineId Id="39" Count="0" />
     </LineIds>
+    <LineIds Name="FB_StepperMotor.KeepAlive">
+      <LineId Id="1" Count="23" />
+    </LineIds>
     <LineIds Name="FB_StepperMotor.MoveToPosition">
       <LineId Id="39" Count="0" />
       <LineId Id="57" Count="0" />
@@ -616,6 +654,9 @@ END_CASE
       <LineId Id="23" Count="9" />
       <LineId Id="38" Count="0" />
       <LineId Id="36" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.PowerDown">
+      <LineId Id="1" Count="4" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Reset">
       <LineId Id="651" Count="0" />

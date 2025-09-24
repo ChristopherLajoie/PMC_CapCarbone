@@ -5,18 +5,11 @@
 VAR
     fbAlarmStatusManager : FB_AlarmStatusManager;
 	bInitComplete : BOOL := FALSE;
-	
-	fbSystemPower1 : MC_Power;
-    fbSystemPower2 : MC_Power; 
-    fbSystemPower3 : MC_Power;
-    fbSystemPower4 : MC_Power;
-	
+
 	nIndex : SINT;
-	pAlarmCondition : POINTER TO BOOL;
 	
 	(* MAINTENANCE MODE TOGGLE *)
     bMaintenanceMode : BOOL := FALSE;
-	bSystemPowerEnable : BOOL := TRUE;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInitComplete THEN
@@ -25,118 +18,19 @@ END_VAR]]></Declaration>
     Axis3.nRail := 3;
     Axis4.nRail := 4;
 	
-	bIsPoweredUp[1] := FALSE;
-	bIsPoweredUp[2] := FALSE;
-	bIsPoweredUp[3] := FALSE;
-	bIsPoweredUp[4] := FALSE;
-	
     bInitComplete := TRUE;
 END_IF
 
-IF bInitComplete THEN
-	 fbSystemPower1(
-        Axis := Stepper1, 
-        Enable := bSystemPowerEnable,
-        Enable_Positive := bSystemPowerEnable,
-        Enable_Negative := bSystemPowerEnable
-    );
-	
-	fbSystemPower2(
-        Axis := Stepper2, 
-        Enable := bSystemPowerEnable,
-        Enable_Positive := bSystemPowerEnable,
-        Enable_Negative := bSystemPowerEnable
-    );
-	
-	 fbSystemPower3(
-        Axis := Stepper3, 
-        Enable := bSystemPowerEnable,
-        Enable_Positive := bSystemPowerEnable,
-        Enable_Negative := bSystemPowerEnable
-    );
-	
-	 fbSystemPower4(
-        Axis := Stepper4, 
-        Enable := bSystemPowerEnable,
-        Enable_Positive := bSystemPowerEnable,
-        Enable_Negative := bSystemPowerEnable
-    );
-END_IF
-
-FOR nIndex := 1 TO 4 DO
-    CASE nIndex OF
-        1:
-            IF fbSystemPower1.Status THEN
-				bIsPoweredUp[1] := TRUE;
-            ELSIF fbSystemPower1.Error THEN	
-                pAlarmCondition := F_GetStepperAlarmCondition(nIndex, 'PowerUp_Failed');
-                IF pAlarmCondition <> 0 THEN
-                    pAlarmCondition^ := TRUE;
-                END_IF
-            END_IF
-            
-        2:
-            IF fbSystemPower2.Status THEN
-				bIsPoweredUp[2] := TRUE;
-            ELSIF fbSystemPower2.Error THEN	
-                pAlarmCondition := F_GetStepperAlarmCondition(nIndex, 'PowerUp_Failed');
-                IF pAlarmCondition <> 0 THEN
-                    pAlarmCondition^ := TRUE;
-                END_IF
-            END_IF
-            
-        3:
-            IF fbSystemPower3.Status THEN
-				bIsPoweredUp[3] := TRUE;
-            ELSIF fbSystemPower3.Error THEN	
-                pAlarmCondition := F_GetStepperAlarmCondition(nIndex, 'PowerUp_Failed');
-                IF pAlarmCondition <> 0 THEN
-                    pAlarmCondition^ := TRUE;
-                END_IF
-            END_IF
-            
-        4:
-            IF fbSystemPower4.Status THEN
-				bIsPoweredUp[4] := TRUE;
-            ELSIF fbSystemPower4.Error THEN	
-                pAlarmCondition := F_GetStepperAlarmCondition(nIndex, 'PowerUp_Failed');
-                IF pAlarmCondition <> 0 THEN
-                    pAlarmCondition^ := TRUE;
-                END_IF
-            END_IF
-    END_CASE
-END_FOR
 
 fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);
 gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
     </Implementation>
     <LineIds Name="PRG_AlarmHandler">
-      <LineId Id="172" Count="5" />
-      <LineId Id="270" Count="4" />
-      <LineId Id="178" Count="9" />
-      <LineId Id="275" Count="0" />
-      <LineId Id="277" Count="4" />
-      <LineId Id="276" Count="0" />
-      <LineId Id="282" Count="0" />
-      <LineId Id="284" Count="4" />
-      <LineId Id="283" Count="0" />
-      <LineId Id="289" Count="0" />
-      <LineId Id="291" Count="4" />
-      <LineId Id="290" Count="0" />
+      <LineId Id="172" Count="4" />
+      <LineId Id="274" Count="0" />
+      <LineId Id="178" Count="1" />
       <LineId Id="188" Count="0" />
-      <LineId Id="216" Count="4" />
-      <LineId Id="266" Count="0" />
-      <LineId Id="222" Count="0" />
-      <LineId Id="224" Count="7" />
-      <LineId Id="267" Count="0" />
-      <LineId Id="233" Count="0" />
-      <LineId Id="235" Count="7" />
-      <LineId Id="268" Count="0" />
-      <LineId Id="244" Count="0" />
-      <LineId Id="246" Count="7" />
-      <LineId Id="269" Count="0" />
-      <LineId Id="255" Count="0" />
-      <LineId Id="257" Count="8" />
+      <LineId Id="264" Count="1" />
       <LineId Id="58" Count="0" />
     </LineIds>
   </POU>
