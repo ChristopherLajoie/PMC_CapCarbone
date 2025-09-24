@@ -1,5 +1,4 @@
-- Add alarm .bcondition flag setting and unsetting where needed in the code.
 - Check how to use prox sensors of boxes for position detection.
-- Verify mc_power usage
+- Verify mc_power (Init) usage : try once at boot then use power button on hmi
 - Verify how to access EL7062
 
