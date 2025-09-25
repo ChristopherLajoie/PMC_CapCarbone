@@ -1,4 +1,3 @@
 - Check how to use prox sensors of boxes for position detection.
-- Check PowerUp fail error clearing logic
 - Check how to access EL7062
 
