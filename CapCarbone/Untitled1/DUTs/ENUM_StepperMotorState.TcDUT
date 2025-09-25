@@ -3,7 +3,7 @@
   <DUT Name="ENUM_StepperMotorState" Id="{0ba129ba-95f5-4579-9013-1d3c3672a9df}">
     <Declaration><![CDATA[TYPE ENUM_StepperMotorState :
 (
-	LAS_Stepper_Uninitialized := 0,
+	LAS_Stepper_Ready := 0,
     LAS_Stepper_Moving := 2,
     LAS_Stepper_Idle := 3,
     LAS_Stepper_Error := 6,
