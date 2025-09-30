@@ -120,6 +120,9 @@
     <Compile Include="POUs\Helper\F_GetLinearActuatorAlarmCondition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Helper\F_GetMC2ErrorDescription.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Programs\PRG_AlarmHandler.TcPOU">
       <SubType>Code</SubType>
     </Compile>

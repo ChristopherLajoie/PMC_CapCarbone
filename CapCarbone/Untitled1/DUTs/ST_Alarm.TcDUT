@@ -5,7 +5,8 @@
 STRUCT
     bCondition      : BOOL;           
     nID             : UDINT;           
-    nSeverity       : UINT;             
+    nSeverity       : UINT;     
+	sMessage        : STRING(255);        
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

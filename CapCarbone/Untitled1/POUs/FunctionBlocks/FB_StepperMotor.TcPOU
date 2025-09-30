@@ -121,6 +121,7 @@ VAR
     // External references / pointers
     // ============================
     pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
+	 sErrorMsg : STRING(255);
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -142,13 +143,22 @@ CASE eState OF
         
         IF fbHome.Error THEN		
             eState := LAS_Stepper_Error;
-            
-			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
-			IF pAlarmCondition <> 0 THEN
-				pAlarmCondition^ := TRUE;
-			END_IF
-				
             nErrID := fbHome.ErrorID;
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+            IF pAlarmCondition <> 0 THEN
+                pAlarmCondition^ := TRUE;
+                
+                sErrorMsg := F_GetMC2ErrorDescription(fbHome.ErrorID);
+                
+                CASE nRail OF
+                    1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                    2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                    3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                    4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                END_CASE
+            END_IF
+            
             Home := -1;
 
         ELSIF fbHome.Done THEN
@@ -169,13 +179,22 @@ CASE eState OF
         
         IF fbHome.Error THEN			
             eState := LAS_Stepper_Error;
-            
-			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
-			IF pAlarmCondition <> 0 THEN
-				pAlarmCondition^ := TRUE;
-			END_IF
-			
             nErrID := fbHome.ErrorID;
+            
+            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+            IF pAlarmCondition <> 0 THEN
+                pAlarmCondition^ := TRUE;
+                
+                sErrorMsg := F_GetMC2ErrorDescription(fbHome.ErrorID);
+
+                CASE nRail OF
+                    1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                    2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                    3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                    4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                END_CASE
+            END_IF
+            
             Home := -1;
 			
         ELSIF fbHome.Done THEN
@@ -195,6 +214,7 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD KeepAlive : BOOL
 VAR
 	pAlarmCondition : POINTER TO BOOL;
+	sErrorMsg : STRING(255);
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -205,8 +225,17 @@ IF fbPower.Error THEN
     bIsUp := FALSE;
     
     pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
-    IF pAlarmCondition <> 0 THEN
+   IF pAlarmCondition <> 0 THEN
         pAlarmCondition^ := TRUE;
+
+        sErrorMsg := F_GetMC2ErrorDescription(fbPower.ErrorID);
+        
+        CASE nRail OF
+            1: GVL_Alarms.R1_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+            2: GVL_Alarms.R2_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+            3: GVL_Alarms.R3_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+            4: GVL_Alarms.R4_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+        END_CASE
     END_IF
     
     KeepAlive := FALSE;
@@ -216,7 +245,9 @@ ELSIF fbPower.Status THEN
 		bIsUp := TRUE;
 		
 		pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
-		IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+		IF pAlarmCondition <> 0 THEN 
+			pAlarmCondition^ := FALSE; 
+		END_IF
 		
 		CASE eState OF
 			LAS_Stepper_PowerError:
@@ -249,6 +280,7 @@ END_VAR
 
 VAR
 	pAlarmCondition : POINTER TO BOOL;
+	sErrorMsg : STRING(255);
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -265,14 +297,23 @@ CASE eState OF
 		IF fbMoveAbs.Busy THEN
 			fbMoveAbs(Axis := pAxis^);
 		END_IF
+		
 		IF fbMoveAbs.Error THEN
 			eState := LAS_Stepper_Error;
-			
 			nErrID := fbMoveAbs.ErrorID;
 			
 			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
 			IF pAlarmCondition <> 0 THEN
 				pAlarmCondition^ := TRUE;
+				
+				sErrorMsg := F_GetMC2ErrorDescription(fbMoveAbs.ErrorID);
+				
+				CASE nRail OF
+					1: GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := sErrorMsg;
+					2: GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := sErrorMsg;
+					3: GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := sErrorMsg;
+					4: GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := sErrorMsg;
+				END_CASE
 			END_IF
 			
 			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
@@ -285,6 +326,15 @@ CASE eState OF
 			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Interrupted');
 			IF pAlarmCondition <> 0 THEN
 				pAlarmCondition^ := TRUE;
+				
+				sErrorMsg := F_GetMC2ErrorDescription(fbMoveAbs.ErrorID);
+				
+				CASE nRail OF
+					1: GVL_Alarms.R1_Stepper_Motion_Interrupted.sMessage := sErrorMsg;
+					2: GVL_Alarms.R2_Stepper_Motion_Interrupted.sMessage := sErrorMsg;
+					3: GVL_Alarms.R3_Stepper_Motion_Interrupted.sMessage := sErrorMsg;
+					4: GVL_Alarms.R4_Stepper_Motion_Interrupted.sMessage := sErrorMsg;
+				END_CASE
 			END_IF
 				
 			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
@@ -336,6 +386,7 @@ VAR
 	pAlarmCondition : POINTER TO BOOL;
 	nResult : INT;
 	nMoveResult : INT;
+	sErrorMsg : STRING(255);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Reset := 0;
@@ -352,6 +403,15 @@ CASE eState OF
 				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
 				IF pAlarmCondition <> 0 THEN
 					pAlarmCondition^ := TRUE;
+					
+					sErrorMsg := F_GetMC2ErrorDescription(fbReset.ErrorID);
+					
+					CASE nRail OF
+						1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := sErrorMsg;
+						2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := sErrorMsg;
+						3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := sErrorMsg;
+						4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := sErrorMsg;
+					END_CASE
 				END_IF
 				
 				Reset := -1;
@@ -504,6 +564,7 @@ END_VAR
 
 VAR
 	pAlarmCondition : POINTER TO BOOL;
+	sErrorMsg : STRING(255);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Stop := 0;
@@ -524,6 +585,17 @@ CASE eState OF
 			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Stop_Failed');
 			IF pAlarmCondition <> 0 THEN
 				pAlarmCondition^ := TRUE;
+				
+				
+				sErrorMsg := F_GetMC2ErrorDescription(fbStop.ErrorID);
+				
+				
+				CASE nRail OF
+					1: GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := sErrorMsg;
+					2: GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := sErrorMsg;
+					3: GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := sErrorMsg;
+					4: GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := sErrorMsg;
+				END_CASE
 			END_IF
 			
 			Stop := -1;
@@ -549,10 +621,25 @@ CASE eState OF
 			   eState := LAS_Stepper_Idle;
 		   	   Stop   := 1;          
 	   	   END_IF
-	   ELSIF fbStop.Error THEN
+	    ELSIF fbStop.Error THEN
 			eState := LAS_Stepper_Error;
 			nErrID := fbStop.ErrorID;
-			Stop   := -1;
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Stop_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+				
+				sErrorMsg := F_GetMC2ErrorDescription(fbStop.ErrorID);
+							
+				CASE nRail OF
+					1: GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := sErrorMsg;
+					2: GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := sErrorMsg;
+					3: GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := sErrorMsg;
+					4: GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := sErrorMsg;
+				END_CASE
+			END_IF
+			
+			Stop := -1;
 	   END_IF
     
     LAS_Stepper_Error:
@@ -576,25 +663,30 @@ END_CASE
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="730" Count="18" />
-      <LineId Id="819" Count="2" />
-      <LineId Id="818" Count="0" />
-      <LineId Id="822" Count="0" />
-      <LineId Id="750" Count="1" />
+      <LineId Id="833" Count="4" />
+      <LineId Id="839" Count="1" />
+      <LineId Id="842" Count="7" />
+      <LineId Id="751" Count="0" />
       <LineId Id="756" Count="2" />
-      <LineId Id="761" Count="16" />
-      <LineId Id="829" Count="2" />
-      <LineId Id="828" Count="0" />
-      <LineId Id="832" Count="0" />
-      <LineId Id="779" Count="1" />
+      <LineId Id="761" Count="11" />
+      <LineId Id="850" Count="9" />
+      <LineId Id="861" Count="0" />
+      <LineId Id="863" Count="8" />
+      <LineId Id="780" Count="0" />
       <LineId Id="811" Count="0" />
       <LineId Id="786" Count="8" />
       <LineId Id="798" Count="0" />
       <LineId Id="39" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.KeepAlive">
-      <LineId Id="1" Count="14" />
+      <LineId Id="1" Count="6" />
+      <LineId Id="48" Count="1" />
+      <LineId Id="51" Count="2" />
+      <LineId Id="55" Count="7" />
+      <LineId Id="12" Count="3" />
       <LineId Id="41" Count="2" />
       <LineId Id="40" Count="0" />
+      <LineId Id="63" Count="1" />
       <LineId Id="44" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="45" Count="2" />
@@ -614,16 +706,14 @@ END_CASE
       <LineId Id="9" Count="2" />
       <LineId Id="45" Count="0" />
       <LineId Id="58" Count="0" />
-      <LineId Id="12" Count="4" />
-      <LineId Id="48" Count="2" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="51" Count="0" />
+      <LineId Id="60" Count="8" />
+      <LineId Id="70" Count="1" />
+      <LineId Id="73" Count="8" />
       <LineId Id="17" Count="5" />
-      <LineId Id="53" Count="2" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="46" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="82" Count="2" />
+      <LineId Id="86" Count="1" />
+      <LineId Id="89" Count="8" />
       <LineId Id="23" Count="9" />
       <LineId Id="38" Count="0" />
       <LineId Id="36" Count="1" />
@@ -641,7 +731,11 @@ END_CASE
     </LineIds>
     <LineIds Name="FB_StepperMotor.Reset">
       <LineId Id="651" Count="0" />
-      <LineId Id="653" Count="19" />
+      <LineId Id="653" Count="10" />
+      <LineId Id="848" Count="2" />
+      <LineId Id="852" Count="1" />
+      <LineId Id="855" Count="7" />
+      <LineId Id="668" Count="4" />
       <LineId Id="846" Count="0" />
       <LineId Id="673" Count="6" />
       <LineId Id="681" Count="7" />
@@ -672,9 +766,8 @@ END_CASE
       <LineId Id="469" Count="0" />
       <LineId Id="359" Count="1" />
       <LineId Id="470" Count="0" />
-      <LineId Id="472" Count="2" />
-      <LineId Id="471" Count="0" />
-      <LineId Id="475" Count="0" />
+      <LineId Id="472" Count="0" />
+      <LineId Id="476" Count="14" />
       <LineId Id="361" Count="0" />
       <LineId Id="367" Count="1" />
       <LineId Id="468" Count="0" />
@@ -688,7 +781,10 @@ END_CASE
       <LineId Id="463" Count="2" />
       <LineId Id="452" Count="1" />
       <LineId Id="460" Count="0" />
-      <LineId Id="454" Count="3" />
+      <LineId Id="491" Count="7" />
+      <LineId Id="500" Count="1" />
+      <LineId Id="503" Count="7" />
+      <LineId Id="457" Count="0" />
       <LineId Id="392" Count="0" />
       <LineId Id="417" Count="2" />
       <LineId Id="439" Count="2" />

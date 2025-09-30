@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="F_GetMC2ErrorDescription" Id="{026b1c0d-f6df-4ce8-97ec-cfa62c4e6c13}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_GetMC2ErrorDescription : STRING
+VAR_INPUT
+    nErrorID : UDINT;  // MC2 error code from function block ErrorID output
+END_VAR
+VAR
+    sHexCode : STRING(10);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Convert common MC2 motion control error codes to descriptions
+// Based on Beckhoff NC Error Codes documentation
+
+CASE nErrorID OF
+    // ========================================
+    // GENERAL AXIS ERRORS (0x4200 range)
+    // ========================================
+    16#4221:  // Decimal: 16929
+        F_GetMC2ErrorDescription := 'Axis is not enabled';
+        
+    16#4223:  // Decimal: 16931
+        F_GetMC2ErrorDescription := 'Axis is in error state';
+        
+    16#4224:  // Decimal: 16932
+        F_GetMC2ErrorDescription := 'Axis not ready for motion command';
+        
+    16#4225:  // Decimal: 16933
+        F_GetMC2ErrorDescription := 'Axis is already in target position';
+        
+    16#4226:  // Decimal: 16934
+        F_GetMC2ErrorDescription := 'Axis is disabled';
+        
+    // ========================================
+    // POSITION LAG ERRORS (0x4260 range)
+    // ========================================
+    16#4260:  // Decimal: 16992
+        F_GetMC2ErrorDescription := 'Position lag monitoring: Maximum position lag exceeded';
+        
+    16#4261:  // Decimal: 16993
+        F_GetMC2ErrorDescription := 'Position lag monitoring: Warning threshold exceeded';
+        
+    16#4262:  // Decimal: 16994
+        F_GetMC2ErrorDescription := 'Position lag monitoring disabled';
+        
+    // ========================================
+    // TARGET POSITION ERRORS (0x4350 range)
+    // ========================================
+    16#4350:  // Decimal: 17232
+        F_GetMC2ErrorDescription := 'Target position not allowed (positioning monitoring)';
+        
+    16#4357:  // Decimal: 17239
+        F_GetMC2ErrorDescription := 'Software limit switch minimum exceeded';
+        
+    16#4358:  // Decimal: 17240
+        F_GetMC2ErrorDescription := 'Software limit switch maximum exceeded';
+        
+    16#4359:  // Decimal: 17241
+        F_GetMC2ErrorDescription := 'Hardware limit switch minimum activated';
+        
+    16#435A:  // Decimal: 17242
+        F_GetMC2ErrorDescription := 'Hardware limit switch maximum activated';
+        
+    // ========================================
+    // MOTION COMMAND ERRORS (0x4460 range)
+    // ========================================
+    16#4460:  // Decimal: 17504
+        F_GetMC2ErrorDescription := 'Controller enable not set';
+        
+    16#4463:  // Decimal: 17507
+        F_GetMC2ErrorDescription := 'Axis is moving - command not allowed in this state';
+        
+    16#4464:  // Decimal: 17508
+        F_GetMC2ErrorDescription := 'Axis is standing still - command requires motion';
+        
+    16#4466:  // Decimal: 17510
+        F_GetMC2ErrorDescription := 'Drive communication error - Drive not responding';
+        
+    16#4467:  // Decimal: 17511
+        F_GetMC2ErrorDescription := 'Drive hardware not ready';
+        
+    16#4470:  // Decimal: 17520
+        F_GetMC2ErrorDescription := 'Invalid axis start type';
+        
+    // ========================================
+    // MOTION PARAMETER ERRORS (0x44C0 range)
+    // ========================================
+    16#44C1:  // Decimal: 17601
+        F_GetMC2ErrorDescription := 'Invalid velocity value';
+        
+    16#44C2:  // Decimal: 17602
+        F_GetMC2ErrorDescription := 'Invalid acceleration value';
+        
+    16#44C3:  // Decimal: 17603
+        F_GetMC2ErrorDescription := 'Invalid deceleration value';
+        
+    16#44C4:  // Decimal: 17604
+        F_GetMC2ErrorDescription := 'Invalid jerk value';
+        
+    16#44C5:  // Decimal: 17605
+        F_GetMC2ErrorDescription := 'Invalid position value';
+        
+    // ========================================
+    // HOMING ERRORS (0x4B00 range)
+    // ========================================
+    16#4B01:  // Decimal: 19201
+        F_GetMC2ErrorDescription := 'Homing not successful - Reference switch not found';
+        
+    16#4B07:  // Decimal: 19207
+        F_GetMC2ErrorDescription := 'Homing: Reference cam signal missing during search';
+        
+    16#4B08:  // Decimal: 19208
+        F_GetMC2ErrorDescription := 'Homing: Sync signal (zero pulse) missing';
+        
+    16#4B09:  // Decimal: 19209
+        F_GetMC2ErrorDescription := 'Homing: Axis has not been homed';
+        
+    16#4B0C:  // Decimal: 19212
+        F_GetMC2ErrorDescription := 'Position latch was disabled during touch probe cycle';
+        
+    16#4B0D:  // Decimal: 19213
+        F_GetMC2ErrorDescription := 'NC status feedback timeout';
+        
+    // ========================================
+    // DRIVE ERRORS (0x4550 range)
+    // ========================================
+    16#4550:  // Decimal: 17744
+        F_GetMC2ErrorDescription := 'Drive error - Check drive status';
+        
+    16#4551:  // Decimal: 17745
+        F_GetMC2ErrorDescription := 'Drive in error state';
+        
+    16#4552:  // Decimal: 17746
+        F_GetMC2ErrorDescription := 'Drive not ready to enable';
+        
+    // ========================================
+    // FUNCTION BLOCK ERRORS (0x4600 range)
+    // ========================================
+    16#4600:  // Decimal: 17920
+        F_GetMC2ErrorDescription := 'Invalid BufferMode for this function block';
+        
+    16#4650:  // Decimal: 18000
+        F_GetMC2ErrorDescription := 'Function block was not called cyclically';
+        
+    16#4B66:  // Decimal: 19302
+        F_GetMC2ErrorDescription := 'Function block was not called cyclically - Command execution not monitored';
+        
+    // ========================================
+    // ENCODER ERRORS (0x4800 range)
+    // ========================================
+    16#4800:  // Decimal: 18432
+        F_GetMC2ErrorDescription := 'Encoder error';
+        
+    16#4801:  // Decimal: 18433
+        F_GetMC2ErrorDescription := 'Encoder hardware error';
+        
+    16#4802:  // Decimal: 18434
+        F_GetMC2ErrorDescription := 'Encoder initialization error';
+        
+    // ========================================
+    // CONTROLLER ERRORS (0x4900 range)
+    // ========================================
+    16#4900:  // Decimal: 18688
+        F_GetMC2ErrorDescription := 'Controller error';
+        
+    16#4901:  // Decimal: 18689
+        F_GetMC2ErrorDescription := 'Controller not initialized';
+        
+    // ========================================
+    // SPECIAL MOTION ERRORS
+    // ========================================
+    16#4A01:  // Decimal: 18945
+        F_GetMC2ErrorDescription := 'Coupled motion: Master axis in error state';
+        
+    16#4A02:  // Decimal: 18946
+        F_GetMC2ErrorDescription := 'Coupled motion: Slave axis in error state';
+        
+    16#4A10:  // Decimal: 18960
+        F_GetMC2ErrorDescription := 'Cam plate: Invalid cam table';
+        
+    // ========================================
+    // DEFAULT CASES
+    // ========================================
+    0:
+        F_GetMC2ErrorDescription := 'No error';
+        
+    ELSE
+        // Unknown error code - display hex and decimal values
+        sHexCode := DWORD_TO_HEXSTR(nErrorID, 4, FALSE);
+        F_GetMC2ErrorDescription := CONCAT('MC2 Error 0x', sHexCode);
+        F_GetMC2ErrorDescription := CONCAT(F_GetMC2ErrorDescription, ' (');
+        F_GetMC2ErrorDescription := CONCAT(F_GetMC2ErrorDescription, UDINT_TO_STRING(nErrorID));
+        F_GetMC2ErrorDescription := CONCAT(F_GetMC2ErrorDescription, ') - Check Beckhoff NC Error Codes manual');
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="F_GetMC2ErrorDescription">
+      <LineId Id="1" Count="182" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
