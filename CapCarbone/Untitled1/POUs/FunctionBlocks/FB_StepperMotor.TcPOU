@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_StepperMotor
 VAR_INPUT
     nRail : SINT := 0; // Rail number / axis index
+	bHoldKeepAlive : BOOL;
 END_VAR
 
 VAR
@@ -218,54 +219,58 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbPower(Axis := pAxis^, Enable := TRUE, Enable_positive := TRUE, Enable_Negative := TRUE);
-
-IF fbPower.Error THEN    
-    eState := LAS_Stepper_PowerError;
-    bIsUp := FALSE;
-    
-    pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
-   IF pAlarmCondition <> 0 THEN
-        pAlarmCondition^ := TRUE;
-
-        sErrorMsg := F_GetMC2ErrorDescription(fbPower.ErrorID);
-        
-        CASE nRail OF
-            1: GVL_Alarms.R1_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
-            2: GVL_Alarms.R2_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
-            3: GVL_Alarms.R3_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
-            4: GVL_Alarms.R4_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
-        END_CASE
-    END_IF
-    
-    KeepAlive := FALSE;
-    
-ELSIF fbPower.Status THEN
-    IF NOT bIsUp THEN
-		bIsUp := TRUE;
+        <ST><![CDATA[IF NOT bHoldKeepAlive THEN
+	fbPower(Axis := pAxis^, Enable := TRUE, Enable_positive := TRUE, Enable_Negative := TRUE);
+	
+	IF fbPower.Error THEN    
+		eState := LAS_Stepper_PowerError;
+		bIsUp := FALSE;
 		
 		pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
-		IF pAlarmCondition <> 0 THEN 
-			pAlarmCondition^ := FALSE; 
+	   IF pAlarmCondition <> 0 THEN
+			pAlarmCondition^ := TRUE;
+	
+			sErrorMsg := F_GetMC2ErrorDescription(fbPower.ErrorID);
+			
+			CASE nRail OF
+				1: GVL_Alarms.R1_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+				2: GVL_Alarms.R2_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+				3: GVL_Alarms.R3_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+				4: GVL_Alarms.R4_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+			END_CASE
 		END_IF
 		
-		CASE eState OF
-			LAS_Stepper_PowerError:
-				eState := LAS_Stepper_Error;
-				
-			LAS_Stepper_Error:
-				// Keep State 
+		KeepAlive := FALSE;
+		
+	ELSIF fbPower.Status THEN
+		IF NOT bIsUp THEN
+			bIsUp := TRUE;
 			
-			LAS_Stepper_Idle:
-				eState := LAS_Stepper_Ready;
-		END_CASE
-    END_IF
-	
-    KeepAlive := TRUE;
-    
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
+			IF pAlarmCondition <> 0 THEN 
+				pAlarmCondition^ := FALSE; 
+			END_IF
+			
+			CASE eState OF
+				LAS_Stepper_PowerError:
+					eState := LAS_Stepper_Error;
+					
+				LAS_Stepper_Error:
+					// Keep State 
+				
+				LAS_Stepper_Idle:
+					eState := LAS_Stepper_Ready;
+			END_CASE
+		END_IF
+		
+		KeepAlive := TRUE;
+		
+	ELSE
+		// Power-up in progress
+		KeepAlive := TRUE;
+	END_IF
 ELSE
-    // Power-up in progress
-    KeepAlive := TRUE;
+	KeepAlive := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -392,7 +397,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[Reset := 0;
 
 CASE eState OF
-	LAS_Stepper_Error, LAS_Stepper_Ready:
+	LAS_Stepper_Error, LAS_Stepper_PowerError, LAS_Stepper_Ready:
 		fbReset(Axis := pAxis^, Execute := bExecute);
 		
 		IF fbReset.Busy THEN 
@@ -420,6 +425,7 @@ CASE eState OF
 		ELSIF fbReset.Done THEN		
 			fbReset(Axis := pAxis^, Execute := FALSE);
 			
+			bHoldKeepAlive := FALSE;
 			// Start hardware check
 			eState := LAS_Stepper_Hardware_Check;
 			eHardwareCheckState := HW_GetOriginalPos;
@@ -679,6 +685,7 @@ END_CASE
       <LineId Id="39" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.KeepAlive">
+      <LineId Id="65" Count="0" />
       <LineId Id="1" Count="6" />
       <LineId Id="48" Count="1" />
       <LineId Id="51" Count="2" />
@@ -697,6 +704,7 @@ END_CASE
       <LineId Id="18" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="19" Count="5" />
+      <LineId Id="66" Count="2" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.MoveToPosition">
       <LineId Id="39" Count="0" />
@@ -737,6 +745,7 @@ END_CASE
       <LineId Id="855" Count="7" />
       <LineId Id="668" Count="4" />
       <LineId Id="846" Count="0" />
+      <LineId Id="863" Count="0" />
       <LineId Id="673" Count="6" />
       <LineId Id="681" Count="7" />
       <LineId Id="692" Count="20" />

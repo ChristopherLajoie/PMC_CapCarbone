@@ -48,7 +48,7 @@
 	
 	R1_Stepper_PowerUp_Failed : ST_Alarm := (
 		nID := 1011,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Stepper_Reset_Failed : ST_Alarm := (
 		nID := 1012,

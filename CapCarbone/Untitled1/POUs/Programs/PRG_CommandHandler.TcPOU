@@ -282,8 +282,7 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD ProcessLinearTable
 VAR_INPUT
 	bHome : BOOL;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF LinearTable^.KeepAlive() THEN
 	// Get command value
@@ -294,6 +293,8 @@ END_IF
 	
 (* 1. RESET COMMAND CHECK *)
 IF bisResetCmd THEN
+	LinearTable^.bHoldKeepAlive := TRUE;
+	
 	IF LinearTable^.KeepAlive() THEN
 		Result := LinearTable^.Reset(TRUE);
 	ELSE
@@ -477,6 +478,7 @@ END_CASE]]></ST>
       <LineId Id="194" Count="0" />
       <LineId Id="196" Count="3" />
       <LineId Id="60" Count="1" />
+      <LineId Id="219" Count="1" />
       <LineId Id="202" Count="0" />
       <LineId Id="204" Count="2" />
       <LineId Id="201" Count="0" />

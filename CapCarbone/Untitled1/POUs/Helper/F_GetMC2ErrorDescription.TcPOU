@@ -9,10 +9,7 @@ VAR
     sHexCode : STRING(10);
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Convert common MC2 motion control error codes to descriptions
-// Based on Beckhoff NC Error Codes documentation
-
-CASE nErrorID OF
+      <ST><![CDATA[CASE nErrorID OF
     // ========================================
     // GENERAL AXIS ERRORS (0x4200 range)
     // ========================================
@@ -194,7 +191,7 @@ CASE nErrorID OF
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="F_GetMC2ErrorDescription">
-      <LineId Id="1" Count="182" />
+      <LineId Id="1" Count="179" />
     </LineIds>
   </POU>
 </TcPlcObject>
