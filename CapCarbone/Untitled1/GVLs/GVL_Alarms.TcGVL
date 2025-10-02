@@ -8,43 +8,43 @@
     // ================================================================
 	R1_Sensor_UnknownState : ST_Alarm := (
 		nID := 1001,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Sensor_MotionTimedOut : ST_Alarm := (
 		nID := 1002,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Chariot_UnknownState : ST_Alarm := (
 		nID := 1003,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Chariot_MotionTimedOut : ST_Alarm := (
 		nID := 1004,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Compressor_UnknownState : ST_Alarm := (
 		nID := 1005,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Compressor_MotionTimedOut : ST_Alarm := (
 		nID := 1006,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Stepper_Motion_Failed : ST_Alarm := (
 		nID := 1007,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Stepper_Homing_Failed : ST_Alarm := (
 		nID := 1008,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Stepper_Homing_Interrupted : ST_Alarm := (
 		nID := 1009,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Stepper_Motion_Interrupted : ST_Alarm := (
 		nID := 1010,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Stepper_PowerUp_Failed : ST_Alarm := (
 		nID := 1011,
@@ -52,15 +52,15 @@
 	
 	R1_Stepper_Reset_Failed : ST_Alarm := (
 		nID := 1012,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Stepper_Stop_Failed : ST_Alarm := (
 		nID := 1013,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R1_Stepper_UnableToReadPosition : ST_Alarm := (
 		nID := 1014,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	
 	// ================================================================
@@ -68,43 +68,43 @@
     // ================================================================
 	R2_Stepper_PowerUp_Failed : ST_Alarm := (
 		nID := 2001,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R2_Stepper_Homing_Failed : ST_Alarm := (
 		nID := 2002,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R2_Stepper_Homing_Interrupted : ST_Alarm := (
 		nID := 2003,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R2_Stepper_Motion_Failed : ST_Alarm := (
 		nID := 2004,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R2_Stepper_Motion_Interrupted : ST_Alarm := (
 		nID := 2005,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R2_Stepper_Reset_Failed : ST_Alarm := (
 		nID := 2006,
-		nSeverity := 1);
+		nSeverity := 3);
 		
 	R2_Chariot_UnknownState : ST_Alarm := (
 		nID := 2007,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R2_Chariot_MotionTimedOut : ST_Alarm := (
 		nID := 2008,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R2_Stepper_Stop_Failed : ST_Alarm := (
 		nID := 2009,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R2_Stepper_UnableToReadPosition : ST_Alarm := (
 		nID := 2010,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	
 	// ================================================================
@@ -112,75 +112,75 @@
     // ================================================================
 	R3_Compressor_UnknownState : ST_Alarm := (
 		nID := 3001,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Compressor_MotionTimedOut : ST_Alarm := (
 		nID := 3002,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_HeatExCoupola_UnknownState : ST_Alarm := (
 		nID := 3003,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_HeatExCoupola_MotionTimedOut : ST_Alarm := (
 		nID := 3004,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_RegenCoupola_UnknownState : ST_Alarm := (
 		nID := 3005,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_RegenCoupola_MotionTimedOut : ST_Alarm := (
 		nID := 3006,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Chariot_UnknownState : ST_Alarm := (
 		nID := 3007,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Chariot_MotionTimedOut : ST_Alarm := (
 		nID := 3008,
-		nSeverity := 1);
+		nSeverity := 3);
 		
 	R3_Stepper_PowerUp_Failed : ST_Alarm := (
 		nID := 3009,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Stepper_Homing_Failed : ST_Alarm := (
 		nID := 3010,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Stepper_Homing_Interrupted : ST_Alarm := (
 		nID := 3011,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Stepper_Motion_Failed : ST_Alarm := (
 		nID := 3012,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Stepper_Motion_Interrupted : ST_Alarm := (
 		nID := 3013,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Stepper_Reset_Failed : ST_Alarm := (
 		nID := 3014,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_Stepper_Stop_Failed : ST_Alarm := (
 		nID := 3015,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R3_HeatExCoupola_DriveFaulted : ST_Alarm := (
 		nID := 3016,
-		nSeverity := 1);
+		nSeverity := 4);
 	
 	R3_RegenCoupola_DriveFaulted : ST_Alarm := (
 		nID := 3017,
-		nSeverity := 1);
+		nSeverity := 4);
 	
 	R3_Stepper_UnableToReadPosition : ST_Alarm := (
 		nID := 3018,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	
 	// ================================================================
@@ -188,43 +188,43 @@
     // ================================================================
 	R4_Stepper_PowerUp_Failed : ST_Alarm := (
 		nID := 4001,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Stepper_Homing_Failed : ST_Alarm := (
 		nID := 4002,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Stepper_Homing_Interrupted : ST_Alarm := (
 		nID := 4003,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Stepper_Motion_Failed : ST_Alarm := (
 		nID := 4004,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Stepper_Motion_Interrupted : ST_Alarm := (
 		nID := 4005,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Stepper_Reset_Failed : ST_Alarm := (
 		nID := 4006,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Chariot_UnknownState : ST_Alarm := (
 		nID := 4007,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Chariot_MotionTimedOut : ST_Alarm := (
 		nID := 4008,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Stepper_Stop_Failed : ST_Alarm := (
 		nID := 4009,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	R4_Stepper_UnableToReadPosition : ST_Alarm := (
 		nID := 4010,
-		nSeverity := 1);
+		nSeverity := 3);
 	
 	
 	// ================================================================
@@ -232,27 +232,27 @@
     // ================================================================
 	Door_1 : ST_Alarm := (
 		nID := 9001,
-		nSeverity := 2);
+		nSeverity := 4);
 	
 	Door_2 : ST_Alarm := (
 		nID := 9002,
-		nSeverity := 2);
+		nSeverity := 4);
 	
 	Door_3 : ST_Alarm := (
 		nID := 9003,
-		nSeverity := 2);
+		nSeverity := 4);
 	
 	E_Stop_1 : ST_Alarm := (
 		nID := 9004,
-		nSeverity := 2);
+		nSeverity := 4);
 	
 	E_Stop_2 : ST_Alarm := (
 		nID := 9005,
-		nSeverity := 2);
+		nSeverity := 4);
 	
 	E_Stop_3 : ST_Alarm := (
 		nID := 9006,
-		nSeverity := 2);
+		nSeverity := 4);
 
 END_VAR]]></Declaration>
   </GVL>

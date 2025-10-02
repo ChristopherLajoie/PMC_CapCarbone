@@ -482,6 +482,13 @@ CASE eState OF
 				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'UnableToReadPosition');
 				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
 				
+				CASE nRail OF
+					1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := '';
+					2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := '';
+					3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := '';
+					4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := '';
+				END_CASE
+				
 				Reset := 1;
 			
 			HW_Failed:
@@ -699,7 +706,11 @@ END_CASE
       <LineId Id="878" Count="0" />
       <LineId Id="801" Count="1" />
       <LineId Id="804" Count="11" />
-      <LineId Id="819" Count="26" />
+      <LineId Id="819" Count="9" />
+      <LineId Id="888" Count="4" />
+      <LineId Id="887" Count="0" />
+      <LineId Id="893" Count="0" />
+      <LineId Id="829" Count="16" />
       <LineId Id="45" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Stop">
