@@ -126,10 +126,11 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetPosition(fCurrentPosition => Currentpos);
+        <ST><![CDATA[Home := 0;
+GetPosition(fCurrentPosition => Currentpos);
 
 CASE eState OF
-    LAS_Stepper_Ready:
+    LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
         IF Currentpass = 'Fast' THEN
             fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := FastPass);
             eState := LAS_Stepper_FastPass;
@@ -292,7 +293,7 @@ END_VAR
         <ST><![CDATA[MoveToPosition := 0;
 
 CASE eState OF
-	LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
+	LAS_Stepper_Ready:
 		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, 
           Velocity := fVelocity, Acceleration := fAccel, Deceleration := fDecel);
 	
@@ -426,13 +427,16 @@ CASE eState OF
 			fbReset(Axis := pAxis^, Execute := FALSE);
 			
 			bHoldKeepAlive := FALSE;
+			
 			// Start hardware check
 			eState := LAS_Stepper_Hardware_Check;
 			eHardwareCheckState := HW_GetOriginalPos;
-			bHW_CheckStarted := FALSE;
+			bHW_CheckStarted := TRUE;
+			RETURN; // Unlock KeepAlive before proceeding
+			
 		END_IF
 	
-	LAS_Stepper_Hardware_Check, LAS_Stepper_Moving:
+	LAS_Stepper_Hardware_Check, LAS_Stepper_FastPass, LAS_Stepper_SlowPass, LAS_Stepper_WaitingForTrigger:
 		CASE eHardwareCheckState OF
 			HW_GetOriginalPos:
 
@@ -441,88 +445,25 @@ CASE eState OF
 					fHW_OriginalPosition := -1;
 				END_IF
 				
-				GetPosition(fCurrentPosition => fHW_OriginalPosition);
-				
-				IF fHW_OriginalPosition >= 0 THEN
-					// calculate test position
-					CASE nRail OF
-						1: fHW_UpperLimit := Pos15; 
-						2: fHW_UpperLimit := Pos22;   
-						3: fHW_UpperLimit := Pos35; 
-						4: fHW_UpperLimit := Pos42;  
-						ELSE
-							eHardwareCheckState := HW_Failed;
-					END_CASE
-					
-					IF eHardwareCheckState <> HW_Failed THEN
-						IF (fHW_OriginalPosition + fHW_TestDistance) <= fHW_UpperLimit THEN
-							bHW_MovePositive := TRUE;
-							fHW_TestPosition := fHW_OriginalPosition + fHW_TestDistance;
-						ELSIF (fHW_OriginalPosition - fHW_TestDistance) >= 0.0 THEN
-							bHW_MovePositive := FALSE;
-							fHW_TestPosition := fHW_OriginalPosition - fHW_TestDistance;
-						ELSE
-							eHardwareCheckState := HW_Failed;
-						END_IF
-						
-						IF eHardwareCheckState <> HW_Failed THEN
-							eHardwareCheckState := HW_WaitTestMove;
-						END_IF
-					END_IF
-				END_IF
-					
-			HW_WaitTestMove:		
-				nMoveResult := MoveToPosition(fPosition := fHW_TestPosition);
+				nMoveResult := Home(TRUE);
 				
 				CASE nMoveResult OF
 					0: // Continue
 						
 					1: // Success
 						eState := LAS_Stepper_Hardware_Check; // Stay in hardware check
-						eHardwareCheckState := HW_CheckMovement;
-						
-					-1: // Failure
-						eHardwareCheckState := HW_Failed;
-				END_CASE
-			
-			HW_CheckMovement:
-				GetPosition(fCurrentPosition => fHW_CurrentPosition);
-				
-				// Check if movement was detected
-				IF fHW_CurrentPosition >= 0 THEN
-		
-					IF bHW_MovePositive THEN
-						bHW_MovementDetected := (fHW_CurrentPosition - fHW_OriginalPosition) >= fHW_PositionTolerance;
-					ELSE
-						bHW_MovementDetected := (fHW_OriginalPosition - fHW_CurrentPosition) >= fHW_PositionTolerance;
-					END_IF
-					
-					IF NOT bHW_MovementDetected THEN
-						eHardwareCheckState := HW_Failed;
-					ELSE
-						eHardwareCheckState := HW_WaitReturn;
-					END_IF
-				END_IF
-			
-			HW_WaitReturn:			
-				nMoveResult := MoveToPosition(fPosition := fHW_OriginalPosition);
-				
-				CASE nMoveResult OF
-					0: // Continue
-						
-					1: // Success
-						eState := LAS_Stepper_Hardware_Check; 
 						eHardwareCheckState := HW_Complete;
 						
 					-1: // Failure
 						eHardwareCheckState := HW_Failed;
 				END_CASE
+				
 			
 			HW_Complete:
 				eState := LAS_Stepper_Ready;
 				bHW_CheckStarted := FALSE;
 				
-				// Clear all alarm conditions
+				// Clear all alarm conditions related to motion
 				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
 				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
 				
@@ -668,6 +609,7 @@ END_CASE
       <LineId Id="5" Count="9" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
+      <LineId Id="872" Count="0" />
       <LineId Id="730" Count="18" />
       <LineId Id="833" Count="4" />
       <LineId Id="839" Count="1" />
@@ -703,8 +645,9 @@ END_CASE
       <LineId Id="31" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="28" Count="0" />
-      <LineId Id="19" Count="5" />
+      <LineId Id="19" Count="4" />
       <LineId Id="66" Count="2" />
+      <LineId Id="24" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.MoveToPosition">
       <LineId Id="39" Count="0" />
@@ -743,26 +686,18 @@ END_CASE
       <LineId Id="848" Count="2" />
       <LineId Id="852" Count="1" />
       <LineId Id="855" Count="7" />
-      <LineId Id="668" Count="4" />
-      <LineId Id="846" Count="0" />
-      <LineId Id="863" Count="0" />
-      <LineId Id="673" Count="6" />
+      <LineId Id="668" Count="3" />
+      <LineId Id="883" Count="1" />
+      <LineId Id="672" Count="0" />
+      <LineId Id="880" Count="0" />
+      <LineId Id="673" Count="3" />
+      <LineId Id="885" Count="1" />
+      <LineId Id="677" Count="2" />
       <LineId Id="681" Count="7" />
-      <LineId Id="692" Count="20" />
-      <LineId Id="714" Count="6" />
-      <LineId Id="725" Count="1" />
-      <LineId Id="731" Count="0" />
-      <LineId Id="734" Count="3" />
-      <LineId Id="742" Count="9" />
-      <LineId Id="755" Count="1" />
-      <LineId Id="847" Count="0" />
-      <LineId Id="757" Count="8" />
-      <LineId Id="767" Count="1" />
-      <LineId Id="770" Count="1" />
-      <LineId Id="776" Count="1" />
-      <LineId Id="782" Count="0" />
-      <LineId Id="785" Count="3" />
-      <LineId Id="793" Count="9" />
+      <LineId Id="867" Count="10" />
+      <LineId Id="866" Count="0" />
+      <LineId Id="878" Count="0" />
+      <LineId Id="801" Count="1" />
       <LineId Id="804" Count="11" />
       <LineId Id="819" Count="26" />
       <LineId Id="45" Count="0" />

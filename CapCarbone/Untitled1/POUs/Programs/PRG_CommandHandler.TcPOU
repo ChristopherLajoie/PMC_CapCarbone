@@ -317,6 +317,7 @@ IF bisResetCmd THEN
             
         0: // Continue
             // Operation in progress
+			RETURN;
             
        -1: // Failure
             bOperationInProgress := FALSE;
@@ -477,8 +478,8 @@ END_CASE]]></ST>
       <LineId Id="200" Count="0" />
       <LineId Id="194" Count="0" />
       <LineId Id="196" Count="3" />
-      <LineId Id="60" Count="1" />
-      <LineId Id="219" Count="1" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="219" Count="2" />
       <LineId Id="202" Count="0" />
       <LineId Id="204" Count="2" />
       <LineId Id="201" Count="0" />
@@ -489,7 +490,9 @@ END_CASE]]></ST>
       <LineId Id="125" Count="2" />
       <LineId Id="187" Count="0" />
       <LineId Id="182" Count="0" />
-      <LineId Id="128" Count="5" />
+      <LineId Id="128" Count="3" />
+      <LineId Id="222" Count="0" />
+      <LineId Id="132" Count="1" />
       <LineId Id="135" Count="0" />
       <LineId Id="183" Count="0" />
       <LineId Id="136" Count="1" />
