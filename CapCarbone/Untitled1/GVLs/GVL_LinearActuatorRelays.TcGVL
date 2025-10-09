@@ -2,24 +2,24 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_LinearActuatorRelays" Id="{5eab831f-9447-4481-a624-13723ab2af90}">
     <Declaration><![CDATA[VAR_GLOBAL
-	Cha1_Forward : BOOL := FALSE; 
-	Cha1_Reverse : BOOL := FALSE; 
-	Comp1_Forward : BOOL := FALSE; 
-	Comp1_Reverse : BOOL := FALSE; 
-	Sens1_Forward : BOOL := FALSE; 
-	Sens1_Reverse : BOOL := FALSE; 
-	Cha2_Forward : BOOL := FALSE; 
-	Cha2_Reverse : BOOL := FALSE; 
-	Cha3_Forward : BOOL := FALSE; 
-	Cha3_Reverse : BOOL := FALSE; 
-	HeatC3_Forward : BOOL := FALSE; 
-	HeatC3_Reverse : BOOL := FALSE; 
-	RegenC3_Forward : BOOL := FALSE; 
-	RegenC3_Reverse : BOOL := FALSE; 
-	Comp3_Forward : BOOL := FALSE; 
-	Comp3_Reverse : BOOL := FALSE; 
-	Cha4_Forward : BOOL := FALSE; 
-	Cha4_Reverse : BOOL := FALSE;  
+	Cha1_Forward AT %I* : BOOL := FALSE; 
+	Cha1_Reverse AT %I* : BOOL := FALSE; 
+	Comp1_Forward AT %I* : BOOL := FALSE; 
+	Comp1_Reverse AT %I* : BOOL := FALSE; 
+	Sens1_Forward AT %I* : BOOL := FALSE; 
+	Sens1_Reverse AT %I* : BOOL := FALSE; 
+	Cha2_Forward AT %I* : BOOL := FALSE; 
+	Cha2_Reverse AT %I* : BOOL := FALSE; 
+	Cha3_Forward AT %I* : BOOL := FALSE; 
+	Cha3_Reverse AT %I* : BOOL := FALSE; 
+	HeatC3_Forward AT %I* : BOOL := FALSE; 
+	HeatC3_Reverse AT %I* : BOOL := FALSE; 
+	RegenC3_Forward AT %I* : BOOL := FALSE; 
+	RegenC3_Reverse AT %I* : BOOL := FALSE; 
+	Comp3_Forward AT %I* : BOOL := FALSE; 
+	Comp3_Reverse AT %I* : BOOL := FALSE; 
+	Cha4_Forward AT %I* : BOOL := FALSE; 
+	Cha4_Reverse AT %I* : BOOL := FALSE;  
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

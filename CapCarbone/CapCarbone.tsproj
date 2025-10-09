@@ -1673,7 +1673,7 @@ External Setpoint Generation:
 						</Vars>
 					</Encoder>
 					<Drive Name="Drive" DrvType="16">
-						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
+						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
 							<Analog TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 							<TimeComp TaskDelayCycles="1"/>
 						</DrvPara>
@@ -1814,7 +1814,7 @@ External Setpoint Generation:
 						</Vars>
 					</Encoder>
 					<Drive Name="Drive" DrvType="16">
-						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
+						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
 							<Analog TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 							<TimeComp TaskDelayCycles="1"/>
 						</DrvPara>
@@ -1955,7 +1955,7 @@ External Setpoint Generation:
 						</Vars>
 					</Encoder>
 					<Drive Name="Drive" DrvType="16">
-						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
+						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
 							<Analog TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 							<TimeComp TaskDelayCycles="1"/>
 						</DrvPara>
@@ -2096,7 +2096,7 @@ External Setpoint Generation:
 						</Vars>
 					</Encoder>
 					<Drive Name="Drive" DrvType="16">
-						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00000100">
+						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00020100">
 							<Analog TorqueSetpointScale="10" ScaleFactorActTorque="0.1"/>
 							<TimeComp TaskDelayCycles="1"/>
 						</DrvPara>
@@ -2175,7 +2175,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{06A144AE-15C8-407C-8A20-7ACC04BE137D}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{401115D1-FFFE-BBE3-0AF7-437CC9269C79}" TmcPath="Untitled1\Untitled1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{603283F4-0D11-231A-C597-35264433E776}" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -2214,6 +2214,78 @@ External Setpoint Generation:
 						<Var>
 							<Name>GVL_Steppers.Stepper4.NcToPlc</Name>
 							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Cha1_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Cha1_Reverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Comp1_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Comp1_Reverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Sens1_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Sens1_Reverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Cha2_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Cha2_Reverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Cha3_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Cha3_Reverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.HeatC3_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.HeatC3_Reverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.RegenC3_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.RegenC3_Reverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Comp3_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Comp3_Reverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Cha4_Forward</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorRelays.Cha4_Reverse</Name>
+							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2025-01-27T13:09:33">
@@ -4011,6 +4083,9 @@ External Setpoint Generation:
 				<Image Id="6" AddrType="9" ImageType="3">
 					<Name>Image</Name>
 				</Image>
+				<Image Id="1" AddrType="10" ImageType="3">
+					<Name>Image-2</Name>
+				</Image>
 				<Box Id="1" BoxType="9099">
 					<Name>Term 1 (EK1200)</Name>
 					<ImageId>1002</ImageId>
@@ -4022,10 +4097,10 @@ External Setpoint Generation:
 							<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="DIP Inputs" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input Channel 1" Index="#x6000" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot1 Forward" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 2" Index="#x6010" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot1 Reverse" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 								<Entry Name="Input Channel 3" Index="#x6020" Sub="#x01">
@@ -12378,6 +12453,8 @@ Bit 8 - 15 : reserved]]></Comment>
 		</Io>
 	</Project>
 	<Mappings>
+		<MappingInfo Identifier="{00000000-0060-0304-3000-040360000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-0070-0304-3000-040371000403}" Id="#x02030030"/>
 		<MappingInfo Identifier="{08502005-0010-0500-0020-500830000403}" Id="#x02030010" Watchdog="04000000140000000400000004000000"/>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 17 (EL7062)">
@@ -12448,6 +12525,16 @@ Bit 8 - 15 : reserved]]></Comment>
 			</OwnerB>
 		</OwnerA>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 5 (EL1409)">
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha1_Forward" VarB="DIP Inputs^Triangle Rétractable Chariot1 Forward"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha1_Reverse" VarB="DIP Inputs^Triangle Rétractable Chariot1 Reverse"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha2_Forward" VarB="DIP Inputs^Input Channel 3"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha2_Reverse" VarB="DIP Inputs^Input Channel 4"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha3_Forward" VarB="DIP Inputs^Input Channel 5"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha3_Reverse" VarB="DIP Inputs^Input Channel 6"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha4_Forward" VarB="DIP Inputs^Input Channel 7"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha4_Reverse" VarB="DIP Inputs^Input Channel 8"/>
+			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Stepper1.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="Main_Task Outputs^GVL_Steppers.Stepper1.PlcToNc" VarB="Inputs^FromPlc"/>
