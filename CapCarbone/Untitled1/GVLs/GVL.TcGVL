@@ -11,6 +11,8 @@ VAR_GLOBAL
 	CONTROL : BOOL := FALSE;
 	
 	bIsPoweredUp     : ARRAY[1..4] OF BOOL;
-END_VAR]]></Declaration>
+END_VAR
+
+]]></Declaration>
   </GVL>
 </TcPlcObject>
