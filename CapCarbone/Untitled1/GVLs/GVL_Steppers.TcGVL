@@ -3,15 +3,35 @@
   <GVL Name="GVL_Steppers" Id="{fbf55f38-8215-4244-998d-826cf1c53444}">
     <Declaration><![CDATA[{attribute 'TcLinkTo'}
 VAR_GLOBAL
-    Stepper1 : AXIS_REF;
+	Stepper1 : AXIS_REF;
 	Stepper2 : AXIS_REF;
 	Stepper3 : AXIS_REF;
 	Stepper4 : AXIS_REF;
 	
-	Axis1 : FB_StepperMotor(init_axis := ADR(Stepper1));
-    Axis2 : FB_StepperMotor(init_axis := ADR(Stepper2));
-    Axis3 : FB_StepperMotor(init_axis := ADR(Stepper3));
-    Axis4 : FB_StepperMotor(init_axis := ADR(Stepper4));
+	Stepper_Rail1 : ST_LinearTable := (
+		object := Stepper1,
+		bProx := ADR(Axis1_Prox)
+		);
+	
+	Stepper_Rail2 : ST_LinearTable := (
+		object := Stepper2,
+		bProx := ADR(Axis2_Prox)
+		);
+	
+	Stepper_Rail3 : ST_LinearTable := (
+		object := Stepper3,
+		bProx := ADR(Axis3_Prox)
+		);
+	
+	Stepper_Rail4 : ST_LinearTable := (
+		object := Stepper4,
+		bProx := ADR(Axis4_Prox)
+		);
+	
+	Axis1 : FB_StepperMotor(init_axis := ADR(Stepper_Rail1.object));
+    Axis2 : FB_StepperMotor(init_axis := ADR(Stepper_Rail2.object));
+    Axis3 : FB_StepperMotor(init_axis := ADR(Stepper_Rail3.object));
+    Axis4 : FB_StepperMotor(init_axis := ADR(Stepper_Rail4.object));
 	
 	Axis1Command : ST_StepperMotorCommand;
 	Axis2Command : ST_StepperMotorCommand;

@@ -12,6 +12,7 @@ VAR
     // Axis references & pointers
     // ==========================
     pAxis : POINTER TO AXIS_REF; // Pointer to axis reference
+	pAxis_struct : POINTER TO ST_LinearTable;
 
     // ======================
     // Motion control function blocks
@@ -59,7 +60,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[pAxis := init_axis;
+        <ST><![CDATA[pAxis:= init_axis;
 ]]></ST>
       </Implementation>
     </Method>
@@ -122,7 +123,7 @@ VAR
     // External references / pointers
     // ============================
     pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
-	 sErrorMsg : STRING(255);
+	sErrorMsg : STRING(255);
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -132,16 +133,16 @@ GetPosition(fCurrentPosition => Currentpos);
 CASE eState OF
     LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
         IF Currentpass = 'Fast' THEN
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := FastPass);
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := FastPass);
             eState := LAS_Stepper_FastPass;
             
         ELSIF Currentpass = 'Slow' THEN
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := SlowPass);
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := SlowPass);
             eState := LAS_Stepper_SlowPass;
         END_IF
-        
+       
     LAS_Stepper_FastPass:
-        fbHome(Axis := pAxis^, bCalibrationCam := NOT bSimulatedLimitSwitch);
+        fbHome(Axis := pAxis^, bCalibrationCam := NOT pAxis_struct^.bProx^);
         
         IF fbHome.Error THEN		
             eState := LAS_Stepper_Error;
@@ -170,14 +171,14 @@ CASE eState OF
     
     LAS_Stepper_WaitingForTrigger: // Wait for the limit switch
 
-        IF NOT bSimulatedLimitSwitch THEN
+        IF NOT pAxis_struct^.bProx^ THEN
 
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT bSimulatedLimitSwitch, Options := SlowPass);
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := SlowPass);
             eState := LAS_Stepper_SlowPass;
         END_IF
     
     LAS_Stepper_SlowPass:
-        fbHome(Axis := pAxis^, bCalibrationCam := NOT bSimulatedLimitSwitch);
+        fbHome(Axis := pAxis^, bCalibrationCam := NOT pAxis_struct^.bProx^);
         
         IF fbHome.Error THEN			
             eState := LAS_Stepper_Error;

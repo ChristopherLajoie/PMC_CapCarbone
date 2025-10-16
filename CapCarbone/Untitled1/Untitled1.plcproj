@@ -39,6 +39,9 @@
     <Compile Include="DUTs\ST_LinearActuatorCommand.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ST_LinearTable.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\ST_LookupEntry.TcDUT">
       <SubType>Code</SubType>
     </Compile>
