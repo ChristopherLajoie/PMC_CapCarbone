@@ -3,10 +3,20 @@
   <GVL Name="GVL_LinearActuatorDriveControls" Id="{f4396875-a356-4ef4-b034-83cd607c30df}">
     <Declaration><![CDATA[VAR_GLOBAL
 	HeatC3_SpeedControl : BOOL := TRUE;
+	HeatC3_StopControl : BOOL := TRUE;
 	HeatC3_Fault : BOOL := TRUE;
 	
 	RegenC3_SpeedControl : BOOL := TRUE;
+	RegenC3_StopControl : BOOL := TRUE;
 	RegenC3_Fault : BOOL := TRUE;
+	
+	Comp1_SpeedControl : BOOL := TRUE;
+	Comp1_StopControl : BOOL := TRUE;
+	Comp1_Fault : BOOL := TRUE;
+	
+	Comp3_SpeedControl : BOOL := TRUE;
+	Comp3_StopControl : BOOL := TRUE;
+	Comp3_Fault : BOOL := TRUE;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

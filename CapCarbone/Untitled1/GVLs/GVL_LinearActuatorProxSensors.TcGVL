@@ -6,6 +6,8 @@
 	Cha1_Out : BOOL := FALSE;
 	Comp1_In : BOOL := TRUE;
 	Comp1_Out : BOOL := FALSE;
+	Comp1_2 : BOOL := FALSE;
+	Comp1_3 : BOOL := FALSE;
 	Sens1_In : BOOL := TRUE;
 	Sens1_Out : BOOL := FALSE;
 	Cha2_In : BOOL := TRUE;
@@ -22,6 +24,8 @@
 	RegenC3_3 : BOOL := FALSE;
 	Comp3_In : BOOL := TRUE;
 	Comp3_Out : BOOL := FALSE;
+	Comp3_2 : BOOL := FALSE;
+	Comp3_3 : BOOL := FALSE;
 	Cha4_In : BOOL := TRUE;
 	Cha4_Out : BOOL := FALSE;
 END_VAR]]></Declaration>

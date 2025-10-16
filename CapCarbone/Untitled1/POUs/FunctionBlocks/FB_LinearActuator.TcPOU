@@ -5,7 +5,7 @@
 VAR
     // STATE & CONFIGURATION
     eState      : ENUM_LinearActuatorState := LAS_LinearActuator_Uninitialized;
-    tTimeout    : TIME := T#100S;
+    tTimeout    : TIME := T#10S;
 
     // ERROR HANDLING
     bError      : BOOL;
@@ -358,6 +358,7 @@ pActuator^.bInProgress := TRUE;
 // Set speed
 IF bHas4Sensors AND pActuator^.bSpeedControlDO <> 0 THEN
     pActuator^.bSpeedControlDO^ := TRUE;
+	pActuator^.bStopControlDO^ := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -371,7 +372,8 @@ pActuator^.bInProgress := TRUE;
 
 // Set speed 
 IF bHas4Sensors AND pActuator^.bSpeedControlDO <> 0 THEN
-    pActuator^.bSpeedControlDO^ := TRUE;  
+    pActuator^.bSpeedControlDO^ := TRUE; 
+	pActuator^.bStopControlDO^ := FALSE; 
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -385,9 +387,9 @@ END_VAR
     pActuator^.bFwdDO^ := TRUE;
     pActuator^.bBckwDO^ := TRUE;
 ELSE
-    pActuator^.bFwdDO^ := FALSE;
-    pActuator^.bBckwDO^ := FALSE;
+    pActuator^.bStopControlDO^ := TRUE;
 END_IF
+
 pActuator^.bInProgress := FALSE;
 
 IF bHas4Sensors AND pActuator^.bSpeedControlDO <> 0 THEN
@@ -527,15 +529,18 @@ END_IF]]></ST>
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.SetBackwardMovement">
-      <LineId Id="11" Count="6" />
+      <LineId Id="11" Count="7" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.SetForwardMovement">
-      <LineId Id="10" Count="6" />
+      <LineId Id="10" Count="7" />
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.SetStoppedState">
-      <LineId Id="14" Count="7" />
+      <LineId Id="14" Count="4" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="21" Count="0" />
       <LineId Id="23" Count="2" />
       <LineId Id="13" Count="0" />
     </LineIds>

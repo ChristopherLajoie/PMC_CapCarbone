@@ -14,9 +14,14 @@
 	Comp1 : ST_LinearActuator := (
 		sName := 'Compressor1',
 		bProxIn := ADR(Comp1_In),  
-		bProxOut := ADR(Comp1_Out), 
+		bProxOut := ADR(Comp1_Out),
+		bProx2 := ADR(Comp1_2),
+		bProx3 := ADR(Comp1_3), 
 		bFwdDO := ADR(Comp1_Forward), 
-		bBckwDO := ADR(Comp1_Reverse)
+		bBckwDO := ADR(Comp1_Reverse),
+		bSpeedControlDO := ADR(Comp1_SpeedControl),
+		bStopControlDO := ADR(Comp1_StopControl),
+		bFaultDI := ADR(Comp1_Fault)
 		);
 	
 	Sens1 : ST_LinearActuator := (
@@ -52,6 +57,7 @@
 		bFwdDO := ADR(HeatC3_Forward), 
 		bBckwDO := ADR(HeatC3_Reverse),
 		bSpeedControlDO := ADR(HeatC3_SpeedControl),
+		bStopControlDO := ADR(HeatC3_StopControl),
 		bFaultDI := ADR(HeatC3_Fault)
 		);
 		
@@ -65,6 +71,7 @@
 		bFwdDO := ADR(RegenC3_Forward), 
 		bBckwDO := ADR(RegenC3_Reverse),
 		bSpeedControlDO := ADR(RegenC3_SpeedControl),
+		bStopControlDO := ADR(RegenC3_StopControl),
 		bFaultDI := ADR(RegenC3_Fault)
 		);
 	
@@ -78,10 +85,15 @@
 	
 	Comp3 : ST_LinearActuator := (
 		sName := 'Compressor3',
-		bProxIn := ADR(Comp3_In),
+		bProxIn := ADR(Comp3_In),  
 		bProxOut := ADR(Comp3_Out),
-		bFwdDO := ADR(Comp3_Forward),
-		bBckwDO := ADR(Comp3_Reverse)
+		bProx2 := ADR(Comp3_2),
+		bProx3 := ADR(Comp3_3), 
+		bFwdDO := ADR(Comp3_Forward), 
+		bBckwDO := ADR(Comp3_Reverse),
+		bSpeedControlDO := ADR(Comp3_SpeedControl),
+		bStopControlDO := ADR(Comp3_StopControl),
+		bFaultDI := ADR(Comp3_Fault)
 		);
 	
 	Chariot1 :    FB_LinearActuator(Actuator := ADR(Cha1));

@@ -11,6 +11,7 @@ STRUCT
     bFwdDO   : POINTER TO BOOL;     
     bBckwDO  : POINTER TO BOOL;     
     bSpeedControlDO : POINTER TO BOOL; 
+	bStopControlDO : POINTER TO BOOL;
     bFaultDI : POINTER TO BOOL;     
     tmrTimeout : TON;
     bInProgress : BOOL;
