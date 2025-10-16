@@ -15,11 +15,8 @@
 		sName := 'Compressor1',
 		bProxIn := ADR(Comp1_In),  
 		bProxOut := ADR(Comp1_Out),
-		bProx2 := ADR(Comp1_2),
-		bProx3 := ADR(Comp1_3), 
 		bFwdDO := ADR(Comp1_Forward), 
 		bBckwDO := ADR(Comp1_Reverse),
-		bSpeedControlDO := ADR(Comp1_SpeedControl),
 		bStopControlDO := ADR(Comp1_StopControl),
 		bFaultDI := ADR(Comp1_Fault)
 		);
@@ -87,11 +84,8 @@
 		sName := 'Compressor3',
 		bProxIn := ADR(Comp3_In),  
 		bProxOut := ADR(Comp3_Out),
-		bProx2 := ADR(Comp3_2),
-		bProx3 := ADR(Comp3_3), 
 		bFwdDO := ADR(Comp3_Forward), 
 		bBckwDO := ADR(Comp3_Reverse),
-		bSpeedControlDO := ADR(Comp3_SpeedControl),
 		bStopControlDO := ADR(Comp3_StopControl),
 		bFaultDI := ADR(Comp3_Fault)
 		);

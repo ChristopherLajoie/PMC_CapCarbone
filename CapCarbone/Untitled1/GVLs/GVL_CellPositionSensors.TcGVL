@@ -1,8 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
-  <GVL Name="GVL_CellPositionSensors" Id="{024f2403-4578-4923-9c30-2a95d1d96d71}">
-    <Declaration><![CDATA[{attribute 'qualified_only'}
-VAR_GLOBAL
+  <GVL Name="GVL_CellPositionSensors" Id="{324b8032-1e77-45c9-b1c7-509f023d8566}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	R1_Incoming AT %I* : BOOL;
+	R1_Sensor AT %I* : BOOL;
+	R1_Outgoing AT %I* : BOOL;
+	
+	R3_Incoming AT %I* : BOOL;
+	R3_Sensor AT %I* : BOOL;
+	R3_Outgoing AT %I* : BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

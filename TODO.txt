@@ -1,6 +1,4 @@
 - Check how to use prox sensors of boxes for position detection.
 - Test new error messages and adapt HMI
 - Implement homing, idle and main cycle and add hmi buttons for them
-- Fix linear actuator stop for fancy drives (stop button)
-- Map all DI/DO
-
+- Link Ignition variables

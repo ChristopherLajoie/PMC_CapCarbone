@@ -230,30 +230,10 @@
 	// ================================================================
     // GLOBAL SECURITY (ZONE 5)
     // ================================================================
-	Door_1 : ST_Alarm := (
+	SafetyRelay : ST_Alarm := (
 		nID := 9001,
 		nSeverity := 4);
 	
-	Door_2 : ST_Alarm := (
-		nID := 9002,
-		nSeverity := 4);
-	
-	Door_3 : ST_Alarm := (
-		nID := 9003,
-		nSeverity := 4);
-	
-	E_Stop_1 : ST_Alarm := (
-		nID := 9004,
-		nSeverity := 4);
-	
-	E_Stop_2 : ST_Alarm := (
-		nID := 9005,
-		nSeverity := 4);
-	
-	E_Stop_3 : ST_Alarm := (
-		nID := 9006,
-		nSeverity := 4);
-
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -1496,7 +1496,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000007}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..6] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000007}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..6] OF BIT</Name>
 			<BitSize>7</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1505,7 +1505,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-00200000000B}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..10] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-00200000000B}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..10] OF BIT</Name>
 			<BitSize>11</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1514,7 +1514,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000009}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..8] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000009}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..8] OF BIT</Name>
 			<BitSize>9</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1523,7 +1523,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000005}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..4] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000005}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..4] OF BIT</Name>
 			<BitSize>5</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1570,7 +1570,7 @@ External Setpoint Generation:
 		<ImageData Id="1007">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000120b0000120b00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff0000ff0000ff0000ff0000ff0000ff0000ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff0000ff0000ff0000ff0000ff0000ff0000ffc0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ff0000ff0000ff0000ff0000ff0000ff0000ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff0000ff0000ff0000ff0000ff0000ff0000ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff0000ff0000ff0000ff0000ff0000ff0000ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff0000ff0000ff0000ff0000ff0000ff0000ffc0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ff0000ff0000ff0000ff0000ff0000ff0000ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
 		<ImageData Id="1008">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
 	</ImageDatas>
-	<Project ProjectGUID="{06418B6F-05C1-450A-BCFB-591E2E8D8474}" TargetNetId="192.168.137.76.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{06418B6F-05C1-450A-BCFB-591E2E8D8474}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Settings MaxCpus="2" NonWinCpus="1">
 				<Cpu/>
@@ -2175,45 +2175,52 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{06A144AE-15C8-407C-8A20-7ACC04BE137D}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{603283F4-0D11-231A-C597-35264433E776}" TmcPath="Untitled1\Untitled1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{1B794E55-2C10-9FC5-821D-FD71EB24D4A8}" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>Main_Task Outputs</Name>
 						<Var>
-							<Name>GVL_Steppers.Stepper1.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.HeatC3_SpeedControl</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper2.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.HeatC3_StopControl</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper3.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.HeatC3_Fault</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper4.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-					</Vars>
-					<Vars VarGrpType="1">
-						<Name>Main_Task Inputs</Name>
-						<Var>
-							<Name>GVL_Steppers.Stepper1.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.RegenC3_SpeedControl</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper2.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.RegenC3_StopControl</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper3.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.RegenC3_Fault</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper4.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.Comp1_StopControl</Name>
+							<Comment><![CDATA[Comp1_SpeedControl AT %Q* : BOOL;]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Comp1_Fault</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Comp3_StopControl</Name>
+							<Comment><![CDATA[Comp3_SpeedControl AT %Q* : BOOL;]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Comp3_Fault</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_LinearActuatorRelays.Cha1_Forward</Name>
@@ -2287,6 +2294,193 @@ External Setpoint Generation:
 							<Name>GVL_LinearActuatorRelays.Cha4_Reverse</Name>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper1.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper2.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper3.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper4.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>Main_Task Inputs</Name>
+						<Var>
+							<Name>GVL.StartCycle</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.StopCycle</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.SafetyRelayStatus</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.PLC_Fan_Steppers</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.R1_Incoming</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.R1_Sensor</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.R1_Outgoing</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.R3_Incoming</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.R3_Sensor</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.R3_Outgoing</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Cha1_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Cha1_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Comp1_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Comp1_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Comp1_2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Sens1_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Sens1_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Cha2_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Cha2_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Cha3_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Cha3_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.HeatC3_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.HeatC3_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.HeatC3_2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.HeatC3_3</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.RegenC3_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.RegenC3_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.RegenC3_2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.RegenC3_3</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Comp3_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Comp3_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Comp3_2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Cha4_In</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorProxSensors.Cha4_Out</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper1.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper2.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper3.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper4.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_SteppersProx.Axis1_Prox</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_SteppersProx.Axis2_Prox</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_SteppersProx.Axis3_Prox</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_SteppersProx.Axis4_Prox</Name>
+							<Type>BOOL</Type>
+						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2025-01-27T13:09:33">
 						<OwnerA Name="InputDst" Prefix="TIPC^Untitled1^Untitled1 Instance" Type="1">
@@ -2297,6 +2491,30 @@ External Setpoint Generation:
 						<OwnerA Name="OutputSrc" Prefix="TIPC^Untitled1^Untitled1 Instance" Type="2">
 							<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Stepper">
 								<Link VarA="Main.AxisRef.PlcToNc" TypeA="MC.PLCTONC_AXIS_REF" InOutA="1" GuidA="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" VarB="Inputs^FromPlc" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2025-10-16T13:33:51">
+						<OwnerA Name="InputDst" Prefix="TIPC^Untitled1^Untitled1 Instance" Type="1">
+							<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 5 (EL1409)">
+								<Link VarA="GVL_LinearActuatorRelays.Cha1_Forward" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Triangle Rétractable Chariot1 Forward" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorRelays.Cha1_Reverse" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Triangle Rétractable Chariot1 Reverse" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorRelays.Cha2_Forward" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Triangle Rétractable Chariot2 Forward" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorRelays.Cha2_Reverse" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Triangle Rétractable Chariot2 Reverse" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorRelays.Cha3_Forward" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Triangle Rétractable Chariot3 Forward" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorRelays.Cha3_Reverse" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Triangle Rétractable Chariot3 Reverse" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorRelays.Cha4_Forward" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Triangle Rétractable Chariot4 Forward" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorRelays.Cha4_Reverse" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Triangle Rétractable Chariot4 Reverse" Size="1" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2025-10-16T13:44:20">
+						<OwnerA Name="InputDst" Prefix="TIPC^Untitled1^Untitled1 Instance" Type="1">
+							<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 7 (EL1409)">
+								<Link VarA="GVL_LinearActuatorDriveControls.Comp1_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Compressor Rail1" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorDriveControls.Comp3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Compressor Rail3" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorDriveControls.HeatC3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault HeatEx Coupola" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorDriveControls.RegenC3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Regen Coupola" Size="1" RestoreInfo="ANotFound"/>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
@@ -2318,7 +2536,7 @@ External Setpoint Generation:
 			</Project>
 		</Plc>
 		<Io>
-			<Device Id="2" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28674" AmsNetId="192.168.137.76.3.1" RemoteName="Périphérique 2 (EtherCAT)" InfoImageId="5">
+			<Device Id="2" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28674" AmsNetId="192.168.181.1.3.1" RemoteName="Périphérique 2 (EtherCAT)" InfoImageId="5">
 				<Name>Périphérique 2 (EtherCAT)</Name>
 				<AddressInfo>
 					<Pnp>
@@ -4053,7 +4271,7 @@ External Setpoint Generation:
 				</Box>
 				<EtherCAT/>
 			</Device>
-			<Device Id="4" DevType="111" DevFlags="#x0003" AmsPort="28676" AmsNetId="192.168.137.76.5.1" RemoteName="Device 4 (EtherCAT)" InfoImageId="7">
+			<Device Id="4" DevType="111" DevFlags="#x0003" AmsPort="28676" AmsNetId="192.168.181.1.5.1" RemoteName="Device 4 (EtherCAT)" InfoImageId="7">
 				<Name>Device 4 (EtherCAT)</Name>
 				<AddressInfo>
 					<Ccat>
@@ -4087,178 +4305,178 @@ External Setpoint Generation:
 					<Name>Image-2</Name>
 				</Image>
 				<Box Id="1" BoxType="9099">
-					<Name>Term 1 (EK1200)</Name>
+					<Name>ECAT E-Bus (EK1200)</Name>
 					<ImageId>1002</ImageId>
 					<EtherCAT PdiType="#x0100" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x04b02c52" RevisionNo="#x00001388" InfoDataState="false" PortPhys="49" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1200-5000 EtherCAT Power supply (2A E-Bus)" Desc="EK1200" PortABoxInfo="#x00ffffff"/>
 					<Box Id="5" BoxType="9099">
-						<Name>Term 5 (EL1409)</Name>
+						<Name>Carte DI #1 (EL1409)</Name>
 						<ImageId>7</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x05813052" RevisionNo="#x00100000" BIC="1P322594SBTN999gx58z1KEL1409                        Q1    2P402400000016" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1409 16Ch. Dig. Input 24V, 3ms" Desc="EL1409" PortABoxInfo="#x01000001">
 							<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="DIP Inputs" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Triangle Rétractable Chariot1 Forward" Index="#x6000" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot1 Prox In" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Triangle Rétractable Chariot1 Reverse" Index="#x6010" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot1 Prox Out" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 3" Index="#x6020" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot2 Prox In" Index="#x6020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 4" Index="#x6030" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot2 Prox Out" Index="#x6030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 5" Index="#x6040" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot3 Prox In" Index="#x6040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 6" Index="#x6050" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot3 Prox Out" Index="#x6050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 7" Index="#x6060" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot4 Prox In" Index="#x6060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 8" Index="#x6070" Sub="#x01">
+								<Entry Name="Triangle Rétractable Chariot4 Prox Out" Index="#x6070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 9" Index="#x6080" Sub="#x01">
+								<Entry Name="Rail1 Position Arrivé Cellule" Index="#x6080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 10" Index="#x6090" Sub="#x01">
+								<Entry Name="Rail1 Position Capteur" Index="#x6090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 11" Index="#x60a0" Sub="#x01">
+								<Entry Name="Rail1 Position Sortie Cellule" Index="#x60a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 12" Index="#x60b0" Sub="#x01">
+								<Entry Name="Rail3 Position Arrivé Cellule" Index="#x60b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 13" Index="#x60c0" Sub="#x01">
+								<Entry Name="Rail3 Position Capteur" Index="#x60c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 14" Index="#x60d0" Sub="#x01">
+								<Entry Name="Rail3 Position Sortie Cellule" Index="#x60d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 15" Index="#x60e0" Sub="#x01">
+								<Entry Name="LimitSwitch Sensors In" Index="#x60e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 16" Index="#x60f0" Sub="#x01">
+								<Entry Name="LimitSwitch Sensors Out" Index="#x60f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 						</EtherCAT>
 					</Box>
 					<Box Id="6" BoxType="9099">
-						<Name>Term 6 (EL1409)</Name>
+						<Name>Carte DI #2 (EL1409)</Name>
 						<ImageId>7</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x05813052" RevisionNo="#x00100000" BIC="1P322594SBTN999gx4m41KEL1409                        Q1    2P402400000016" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1409 16Ch. Dig. Input 24V, 3ms" Desc="EL1409" PortABoxInfo="#x01000005">
 							<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="DIP Inputs" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input Channel 1" Index="#x6000" Sub="#x01">
+								<Entry Name="Prox Homing Rail1 " Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 2" Index="#x6010" Sub="#x01">
+								<Entry Name="Prox Homing Rail2" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 3" Index="#x6020" Sub="#x01">
+								<Entry Name="Prox In Compression Rail1" Index="#x6020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 4" Index="#x6030" Sub="#x01">
+								<Entry Name="Unused Prox Compression Rail1" Index="#x6030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 5" Index="#x6040" Sub="#x01">
+								<Entry Name="Prox Out Compression Rail1" Index="#x6040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 6" Index="#x6050" Sub="#x01">
+								<Entry Name="Prox In Compression Rail3" Index="#x6050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 7" Index="#x6060" Sub="#x01">
+								<Entry Name="Unused Prox Compression Rail3" Index="#x6060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 8" Index="#x6070" Sub="#x01">
+								<Entry Name="Prox Out Compression Rail3" Index="#x6070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 9" Index="#x6080" Sub="#x01">
+								<Entry Name="Prox In Coupola Regen " Index="#x6080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 10" Index="#x6090" Sub="#x01">
+								<Entry Name="Prox 2 Coupola Regen" Index="#x6090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 11" Index="#x60a0" Sub="#x01">
+								<Entry Name="Prox 3 Coupola Regen" Index="#x60a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 12" Index="#x60b0" Sub="#x01">
+								<Entry Name="Prox Out Coupola Regen" Index="#x60b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 13" Index="#x60c0" Sub="#x01">
+								<Entry Name="Prox In Coupola HeatEx" Index="#x60c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 14" Index="#x60d0" Sub="#x01">
+								<Entry Name="Prox 2 Coupola HeatEx" Index="#x60d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 15" Index="#x60e0" Sub="#x01">
+								<Entry Name="Prox 3 Coupola HeatEx" Index="#x60e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 16" Index="#x60f0" Sub="#x01">
+								<Entry Name="Prox Out Coupola HeatEx" Index="#x60f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 						</EtherCAT>
 					</Box>
 					<Box Id="7" BoxType="9099">
-						<Name>Term 7 (EL1409)</Name>
+						<Name>Carte DI #3 (EL1409)</Name>
 						<ImageId>7</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x05813052" RevisionNo="#x00100000" BIC="1P322594SBTN999gx4lg1KEL1409                        Q1    2P402400000016" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1409 16Ch. Dig. Input 24V, 3ms" Desc="EL1409" PortABoxInfo="#x01000006">
 							<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="DIP Inputs" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input Channel 1" Index="#x6000" Sub="#x01">
+								<Entry Name="Prox Homing Rail3" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 2" Index="#x6010" Sub="#x01">
+								<Entry Name="Prox Homing Rail4" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 3" Index="#x6020" Sub="#x01">
+								<Entry Name="Safety Relay Status" Index="#x6020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 4" Index="#x6030" Sub="#x01">
+								<Entry Name="Cycle Start" Index="#x6030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 5" Index="#x6040" Sub="#x01">
+								<Entry Name="Cycle Stop" Index="#x6040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 6" Index="#x6050" Sub="#x01">
+								<Entry Name="Security Reset" Index="#x6050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 7" Index="#x6060" Sub="#x01">
+								<Entry Name="Fault HeatEx Coupola" Index="#x6060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 8" Index="#x6070" Sub="#x01">
+								<Entry Name="Fault Regen Coupola" Index="#x6070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 9" Index="#x6080" Sub="#x01">
+								<Entry Name="Fault Compressor Rail1" Index="#x6080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 10" Index="#x6090" Sub="#x01">
+								<Entry Name="Fault Compressor Rail3" Index="#x6090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 11" Index="#x60a0" Sub="#x01">
+								<Entry Name="Fan Stepper" Index="#x60a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 12" Index="#x60b0" Sub="#x01">
+								<Entry Name="Free" Index="#x60b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 13" Index="#x60c0" Sub="#x01">
+								<Entry Name="Free2" Index="#x60c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 14" Index="#x60d0" Sub="#x01">
+								<Entry Name="Free3" Index="#x60d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 15" Index="#x60e0" Sub="#x01">
+								<Entry Name="Free4" Index="#x60e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Input Channel 16" Index="#x60f0" Sub="#x01">
+								<Entry Name="Free5" Index="#x60f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -6151,7 +6369,7 @@ External Setpoint Generation:
 						</EtherCAT>
 					</Box>
 					<Box Id="13" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Term 13 (EL3208-0010)</Name>
+						<Name>Carte Temperature Sensors #1 (EL3208-0010)</Name>
 						<ImageId>1005</ImageId>
 						<EtherCAT SlaveType="2" PdiType="#x0005" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="3" FoeType="1" VendorId="#x00000002" ProductCode="#x0c883052" RevisionNo="#x0010000a" InfoDataAddr="true" RepeatSupport="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL3208-0010 8Ch. Ana. Input PT1000 (RTD)" Desc="EL3208-0010" PortABoxInfo="#x0100000a">
 							<SyncMan>001080002600010001000000800080008000001026010000</SyncMan>
@@ -6380,7 +6598,7 @@ External Setpoint Generation:
 						</EtherCAT>
 					</Box>
 					<Box Id="14" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Term 14 (EL3208-0010)</Name>
+						<Name>Carte Temperature sensors #2 (EL3208-0010)</Name>
 						<ImageId>1005</ImageId>
 						<EtherCAT SlaveType="2" PdiType="#x0005" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="3" FoeType="1" VendorId="#x00000002" ProductCode="#x0c883052" RevisionNo="#x0010000a" InfoDataAddr="true" RepeatSupport="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL3208-0010 8Ch. Ana. Input PT1000 (RTD)" Desc="EL3208-0010" PortABoxInfo="#x0100000d">
 							<SyncMan>001080002600010001000000800080008000001026010000</SyncMan>
@@ -6609,7 +6827,7 @@ External Setpoint Generation:
 						</EtherCAT>
 					</Box>
 					<Box Id="15" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Term 15 (EL3208-0010)</Name>
+						<Name>Carte Temperature sensors #3 (EL3208-0010)</Name>
 						<ImageId>1005</ImageId>
 						<EtherCAT SlaveType="2" PdiType="#x0005" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="3" FoeType="1" VendorId="#x00000002" ProductCode="#x0c883052" RevisionNo="#x0010000a" InfoDataAddr="true" RepeatSupport="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL3208-0010 8Ch. Ana. Input PT1000 (RTD)" Desc="EL3208-0010" PortABoxInfo="#x0100000e">
 							<SyncMan>001080002600010001000000800080008000001026010000</SyncMan>
@@ -6838,7 +7056,7 @@ External Setpoint Generation:
 						</EtherCAT>
 					</Box>
 					<Box Id="24" BoxType="9099">
-						<Name>Term 24 (EL9410)</Name>
+						<Name>E-Bus (EL9410)</Name>
 						<ImageId>1006</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x24c23052" RevisionNo="#x00110000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL9410 E-Bus Power Supplier  (Diagnostics)" Desc="EL9410" PortABoxInfo="#x0100000f">
 							<SyncMan>001001000000010004000000000000000000001000000000</SyncMan>
@@ -6856,274 +7074,274 @@ External Setpoint Generation:
 						</EtherCAT>
 					</Box>
 					<Box Id="21" BoxType="9099">
-						<Name>Term 21 (EL2809)</Name>
+						<Name>Carte DO #1 (EL2809)</Name>
 						<ImageId>1007</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x0af93052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL2809 16Ch. Dig. Output 24V, 0.5A" Desc="EL2809" PortABoxInfo="#x01000018">
 							<SyncMan>000f01004400010003000000000000000100000f44090000</SyncMan>
 							<SyncMan>010f01004400010003000000000000000100010f44090000</SyncMan>
 							<Fmmu>0000000000000000000f00020100000001000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1600" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7000" Sub="#x01">
+								<Entry Name="Water Pump OUT" Index="#x7000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1601" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7010" Sub="#x01">
+								<Entry Name="Fan Heat Transfer OUT" Index="#x7010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 3" Index="#x1602" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7020" Sub="#x01">
+								<Entry Name="Wire Heater" Index="#x7020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1603" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7030" Sub="#x01">
+								<Entry Name="Automated Ball Valve OUT" Index="#x7030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7040" Sub="#x01">
+								<Entry Name="Automated Ball Valve OUT" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 6" Index="#x1605" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7050" Sub="#x01">
+								<Entry Name="Drain Ball Valve OUT" Index="#x7050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7060" Sub="#x01">
+								<Entry Name="Drain Ball Valve OUT" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7070" Sub="#x01">
+								<Entry Name="Fan Radiateur" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x7080" Sub="#x01">
+								<Entry Name="Cooling Fan" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 10" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x7090" Sub="#x01">
+								<Entry Name="Free" Index="#x7090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 11" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70a0" Sub="#x01">
+								<Entry Name="Free" Index="#x70a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70b0" Sub="#x01">
+								<Entry Name="Free" Index="#x70b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70c0" Sub="#x01">
+								<Entry Name="Free" Index="#x70c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 14" Index="#x160d" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70d0" Sub="#x01">
+								<Entry Name="Free" Index="#x70d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 15" Index="#x160e" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70e0" Sub="#x01">
+								<Entry Name="Free" Index="#x70e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 16" Index="#x160f" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70f0" Sub="#x01">
+								<Entry Name="Free" Index="#x70f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 						</EtherCAT>
 					</Box>
 					<Box Id="22" BoxType="9099">
-						<Name>Term 22 (EL2809)</Name>
+						<Name>Carte DO #2 (EL2809)</Name>
 						<ImageId>1007</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x0af93052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL2809 16Ch. Dig. Output 24V, 0.5A" Desc="EL2809" PortABoxInfo="#x01000015">
 							<SyncMan>000f01004400010003000000000000000100000f44090000</SyncMan>
 							<SyncMan>010f01004400010003000000000000000100010f44090000</SyncMan>
 							<Fmmu>0000000000000000000f00020100000001000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1600" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7000" Sub="#x01">
+								<Entry Name="Chariot1 Pop-Up Forward" Index="#x7000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1601" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7010" Sub="#x01">
+								<Entry Name="Sensors Rail1 Forward" Index="#x7010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 3" Index="#x1602" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7020" Sub="#x01">
+								<Entry Name="Chariot2 Pop-Up Forward" Index="#x7020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1603" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7030" Sub="#x01">
+								<Entry Name="Chariot3 Pop-Up Forward" Index="#x7030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7040" Sub="#x01">
+								<Entry Name="Chariot4 Pop-Up Forward" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 6" Index="#x1605" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7050" Sub="#x01">
+								<Entry Name="Chariot1 Pop-Up Reverse" Index="#x7050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7060" Sub="#x01">
+								<Entry Name="Sensors Rail1 Reverse" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7070" Sub="#x01">
+								<Entry Name="Chariot2 Pop-Up Reverse" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x7080" Sub="#x01">
+								<Entry Name="Chariot3 Pop-Up Reverse" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 10" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x7090" Sub="#x01">
+								<Entry Name="Chariot4 Pop-Up Reverse" Index="#x7090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 11" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70a0" Sub="#x01">
+								<Entry Name="Free" Index="#x70a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70b0" Sub="#x01">
+								<Entry Name="Free" Index="#x70b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70c0" Sub="#x01">
+								<Entry Name="Free" Index="#x70c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 14" Index="#x160d" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70d0" Sub="#x01">
+								<Entry Name="Free" Index="#x70d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 15" Index="#x160e" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70e0" Sub="#x01">
+								<Entry Name="Free" Index="#x70e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 16" Index="#x160f" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70f0" Sub="#x01">
+								<Entry Name="Free" Index="#x70f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 						</EtherCAT>
 					</Box>
 					<Box Id="23" BoxType="9099">
-						<Name>Term 23 (EL2809)</Name>
+						<Name>Carte DO #3 (EL2809)</Name>
 						<ImageId>1007</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x0af93052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL2809 16Ch. Dig. Output 24V, 0.5A" Desc="EL2809" PortABoxInfo="#x01000016">
 							<SyncMan>000f01004400010003000000000000000100000f44090000</SyncMan>
 							<SyncMan>010f01004400010003000000000000000100010f44090000</SyncMan>
 							<Fmmu>0000000000000000000f00020100000001000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1600" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7000" Sub="#x01">
+								<Entry Name="Compressor Rail1 Forward" Index="#x7000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1601" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7010" Sub="#x01">
+								<Entry Name="HeatEx Coupola Forward" Index="#x7010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 3" Index="#x1602" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7020" Sub="#x01">
+								<Entry Name="Regen Coupola Forward" Index="#x7020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1603" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7030" Sub="#x01">
+								<Entry Name="Compressor Rail3 Forward" Index="#x7030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7040" Sub="#x01">
+								<Entry Name="Compressor Rail 1 Backward" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 6" Index="#x1605" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7050" Sub="#x01">
+								<Entry Name="HeatEx Coupola Backward" Index="#x7050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7060" Sub="#x01">
+								<Entry Name="Regen Coupola Backward" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Output" Index="#x7070" Sub="#x01">
+								<Entry Name="Compressor Rail3 Backward" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x7080" Sub="#x01">
+								<Entry Name="Compressor Rail1 Stop" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 10" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x7090" Sub="#x01">
+								<Entry Name="HeatEx Coupola Stop" Index="#x7090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 11" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70a0" Sub="#x01">
+								<Entry Name="Regen Coupola Stop" Index="#x70a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70b0" Sub="#x01">
+								<Entry Name="Compressor Rail3 Stop" Index="#x70b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70c0" Sub="#x01">
+								<Entry Name="HeatEx Coupola SpeedControl" Index="#x70c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 14" Index="#x160d" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70d0" Sub="#x01">
+								<Entry Name="Regen Coupola SpeedControl" Index="#x70d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 15" Index="#x160e" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70e0" Sub="#x01">
+								<Entry Name="Free" Index="#x70e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 16" Index="#x160f" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Output" Index="#x70f0" Sub="#x01">
+								<Entry Name="Free" Index="#x70f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 						</EtherCAT>
 					</Box>
 					<Box Id="17" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Term 17 (EL7062)</Name>
+						<Name>Drive Stepper Rail1 (EL7062)</Name>
 						<ImageId>1001</ImageId>
 						<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="47" FoeType="1" VendorId="#x00000002" ProductCode="#x1b963052" RevisionNo="#x00100000" InfoDataAddr="true" InfoDataSoeDS401="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL7062-0000 2Ch. Stepper motor output stage (48V, 3A)" Desc="EL7062" PortABoxInfo="#x01000017">
 							<SyncMan>001000012600010001000000800000010001001026010000</SyncMan>
@@ -8453,7 +8671,7 @@ Bit 8 - 15 : reserved]]></Comment>
 						</EtherCAT>
 					</Box>
 					<Box Id="18" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Term 18 (EL7062)</Name>
+						<Name>Drive Stepper Rail2 (EL7062)</Name>
 						<ImageId>1001</ImageId>
 						<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="47" FoeType="1" VendorId="#x00000002" ProductCode="#x1b963052" RevisionNo="#x00100000" InfoDataAddr="true" InfoDataSoeDS401="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL7062-0000 2Ch. Stepper motor output stage (48V, 3A)" Desc="EL7062" PortABoxInfo="#x01000011">
 							<SyncMan>001000012600010001000000800000010001001026010000</SyncMan>
@@ -9783,7 +10001,7 @@ Bit 8 - 15 : reserved]]></Comment>
 						</EtherCAT>
 					</Box>
 					<Box Id="19" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Term 19 (EL7062)</Name>
+						<Name>Drive Stepper Rail3 (EL7062)</Name>
 						<ImageId>1001</ImageId>
 						<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="47" FoeType="1" VendorId="#x00000002" ProductCode="#x1b963052" RevisionNo="#x00100000" InfoDataAddr="true" InfoDataSoeDS401="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL7062-0000 2Ch. Stepper motor output stage (48V, 3A)" Desc="EL7062" PortABoxInfo="#x01000012">
 							<SyncMan>001000012600010001000000800000010001001026010000</SyncMan>
@@ -11113,7 +11331,7 @@ Bit 8 - 15 : reserved]]></Comment>
 						</EtherCAT>
 					</Box>
 					<Box Id="20" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Term 20 (EL7062)</Name>
+						<Name>Drive Stepper Rail4 (EL7062)</Name>
 						<ImageId>1001</ImageId>
 						<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="47" FoeType="1" VendorId="#x00000002" ProductCode="#x1b963052" RevisionNo="#x00100000" InfoDataAddr="true" InfoDataSoeDS401="true" InfoDataDcTimes="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" SdoUploadWithMaxLength="true" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL7062-0000 2Ch. Stepper motor output stage (48V, 3A)" Desc="EL7062" PortABoxInfo="#x01000013">
 							<SyncMan>001000012600010001000000800000010001001026010000</SyncMan>
@@ -12443,7 +12661,7 @@ Bit 8 - 15 : reserved]]></Comment>
 						</EtherCAT>
 					</Box>
 					<Box Id="16" BoxType="9099">
-						<Name>Term 11 (EL9011)</Name>
+						<Name>End Terminal (EL9011)</Name>
 						<ImageId>1008</ImageId>
 						<EtherCAT CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x23333050" InfoDataState="false" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL9011 End Terminal" Desc="EL9011" PortABoxInfo="#x01000014"/>
 					</Box>
@@ -12453,11 +12671,12 @@ Bit 8 - 15 : reserved]]></Comment>
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-0060-0304-3000-040360000403}" Id="#x02030020"/>
-		<MappingInfo Identifier="{00000000-0070-0304-3000-040371000403}" Id="#x02030030"/>
-		<MappingInfo Identifier="{08502005-0010-0500-0020-500830000403}" Id="#x02030010" Watchdog="04000000140000000400000004000000"/>
+		<MappingInfo Identifier="{00000000-2005-0850-0020-500860000403}" Id="#x02030030"/>
+		<MappingInfo Identifier="{00000000-0010-0304-3000-040311000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-0070-0304-3000-040372000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{08502005-0010-0500-0020-500830000403}" Id="#x02030040" Watchdog="04000000140000000400000004000000"/>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
-			<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 17 (EL7062)">
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Drive Stepper Rail1 (EL7062)">
 				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
 				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
 				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword"/>
@@ -12474,7 +12693,7 @@ Bit 8 - 15 : reserved]]></Comment>
 			</OwnerB>
 		</OwnerA>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^Stepper2">
-			<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 18 (EL7062)">
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Drive Stepper Rail2 (EL7062)">
 				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
 				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
 				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword"/>
@@ -12491,7 +12710,7 @@ Bit 8 - 15 : reserved]]></Comment>
 			</OwnerB>
 		</OwnerA>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^Stepper3">
-			<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 19 (EL7062)">
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Drive Stepper Rail3 (EL7062)">
 				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
 				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
 				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword"/>
@@ -12508,7 +12727,7 @@ Bit 8 - 15 : reserved]]></Comment>
 			</OwnerB>
 		</OwnerA>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^Stepper4">
-			<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 20 (EL7062)">
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Drive Stepper Rail4 (EL7062)">
 				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
 				<Link VarA="Drive^Inputs^In^nDcOutputTime" VarB="InfoData^DcOutputShift"/>
 				<Link VarA="Drive^Inputs^In^nState1" VarB="DRV Statusword Channel 1^Statusword"/>
@@ -12525,15 +12744,75 @@ Bit 8 - 15 : reserved]]></Comment>
 			</OwnerB>
 		</OwnerA>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
-			<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 5 (EL1409)">
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha1_Forward" VarB="DIP Inputs^Triangle Rétractable Chariot1 Forward"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha1_Reverse" VarB="DIP Inputs^Triangle Rétractable Chariot1 Reverse"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha2_Forward" VarB="DIP Inputs^Input Channel 3"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha2_Reverse" VarB="DIP Inputs^Input Channel 4"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha3_Forward" VarB="DIP Inputs^Input Channel 5"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha3_Reverse" VarB="DIP Inputs^Input Channel 6"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha4_Forward" VarB="DIP Inputs^Input Channel 7"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorRelays.Cha4_Reverse" VarB="DIP Inputs^Input Channel 8"/>
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #1 (EL1409)">
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.R1_Incoming" VarB="DIP Inputs^Rail1 Position Arrivé Cellule"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.R1_Outgoing" VarB="DIP Inputs^Rail1 Position Sortie Cellule"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.R1_Sensor" VarB="DIP Inputs^Rail1 Position Capteur"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.R3_Incoming" VarB="DIP Inputs^Rail3 Position Arrivé Cellule"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.R3_Outgoing" VarB="DIP Inputs^Rail3 Position Sortie Cellule"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.R3_Sensor" VarB="DIP Inputs^Rail3 Position Capteur"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cha1_In" VarB="DIP Inputs^Triangle Rétractable Chariot1 Prox In"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cha1_Out" VarB="DIP Inputs^Triangle Rétractable Chariot1 Prox Out"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cha2_In" VarB="DIP Inputs^Triangle Rétractable Chariot2 Prox In"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cha2_Out" VarB="DIP Inputs^Triangle Rétractable Chariot2 Prox Out"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cha3_In" VarB="DIP Inputs^Triangle Rétractable Chariot3 Prox In"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cha3_Out" VarB="DIP Inputs^Triangle Rétractable Chariot3 Prox Out"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cha4_In" VarB="DIP Inputs^Triangle Rétractable Chariot4 Prox In"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cha4_Out" VarB="DIP Inputs^Triangle Rétractable Chariot4 Prox Out"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Sens1_In" VarB="DIP Inputs^LimitSwitch Sensors In"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Sens1_Out" VarB="DIP Inputs^LimitSwitch Sensors Out"/>
+			</OwnerB>
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)">
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Comp1_In" VarB="DIP Inputs^Prox In Compression Rail1"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Comp1_Out" VarB="DIP Inputs^Prox Out Compression Rail1"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Comp3_In" VarB="DIP Inputs^Prox In Compression Rail3"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Comp3_Out" VarB="DIP Inputs^Prox Out Compression Rail3"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.HeatC3_2" VarB="DIP Inputs^Prox 2 Coupola HeatEx"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.HeatC3_3" VarB="DIP Inputs^Prox 3 Coupola HeatEx"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.HeatC3_In" VarB="DIP Inputs^Prox In Coupola HeatEx"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.HeatC3_Out" VarB="DIP Inputs^Prox Out Coupola HeatEx"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.RegenC3_2" VarB="DIP Inputs^Prox 2 Coupola Regen"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.RegenC3_3" VarB="DIP Inputs^Prox 3 Coupola Regen"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.RegenC3_In" VarB="DIP Inputs^Prox In Coupola Regen "/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.RegenC3_Out" VarB="DIP Inputs^Prox Out Coupola Regen"/>
+				<Link VarA="Main_Task Inputs^GVL_SteppersProx.Axis1_Prox" VarB="DIP Inputs^Prox Homing Rail1 "/>
+				<Link VarA="Main_Task Inputs^GVL_SteppersProx.Axis2_Prox" VarB="DIP Inputs^Prox Homing Rail2"/>
+			</OwnerB>
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #3 (EL1409)">
+				<Link VarA="Main_Task Inputs^GVL.PLC_Fan_Steppers" VarB="DIP Inputs^Fan Stepper"/>
+				<Link VarA="Main_Task Inputs^GVL.SafetyRelayStatus" VarB="DIP Inputs^Safety Relay Status"/>
+				<Link VarA="Main_Task Inputs^GVL.StartCycle" VarB="DIP Inputs^Cycle Start"/>
+				<Link VarA="Main_Task Inputs^GVL.StopCycle" VarB="DIP Inputs^Cycle Stop"/>
+				<Link VarA="Main_Task Inputs^GVL_SteppersProx.Axis3_Prox" VarB="DIP Inputs^Prox Homing Rail3"/>
+				<Link VarA="Main_Task Inputs^GVL_SteppersProx.Axis4_Prox" VarB="DIP Inputs^Prox Homing Rail4"/>
+			</OwnerB>
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #2 (EL2809)">
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha1_Forward" VarB="Channel 1^Chariot1 Pop-Up Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha1_Reverse" VarB="Channel 6^Chariot1 Pop-Up Reverse"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha2_Forward" VarB="Channel 3^Chariot2 Pop-Up Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha2_Reverse" VarB="Channel 8^Chariot2 Pop-Up Reverse"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha3_Forward" VarB="Channel 4^Chariot3 Pop-Up Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha3_Reverse" VarB="Channel 9^Chariot3 Pop-Up Reverse"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha4_Forward" VarB="Channel 5^Chariot4 Pop-Up Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha4_Reverse" VarB="Channel 10^Chariot4 Pop-Up Reverse"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Sens1_Forward" VarB="Channel 2^Sensors Rail1 Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Sens1_Reverse" VarB="Channel 7^Sensors Rail1 Reverse"/>
+			</OwnerB>
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #3 (EL2809)">
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Comp1_StopControl" VarB="Channel 9^Compressor Rail1 Stop"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Comp3_StopControl" VarB="Channel 12^Compressor Rail3 Stop"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.HeatC3_Fault" VarB="Channel 10^HeatEx Coupola Stop"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.HeatC3_SpeedControl" VarB="Channel 13^HeatEx Coupola SpeedControl"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.RegenC3_SpeedControl" VarB="Channel 14^Regen Coupola SpeedControl"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.RegenC3_StopControl" VarB="Channel 11^Regen Coupola Stop"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp1_Forward" VarB="Channel 1^Compressor Rail1 Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp1_Reverse" VarB="Channel 5^Compressor Rail 1 Backward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp3_Forward" VarB="Channel 4^Compressor Rail3 Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp3_Reverse" VarB="Channel 8^Compressor Rail3 Backward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.HeatC3_Forward" VarB="Channel 2^HeatEx Coupola Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.HeatC3_Reverse" VarB="Channel 6^HeatEx Coupola Backward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.RegenC3_Forward" VarB="Channel 3^Regen Coupola Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.RegenC3_Reverse" VarB="Channel 7^Regen Coupola Backward"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Stepper1.NcToPlc" VarB="Outputs^ToPlc"/>

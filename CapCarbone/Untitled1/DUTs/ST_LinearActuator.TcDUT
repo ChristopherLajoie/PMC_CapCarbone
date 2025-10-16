@@ -14,7 +14,6 @@ STRUCT
 	bStopControlDO : POINTER TO BOOL;
     bFaultDI : POINTER TO BOOL;     
     tmrTimeout : TON;
-    bInProgress : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

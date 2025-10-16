@@ -34,6 +34,9 @@ FOR i := 1 TO 5 DO
     stSystemStatus.aZoneStatus[i].nHighestSeverity := 0;
 END_FOR
 
+//Check Safety Relay status
+SafetyRelay.bCondition := SafetyRelayStatus;
+
 // Process all alarms 
 FOR i := 1 TO nAlarmCount DO
 	
@@ -122,13 +125,13 @@ AddAlarm(ADR(GVL_Alarms.R4_Stepper_Stop_Failed), 'R4_Stepper_Stop_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_UnableToReadPosition), 'R4_Stepper_UnableToReadPosition');
 
 (* GLOBAL SECURITY *)
-AddAlarm(ADR(GVL_Alarms.Door_1), 'Door_1');
+(* AddAlarm(ADR(GVL_Alarms.Door_1), 'Door_1');
 AddAlarm(ADR(GVL_Alarms.Door_2), 'Door_2');
 AddAlarm(ADR(GVL_Alarms.Door_3), 'Door_3');
 AddAlarm(ADR(GVL_Alarms.E_Stop_1), 'E_Stop_1');
 AddAlarm(ADR(GVL_Alarms.E_Stop_2), 'E_Stop_2');
-AddAlarm(ADR(GVL_Alarms.E_Stop_3), 'E_Stop_3');
-
+AddAlarm(ADR(GVL_Alarms.E_Stop_3), 'E_Stop_3');*)
+AddAlarm(ADR(GVL_Alarms.SafetyRelay), 'SafetyRelay');
 InitializeAlarmList := TRUE;]]></ST>
       </Implementation>
     </Method>
@@ -207,7 +210,10 @@ ProcessAlarm := TRUE;]]></ST>
     <LineIds Name="FB_AlarmStatusManager">
       <LineId Id="153" Count="1" />
       <LineId Id="118" Count="10" />
-      <LineId Id="133" Count="2" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="133" Count="0" />
+      <LineId Id="156" Count="1" />
+      <LineId Id="134" Count="1" />
       <LineId Id="151" Count="0" />
       <LineId Id="136" Count="0" />
       <LineId Id="138" Count="0" />

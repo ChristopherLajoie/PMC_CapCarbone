@@ -3,10 +3,14 @@
   <GVL Name="GVL" Id="{84031c49-9b58-4990-8455-46264bcb9bf2}">
     <Declaration><![CDATA[{attribute 'global_init_slot' := '1'}
 VAR_GLOBAL
-
-	StopCycle : BOOL;
 	
+	StartCycle AT %I*: BOOL;
+	StopCycle AT %I*: BOOL;
+	
+	SafetyRelayStatus AT %I*: BOOL;
 	gSystemAlarmStatus : ST_SystemAlarmStatus;
+	
+	PLC_Fan_Steppers AT %I*: BOOL;
 	
 	CONTROL : BOOL := FALSE;
 	
