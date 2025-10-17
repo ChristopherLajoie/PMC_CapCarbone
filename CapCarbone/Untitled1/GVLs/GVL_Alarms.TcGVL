@@ -38,10 +38,6 @@
 		nID := 1008,
 		nSeverity := 3);
 	
-	R1_Stepper_Homing_Interrupted : ST_Alarm := (
-		nID := 1009,
-		nSeverity := 3);
-	
 	R1_Stepper_Motion_Interrupted : ST_Alarm := (
 		nID := 1010,
 		nSeverity := 3);
@@ -62,6 +58,10 @@
 		nID := 1014,
 		nSeverity := 3);
 	
+	R1_Compressor_DriveFaulted : ST_Alarm := (
+		nID := 1015,
+		nSeverity := 3);
+	
 	
 	// ================================================================
     // RAIL 2
@@ -72,10 +72,6 @@
 	
 	R2_Stepper_Homing_Failed : ST_Alarm := (
 		nID := 2002,
-		nSeverity := 3);
-	
-	R2_Stepper_Homing_Interrupted : ST_Alarm := (
-		nID := 2003,
 		nSeverity := 3);
 	
 	R2_Stepper_Motion_Failed : ST_Alarm := (
@@ -150,10 +146,6 @@
 		nID := 3010,
 		nSeverity := 3);
 	
-	R3_Stepper_Homing_Interrupted : ST_Alarm := (
-		nID := 3011,
-		nSeverity := 3);
-	
 	R3_Stepper_Motion_Failed : ST_Alarm := (
 		nID := 3012,
 		nSeverity := 3);
@@ -182,6 +174,10 @@
 		nID := 3018,
 		nSeverity := 3);
 	
+	R3_Compressor_DriveFaulted : ST_Alarm := (
+		nID := 3019,
+		nSeverity := 3);
+	
 	
 	// ================================================================
     // RAIL 4
@@ -192,10 +188,6 @@
 	
 	R4_Stepper_Homing_Failed : ST_Alarm := (
 		nID := 4002,
-		nSeverity := 3);
-	
-	R4_Stepper_Homing_Interrupted : ST_Alarm := (
-		nID := 4003,
 		nSeverity := 3);
 	
 	R4_Stepper_Motion_Failed : ST_Alarm := (

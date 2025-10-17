@@ -70,12 +70,12 @@ AddAlarm := TRUE;]]></ST>
 AddAlarm(ADR(GVL_Alarms.R1_Sensor_UnknownState), 'R1_Sensor_UnknownState');
 AddAlarm(ADR(GVL_Alarms.R1_Sensor_MotionTimedOut), 'R1_Sensor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R1_Compressor_UnknownState), 'R1_Compressor_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R1_Compressor_DriveFaulted), 'R1_Compressor_DriveFaulted');
 AddAlarm(ADR(GVL_Alarms.R1_Compressor_MotionTimedOut), 'R1_Compressor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R1_Chariot_MotionTimedOut), 'R1_Chariot_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R1_Chariot_UnknownState), 'R1_Chariot_UnknownState');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_Motion_Failed), 'R1_Stepper_Motion_Failed');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_Homing_Failed), 'R1_Stepper_Homing_Failed');
-AddAlarm(ADR(GVL_Alarms.R1_Stepper_Homing_Interrupted), 'R1_Stepper_Homing_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_Motion_Interrupted), 'R1_Stepper_Motion_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_PowerUp_Failed), 'R1_Stepper_PowerUp_Failed');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_Reset_Failed), 'R1_Stepper_Reset_Failed');
@@ -85,7 +85,6 @@ AddAlarm(ADR(GVL_Alarms.R1_Stepper_UnableToReadPosition), 'R1_Stepper_UnableToRe
 (* RAIL 2 *)
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_PowerUp_Failed), 'R2_Stepper_PowerUp_Failed');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Homing_Failed), 'R2_Stepper_Homing_Failed');
-AddAlarm(ADR(GVL_Alarms.R2_Stepper_Homing_Interrupted), 'R2_Stepper_Homing_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Motion_Failed), 'R2_Stepper_Motion_Failed');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Motion_Interrupted), 'R2_Stepper_Motion_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Reset_Failed), 'R2_Stepper_Reset_Failed');
@@ -96,6 +95,7 @@ AddAlarm(ADR(GVL_Alarms.R2_Stepper_UnableToReadPosition), 'R2_Stepper_UnableToRe
 
 (* RAIL 3 *)
 AddAlarm(ADR(GVL_Alarms.R3_Compressor_UnknownState), 'R3_Compressor_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R3_Compressor_DriveFaulted), 'R3_Compressor_DriveFaulted');
 AddAlarm(ADR(GVL_Alarms.R3_Compressor_MotionTimedOut), 'R3_Compressor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_UnknownState), 'R3_HeatExCoupola_UnknownState');
 AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_MotionTimedOut), 'R3_HeatExCoupola_MotionTimedOut');
@@ -105,7 +105,6 @@ AddAlarm(ADR(GVL_Alarms.R3_Chariot_UnknownState), 'R3_Chariot_UnknownState');
 AddAlarm(ADR(GVL_Alarms.R3_Chariot_MotionTimedOut), 'R3_Chariot_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_PowerUp_Failed), 'R3_Stepper_PowerUp_Failed');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_Homing_Failed), 'R3_Stepper_Homing_Failed');
-AddAlarm(ADR(GVL_Alarms.R3_Stepper_Homing_Interrupted), 'R3_Stepper_Homing_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_Motion_Failed), 'R3_Stepper_Motion_Failed');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_Motion_Interrupted), 'R3_Stepper_Motion_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_Reset_Failed), 'R3_Stepper_Reset_Failed');
@@ -115,7 +114,6 @@ AddAlarm(ADR(GVL_Alarms.R3_Stepper_UnableToReadPosition), 'R3_Stepper_UnableToRe
 (* RAIL 4 *)
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_PowerUp_Failed), 'R4_Stepper_PowerUp_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Homing_Failed), 'R4_Stepper_Homing_Failed');
-AddAlarm(ADR(GVL_Alarms.R4_Stepper_Homing_Interrupted), 'R4_Stepper_Homing_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Motion_Failed), 'R4_Stepper_Motion_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Motion_Interrupted), 'R4_Stepper_Motion_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Reset_Failed), 'R4_Stepper_Reset_Failed');
@@ -125,12 +123,6 @@ AddAlarm(ADR(GVL_Alarms.R4_Stepper_Stop_Failed), 'R4_Stepper_Stop_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_UnableToReadPosition), 'R4_Stepper_UnableToReadPosition');
 
 (* GLOBAL SECURITY *)
-(* AddAlarm(ADR(GVL_Alarms.Door_1), 'Door_1');
-AddAlarm(ADR(GVL_Alarms.Door_2), 'Door_2');
-AddAlarm(ADR(GVL_Alarms.Door_3), 'Door_3');
-AddAlarm(ADR(GVL_Alarms.E_Stop_1), 'E_Stop_1');
-AddAlarm(ADR(GVL_Alarms.E_Stop_2), 'E_Stop_2');
-AddAlarm(ADR(GVL_Alarms.E_Stop_3), 'E_Stop_3');*)
 AddAlarm(ADR(GVL_Alarms.SafetyRelay), 'SafetyRelay');
 InitializeAlarmList := TRUE;]]></ST>
       </Implementation>
@@ -227,15 +219,24 @@ ProcessAlarm := TRUE;]]></ST>
     <LineIds Name="FB_AlarmStatusManager.InitializeAlarmList">
       <LineId Id="1" Count="0" />
       <LineId Id="70" Count="0" />
-      <LineId Id="7" Count="13" />
+      <LineId Id="7" Count="3" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="17" Count="3" />
       <LineId Id="71" Count="0" />
-      <LineId Id="21" Count="10" />
+      <LineId Id="21" Count="3" />
+      <LineId Id="26" Count="5" />
       <LineId Id="72" Count="0" />
-      <LineId Id="32" Count="16" />
+      <LineId Id="32" Count="2" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="35" Count="8" />
+      <LineId Id="45" Count="3" />
       <LineId Id="73" Count="0" />
-      <LineId Id="49" Count="10" />
+      <LineId Id="49" Count="3" />
+      <LineId Id="54" Count="5" />
       <LineId Id="74" Count="0" />
-      <LineId Id="60" Count="9" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="68" Count="1" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.ParseAlarmZone">
       <LineId Id="2" Count="2" />
