@@ -1,4 +1,3 @@
 - Check how to use prox sensors of boxes for position detection.
 - Test new error messages and adapt HMI
 - Implement homing, idle and main cycle and add hmi buttons for them
-- Link Ignition variables

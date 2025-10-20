@@ -5,7 +5,7 @@
 VAR
     // STATE & CONFIGURATION
     eState      : ENUM_LinearActuatorState := LAS_LinearActuator_Uninitialized;
-    tTimeout    : TIME := T#10S;
+    tTimeout    : TIME := T#50S;
 
     // ERROR HANDLING
     bError      : BOOL;
@@ -89,6 +89,8 @@ END_VAR]]></Declaration>
 CheckDriveFault();
 
 UpdateProxDetection();
+
+GetPosition();
 
 CASE eState OF
     LAS_LinearActuator_Retracted:
@@ -246,6 +248,8 @@ ELSIF bIsCoupola THEN
         RETURN;
     END_IF
 ELSE
+	eState := LAS_LinearActuator_Error;
+	
     pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
 	IF pAlarmCondition <> 0 THEN
 		pAlarmCondition^ := TRUE;
@@ -266,6 +270,8 @@ END_VAR]]></Declaration>
 CheckDriveFault();
 
 UpdateProxDetection();
+
+GetPosition();
 
 CASE eState OF
     LAS_LinearActuator_Extended:
@@ -486,6 +492,8 @@ END_IF]]></ST>
       <LineId Id="422" Count="1" />
       <LineId Id="421" Count="0" />
       <LineId Id="350" Count="1" />
+      <LineId Id="432" Count="0" />
+      <LineId Id="431" Count="0" />
       <LineId Id="354" Count="2" />
       <LineId Id="358" Count="0" />
       <LineId Id="424" Count="0" />
@@ -523,6 +531,7 @@ END_IF]]></ST>
       <LineId Id="51" Count="0" />
       <LineId Id="63" Count="1" />
       <LineId Id="52" Count="2" />
+      <LineId Id="67" Count="1" />
       <LineId Id="60" Count="2" />
       <LineId Id="55" Count="0" />
       <LineId Id="65" Count="1" />
@@ -531,7 +540,10 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="FB_LinearActuator.Home">
       <LineId Id="340" Count="3" />
-      <LineId Id="346" Count="2" />
+      <LineId Id="421" Count="0" />
+      <LineId Id="346" Count="0" />
+      <LineId Id="422" Count="0" />
+      <LineId Id="347" Count="1" />
       <LineId Id="350" Count="0" />
       <LineId Id="414" Count="0" />
       <LineId Id="351" Count="2" />
