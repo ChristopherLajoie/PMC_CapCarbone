@@ -13,6 +13,47 @@
           "opcServer": "PLC OPC UA"
         },
         {
+          "name": "CellPosSensors",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "valueSource": "opc",
+              "dataType": "Boolean",
+              "name": "Adsorption1_sensor",
+              "tagType": "AtomicTag",
+              "opcServer": "PLC OPC UA"
+            },
+            {
+              "valueSource": "opc",
+              "dataType": "Boolean",
+              "name": "RegenOK_sensor",
+              "tagType": "AtomicTag",
+              "opcServer": "PLC OPC UA"
+            },
+            {
+              "valueSource": "opc",
+              "dataType": "Boolean",
+              "name": "Adsorption2_sensor",
+              "tagType": "AtomicTag",
+              "opcServer": "PLC OPC UA"
+            },
+            {
+              "valueSource": "opc",
+              "dataType": "Boolean",
+              "name": "Adsorption3_sensor",
+              "tagType": "AtomicTag",
+              "opcServer": "PLC OPC UA"
+            },
+            {
+              "valueSource": "opc",
+              "dataType": "Boolean",
+              "name": "HeatExOK_sensor",
+              "tagType": "AtomicTag",
+              "opcServer": "PLC OPC UA"
+            }
+          ]
+        },
+        {
           "name": "Rail_1",
           "tagType": "Folder",
           "tags": [
@@ -231,86 +272,6 @@
           ]
         },
         {
-          "name": "Rail_2",
-          "tagType": "Folder",
-          "tags": [
-            {
-              "name": "R2_Chariot",
-              "typeId": "ActuatorStruct",
-              "parameters": {
-                "Name": {
-                  "dataType": "String",
-                  "value": "Rail 2 actuator"
-                }
-              },
-              "tagType": "UdtInstance",
-              "tags": [
-                {
-                  "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_LinearActuators.Chariot2Command.Status",
-                  "value": 0,
-                  "opcServer": "PLC OPC UA",
-                  "name": "Status",
-                  "tagType": "AtomicTag"
-                },
-                {
-                  "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_LinearActuators.Chariot2Command.Command",
-                  "value": true,
-                  "opcServer": "PLC OPC UA",
-                  "name": "Command",
-                  "tagType": "AtomicTag"
-                }
-              ]
-            },
-            {
-              "name": "R2_Motor",
-              "typeId": "MotorStruct",
-              "parameters": {
-                "Name": {
-                  "dataType": "String",
-                  "value": "Rail 2 motor"
-                }
-              },
-              "tagType": "UdtInstance",
-              "tags": [
-                {
-                  "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Axis2Command.Position",
-                  "value": 0,
-                  "opcServer": "PLC OPC UA",
-                  "name": "Position",
-                  "tagType": "AtomicTag"
-                },
-                {
-                  "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Axis2Command.Homing",
-                  "value": true,
-                  "opcServer": "PLC OPC UA",
-                  "name": "Homing",
-                  "tagType": "AtomicTag"
-                },
-                {
-                  "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Axis2Command.Command",
-                  "value": 88,
-                  "opcServer": "PLC OPC UA",
-                  "name": "Command",
-                  "tagType": "AtomicTag"
-                },
-                {
-                  "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Axis2Command.Homed",
-                  "value": true,
-                  "opcServer": "PLC OPC UA",
-                  "name": "Homed",
-                  "tagType": "AtomicTag"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "name": "UI_Control",
           "tagType": "Folder",
           "tags": [
@@ -325,20 +286,10 @@
               "valueSource": "memory",
               "dataType": "Int1",
               "name": "CurrentPopup",
-              "value": 4,
+              "value": 1,
               "tagType": "AtomicTag"
             }
           ]
-        },
-        {
-          "valueSource": "opc",
-          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.StopCycle",
-          "dataType": "Boolean",
-          "name": "STOP",
-          "tagGroup": "Security",
-          "value": true,
-          "tagType": "AtomicTag",
-          "opcServer": "PLC OPC UA"
         },
         {
           "name": "Fans",
@@ -361,10 +312,6 @@
           "tagGroup": "Security",
           "tagType": "AtomicTag",
           "opcServer": "PLC OPC UA"
-        },
-        {
-          "name": "Boiler",
-          "tagType": "Folder"
         },
         {
           "name": "Rail_3",
@@ -526,6 +473,100 @@
               ]
             }
           ]
+        },
+        {
+          "name": "Rail_2",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "R2_Chariot",
+              "typeId": "ActuatorStruct",
+              "parameters": {
+                "Name": {
+                  "dataType": "String",
+                  "value": "Rail 2 actuator"
+                }
+              },
+              "tagType": "UdtInstance",
+              "tags": [
+                {
+                  "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_LinearActuators.Chariot2Command.Status",
+                  "value": 0,
+                  "opcServer": "PLC OPC UA",
+                  "name": "Status",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_LinearActuators.Chariot2Command.Command",
+                  "value": true,
+                  "opcServer": "PLC OPC UA",
+                  "name": "Command",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "R2_Motor",
+              "typeId": "MotorStruct",
+              "parameters": {
+                "Name": {
+                  "dataType": "String",
+                  "value": "Rail 2 motor"
+                }
+              },
+              "tagType": "UdtInstance",
+              "tags": [
+                {
+                  "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Axis2Command.Position",
+                  "value": 0,
+                  "opcServer": "PLC OPC UA",
+                  "name": "Position",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Axis2Command.Homing",
+                  "value": true,
+                  "opcServer": "PLC OPC UA",
+                  "name": "Homing",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Axis2Command.Command",
+                  "value": 88,
+                  "opcServer": "PLC OPC UA",
+                  "name": "Command",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Axis2Command.Homed",
+                  "value": true,
+                  "opcServer": "PLC OPC UA",
+                  "name": "Homed",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "valueSource": "opc",
+          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.StopCycle",
+          "dataType": "Boolean",
+          "name": "STOP",
+          "tagGroup": "Security",
+          "value": true,
+          "tagType": "AtomicTag",
+          "opcServer": "PLC OPC UA"
+        },
+        {
+          "name": "Boiler",
+          "tagType": "Folder"
         }
       ]
     },
@@ -965,6 +1006,13 @@
       "name": "Security",
       "tagType": "Folder",
       "tags": [
+        {
+          "valueSource": "opc",
+          "dataType": "Boolean",
+          "name": "CX_status",
+          "tagType": "AtomicTag",
+          "opcServer": "PLC OPC UA"
+        },
         {
           "name": "MachineSecurity",
           "tagType": "Folder",
