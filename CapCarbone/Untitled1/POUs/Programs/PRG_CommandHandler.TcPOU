@@ -50,12 +50,10 @@ END_VAR
       <ST><![CDATA[(* 1. SAFETY CHECK *)
 bSafetyOk := EvaluateSystemSafety();
 
-(* 2. WAIT FOR HMI TO EXIT COMMAND PROMPT *)
+(* 2. WAIT FOR HMI TO EXIT COMMAND PROMPT IF NEEDED*)
 IF bAwaitingHMIClose THEN
-	// Start timer
     tmrHMICloseSignal(IN := TRUE, PT := tHMICloseHoldTime);
     
-	// Timer expired
     IF tmrHMICloseSignal.Q THEN     
         sRequestedActuator := 'none';
         bAwaitingHMIClose := FALSE;
@@ -65,7 +63,7 @@ IF bAwaitingHMIClose THEN
     RETURN;
 END_IF
 
-(* 3. COMMAND CANCEL LOGIC *)
+(* 3. COMMAND CANCEL CHECK *)
 IF CancelMove AND bOperationInProgress AND NOT bCancelInProgress THEN
     bCancelInProgress := TRUE;
 ELSE
@@ -386,7 +384,9 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="PRG_CommandHandler">
-      <LineId Id="772" Count="20" />
+      <LineId Id="772" Count="4" />
+      <LineId Id="778" Count="1" />
+      <LineId Id="781" Count="11" />
       <LineId Id="851" Count="1" />
       <LineId Id="793" Count="3" />
       <LineId Id="850" Count="0" />

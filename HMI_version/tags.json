@@ -1808,14 +1808,42 @@
               ]
             },
             {
-              "valueSource": "memory",
-              "dataType": "String",
-              "name": "Alert_msg",
-              "tagType": "AtomicTag"
-            },
-            {
               "name": "Fans",
               "tagType": "Folder"
+            },
+            {
+              "name": "Stepper_error_msg",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "valueSource": "opc",
+                  "dataType": "String",
+                  "name": "Rail3_error_msg",
+                  "tagType": "AtomicTag",
+                  "opcServer": "PLC OPC UA"
+                },
+                {
+                  "valueSource": "opc",
+                  "dataType": "String",
+                  "name": "Rail2_error_msg",
+                  "tagType": "AtomicTag",
+                  "opcServer": "PLC OPC UA"
+                },
+                {
+                  "valueSource": "opc",
+                  "dataType": "String",
+                  "name": "Rail4_error_msg",
+                  "tagType": "AtomicTag",
+                  "opcServer": "PLC OPC UA"
+                },
+                {
+                  "valueSource": "opc",
+                  "dataType": "String",
+                  "name": "Rail1_error_msg",
+                  "tagType": "AtomicTag",
+                  "opcServer": "PLC OPC UA"
+                }
+              ]
             }
           ]
         }

@@ -31,30 +31,37 @@
 		nSeverity := 3);
 	
 	R1_Stepper_Motion_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 1007,
 		nSeverity := 3);
 	
 	R1_Stepper_Homing_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 1008,
 		nSeverity := 3);
 	
 	R1_Stepper_Motion_Interrupted : ST_Alarm := (
+		sMessage := '',
 		nID := 1010,
 		nSeverity := 3);
 	
 	R1_Stepper_PowerUp_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 1011,
 		nSeverity := 3);
 	
 	R1_Stepper_Reset_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 1012,
 		nSeverity := 3);
 	
 	R1_Stepper_Stop_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 1013,
 		nSeverity := 3);
 	
 	R1_Stepper_UnableToReadPosition : ST_Alarm := (
+		sMessage := '',
 		nID := 1014,
 		nSeverity := 3);
 	
@@ -67,22 +74,27 @@
     // RAIL 2
     // ================================================================
 	R2_Stepper_PowerUp_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 2001,
 		nSeverity := 3);
 	
 	R2_Stepper_Homing_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 2002,
 		nSeverity := 3);
 	
 	R2_Stepper_Motion_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 2004,
 		nSeverity := 3);
 	
 	R2_Stepper_Motion_Interrupted : ST_Alarm := (
+		sMessage := '',
 		nID := 2005,
 		nSeverity := 3);
 	
 	R2_Stepper_Reset_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 2006,
 		nSeverity := 3);
 		
@@ -95,10 +107,12 @@
 		nSeverity := 3);
 	
 	R2_Stepper_Stop_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 2009,
 		nSeverity := 3);
 	
 	R2_Stepper_UnableToReadPosition : ST_Alarm := (
+		sMessage := '',
 		nID := 2010,
 		nSeverity := 3);
 	
@@ -139,26 +153,32 @@
 		nSeverity := 3);
 		
 	R3_Stepper_PowerUp_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 3009,
 		nSeverity := 3);
 	
 	R3_Stepper_Homing_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 3010,
 		nSeverity := 3);
 	
 	R3_Stepper_Motion_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 3012,
 		nSeverity := 3);
 	
 	R3_Stepper_Motion_Interrupted : ST_Alarm := (
+		sMessage := '',
 		nID := 3013,
 		nSeverity := 3);
 	
 	R3_Stepper_Reset_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 3014,
 		nSeverity := 3);
 	
 	R3_Stepper_Stop_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 3015,
 		nSeverity := 3);
 	
@@ -171,6 +191,7 @@
 		nSeverity := 4);
 	
 	R3_Stepper_UnableToReadPosition : ST_Alarm := (
+		sMessage := '',
 		nID := 3018,
 		nSeverity := 3);
 	
@@ -183,22 +204,27 @@
     // RAIL 4
     // ================================================================
 	R4_Stepper_PowerUp_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 4001,
 		nSeverity := 3);
 	
 	R4_Stepper_Homing_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 4002,
 		nSeverity := 3);
 	
 	R4_Stepper_Motion_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 4004,
 		nSeverity := 3);
 	
 	R4_Stepper_Motion_Interrupted : ST_Alarm := (
+		sMessage := '',
 		nID := 4005,
 		nSeverity := 3);
 	
 	R4_Stepper_Reset_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 4006,
 		nSeverity := 3);
 	
@@ -211,10 +237,12 @@
 		nSeverity := 3);
 	
 	R4_Stepper_Stop_Failed : ST_Alarm := (
+		sMessage := '',
 		nID := 4009,
 		nSeverity := 3);
 	
 	R4_Stepper_UnableToReadPosition : ST_Alarm := (
+		sMessage := '',
 		nID := 4010,
 		nSeverity := 3);
 	

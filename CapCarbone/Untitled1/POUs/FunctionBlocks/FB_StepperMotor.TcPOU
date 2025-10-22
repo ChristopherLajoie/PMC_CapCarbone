@@ -68,6 +68,7 @@ END_VAR
       <Declaration><![CDATA[METHOD GetPosition : BOOL
 VAR
 	pAlarmCondition : POINTER TO BOOL;
+	sErrorMsg : STRING(255);
 END_VAR
 
 VAR_OUTPUT
@@ -83,6 +84,15 @@ IF fbRead.Busy THEN
 		IF pAlarmCondition <> 0 THEN
 			pAlarmCondition^ := TRUE;
 		END_IF
+	
+	sErrorMsg := F_GetMC2ErrorDescription(fbRead.ErrorID);
+				
+	CASE nRail OF
+		1: GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 1 position read failed: ', sErrorMsg);
+		2: GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 2 position read failed: ', sErrorMsg);
+		3: GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 3 position read failed: ', sErrorMsg);
+		4: GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 4 position read failed: ', sErrorMsg);
+	END_CASE
 	END_IF
 
 ELSE
@@ -155,10 +165,10 @@ CASE eState OF
                 sErrorMsg := F_GetMC2ErrorDescription(fbHome.ErrorID);
                 
                 CASE nRail OF
-                    1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := sErrorMsg;
-                    2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := sErrorMsg;
-                    3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := sErrorMsg;
-                    4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                    1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 1 homing failed: ', sErrorMsg);
+                    2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 2 homing failed: ', sErrorMsg);
+                    3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 3 homing failed: ', sErrorMsg);
+                    4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 4 homing failed: ', sErrorMsg);
                 END_CASE
             END_IF
             
@@ -191,10 +201,10 @@ CASE eState OF
                 sErrorMsg := F_GetMC2ErrorDescription(fbHome.ErrorID);
 
                 CASE nRail OF
-                    1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := sErrorMsg;
-                    2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := sErrorMsg;
-                    3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := sErrorMsg;
-                    4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := sErrorMsg;
+                    1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 1 homing failed: ', sErrorMsg);
+                    2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 2 homing failed: ', sErrorMsg);
+                    3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 3 homing failed: ', sErrorMsg);
+                    4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 4 homing failed: ', sErrorMsg);
                 END_CASE
             END_IF
             
@@ -235,10 +245,10 @@ END_VAR
 			sErrorMsg := F_GetMC2ErrorDescription(fbPower.ErrorID);
 			
 			CASE nRail OF
-				1: GVL_Alarms.R1_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
-				2: GVL_Alarms.R2_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
-				3: GVL_Alarms.R3_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
-				4: GVL_Alarms.R4_Stepper_PowerUp_Failed.sMessage := sErrorMsg;
+				1: GVL_Alarms.R1_Stepper_PowerUp_Failed.sMessage :=  CONCAT('Stepper rail 1 powerup failed: ', sErrorMsg);
+				2: GVL_Alarms.R2_Stepper_PowerUp_Failed.sMessage :=  CONCAT('Stepper rail 2 powerup failed: ', sErrorMsg);
+				3: GVL_Alarms.R3_Stepper_PowerUp_Failed.sMessage :=  CONCAT('Stepper rail 3 powerup failed: ', sErrorMsg);
+				4: GVL_Alarms.R4_Stepper_PowerUp_Failed.sMessage :=  CONCAT('Stepper rail 4 powerup failed: ', sErrorMsg);
 			END_CASE
 		END_IF
 		
@@ -252,6 +262,13 @@ END_VAR
 			IF pAlarmCondition <> 0 THEN 
 				pAlarmCondition^ := FALSE; 
 			END_IF
+			
+			CASE nRail OF
+				1: GVL_Alarms.R1_Stepper_PowerUp_Failed.sMessage := '';
+				2: GVL_Alarms.R2_Stepper_PowerUp_Failed.sMessage := '';
+				3: GVL_Alarms.R3_Stepper_PowerUp_Failed.sMessage := '';
+				4: GVL_Alarms.R4_Stepper_PowerUp_Failed.sMessage := '';
+			END_CASE
 			
 			CASE eState OF
 				LAS_Stepper_PowerError:
@@ -316,10 +333,10 @@ CASE eState OF
 				sErrorMsg := F_GetMC2ErrorDescription(fbMoveAbs.ErrorID);
 				
 				CASE nRail OF
-					1: GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := sErrorMsg;
-					2: GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := sErrorMsg;
-					3: GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := sErrorMsg;
-					4: GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := sErrorMsg;
+					1: GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 1 motion failed: ', sErrorMsg);
+					2: GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 2 motion failed: ', sErrorMsg);
+					3: GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 3 motion failed: ', sErrorMsg);
+					4: GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 4 motion failed: ', sErrorMsg);
 				END_CASE
 			END_IF
 			
@@ -337,10 +354,10 @@ CASE eState OF
 				sErrorMsg := F_GetMC2ErrorDescription(fbMoveAbs.ErrorID);
 				
 				CASE nRail OF
-					1: GVL_Alarms.R1_Stepper_Motion_Interrupted.sMessage := sErrorMsg;
-					2: GVL_Alarms.R2_Stepper_Motion_Interrupted.sMessage := sErrorMsg;
-					3: GVL_Alarms.R3_Stepper_Motion_Interrupted.sMessage := sErrorMsg;
-					4: GVL_Alarms.R4_Stepper_Motion_Interrupted.sMessage := sErrorMsg;
+					1: GVL_Alarms.R1_Stepper_Motion_Interrupted.sMessage := CONCAT('Stepper rail 1 motion interrupted: ', sErrorMsg);
+					2: GVL_Alarms.R2_Stepper_Motion_Interrupted.sMessage := CONCAT('Stepper rail 2 motion interrupted: ', sErrorMsg);
+					3: GVL_Alarms.R3_Stepper_Motion_Interrupted.sMessage := CONCAT('Stepper rail 3 motion interrupted: ', sErrorMsg);
+					4: GVL_Alarms.R4_Stepper_Motion_Interrupted.sMessage := CONCAT('Stepper rail 4 motion interrupted: ', sErrorMsg);
 				END_CASE
 			END_IF
 				
@@ -414,10 +431,10 @@ CASE eState OF
 					sErrorMsg := F_GetMC2ErrorDescription(fbReset.ErrorID);
 					
 					CASE nRail OF
-						1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := sErrorMsg;
-						2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := sErrorMsg;
-						3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := sErrorMsg;
-						4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := sErrorMsg;
+						1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := CONCAT('Stepper rail 1 reset failed: ', sErrorMsg);
+						2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := CONCAT('Stepper rail 2 reset failed: ', sErrorMsg);
+						3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := CONCAT('Stepper rail 3 reset failed: ', sErrorMsg);
+						4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := CONCAT('Stepper rail 4 reset failed: ', sErrorMsg);
 					END_CASE
 				END_IF
 				
@@ -546,10 +563,10 @@ CASE eState OF
 				
 				
 				CASE nRail OF
-					1: GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := sErrorMsg;
-					2: GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := sErrorMsg;
-					3: GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := sErrorMsg;
-					4: GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := sErrorMsg;
+					1: GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := CONCAT('Stepper rail 1 stop failed: ', sErrorMsg);
+					2: GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := CONCAT('Stepper rail 2 stop failed: ', sErrorMsg);
+					3: GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := CONCAT('Stepper rail 3 stop failed: ', sErrorMsg);
+					4: GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := CONCAT('Stepper rail 4 stop failed: ', sErrorMsg);
 				END_CASE
 			END_IF
 			
@@ -587,10 +604,10 @@ CASE eState OF
 				sErrorMsg := F_GetMC2ErrorDescription(fbStop.ErrorID);
 							
 				CASE nRail OF
-					1: GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := sErrorMsg;
-					2: GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := sErrorMsg;
-					3: GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := sErrorMsg;
-					4: GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := sErrorMsg;
+					1: GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := CONCAT('Stepper rail 1 stop failed: ', sErrorMsg);
+					2: GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := CONCAT('Stepper rail 2 stop failed: ', sErrorMsg);
+					3: GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := CONCAT('Stepper rail 3 stop failed: ', sErrorMsg);
+					4: GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := CONCAT('Stepper rail 4 stop failed: ', sErrorMsg);
 				END_CASE
 			END_IF
 			
@@ -614,14 +631,20 @@ END_CASE
     <LineIds Name="FB_StepperMotor.GetPosition">
       <LineId Id="1" Count="3" />
       <LineId Id="16" Count="2" />
-      <LineId Id="5" Count="9" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="21" Count="6" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="6" Count="8" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="872" Count="0" />
       <LineId Id="730" Count="18" />
       <LineId Id="833" Count="4" />
       <LineId Id="839" Count="1" />
-      <LineId Id="842" Count="7" />
+      <LineId Id="842" Count="0" />
+      <LineId Id="873" Count="2" />
+      <LineId Id="846" Count="3" />
       <LineId Id="751" Count="0" />
       <LineId Id="756" Count="2" />
       <LineId Id="761" Count="11" />
@@ -645,6 +668,9 @@ END_CASE
       <LineId Id="40" Count="0" />
       <LineId Id="63" Count="1" />
       <LineId Id="44" Count="0" />
+      <LineId Id="70" Count="4" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="75" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="45" Count="2" />
       <LineId Id="30" Count="0" />
