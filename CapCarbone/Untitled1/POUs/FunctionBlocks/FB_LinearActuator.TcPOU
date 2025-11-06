@@ -201,17 +201,17 @@ ELSIF bIsCoupola THEN
         eState := LAS_LinearActuator_AtProx3;
     ELSE
         eState := LAS_LinearActuator_Unknown;
-        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+        (*pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
         IF pAlarmCondition <> 0 THEN
             pAlarmCondition^ := TRUE;
-        END_IF
+        END_IF*)
     END_IF
 ELSE
     eState := LAS_LinearActuator_Unknown;
-    pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+    (*pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
     IF pAlarmCondition <> 0 THEN
         pAlarmCondition^ := TRUE;
-    END_IF
+    END_IF*)
 END_IF
 
 FB_Init := TRUE;]]></ST>

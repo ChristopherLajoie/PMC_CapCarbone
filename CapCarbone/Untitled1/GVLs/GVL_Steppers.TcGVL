@@ -32,13 +32,40 @@ VAR_GLOBAL
     Axis2 : FB_StepperMotor(init_axis := ADR(Stepper_Rail2.object));
     Axis3 : FB_StepperMotor(init_axis := ADR(Stepper_Rail3.object));
     Axis4 : FB_StepperMotor(init_axis := ADR(Stepper_Rail4.object));
+	Cha1 : ST_LinearActuator := (
+		sName := 'Chariot1',
+		bProxIn := ADR(Cha1_In) ,  
+		bProxOut := ADR(Cha1_Out) , 
+		bFwdDO := ADR(Cha1_Forward), 
+		bBckwDO := ADR(Cha1_Reverse)
+		);
+
+	Axis1Command : ST_StepperMotorCommand := (
+		Homing := FALSE,
+		Command := 0,
+		Position := -1,
+		Homed := FALSE)
+	;
+	Axis2Command : ST_StepperMotorCommand := (
+		Homing := FALSE,
+		Command := 0,
+		Position := -1,
+		Homed := FALSE)
+	;
+	Axis3Command : ST_StepperMotorCommand := (
+		Homing := FALSE,
+		Command := 0,
+		Position := -1,
+		Homed := FALSE)
+	;
+	Axis4Command : ST_StepperMotorCommand := (
+		Homing := FALSE,
+		Command := 0,
+		Position := -1,
+		Homed := FALSE)
+	;
 	
-	Axis1Command : ST_StepperMotorCommand;
-	Axis2Command : ST_StepperMotorCommand;
-	Axis3Command : ST_StepperMotorCommand;
-	Axis4Command : ST_StepperMotorCommand;
-	
-	bSimulatedLimitSwitch : BOOL; //CHANGE TO REAL LIMIT SWITCH
+	Max_Stepper_vel : LREAL := 2000;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

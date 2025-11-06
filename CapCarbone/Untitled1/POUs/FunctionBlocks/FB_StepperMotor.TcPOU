@@ -120,8 +120,8 @@ VAR
     // Pass configuration
     // ==================
     Currentpass : STRING := 'Fast';    // Selected homing pass mode
-    FastPass    : ST_HomingOptions := (SearchVelocity := 50.0, SyncVelocity := 15.0); // Fast homing config
-    SlowPass    : ST_HomingOptions := (SearchVelocity := 5.0,  SyncVelocity := 2.0);  // Slow homing config
+    FastPass    : ST_HomingOptions := (SearchVelocity := 0.5 * Max_Stepper_vel, MC_Direction := MC_Positive_Direction); // Fast homing config
+    SlowPass    : ST_HomingOptions := (SearchVelocity := 0.1 * Max_Stepper_vel, MC_Direction := MC_Negative_Direction);  // Slow homing config
 
     // ===================
     // Edge detection flags
@@ -143,11 +143,11 @@ GetPosition(fCurrentPosition => Currentpos);
 CASE eState OF
     LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
         IF Currentpass = 'Fast' THEN
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := FastPass);
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := FastPass);
             eState := LAS_Stepper_FastPass;
             
         ELSIF Currentpass = 'Slow' THEN
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := SlowPass);
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := SlowPass);
             eState := LAS_Stepper_SlowPass;
         END_IF
        
@@ -183,7 +183,7 @@ CASE eState OF
 
         IF NOT pAxis_struct^.bProx^ THEN
 
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := 0, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := SlowPass);
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := ReferencePos, bCalibrationCam := NOT pAxis_struct^.bProx^, Options := SlowPass);
             eState := LAS_Stepper_SlowPass;
         END_IF
     
@@ -232,7 +232,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT bHoldKeepAlive THEN
-	fbPower(Axis := pAxis^, Enable := TRUE, Enable_positive := TRUE, Enable_Negative := TRUE);
+	fbPower(Axis := pAxis^, Enable := TRUE, Enable_positive := TRUE, Enable_Negative := TRUE, Override := 100);
 	
 	IF fbPower.Error THEN    
 		eState := LAS_Stepper_PowerError;
@@ -297,9 +297,6 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD MoveToPosition : INT
 VAR_INPUT
     fPosition : LREAL;  // Target position
-    fVelocity : LREAL := 1.0;  // Velocity in mm/s
-    fAccel    : LREAL := 0.5;  // Acceleration in mm/s²
-    fDecel    : LREAL := 0.5;  // Deceleration in mm/s²
 END_VAR
 
 VAR
@@ -312,8 +309,7 @@ END_VAR
 
 CASE eState OF
 	LAS_Stepper_Ready:
-		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, 
-          Velocity := fVelocity, Acceleration := fAccel, Deceleration := fDecel);
+		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition);
 	
 		eState := LAS_Stepper_Moving;
 		
@@ -531,7 +527,6 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD Stop : INT
 VAR_INPUT
     bEnable : BOOL;
-	fDecel    : LREAL := 500.0;
 END_VAR
 
 VAR
@@ -547,7 +542,7 @@ CASE eState OF
         Stop := 1;
         
     LAS_Stepper_Moving:
-        fbStop(Axis := pAxis^, Execute := bEnable, Deceleration := fDecel);
+        fbStop(Axis := pAxis^, Execute := bEnable);
               
 		IF fbStop.Error THEN
 			fbStop(Axis := pAxis^, Execute := FALSE);
@@ -582,7 +577,7 @@ CASE eState OF
     
     LAS_Stepper_FastPass, LAS_Stepper_SlowPass, LAS_Stepper_WaitingForTrigger :
 	
-	   fbStop(Axis := pAxis^, Execute := TRUE, Deceleration := fDecel);
+	   fbStop(Axis := pAxis^, Execute := TRUE);
 	   
 	   IF fbStop.Done THEN
 		   fbStop(Axis := pAxis^, Execute := FALSE);
@@ -686,7 +681,8 @@ END_CASE
     <LineIds Name="FB_StepperMotor.MoveToPosition">
       <LineId Id="39" Count="0" />
       <LineId Id="57" Count="0" />
-      <LineId Id="1" Count="4" />
+      <LineId Id="1" Count="2" />
+      <LineId Id="5" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="9" Count="2" />
       <LineId Id="45" Count="0" />

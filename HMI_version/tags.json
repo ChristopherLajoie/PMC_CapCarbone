@@ -1008,6 +1008,7 @@
       "tags": [
         {
           "valueSource": "opc",
+          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;i\u003d1301",
           "dataType": "Boolean",
           "name": "CX_status",
           "tagType": "AtomicTag",
@@ -1017,6 +1018,13 @@
           "name": "MachineSecurity",
           "tagType": "Folder",
           "tags": [
+            {
+              "valueSource": "opc",
+              "dataType": "Boolean",
+              "name": "SafetyOK",
+              "tagType": "AtomicTag",
+              "opcServer": "PLC OPC UA"
+            },
             {
               "valueSource": "opc",
               "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.SafetyRelay.bCondition",
@@ -1816,32 +1824,299 @@
               "tagType": "Folder",
               "tags": [
                 {
-                  "valueSource": "opc",
-                  "dataType": "String",
-                  "name": "Rail3_error_msg",
-                  "tagType": "AtomicTag",
-                  "opcServer": "PLC OPC UA"
+                  "name": "Rail2",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail2_HomingFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail2_UnableToReadPosition",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "expression": "trim(\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_HomingFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_HomingFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_MotionFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_MotionFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_MotionInterrupted})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_MotionInterrupted} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_PowerUpFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_PowerUpFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_ResetFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_ResetFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_StopFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_StopFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_UnableToReadPosition})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_UnableToReadPosition} + \"\\n\", \"\"))\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail2_error_msg",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail2_StopFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "expression": "if({[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_error_msg} \u003d \"\" ,\"system/images/Skyrenu/green_check.png\", \"system/images/Skyrenu/red_cross.png\"\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail2_status_icon_path",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail2_PowerUpFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail2_MotionFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail2_ResetFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail2_MotionInterrupted",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    }
+                  ]
                 },
                 {
-                  "valueSource": "opc",
-                  "dataType": "String",
-                  "name": "Rail2_error_msg",
-                  "tagType": "AtomicTag",
-                  "opcServer": "PLC OPC UA"
+                  "name": "Rail1",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail1_MotionInterrupted",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail1_HomingFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail1_UnableToReadPosition",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "expression": "trim(\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_HomingFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_HomingFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_MotionFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_MotionFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_MotionInterrupted})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_MotionInterrupted} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_PowerUpFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_PowerUpFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_ResetFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_ResetFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_StopFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_StopFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_UnableToReadPosition})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_UnableToReadPosition} + \"\\n\", \"\"))\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail1_error_msg",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail1_MotionFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail1_StopFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail1_PowerUpFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail1_ResetFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "expression": "if({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_error_msg} \u003d \"\" ,\"system/images/Skyrenu/green_check.png\", \"system/images/Skyrenu/red_cross.png\"\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail1_status_icon_path",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag"
+                    }
+                  ]
                 },
                 {
-                  "valueSource": "opc",
-                  "dataType": "String",
-                  "name": "Rail4_error_msg",
-                  "tagType": "AtomicTag",
-                  "opcServer": "PLC OPC UA"
+                  "name": "Rail4",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "valueSource": "expr",
+                      "expression": "if({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_error_msg} \u003d \"\" ,\"system/images/Skyrenu/green_check.png\", \"system/images/Skyrenu/red_cross.png\"\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail4_status_icon_path",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail4_MotionInterrupted",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "expression": "trim(\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_HomingFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_HomingFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_MotionFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_MotionFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_MotionInterrupted})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_MotionInterrupted} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_PowerUpFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_PowerUpFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_ResetFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_ResetFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_StopFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_StopFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_UnableToReadPosition})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_UnableToReadPosition} + \"\\n\", \"\"))\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail4_error_msg",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail4_StopFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail4_MotionFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail4_PowerUpFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail4_ResetFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail4_UnableToReadPosition",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail4_HomingFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    }
+                  ]
                 },
                 {
-                  "valueSource": "opc",
+                  "valueSource": "expr",
+                  "expression": "if({[default]Security/Alerts/Stepper_error_msg/Rail1/Rail1_error_msg} !\u003d \"\" || {[default]Security/Alerts/Stepper_error_msg/Rail2/Rail2_error_msg} !\u003d \"\" || {[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_error_msg} !\u003d \"\" || {[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_error_msg} !\u003d \"\",\r\n    \"system/images/Skyrenu/warning_icon.png\",\r\n    \"\"\r\n)\r\n",
                   "dataType": "String",
-                  "name": "Rail1_error_msg",
-                  "tagType": "AtomicTag",
-                  "opcServer": "PLC OPC UA"
+                  "name": "Stepper_status_icon_path",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "name": "Rail3",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "valueSource": "expr",
+                      "expression": "trim(\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_HomingFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_HomingFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_MotionFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_MotionFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_MotionInterrupted})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_MotionInterrupted} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_PowerUpFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_PowerUpFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_ResetFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_ResetFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_StopFailed})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_StopFailed} + \"\\n\", \"\")) +\r\n    (if(len({[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_UnableToReadPosition})\u003e0, {[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_UnableToReadPosition} + \"\\n\", \"\"))\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail3_error_msg",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail3_MotionInterrupted",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail3_ResetFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "expression": "if({[default]Security/Alerts/Stepper_error_msg/Rail3/Rail3_error_msg} \u003d \"\" ,\"system/images/Skyrenu/green_check.png\", \"system/images/Skyrenu/red_cross.png\"\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail3_status_icon_path",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail3_HomingFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail3_MotionFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail3_StopFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail3_PowerUpFailed",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "opc",
+                      "dataType": "Boolean",
+                      "name": "Rail3_UnableToReadPosition",
+                      "tagType": "AtomicTag",
+                      "opcServer": "PLC OPC UA"
+                    }
+                  ]
                 }
               ]
             }
