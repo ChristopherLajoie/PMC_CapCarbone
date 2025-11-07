@@ -286,7 +286,7 @@ END_VAR]]></Declaration>
 	// Get command value
 	LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
 ELSE
-	//Will hit failure check later this cycle
+	RETURN;
 END_IF
 	
 (* 1. RESET COMMAND CHECK *)

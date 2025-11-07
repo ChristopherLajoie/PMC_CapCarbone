@@ -110,7 +110,7 @@ END_VAR]]></Declaration>
         F_GetMC2ErrorDescription := 'Homing: Sync signal (zero pulse) missing';
         
     16#4B09:  // Decimal: 19209
-        F_GetMC2ErrorDescription := 'Homing: Axis has not been homed';
+        F_GetMC2ErrorDescription := 'The axis is not ready and cannot be moved';
         
     16#4B0C:  // Decimal: 19212
         F_GetMC2ErrorDescription := 'Position latch was disabled during touch probe cycle';

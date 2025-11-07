@@ -1,6 +1,6 @@
 - Implement homing, idle and main cycle and add hmi buttons for them
-- Check stepper reset when power error
 - Add stepper jog and linear actuator slider
+- Review error code mapping
 
 
 

@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_Steppers" Id="{fbf55f38-8215-4244-998d-826cf1c53444}">
-    <Declaration><![CDATA[{attribute 'TcLinkTo'}
-VAR_GLOBAL
+    <Declaration><![CDATA[VAR_GLOBAL
 	Stepper1 : AXIS_REF;
 	Stepper2 : AXIS_REF;
 	Stepper3 : AXIS_REF;
@@ -10,28 +9,29 @@ VAR_GLOBAL
 	
 	Stepper_Rail1 : ST_LinearTable := (
 		object := Stepper1,
-		bProx := ADR(Axis1_Prox)
+		bProx := Axis1_Prox
 		);
 	
 	Stepper_Rail2 : ST_LinearTable := (
 		object := Stepper2,
-		bProx := ADR(Axis2_Prox)
+		bProx := Axis2_Prox
 		);
 	
 	Stepper_Rail3 : ST_LinearTable := (
 		object := Stepper3,
-		bProx := ADR(Axis3_Prox)
+		bProx := Axis3_Prox
 		);
 	
 	Stepper_Rail4 : ST_LinearTable := (
 		object := Stepper4,
-		bProx := ADR(Axis4_Prox)
+		bProx := Axis4_Prox
 		);
 	
-	Axis1 : FB_StepperMotor(init_axis := ADR(Stepper_Rail1.object));
-    Axis2 : FB_StepperMotor(init_axis := ADR(Stepper_Rail2.object));
-    Axis3 : FB_StepperMotor(init_axis := ADR(Stepper_Rail3.object));
-    Axis4 : FB_StepperMotor(init_axis := ADR(Stepper_Rail4.object));
+	Axis1 : FB_StepperMotor(init_axis := ADR(Stepper_Rail1.object), init_prox := ADR(Stepper_Rail1.bProx));
+    Axis2 : FB_StepperMotor(init_axis := ADR(Stepper_Rail2.object), init_prox := ADR(Stepper_Rail2.bProx));
+    Axis3 : FB_StepperMotor(init_axis := ADR(Stepper_Rail3.object), init_prox := ADR(Stepper_Rail3.bProx));
+    Axis4 : FB_StepperMotor(init_axis := ADR(Stepper_Rail4.object), init_prox := ADR(Stepper_Rail4.bProx));
+	
 	Cha1 : ST_LinearActuator := (
 		sName := 'Chariot1',
 		bProxIn := ADR(Cha1_In) ,  
