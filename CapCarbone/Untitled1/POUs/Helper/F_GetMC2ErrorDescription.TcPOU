@@ -11,187 +11,244 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE nErrorID OF
     // ========================================
-    // GENERAL AXIS ERRORS (0x4200 range)
-    // ========================================
-    16#4221:  // Decimal: 16929
-        F_GetMC2ErrorDescription := 'Axis is not enabled';
-        
-    16#4223:  // Decimal: 16931
-        F_GetMC2ErrorDescription := 'Axis is in error state';
-        
-    16#4224:  // Decimal: 16932
-        F_GetMC2ErrorDescription := 'Axis not ready for motion command';
-        
-    16#4225:  // Decimal: 16933
-        F_GetMC2ErrorDescription := 'Axis is already in target position';
-        
-    16#4226:  // Decimal: 16934
-        F_GetMC2ErrorDescription := 'Axis is disabled';
-        
-    // ========================================
-    // POSITION LAG ERRORS (0x4260 range)
-    // ========================================
-    16#4260:  // Decimal: 16992
-        F_GetMC2ErrorDescription := 'Position lag monitoring: Maximum position lag exceeded';
-        
-    16#4261:  // Decimal: 16993
-        F_GetMC2ErrorDescription := 'Position lag monitoring: Warning threshold exceeded';
-        
-    16#4262:  // Decimal: 16994
-        F_GetMC2ErrorDescription := 'Position lag monitoring disabled';
-        
-    // ========================================
-    // TARGET POSITION ERRORS (0x4350 range)
-    // ========================================
-    16#4350:  // Decimal: 17232
-        F_GetMC2ErrorDescription := 'Target position not allowed (positioning monitoring)';
-        
-    16#4357:  // Decimal: 17239
-        F_GetMC2ErrorDescription := 'Software limit switch minimum exceeded';
-        
-    16#4358:  // Decimal: 17240
-        F_GetMC2ErrorDescription := 'Software limit switch maximum exceeded';
-        
-    16#4359:  // Decimal: 17241
-        F_GetMC2ErrorDescription := 'Hardware limit switch minimum activated';
-        
-    16#435A:  // Decimal: 17242
-        F_GetMC2ErrorDescription := 'Hardware limit switch maximum activated';
-        
-    // ========================================
-    // MOTION COMMAND ERRORS (0x4460 range)
-    // ========================================
-    16#4460:  // Decimal: 17504
-        F_GetMC2ErrorDescription := 'Controller enable not set';
-        
-    16#4463:  // Decimal: 17507
-        F_GetMC2ErrorDescription := 'Axis is moving - command not allowed in this state';
-        
-    16#4464:  // Decimal: 17508
-        F_GetMC2ErrorDescription := 'Axis is standing still - command requires motion';
-        
-    16#4466:  // Decimal: 17510
-        F_GetMC2ErrorDescription := 'Drive communication error - Drive not responding';
-        
-    16#4467:  // Decimal: 17511
-        F_GetMC2ErrorDescription := 'Drive hardware not ready';
-        
-    16#4470:  // Decimal: 17520
-        F_GetMC2ErrorDescription := 'Invalid axis start type';
-        
-    // ========================================
-    // MOTION PARAMETER ERRORS (0x44C0 range)
-    // ========================================
-    16#44C1:  // Decimal: 17601
-        F_GetMC2ErrorDescription := 'Invalid velocity value';
-        
-    16#44C2:  // Decimal: 17602
-        F_GetMC2ErrorDescription := 'Invalid acceleration value';
-        
-    16#44C3:  // Decimal: 17603
-        F_GetMC2ErrorDescription := 'Invalid deceleration value';
-        
-    16#44C4:  // Decimal: 17604
-        F_GetMC2ErrorDescription := 'Invalid jerk value';
-        
-    16#44C5:  // Decimal: 17605
-        F_GetMC2ErrorDescription := 'Invalid position value';
-        
-    // ========================================
-    // HOMING ERRORS (0x4B00 range)
-    // ========================================
-    16#4B01:  // Decimal: 19201
-        F_GetMC2ErrorDescription := 'Homing not successful - Reference switch not found';
-        
-    16#4B07:  // Decimal: 19207
-        F_GetMC2ErrorDescription := 'Homing: Reference cam signal missing during search';
-        
-    16#4B08:  // Decimal: 19208
-        F_GetMC2ErrorDescription := 'Homing: Sync signal (zero pulse) missing';
-        
-    16#4B09:  // Decimal: 19209
-        F_GetMC2ErrorDescription := 'The axis is not ready and cannot be moved';
-        
-    16#4B0C:  // Decimal: 19212
-        F_GetMC2ErrorDescription := 'Position latch was disabled during touch probe cycle';
-        
-    16#4B0D:  // Decimal: 19213
-        F_GetMC2ErrorDescription := 'NC status feedback timeout';
-        
-    // ========================================
-    // DRIVE ERRORS (0x4550 range)
-    // ========================================
-    16#4550:  // Decimal: 17744
-        F_GetMC2ErrorDescription := 'Drive error - Check drive status';
-        
-    16#4551:  // Decimal: 17745
-        F_GetMC2ErrorDescription := 'Drive in error state';
-        
-    16#4552:  // Decimal: 17746
-        F_GetMC2ErrorDescription := 'Drive not ready to enable';
-        
-    // ========================================
-    // FUNCTION BLOCK ERRORS (0x4600 range)
-    // ========================================
-    16#4600:  // Decimal: 17920
-        F_GetMC2ErrorDescription := 'Invalid BufferMode for this function block';
-        
-    16#4650:  // Decimal: 18000
-        F_GetMC2ErrorDescription := 'Function block was not called cyclically';
-        
-    16#4B66:  // Decimal: 19302
-        F_GetMC2ErrorDescription := 'Function block was not called cyclically - Command execution not monitored';
-        
-    // ========================================
-    // ENCODER ERRORS (0x4800 range)
-    // ========================================
-    16#4800:  // Decimal: 18432
-        F_GetMC2ErrorDescription := 'Encoder error';
-        
-    16#4801:  // Decimal: 18433
-        F_GetMC2ErrorDescription := 'Encoder hardware error';
-        
-    16#4802:  // Decimal: 18434
-        F_GetMC2ErrorDescription := 'Encoder initialization error';
-        
-    // ========================================
-    // CONTROLLER ERRORS (0x4900 range)
-    // ========================================
-    16#4900:  // Decimal: 18688
-        F_GetMC2ErrorDescription := 'Controller error';
-        
-    16#4901:  // Decimal: 18689
-        F_GetMC2ErrorDescription := 'Controller not initialized';
-        
-    // ========================================
-    // SPECIAL MOTION ERRORS
-    // ========================================
-    16#4A01:  // Decimal: 18945
-        F_GetMC2ErrorDescription := 'Coupled motion: Master axis in error state';
-        
-    16#4A02:  // Decimal: 18946
-        F_GetMC2ErrorDescription := 'Coupled motion: Slave axis in error state';
-        
-    16#4A10:  // Decimal: 18960
-        F_GetMC2ErrorDescription := 'Cam plate: Invalid cam table';
-        
-    // ========================================
-    // DEFAULT CASES
+    // NO ERROR
     // ========================================
     0:
         F_GetMC2ErrorDescription := 'No error';
-        
+
+
+    // ========================================
+    // GENERAL / GROUP / AXIS READY / PARAMS
+    // ========================================
+    16#4052:  // 16466
+        F_GetMC2ErrorDescription := 'Axis not ready to operate (configuration/startup incomplete)';
+
+    16#4200:  // 16896
+        F_GetMC2ErrorDescription := 'Group ID not allowed';
+
+    16#4220:  // 16928
+        F_GetMC2ErrorDescription := 'Group/axis busy: not ready for new task';
+
+    16#4221:  // 16929
+        F_GetMC2ErrorDescription := 'Requested target velocity is not allowed';
+
+    16#4222:  // 16930
+        F_GetMC2ErrorDescription := 'Requested target position violates software limits';
+
+    16#4223:  // 16931
+        F_GetMC2ErrorDescription := 'Axis enable (controller/feed) missing';
+
+    16#4224:  // 16932
+        F_GetMC2ErrorDescription := 'Travel path smaller than one encoder increment';
+
+    16#4225:  // 16933
+        F_GetMC2ErrorDescription := 'Drive hardware not ready at start (enable/error/startup)';
+
+    16#4226:  // 16934
+        F_GetMC2ErrorDescription := 'Invalid E-Stop parameters';
+
+    16#4227:  // 16935
+        F_GetMC2ErrorDescription := 'Setpoint generator not active';
+
+    16#4231:  // 16945
+        F_GetMC2ErrorDescription := 'Target velocity <= 0.0 not allowed';
+
+    16#4238:  // 16952
+        F_GetMC2ErrorDescription := 'Velocity override outside 0–100%';
+
+    16#4250:  // 16976
+        F_GetMC2ErrorDescription := 'Axis start / position / end position type not allowed';
+
+    16#4253:  // 16979
+        F_GetMC2ErrorDescription := 'PLC reference cam released too early during homing';
+
+    16#4254:  // 16980
+        F_GetMC2ErrorDescription := 'Distance between latch and zero pulse invalid';
+
+    16#4260:  // 16992
+        F_GetMC2ErrorDescription := 'Controller enable missing at start or during motion';
+
+
+    // ========================================
+    // AXIS ENABLE / FEED ENABLE / TARGET LIMITS
+    // ========================================
+    16#4356:  // 17238
+        F_GetMC2ErrorDescription := 'Controller enable not available for this axis';
+
+    16#4357:  // 17239
+        F_GetMC2ErrorDescription := 'Negative feed enable not available';
+
+    16#4358:  // 17240
+        F_GetMC2ErrorDescription := 'Positive feed enable not available';
+
+    16#4359:  // 17241
+        F_GetMC2ErrorDescription := 'Target velocity not allowed (0 or > limits)';
+
+
+    // ========================================
+    // SOFTWARE LIMITS / POSITION WINDOW / ENCODER QUALITY
+    // ========================================
+    16#4460, 16#4462:  // 17504, 17506
+        F_GetMC2ErrorDescription := 'Minimum software position limit reached/violated';
+
+    16#4461, 16#4463:  // 17505, 17507
+        F_GetMC2ErrorDescription := 'Maximum software position limit reached/violated';
+
+    16#4464:  // 17508
+        F_GetMC2ErrorDescription := 'Encoder hardware error (drive/encoder reports fault)';
+
+    16#4465:  // 17509
+        F_GetMC2ErrorDescription := 'Position initialization error at startup';
+
+    16#4466:  // 17510
+        F_GetMC2ErrorDescription := 'Invalid encoder I/O data for multiple cycles';
+
+    16#4467:  // 17511
+        F_GetMC2ErrorDescription := 'Invalid actual position';
+
+
+    // ========================================
+    // MOTION PARAMETER ERRORS (sanity of FB inputs)
+    // ========================================
+    16#44C1:  // 17601
+        F_GetMC2ErrorDescription := 'Invalid velocity value';
+
+    16#44C2:  // 17602
+        F_GetMC2ErrorDescription := 'Invalid acceleration value';
+
+    16#44C3:  // 17603
+        F_GetMC2ErrorDescription := 'Invalid deceleration value';
+
+    16#44C4:  // 17604
+        F_GetMC2ErrorDescription := 'Invalid jerk value';
+
+    16#44C5:  // 17605
+        F_GetMC2ErrorDescription := 'Invalid position value';
+
+
+    // ========================================
+    // NC-PLC / HOMING / FUNCTION BLOCK RELATED (0x4B..)
+    // ========================================
+    16#4B00:  // 19200
+        F_GetMC2ErrorDescription := 'Axis was stopped during motion';
+
+    16#4B01:  // 19201
+        F_GetMC2ErrorDescription := 'Axis cannot be started (error, busy, protected, not ready)';
+
+    16#4B02:  // 19202
+        F_GetMC2ErrorDescription := 'Control mode not permitted';
+
+    16#4B03:  // 19203
+        F_GetMC2ErrorDescription := 'Axis is not moving (restart only valid in motion)';
+
+    16#4B04:  // 19204
+        F_GetMC2ErrorDescription := 'Mode invalid for requested command';
+
+    16#4B05:  // 19205
+        F_GetMC2ErrorDescription := 'Command not permitted';
+
+    16#4B06:  // 19206
+        F_GetMC2ErrorDescription := 'Parameter not correct (override, gear ratio, etc.)';
+
+    16#4B07:  // 19207
+        F_GetMC2ErrorDescription := 'Timeout waiting for NC feedback (axis FB timeout)';
+
+    16#4B08:  // 19208
+        F_GetMC2ErrorDescription := 'Axis in protected/coupled mode and cannot be moved';
+
+    16#4B09:  // 19209
+        F_GetMC2ErrorDescription := 'Axis is not ready and cannot be moved';
+
+    16#4B0A:  // 19210
+        F_GetMC2ErrorDescription := 'Referencing (homing) could not be started or failed';
+
+    16#4B0B:  // 19211
+        F_GetMC2ErrorDescription := 'TouchProbe trigger definition invalid';
+
+    16#4B0C:  // 19212
+        F_GetMC2ErrorDescription := 'TouchProbe: position latch was disabled';
+
+    16#4B0D:  // 19213
+        F_GetMC2ErrorDescription := 'NC state feedback timeout (no status update)';
+
+
+    // ========================================
+    // DRIVE ERRORS (0x455x)
+    // ========================================
+    16#4550:  // 17744
+        F_GetMC2ErrorDescription := 'Drive error - check drive status/diagnostics';
+
+    16#4551:  // 17745
+        F_GetMC2ErrorDescription := 'Drive in error state';
+
+    16#4552:  // 17746
+        F_GetMC2ErrorDescription := 'Drive not ready to enable';
+
+
+    // ========================================
+    // FUNCTION BLOCK / CYCLIC CALL ISSUES
+    // ========================================
+    16#4600:  // 17920
+        F_GetMC2ErrorDescription := 'Invalid BufferMode for this function block';
+
+    16#4650:  // 18000
+        F_GetMC2ErrorDescription := 'Function block not called cyclically';
+
+    16#4B66:  // 19302
+        F_GetMC2ErrorDescription := 'FB not called cyclically - command not monitored';
+
+
+    // ========================================
+    // ENCODER ERRORS (0x4800)
+    // ========================================
+    16#4800:  // 18432
+        F_GetMC2ErrorDescription := 'Encoder error';
+
+    16#4801:  // 18433
+        F_GetMC2ErrorDescription := 'Encoder hardware error';
+
+    16#4802:  // 18434
+        F_GetMC2ErrorDescription := 'Encoder initialization error';
+
+
+    // ========================================
+    // CONTROLLER ERRORS (0x4900)
+    // ========================================
+    16#4900:  // 18688
+        F_GetMC2ErrorDescription := 'Controller error';
+
+    16#4901:  // 18689
+        F_GetMC2ErrorDescription := 'Controller not initialized';
+
+
+    // ========================================
+    // COUPLING / CAM / TABLE (only common ones)
+    // ========================================
+    16#4A01:  // 18945
+        F_GetMC2ErrorDescription := 'Master axis in error during coupled motion';
+
+    16#4A02:  // 18946
+        F_GetMC2ErrorDescription := 'Slave axis in error during coupled motion';
+
+    16#4A10:  // 19088
+        F_GetMC2ErrorDescription := 'Cam plate / motion table invalid';
+
+
+    // ========================================
+    // FALLBACK FOR UNKNOWN CODES
+    // ========================================
     ELSE
-        // Unknown error code - display hex and decimal values
         sHexCode := DWORD_TO_HEXSTR(nErrorID, 4, FALSE);
         F_GetMC2ErrorDescription := CONCAT('MC2 Error 0x', sHexCode);
         F_GetMC2ErrorDescription := CONCAT(F_GetMC2ErrorDescription, ' (');
         F_GetMC2ErrorDescription := CONCAT(F_GetMC2ErrorDescription, UDINT_TO_STRING(nErrorID));
         F_GetMC2ErrorDescription := CONCAT(F_GetMC2ErrorDescription, ') - Check Beckhoff NC Error Codes manual');
-END_CASE]]></ST>
+END_CASE
+]]></ST>
     </Implementation>
     <LineIds Name="F_GetMC2ErrorDescription">
-      <LineId Id="1" Count="179" />
+      <LineId Id="192" Count="234" />
+      <LineId Id="180" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

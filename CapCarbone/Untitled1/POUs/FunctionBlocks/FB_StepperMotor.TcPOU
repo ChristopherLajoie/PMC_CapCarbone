@@ -317,7 +317,7 @@ END_VAR
 
 CASE eState OF
 	LAS_Stepper_Ready, LAS_Stepper_Idle:
-		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition);
+		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, Velocity := 500.0);
 		eState := LAS_Stepper_Moving;
 		
 	LAS_Stepper_Moving:
