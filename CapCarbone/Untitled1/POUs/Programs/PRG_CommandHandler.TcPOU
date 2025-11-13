@@ -85,7 +85,7 @@ bCanProcessCommand :=
     NOT bOperationInProgress AND
     (sRequestedActuator <> 'none') AND
     (sRequestedActuator <> 'close') AND
-    (bSafetyOk OR IsResetCommand(sZ) OR bisLinearActuator) AND // LinearActuator don't have built-in reset function
+    (bSafetyOk OR IsResetCommand(sZ) OR bisLinearActuator) AND // LinearActuator don't have built-in or physical reset function
     NOT bCriticalAlarm;
 	
 IF bCanProcessCommand THEN
@@ -160,19 +160,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF bisLinearActuator THEN
-    nCancelResult := LinearActuator^.Stop();
-	
-    CASE nCancelResult OF
-        1: // Success
-			LinearActuatorCmd^.Status := -2;
-			
-		0: // Continue
-        	// Operation in progress
-			
-       -1: // Failure
-			LinearActuatorCmd^.Status := -1;
-    END_CASE;
-
+    nCancelResult := LinearActuator^.Stop(State => LinearActuatorCmd^.Status);
     bCancelComplete := (nCancelResult <> 0);
 
 ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
@@ -238,8 +226,9 @@ bisExtendCmd := LinearActuatorCmd^.Command;
 
 (* 1. RESET COMMAND CHECK *)
 IF bisResetCmd THEN
-    LinearActuator^.Reset(State => Result); // Instantaneous read of prox seonsors
+    LinearActuator^.Reset(State => LinearActuatorCmd^.Status); // Instantaneous read of prox seonsors
 	
+	Result := 1;
     bOperationInProgress := FALSE;
 	
 	sRequestedActuator := 'close';
@@ -445,13 +434,7 @@ END_CASE]]></ST>
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessCancelOperation">
       <LineId Id="136" Count="1" />
-      <LineId Id="186" Count="0" />
-      <LineId Id="138" Count="1" />
-      <LineId Id="183" Count="1" />
-      <LineId Id="191" Count="2" />
-      <LineId Id="140" Count="0" />
-      <LineId Id="185" Count="0" />
-      <LineId Id="141" Count="4" />
+      <LineId Id="143" Count="2" />
       <LineId Id="201" Count="0" />
       <LineId Id="197" Count="0" />
       <LineId Id="202" Count="0" />
@@ -479,6 +462,7 @@ END_CASE]]></ST>
       <LineId Id="110" Count="0" />
       <LineId Id="38" Count="4" />
       <LineId Id="111" Count="0" />
+      <LineId Id="118" Count="0" />
       <LineId Id="45" Count="0" />
       <LineId Id="77" Count="0" />
       <LineId Id="79" Count="2" />

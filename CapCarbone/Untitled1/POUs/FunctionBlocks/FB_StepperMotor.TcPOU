@@ -24,6 +24,7 @@ VAR
     fbRead    : MC_ReadActualPosition; // Read position
     fbReset   : MC_Reset;            // Reset errors
 	fbReadError : MC_ReadAxisError;
+	fbJog     : MC_Jog;
 
     // =================
     // Error & state handling
@@ -182,6 +183,15 @@ CASE eState OF
         Home := -1;
         
 END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Jog" Id="{13fd5d92-9a13-40b0-906d-8dfe16d4a32b}">
+      <Declaration><![CDATA[METHOD Jog : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="KeepAlive" Id="{3a149900-35bd-429f-af64-f1f6cf4f27bc}">
@@ -618,6 +628,9 @@ END_CASE
       <LineId Id="792" Count="2" />
       <LineId Id="798" Count="0" />
       <LineId Id="39" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.Jog">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.KeepAlive">
       <LineId Id="65" Count="0" />
