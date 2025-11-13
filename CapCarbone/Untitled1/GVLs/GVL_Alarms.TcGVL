@@ -67,7 +67,7 @@
 	
 	R1_Compressor_DriveFaulted : ST_Alarm := (
 		nID := 1015,
-		nSeverity := 3);
+		nSeverity := 5);
 	
 	
 	// ================================================================
@@ -184,11 +184,11 @@
 	
 	R3_HeatExCoupola_DriveFaulted : ST_Alarm := (
 		nID := 3016,
-		nSeverity := 4);
+		nSeverity := 5);
 	
 	R3_RegenCoupola_DriveFaulted : ST_Alarm := (
 		nID := 3017,
-		nSeverity := 4);
+		nSeverity := 5);
 	
 	R3_Stepper_UnableToReadPosition : ST_Alarm := (
 		sMessage := '',
@@ -197,8 +197,7 @@
 	
 	R3_Compressor_DriveFaulted : ST_Alarm := (
 		nID := 3019,
-		nSeverity := 3);
-	
+		nSeverity := 5);
 	
 	// ================================================================
     // RAIL 4
@@ -252,8 +251,9 @@
     // ================================================================
 	SafetyRelay : ST_Alarm := (
 		nID := 9001,
-		nSeverity := 4);
+		nSeverity := 5);
 	
+	bCriticalAlarm : BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

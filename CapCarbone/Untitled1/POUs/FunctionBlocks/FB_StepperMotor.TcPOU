@@ -113,7 +113,8 @@ END_IF
     <Method Name="Home" Id="{8276e0ce-98e0-421a-babf-511ef600c743}">
       <Declaration><![CDATA[METHOD Home : INT
 VAR_INPUT
-    bExecute : BOOL;     
+    bExecute : BOOL; 
+	bIsForced : BOOL;    
 END_VAR
 VAR
     // ==========================
@@ -125,16 +126,8 @@ VAR
     // ==================
     // Pass configuration
     // ==================
-    Currentpass : STRING := 'Fast';    // Selected homing pass mode
-    FastPass    : ST_HomingOptions := (SearchVelocity := 0.5 * Max_Stepper_vel, SearchDirection := MC_Positive_Direction); // Fast homing config
-    SlowPass    : ST_HomingOptions := (SearchVelocity := 0.1 * Max_Stepper_vel, SearchDirection := MC_Negative_Direction);  // Slow homing config
-
-    // ===================
-    // Edge detection flags
-    // ===================
-    bPreviousSwitchState : BOOL := FALSE; // Stores previous switch state
-    bFirstEdgeDetected   : BOOL := FALSE; // TRUE when first edge is detected
-
+    Options    : ST_HomingOptions := (SearchVelocity := 100, SearchDirection := MC_Positive_Direction); // Fast homing config
+ 
     // ============================
     // External references / pointers
     // ============================
@@ -148,24 +141,21 @@ GetPosition(fCurrentPosition => Currentpos);
 
 CASE eState OF
     LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
-        IF Currentpass = 'Fast' THEN
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := ReferencePos, bCalibrationCam := pProx^, Options := FastPass);
-            eState := LAS_Stepper_FastPass;
-            
-        ELSIF Currentpass = 'Slow' THEN
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := ReferencePos, bCalibrationCam := pProx^, Options := SlowPass);
-            eState := LAS_Stepper_SlowPass;
+        IF bIsForced THEN
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := ReferencePos);
+            eState := LAS_Stepper_Homing;
+		
+		ELSE
+			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := ReferencePos, bCalibrationCam := pProx^, Options := Options);
+            eState := LAS_Stepper_Homing;
         END_IF
-       
-    LAS_Stepper_FastPass:
-        fbHome(Axis := pAxis^, HomingMode := MC_Direct, Position := ReferencePos, bCalibrationCam := pProx^);
+		
+    LAS_Stepper_Homing:
+        fbHome(Axis := pAxis^, Execute := TRUE);
         
         IF fbHome.Error THEN		
             eState := LAS_Stepper_Error;
             nErrID := fbHome.ErrorID;
-			fbReadError(Axis := pAxis^, Enable := TRUE);
-			ErrID := fbReadError.AxisErrorID;
-			ErrID2 := fbReadError.ErrorID;
 			
 			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
             IF pAlarmCondition <> 0 THEN
@@ -184,45 +174,8 @@ CASE eState OF
             Home := -1;
 
         ELSIF fbHome.Done THEN
-            fbHome(Axis := pAxis^, HomingMode := MC_Direct, Position := ReferencePos, Execute := FALSE);
-            eState := LAS_Stepper_SlowPass;
-        END_IF
-    
-    (*LAS_Stepper_WaitingForTrigger: // Wait for the limit switch
-
-        IF pProx^ THEN
-
-            fbHome(Axis := pAxis^, HomingMode := MC_DefaultHoming, Position := ReferencePos, bCalibrationCam := NOT pProx^, Options := SlowPass);
-            eState := LAS_Stepper_SlowPass;
-        END_IF*)
-    
-    LAS_Stepper_SlowPass:
-        fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := ReferencePos, bCalibrationCam := pProx^, Options := SlowPass);
-        
-        IF fbHome.Error THEN			
-            eState := LAS_Stepper_Error;
-            nErrID := fbHome.ErrorID;
-            
-            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
-            IF pAlarmCondition <> 0 THEN
-                pAlarmCondition^ := TRUE;
-                
-                sErrorMsg := F_GetMC2ErrorDescription(fbHome.ErrorID);
-
-                CASE nRail OF
-                    1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 1 homing failed: ', sErrorMsg);
-                    2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 2 homing failed: ', sErrorMsg);
-                    3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 3 homing failed: ', sErrorMsg);
-                    4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 4 homing failed: ', sErrorMsg);
-                END_CASE
-            END_IF
-            
-            Home := -1;
-			
-        ELSIF fbHome.Done THEN
             fbHome(Axis := pAxis^, Execute := FALSE);
-            Currentpass := 'Fast';
-            Home := 1; 
+			Home := 1; 
         END_IF
     
     LAS_Stepper_Error:
@@ -317,9 +270,9 @@ END_VAR
 
 CASE eState OF
 	LAS_Stepper_Ready, LAS_Stepper_Idle:
-		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, Velocity := 500.0);
+		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, Velocity := StepperNormalMotionVel);
 		eState := LAS_Stepper_Moving;
-		
+
 	LAS_Stepper_Moving:
 		IF fbMoveAbs.Busy THEN
 			fbMoveAbs(Axis := pAxis^);
@@ -460,7 +413,7 @@ CASE eState OF
 			
 		END_IF
 	
-	LAS_Stepper_Hardware_Check, LAS_Stepper_FastPass, LAS_Stepper_SlowPass, LAS_Stepper_WaitingForTrigger:
+	LAS_Stepper_Hardware_Check, LAS_Stepper_Homing:
 		CASE eHardwareCheckState OF
 			HW_GetOriginalPos:
 
@@ -469,7 +422,7 @@ CASE eState OF
 					fHW_OriginalPosition := -1;
 				END_IF
 				
-				nMoveResult := Home(TRUE);
+				nMoveResult := Home(TRUE, TRUE);
 				
 				CASE nMoveResult OF
 					0: // Continue
@@ -585,7 +538,7 @@ CASE eState OF
             nErrID := 0;
 		END_IF
     
-    LAS_Stepper_FastPass, LAS_Stepper_SlowPass, LAS_Stepper_WaitingForTrigger :
+    LAS_Stepper_Homing :
 	
 	   fbStop(Axis := pAxis^, Execute := TRUE);
 	   
@@ -646,10 +599,12 @@ END_CASE
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="872" Count="0" />
-      <LineId Id="730" Count="17" />
-      <LineId Id="877" Count="1" />
-      <LineId Id="748" Count="0" />
-      <LineId Id="876" Count="0" />
+      <LineId Id="730" Count="6" />
+      <LineId Id="881" Count="3" />
+      <LineId Id="742" Count="0" />
+      <LineId Id="880" Count="0" />
+      <LineId Id="743" Count="4" />
+      <LineId Id="877" Count="0" />
       <LineId Id="879" Count="0" />
       <LineId Id="834" Count="3" />
       <LineId Id="839" Count="1" />
@@ -658,14 +613,9 @@ END_CASE
       <LineId Id="846" Count="3" />
       <LineId Id="751" Count="0" />
       <LineId Id="756" Count="2" />
-      <LineId Id="761" Count="11" />
-      <LineId Id="850" Count="9" />
-      <LineId Id="861" Count="0" />
-      <LineId Id="863" Count="8" />
-      <LineId Id="780" Count="0" />
-      <LineId Id="811" Count="0" />
-      <LineId Id="786" Count="3" />
-      <LineId Id="791" Count="3" />
+      <LineId Id="885" Count="0" />
+      <LineId Id="762" Count="0" />
+      <LineId Id="792" Count="2" />
       <LineId Id="798" Count="0" />
       <LineId Id="39" Count="0" />
     </LineIds>
@@ -700,7 +650,8 @@ END_CASE
       <LineId Id="57" Count="0" />
       <LineId Id="1" Count="2" />
       <LineId Id="7" Count="0" />
-      <LineId Id="9" Count="2" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="10" Count="1" />
       <LineId Id="45" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="60" Count="3" />

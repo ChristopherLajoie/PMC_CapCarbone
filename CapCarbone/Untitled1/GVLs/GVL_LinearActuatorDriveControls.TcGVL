@@ -4,19 +4,19 @@
     <Declaration><![CDATA[VAR_GLOBAL
 	HeatC3_SpeedControl AT %Q* : BOOL;
 	HeatC3_StopControl AT %Q* : BOOL;
-	HeatC3_Fault AT %Q* : BOOL;
+	HeatC3_Fault AT %I* : BOOL;
 	
 	RegenC3_SpeedControl AT %Q* : BOOL;
 	RegenC3_StopControl AT %Q* : BOOL;
-	RegenC3_Fault AT %Q* : BOOL;
+	RegenC3_Fault AT %I* : BOOL;
 	
-	//Comp1_SpeedControl AT %Q* : BOOL;
+	Comp1_SpeedControl AT %Q* : BOOL;
 	Comp1_StopControl AT %Q* : BOOL;
-	Comp1_Fault AT %Q* : BOOL;
+	Comp1_Fault AT %I* : BOOL;
 	
-	//Comp3_SpeedControl AT %Q* : BOOL;
+	Comp3_SpeedControl AT %Q* : BOOL;
 	Comp3_StopControl AT %Q* : BOOL;
-	Comp3_Fault AT %Q* : BOOL;
+	Comp3_Fault AT %I* : BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -15,7 +15,7 @@ VAR
     bFirstRun : BOOL := TRUE;
     nZone : SINT;
     bIsGlobalAlarm : BOOL;
-    
+	
     aAllAlarms : ARRAY[1..100] OF ST_AlarmEntry;
     nAlarmCount : INT := 0;
 END_VAR]]></Declaration>
@@ -29,6 +29,8 @@ IF bFirstRun THEN
 END_IF
 
 // Reset all zones to OK
+bCriticalAlarm := FALSE;
+
 FOR i := 1 TO 5 DO
     stSystemStatus.aZoneStatus[i].bOkToRun := TRUE;
     stSystemStatus.aZoneStatus[i].nHighestSeverity := 0;
@@ -70,7 +72,6 @@ AddAlarm := TRUE;]]></ST>
 AddAlarm(ADR(GVL_Alarms.R1_Sensor_UnknownState), 'R1_Sensor_UnknownState');
 AddAlarm(ADR(GVL_Alarms.R1_Sensor_MotionTimedOut), 'R1_Sensor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R1_Compressor_UnknownState), 'R1_Compressor_UnknownState');
-AddAlarm(ADR(GVL_Alarms.R1_Compressor_DriveFaulted), 'R1_Compressor_DriveFaulted');
 AddAlarm(ADR(GVL_Alarms.R1_Compressor_MotionTimedOut), 'R1_Compressor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R1_Chariot_MotionTimedOut), 'R1_Chariot_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R1_Chariot_UnknownState), 'R1_Chariot_UnknownState');
@@ -95,7 +96,8 @@ AddAlarm(ADR(GVL_Alarms.R2_Stepper_UnableToReadPosition), 'R2_Stepper_UnableToRe
 
 (* RAIL 3 *)
 AddAlarm(ADR(GVL_Alarms.R3_Compressor_UnknownState), 'R3_Compressor_UnknownState');
-AddAlarm(ADR(GVL_Alarms.R3_Compressor_DriveFaulted), 'R3_Compressor_DriveFaulted');
+AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_DriveFaulted), 'R3_HeatExCoupola_DriveFaulted');
+AddAlarm(ADR(GVL_Alarms.R3_RegenCoupola_DriveFaulted), 'R3_RegenCoupola_DriveFaulted');
 AddAlarm(ADR(GVL_Alarms.R3_Compressor_MotionTimedOut), 'R3_Compressor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_UnknownState), 'R3_HeatExCoupola_UnknownState');
 AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_MotionTimedOut), 'R3_HeatExCoupola_MotionTimedOut');
@@ -186,13 +188,14 @@ IF bAlarmActive THEN
     CASE nSeverity OF
         1, 2:  // Info, Warning - No blocking 
             
-        3:     // Error - Block unless maintenance mode
+        3, 4:     // Error - Block unless maintenance mode
             IF NOT bMaintenanceMode THEN
                 stSystemStatus.aZoneStatus[nZone].bOkToRun := FALSE;
             END_IF
             
-        4:     // Critical 
+        5:     // Critical 
             stSystemStatus.aZoneStatus[nZone].bOkToRun := FALSE;
+			bCriticalAlarm := TRUE;
     END_CASE
 END_IF
 
@@ -201,7 +204,9 @@ ProcessAlarm := TRUE;]]></ST>
     </Method>
     <LineIds Name="FB_AlarmStatusManager">
       <LineId Id="153" Count="1" />
-      <LineId Id="118" Count="10" />
+      <LineId Id="118" Count="6" />
+      <LineId Id="158" Count="1" />
+      <LineId Id="125" Count="3" />
       <LineId Id="155" Count="0" />
       <LineId Id="133" Count="0" />
       <LineId Id="156" Count="1" />
@@ -219,16 +224,14 @@ ProcessAlarm := TRUE;]]></ST>
     <LineIds Name="FB_AlarmStatusManager.InitializeAlarmList">
       <LineId Id="1" Count="0" />
       <LineId Id="70" Count="0" />
-      <LineId Id="7" Count="3" />
-      <LineId Id="75" Count="0" />
-      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="8" />
       <LineId Id="17" Count="3" />
       <LineId Id="71" Count="0" />
       <LineId Id="21" Count="3" />
       <LineId Id="26" Count="5" />
       <LineId Id="72" Count="0" />
       <LineId Id="32" Count="2" />
-      <LineId Id="76" Count="0" />
+      <LineId Id="76" Count="1" />
       <LineId Id="35" Count="8" />
       <LineId Id="45" Count="3" />
       <LineId Id="73" Count="0" />
@@ -253,7 +256,9 @@ ProcessAlarm := TRUE;]]></ST>
       <LineId Id="68" Count="2" />
       <LineId Id="75" Count="5" />
       <LineId Id="82" Count="2" />
-      <LineId Id="86" Count="10" />
+      <LineId Id="86" Count="7" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="94" Count="2" />
       <LineId Id="37" Count="0" />
     </LineIds>
   </POU>

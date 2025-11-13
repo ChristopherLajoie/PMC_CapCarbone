@@ -1892,6 +1892,7 @@ External Setpoint Generation:
 				<Axis Id="3" CreateSymbols="true" AxisType="1">
 					<Name>Stepper3</Name>
 					<AxisPara>
+						<Dynamic Acceleration="1640" Deceleration="1672.63" Jerk="2101.25"/>
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="19">
@@ -2175,7 +2176,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{06A144AE-15C8-407C-8A20-7ACC04BE137D}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{4CF79587-9CEE-ED63-C5C0-E9E43CB63DA8}" TmcPath="Untitled1\Untitled1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{336A8A7A-F147-D3FB-D318-09821EF0EDED}" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -2189,26 +2190,6 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper1.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Stepper2.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Stepper3.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Stepper4.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_LinearActuatorDriveControls.HeatC3_Fault</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_LinearActuatorDriveControls.RegenC3_SpeedControl</Name>
 							<Type>BOOL</Type>
 						</Var>
@@ -2217,25 +2198,11 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_LinearActuatorDriveControls.RegenC3_Fault</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>GVL_LinearActuatorDriveControls.Comp1_StopControl</Name>
-							<Comment><![CDATA[Comp1_SpeedControl AT %Q* : BOOL;]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_LinearActuatorDriveControls.Comp1_Fault</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_LinearActuatorDriveControls.Comp3_StopControl</Name>
-							<Comment><![CDATA[Comp3_SpeedControl AT %Q* : BOOL;]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_LinearActuatorDriveControls.Comp3_Fault</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -2311,6 +2278,22 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>GVL_Steppers.Stepper1.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper2.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper3.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper4.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
 							<Name>GVL_Steppers.Stepper_Rail1.object.PlcToNc</Name>
 							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 						</Var>
@@ -2325,6 +2308,14 @@ External Setpoint Generation:
 						<Var>
 							<Name>GVL_Steppers.Stepper_Rail4.object.PlcToNc</Name>
 							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Comp1_SpeedControl</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Comp3_SpeedControl</Name>
+							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="1">
@@ -2366,20 +2357,20 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper1.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.HeatC3_Fault</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper2.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.RegenC3_Fault</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper3.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.Comp1_Fault</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>GVL_Steppers.Stepper4.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+							<Name>GVL_LinearActuatorDriveControls.Comp3_Fault</Name>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_LinearActuatorProxSensors.Cha1_In</Name>
@@ -2494,6 +2485,22 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>GVL_Steppers.Stepper1.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper2.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper3.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Stepper4.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
 							<Name>GVL_Steppers.Stepper_Rail1.object.NcToPlc</Name>
 							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 						</Var>
@@ -2539,10 +2546,10 @@ External Setpoint Generation:
 					<UnrestoredVarLinks ImportTime="2025-10-16T13:44:20">
 						<OwnerA Name="InputDst" Prefix="TIPC^Untitled1^Untitled1 Instance" Type="1">
 							<OwnerB Name="TIID^Device 4 (EtherCAT)^Term 1 (EK1200)^Term 7 (EL1409)">
-								<Link VarA="GVL_LinearActuatorDriveControls.Comp1_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Compressor Rail1" Size="1" RestoreInfo="ANotFound"/>
-								<Link VarA="GVL_LinearActuatorDriveControls.Comp3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Compressor Rail3" Size="1" RestoreInfo="ANotFound"/>
-								<Link VarA="GVL_LinearActuatorDriveControls.HeatC3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault HeatEx Coupola" Size="1" RestoreInfo="ANotFound"/>
-								<Link VarA="GVL_LinearActuatorDriveControls.RegenC3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Regen Coupola" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="GVL_LinearActuatorDriveControls.Comp1_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Compressor Rail1" Size="1" RestoreInfo="BNotFound"/>
+								<Link VarA="GVL_LinearActuatorDriveControls.Comp3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Compressor Rail3" Size="1" RestoreInfo="BNotFound"/>
+								<Link VarA="GVL_LinearActuatorDriveControls.HeatC3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault HeatEx Coupola" Size="1" RestoreInfo="BNotFound"/>
+								<Link VarA="GVL_LinearActuatorDriveControls.RegenC3_Fault" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Fault Regen Coupola" Size="1" RestoreInfo="BNotFound"/>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
@@ -2555,6 +2562,13 @@ External Setpoint Generation:
 								<Link VarA="GVL_CellPositionSensors.R3_Incoming" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Rail3 Position Arrivé Cellule" Size="1" RestoreInfo="ANotFound"/>
 								<Link VarA="GVL_CellPositionSensors.R3_Outgoing" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Rail3 Position Sortie Cellule" Size="1" RestoreInfo="ANotFound"/>
 								<Link VarA="GVL_CellPositionSensors.R3_Sensor" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="DIP Inputs^Rail3 Position Capteur" Size="1" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2025-11-12T16:48:47">
+						<OwnerA Name="OutputSrc" Prefix="TIPC^Untitled1^Untitled1 Instance" Type="2">
+							<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #3 (EL2809)">
+								<Link VarA="GVL_LinearActuatorDriveControls.HeatC3_Fault" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 10^HeatEx Coupola Stop" Size="1" RestoreInfo="ANotFound"/>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
@@ -4371,32 +4385,32 @@ External Setpoint Generation:
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1603" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Automated Ball Valve OUT" Index="#x7030" Sub="#x01">
+								<Entry Name="Radiator1 OUT" Index="#x7030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Automated Ball Valve OUT" Index="#x7040" Sub="#x01">
+								<Entry Name="Radiator2 OUT" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 6" Index="#x1605" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Drain Ball Valve OUT" Index="#x7050" Sub="#x01">
+								<Entry Name="Free" Index="#x7050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Drain Ball Valve OUT" Index="#x7060" Sub="#x01">
+								<Entry Name="Fan mode" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Fan Radiateur" Index="#x7070" Sub="#x01">
+								<Entry Name="Free" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Cooling Fan" Index="#x7080" Sub="#x01">
+								<Entry Name="Free" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -4450,7 +4464,7 @@ External Setpoint Generation:
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1601" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Sensors Rail1 Forward" Index="#x7010" Sub="#x01">
+								<Entry Name="Chariot4 Forward" Index="#x7010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -4465,27 +4479,27 @@ External Setpoint Generation:
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Chariot4 Pop-Up Forward" Index="#x7040" Sub="#x01">
+								<Entry Name="Sensor Rail1 Forward" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 6" Index="#x1605" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Chariot1 Pop-Up Reverse" Index="#x7050" Sub="#x01">
+								<Entry Name="Free" Index="#x7050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Sensors Rail1 Reverse" Index="#x7060" Sub="#x01">
+								<Entry Name="Free" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Chariot2 Pop-Up Reverse" Index="#x7070" Sub="#x01">
+								<Entry Name="Free" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Chariot3 Pop-Up Reverse" Index="#x7080" Sub="#x01">
+								<Entry Name="Chariot1 Pop-Up Reverse" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -4495,17 +4509,17 @@ External Setpoint Generation:
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 11" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Free" Index="#x70a0" Sub="#x01">
+								<Entry Name="Chariot2 Pop-Up Reverse" Index="#x70a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Free" Index="#x70b0" Sub="#x01">
+								<Entry Name="Chariot3 Pop-Up Reverse" Index="#x70b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Free" Index="#x70c0" Sub="#x01">
+								<Entry Name="Sensor Rail1 Reverse" Index="#x70c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -4539,22 +4553,22 @@ External Setpoint Generation:
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1601" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="HeatEx Coupola Forward" Index="#x7010" Sub="#x01">
+								<Entry Name="Compressor Rail1 Backward" Index="#x7010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 3" Index="#x1602" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Regen Coupola Forward" Index="#x7020" Sub="#x01">
+								<Entry Name="Compressor Rail1 Stop" Index="#x7020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1603" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Compressor Rail3 Forward" Index="#x7030" Sub="#x01">
+								<Entry Name="Compressor Rail1 Speed2" Index="#x7030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Compressor Rail 1 Backward" Index="#x7040" Sub="#x01">
+								<Entry Name="HeatEx Coupola Forward" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -4564,22 +4578,22 @@ External Setpoint Generation:
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Regen Coupola Backward" Index="#x7060" Sub="#x01">
+								<Entry Name="HeatEx Coupola Stop" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Compressor Rail3 Backward" Index="#x7070" Sub="#x01">
+								<Entry Name="HeatEx Coupola Speed2" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Compressor Rail1 Stop" Index="#x7080" Sub="#x01">
+								<Entry Name="Regen Coupola Forward" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 10" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="HeatEx Coupola Stop" Index="#x7090" Sub="#x01">
+								<Entry Name="Regen Coupola Backward" Index="#x7090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -4589,27 +4603,27 @@ External Setpoint Generation:
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Compressor Rail3 Stop" Index="#x70b0" Sub="#x01">
+								<Entry Name="Regen Coupola Speed2" Index="#x70b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="HeatEx Coupola SpeedControl" Index="#x70c0" Sub="#x01">
+								<Entry Name="Compressor Rail3 Forward" Index="#x70c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 14" Index="#x160d" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Regen Coupola SpeedControl" Index="#x70d0" Sub="#x01">
+								<Entry Name="Compressor Rail3 Backward" Index="#x70d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 15" Index="#x160e" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Free" Index="#x70e0" Sub="#x01">
+								<Entry Name="Compressor Rail3 Stop" Index="#x70e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 16" Index="#x160f" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Free" Index="#x70f0" Sub="#x01">
+								<Entry Name="Compressor Rail3 Speed2" Index="#x70f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -10051,8 +10065,11 @@ Bit 8 - 15 : reserved]]></Comment>
 			</Device>
 		</Io>
 		<SymbolWatch>
-			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #1 (EL1409)^DIP Inputs^Triangle Rétractable Chariot1 Prox In</Variable>
-			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #1 (EL1409)^DIP Inputs^Triangle Rétractable Chariot1 Prox Out</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #3 (EL2809)^Channel 2^Compressor Rail1 Backward</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^Prox In Coupola HeatEx</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^Prox 2 Coupola HeatEx</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^Prox 3 Coupola HeatEx</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^Prox Out Coupola HeatEx</Variable>
 		</SymbolWatch>
 	</Project>
 	<Mappings>
@@ -10167,36 +10184,40 @@ Bit 8 - 15 : reserved]]></Comment>
 				<Link VarA="Main_Task Inputs^GVL.SafetyRelayStatus" VarB="DIP Inputs^Safety Relay Status"/>
 				<Link VarA="Main_Task Inputs^GVL.StartCycle" VarB="DIP Inputs^Cycle Start"/>
 				<Link VarA="Main_Task Inputs^GVL.StopCycle" VarB="DIP Inputs^Cycle Stop"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorDriveControls.HeatC3_Fault" VarB="DIP Inputs^Fault HeatEx Coupola"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorDriveControls.RegenC3_Fault" VarB="DIP Inputs^Fault Regen Coupola"/>
 				<Link VarA="Main_Task Inputs^GVL_SteppersProx.Axis3_Prox" VarB="DIP Inputs^Prox Homing Rail3"/>
 				<Link VarA="Main_Task Inputs^GVL_SteppersProx.Axis4_Prox" VarB="DIP Inputs^Prox Homing Rail4"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #2 (EL2809)">
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha1_Forward" VarB="Channel 1^Chariot1 Pop-Up Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha1_Reverse" VarB="Channel 6^Chariot1 Pop-Up Reverse"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha1_Reverse" VarB="Channel 9^Chariot1 Pop-Up Reverse"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha2_Forward" VarB="Channel 3^Chariot2 Pop-Up Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha2_Reverse" VarB="Channel 8^Chariot2 Pop-Up Reverse"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha2_Reverse" VarB="Channel 11^Chariot2 Pop-Up Reverse"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha3_Forward" VarB="Channel 4^Chariot3 Pop-Up Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha3_Reverse" VarB="Channel 9^Chariot3 Pop-Up Reverse"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha4_Forward" VarB="Channel 5^Chariot4 Pop-Up Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha3_Reverse" VarB="Channel 12^Chariot3 Pop-Up Reverse"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha4_Forward" VarB="Channel 2^Chariot4 Forward"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cha4_Reverse" VarB="Channel 10^Chariot4 Pop-Up Reverse"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Sens1_Forward" VarB="Channel 2^Sensors Rail1 Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Sens1_Reverse" VarB="Channel 7^Sensors Rail1 Reverse"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Sens1_Forward" VarB="Channel 5^Sensor Rail1 Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Sens1_Reverse" VarB="Channel 13^Sensor Rail1 Reverse"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #3 (EL2809)">
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Comp1_StopControl" VarB="Channel 9^Compressor Rail1 Stop"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Comp3_StopControl" VarB="Channel 12^Compressor Rail3 Stop"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.HeatC3_Fault" VarB="Channel 10^HeatEx Coupola Stop"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.HeatC3_SpeedControl" VarB="Channel 13^HeatEx Coupola SpeedControl"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.RegenC3_SpeedControl" VarB="Channel 14^Regen Coupola SpeedControl"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Comp1_SpeedControl" VarB="Channel 4^Compressor Rail1 Speed2"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Comp1_StopControl" VarB="Channel 3^Compressor Rail1 Stop"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Comp3_SpeedControl" VarB="Channel 16^Compressor Rail3 Speed2"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Comp3_StopControl" VarB="Channel 15^Compressor Rail3 Stop"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.HeatC3_SpeedControl" VarB="Channel 8^HeatEx Coupola Speed2"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.HeatC3_StopControl" VarB="Channel 7^HeatEx Coupola Stop"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.RegenC3_SpeedControl" VarB="Channel 12^Regen Coupola Speed2"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.RegenC3_StopControl" VarB="Channel 11^Regen Coupola Stop"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp1_Forward" VarB="Channel 1^Compressor Rail1 Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp1_Reverse" VarB="Channel 5^Compressor Rail 1 Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp3_Forward" VarB="Channel 4^Compressor Rail3 Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp3_Reverse" VarB="Channel 8^Compressor Rail3 Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.HeatC3_Forward" VarB="Channel 2^HeatEx Coupola Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp1_Reverse" VarB="Channel 2^Compressor Rail1 Backward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp3_Forward" VarB="Channel 13^Compressor Rail3 Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Comp3_Reverse" VarB="Channel 14^Compressor Rail3 Backward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.HeatC3_Forward" VarB="Channel 5^HeatEx Coupola Forward"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.HeatC3_Reverse" VarB="Channel 6^HeatEx Coupola Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.RegenC3_Forward" VarB="Channel 3^Regen Coupola Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.RegenC3_Reverse" VarB="Channel 7^Regen Coupola Backward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.RegenC3_Forward" VarB="Channel 9^Regen Coupola Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.RegenC3_Reverse" VarB="Channel 10^Regen Coupola Backward"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Stepper1.NcToPlc" VarB="Outputs^ToPlc"/>

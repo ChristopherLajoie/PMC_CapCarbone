@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
+  <POU Name="F_IssueActuatorCommand" Id="{039ba84f-c472-4325-8fd5-bb06a032bcc0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_IssueActuatorCommand : INT
+VAR_INPUT
+    sDevice       : STRING;      // e.g. 'Chariot1', 'Compressor2', 'Sensor4', 'HeatExCoupola3', 'RegenCoupola1', 'Motor2'
+    bArg          : BOOL;        // non-Motor: TRUE=Forward, FALSE=Backward; Motor: TRUE=Home, FALSE=Motor
+    bHasPosition  : BOOL := FALSE;  // only used for Motor FALSE case
+    nPosition     : DINT := 0;      // optional position for Motor FALSE case
+END_VAR
+VAR
+    len           : INT;
+    cLast         : BYTE;
+    n             : INT;         // extracted axis 1..4
+    sPrefix       : STRING(50);  // device prefix (without trailing digit)
+    i             : INT;
+    sTmp          : STRING(64);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[len := LEN(sDevice);
+IF len < 2 THEN
+    F_IssueActuatorCommand := -1;   // too short
+    RETURN;
+END_IF
+
+// --- extract trailing digit as axis index n (1..4) ---
+cLast := BYTE( sDevice[len] );       // last char
+IF (cLast < BYTE(ORD('1'))) OR (cLast > BYTE(ORD('4'))) THEN
+    F_IssueActuatorCommand := -2;    // bad index
+    RETURN;
+END_IF
+n := INT(cLast) - INT(ORD('0'));     // '1'..'4' -> 1..4
+
+// --- extract prefix (everything except last char) ---
+sPrefix := '';
+FOR i := 1 TO len - 1 DO
+    sPrefix := CONCAT(sPrefix, MID(sDevice, i, 1));
+END_FOR
+
+// --- build "R{n}_" into sTmp for sRequestedActuator ---
+sTmp := CONCAT('R', INT_TO_STRING(n));
+sTmp := CONCAT(sTmp, '_');
+
+// =====================
+// Non-Motor devices
+// =====================
+IF (sPrefix = 'Chariot') OR (sPrefix = 'Compressor') OR (sPrefix = 'Sensor') OR
+   (sPrefix = 'HeatExCoupola') OR (sPrefix = 'RegenCoupola') THEN
+
+    // sRequestedActuator = "R{n}_{Prefix}"
+    sRequestedActuator := CONCAT(sTmp, sPrefix);
+
+    // Write <Prefix><n>Command := bArg (TRUE=forward, FALSE=backward)
+    CASE sPrefix OF
+        'Chariot':
+            CASE n OF
+                1: Chariot1Command := bArg;
+                2: Chariot2Command := bArg;
+                3: Chariot3Command := bArg;
+                4: Chariot4Command := bArg;
+            END_CASE
+
+        'Compressor':
+            CASE n OF
+                1: Compressor1Command := bArg;
+                2: Compressor2Command := bArg;
+                3: Compressor3Command := bArg;
+                4: Compressor4Command := bArg;
+            END_CASE
+
+        'Sensor':
+            CASE n OF
+                1: Sensor1Command := bArg;
+                2: Sensor2Command := bArg;
+                3: Sensor3Command := bArg;
+                4: Sensor4Command := bArg;
+            END_CASE
+
+        'HeatExCoupola':
+            CASE n OF
+                1: HeatExCoupola1Command := bArg;
+                2: HeatExCoupola2Command := bArg;
+                3: HeatExCoupola3Command := bArg;
+                4: HeatExCoupola4Command := bArg;
+            END_CASE
+
+        'RegenCoupola':
+            CASE n OF
+                1: RegenCoupola1Command := bArg;
+                2: RegenCoupola2Command := bArg;
+                3: RegenCoupola3Command := bArg;
+                4: RegenCoupola4Command := bArg;
+            END_CASE
+    ELSE
+        // should not happen due to outer IF, but keep defensive
+        F_IssueActuatorCommand := -3;
+        RETURN;
+    END_CASE;
+
+    // Dispatch OK; external logic should monitor 'Result' (0=in progress, 1=ok, -1=fail)
+    F_IssueActuatorCommand := 0;
+    RETURN;
+END_IF
+
+// =====================
+// Motor devices
+// =====================
+IF (sPrefix = 'Motor') THEN
+    IF bArg THEN
+        // Homing
+        sRequestedActuator := CONCAT(sTmp, 'Home');  // "Rn_Home"
+        CASE n OF
+            1: Axis1Command.Homing := TRUE;
+            2: Axis2Command.Homing := TRUE;
+            3: Axis3Command.Homing := TRUE;
+            4: Axis4Command.Homing := TRUE;
+        END_CASE
+    ELSE
+        // Normal motor move
+        sRequestedActuator := CONCAT(sTmp, 'Motor'); // "Rn_Motor"
+        IF bHasPosition THEN
+            CASE n OF
+                1: Axis1Command.Command := nPosition;
+                2: Axis2Command.Command := nPosition;
+                3: Axis3Command.Command := nPosition;
+                4: Axis4Command.Command := nPosition;
+            END_CASE
+        END_IF
+    END_IF
+
+    // Dispatch OK; external logic should monitor 'Result'
+    F_IssueActuatorCommand := 0;
+    RETURN;
+END_IF
+
+// If we reached here, prefix wasn't recognized
+F_IssueActuatorCommand := -3;
+]]></ST>
+    </Implementation>
+    <LineIds Name="F_IssueActuatorCommand">
+      <LineId Id="1" Count="118" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

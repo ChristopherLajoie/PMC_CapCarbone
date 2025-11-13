@@ -42,41 +42,37 @@ IF nX < 1 OR nX > 4 THEN
     RETURN;
 END_IF;
 
-// For the second underscore, we need to create a substring after the first underscore
 sRemainder := RIGHT(sInput, LEN(sInput) - nFirstUnderscorePos);
 nSecondUnderscorePos := FIND(sRemainder, '_');
 
-// Extract Y (different extraction depending on format)
+// Extract Y 
 IF nSecondUnderscorePos = 0 THEN
-    // Old format (RX_Y) - Y is everything after first underscore
     sY := RIGHT(sInput, LEN(sInput) - nFirstUnderscorePos);
 ELSE
-    // New format (RX_Y_Z)
-    // Y is between underscores, adjusting for the substring
     sY := LEFT(sRemainder, nSecondUnderscorePos - 1);
     
-    // Extract Z after second underscore in the remainder
     sZ := RIGHT(sRemainder, LEN(sRemainder) - nSecondUnderscorePos);
     
-    // Check Z validity (must be 'Reset')
+    // Check Z validity 
     IF sZ <> 'Reset' THEN
-        sZ := '';  // Reset to empty if invalid
-        RETURN;    // Invalid Z means invalid command
+        sZ := '';  
+        RETURN;    
     END_IF;
 END_IF;
 
-// Check if Y is one of the allowed values (same for both formats)
+// Check if Y is one of the allowed values
 IF sY = 'Chariot' OR 
    sY = 'Compressor' OR 
    sY = 'Sensor' OR 
    sY = 'HeatExCoupola' OR 
    sY = 'RegenCoupola' OR
    sY = 'Home' OR 
+   sY = 'SetHome' OR
    sY = 'Motor' THEN
     bIsValid := TRUE;
 ELSE
-    sY := '';  // Reset to empty if invalid
-    sZ := '';  // Reset Z as well
+    sY := '';  
+    sZ := '';  
 END_IF;
 
 F_ValidateCommand := bIsValid;]]></ST>
@@ -85,8 +81,12 @@ F_ValidateCommand := bIsValid;]]></ST>
       <LineId Id="1" Count="2" />
       <LineId Id="41" Count="0" />
       <LineId Id="4" Count="17" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="76" Count="36" />
+      <LineId Id="76" Count="5" />
+      <LineId Id="83" Count="1" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="90" Count="15" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="106" Count="6" />
       <LineId Id="39" Count="0" />
     </LineIds>
   </POU>

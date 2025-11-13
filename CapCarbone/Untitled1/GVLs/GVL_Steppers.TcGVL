@@ -65,7 +65,7 @@
 		Homed := FALSE)
 	;
 	
-	Max_Stepper_vel : LREAL := 2000;
+	StepperNormalMotionVel : LREAL := 500;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
