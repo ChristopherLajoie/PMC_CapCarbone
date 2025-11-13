@@ -297,7 +297,7 @@
         },
         {
           "valueSource": "opc",
-          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dPRG_CommandHandler.sRequestedActuator",
+          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.sRequestedActuator",
           "dataType": "String",
           "name": "RequestedActuator",
           "value": "None",
