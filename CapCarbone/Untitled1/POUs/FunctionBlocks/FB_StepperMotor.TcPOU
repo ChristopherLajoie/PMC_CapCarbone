@@ -188,9 +188,13 @@ VAR
 	pAlarmCondition : POINTER TO BOOL;
 	sErrorMsg : STRING(255);
 END_VAR
-]]></Declaration>
+VAR_OUTPUT
+	Error : BOOL;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT bHoldKeepAlive THEN
+        <ST><![CDATA[Error := FALSE;
+
+IF NOT bHoldKeepAlive THEN
 	fbPower(Axis := pAxis^, Enable := TRUE, Enable_positive := TRUE, Enable_Negative := TRUE, Override := 100);
 	
 	IF fbPower.Error THEN    
@@ -211,6 +215,7 @@ END_VAR
 			END_CASE
 		END_IF
 		
+		Error := TRUE;
 		KeepAlive := FALSE;
 		
 	ELSIF fbPower.Status THEN
@@ -609,11 +614,13 @@ END_CASE
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.KeepAlive">
+      <LineId Id="77" Count="1" />
       <LineId Id="65" Count="0" />
       <LineId Id="1" Count="6" />
       <LineId Id="48" Count="1" />
       <LineId Id="51" Count="2" />
       <LineId Id="55" Count="7" />
+      <LineId Id="76" Count="0" />
       <LineId Id="12" Count="3" />
       <LineId Id="41" Count="2" />
       <LineId Id="40" Count="0" />

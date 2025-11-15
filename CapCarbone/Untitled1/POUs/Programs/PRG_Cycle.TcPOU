@@ -3,7 +3,9 @@
   <POU Name="PRG_Cycle" Id="{944d4077-7520-43a4-9286-0335fef2c8f2}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_Cycle
 VAR	
-
+Cmd : INT := 0;
+Success : BOOL;
+Failure : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <SFC>
@@ -735,7 +737,15 @@ END_VAR]]></Declaration>
     </Implementation>
     <Action Name="homing_active" Id="{ae7be60c-ef4d-4571-accf-7ef87cbfd730}">
       <Implementation>
-        <ST><![CDATA[//F_IssueActuatorCommand('R1_Home', TRUE);]]></ST>
+        <ST><![CDATA[CASE Cmd OF
+	1: Success := TRUE;
+	
+	0: Cmd := F_IssueActuatorCommand(sDevice := 'Motor1', bArg := TRUE);
+	
+	-1: Failure := TRUE;
+	
+END_CASE
+]]></ST>
       </Implementation>
     </Action>
     <ObjectProperties>
@@ -836,6 +846,9 @@ END_VAR]]></Declaration>
       </XmlArchive>
     </ObjectProperties>
     <LineIds Name="PRG_Cycle.homing_active">
+      <LineId Id="2" Count="1" />
+      <LineId Id="5" Count="4" />
+      <LineId Id="4" Count="0" />
       <LineId Id="1" Count="0" />
     </LineIds>
   </POU>

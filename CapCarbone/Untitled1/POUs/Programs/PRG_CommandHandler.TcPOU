@@ -277,11 +277,16 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD ProcessLinearTable
 VAR_INPUT
 	bHome : BOOL;
+END_VAR
+VAR
+	Error : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF LinearTable^.KeepAlive() THEN
+        <ST><![CDATA[IF LinearTable^.KeepAlive(Error => Error) THEN
 	// Get command value
 	LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
+ELSIF Error THEN
+	Result := -1;
 ELSE
 	RETURN;
 END_IF
@@ -484,6 +489,7 @@ END_CASE]]></ST>
       <LineId Id="193" Count="0" />
       <LineId Id="200" Count="0" />
       <LineId Id="194" Count="0" />
+      <LineId Id="231" Count="1" />
       <LineId Id="196" Count="3" />
       <LineId Id="60" Count="0" />
       <LineId Id="219" Count="2" />
