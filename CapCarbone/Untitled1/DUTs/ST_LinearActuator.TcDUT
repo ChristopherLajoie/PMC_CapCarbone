@@ -13,7 +13,7 @@ STRUCT
     bSpeedControlDO : POINTER TO BOOL; 
 	bStopControlDO : POINTER TO BOOL;
     bFaultDI : POINTER TO BOOL;     
-    tmrTimeout : TON;
+    tTimeout : TON;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -3,11 +3,8 @@
   <POU Name="PRG_Cycle" Id="{944d4077-7520-43a4-9286-0335fef2c8f2}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_Cycle
 VAR	
-	SUCCESS : INT;
-	NEXT : BOOL := FALSE;
-END_VAR
 
-//Utiliser command handler pour cycle aussi a cause des retours de status et position]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <SFC>
         <XmlArchive>

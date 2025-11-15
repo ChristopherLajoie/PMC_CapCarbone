@@ -3,7 +3,7 @@
   <POU Name="F_GetMC2ErrorDescription" Id="{026b1c0d-f6df-4ce8-97ec-cfa62c4e6c13}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_GetMC2ErrorDescription : STRING
 VAR_INPUT
-    nErrorID : UDINT;  // MC2 error code from function block ErrorID output
+    nErrorID : UDINT;  
 END_VAR
 VAR
     sHexCode : STRING(10);

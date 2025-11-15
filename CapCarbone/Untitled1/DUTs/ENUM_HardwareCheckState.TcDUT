@@ -3,13 +3,9 @@
   <DUT Name="ENUM_HardwareCheckState" Id="{1145764c-a371-4404-85e3-5521a5e8f13f}">
     <Declaration><![CDATA[TYPE ENUM_HardwareCheckState :
 (
-	HW_Idle := 0,
-	HW_GetOriginalPos := 1,
-	HW_WaitTestMove := 3,
-	HW_CheckMovement := 4,
-	HW_WaitReturn := 6,
-	HW_Complete := 7,
-	HW_Failed := 8
+	HW_Start := 0,
+	HW_Complete := 1,
+	HW_Failed := 2
 );
 END_TYPE
 ]]></Declaration>

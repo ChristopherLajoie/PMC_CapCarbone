@@ -3,131 +3,131 @@
   <GVL Name="GVL_LinearActuators" Id="{26bc995d-8661-4016-8cce-d90189369a8f}">
     <Declaration><![CDATA[VAR_GLOBAL
 	
-	Cha1 : ST_LinearActuator := (
+	Tri1_Mot_Struct : ST_LinearActuator := (
 		sName := 'Chariot1',
-		bProxIn := ADR(Cha1_In) ,  
-		bProxOut := ADR(Cha1_Out) , 
-		bFwdDO := ADR(Cha1_Forward), 
-		bBckwDO := ADR(Cha1_Reverse)
+		bProxIn := ADR(Tri1_Prox_In) ,  
+		bProxOut := ADR(Tri1_Prox_Out) , 
+		bFwdDO := ADR(Tri1_Mot_Fw), 
+		bBckwDO := ADR(Tri1_Mot_Bw)
 		);
 	
-	Comp1 : ST_LinearActuator := (
+	Cmp1_Mot_Struct : ST_LinearActuator := (
 		sName := 'Compressor1',
-		bProxIn := ADR(Comp1_In),  
-		bProxOut := ADR(Comp1_Out),
-		bFwdDO := ADR(Comp1_Forward), 
-		bBckwDO := ADR(Comp1_Reverse),
-		bStopControlDO := ADR(Comp1_StopControl),
-		bFaultDI := ADR(Comp1_Fault)
+		bProxIn := ADR(Cmp1_Prox_In),  
+		bProxOut := ADR(Cmp1_Prox_Out),
+		bFwdDO := ADR(Cmp1_Mot_Fw), 
+		bBckwDO := ADR(Cmp1_Mot_Bw),
+		bStopControlDO := ADR(Cmp1_Mot_Stop),
+		bFaultDI := ADR(Cmp1_Mot_Fault)
 		);
 	
-	Sens1 : ST_LinearActuator := (
+	Piv1_Mot_Struct : ST_LinearActuator := (
 		sName := 'Sensor1',
-		bProxIn := ADR(Sens1_In),  
-		bProxOut := ADR(Sens1_Out), 
-		bFwdDO := ADR(Sens1_Forward), 
-		bBckwDO := ADR(Sens1_Reverse)
+		bProxIn := ADR(Piv1_Prox_In),  
+		bProxOut := ADR(Piv1_Prox_Out), 
+		bFwdDO := ADR(Piv1_Mot_Fw), 
+		bBckwDO := ADR(Piv1_Mot_Bw)
 		);
 	
-	Cha2 : ST_LinearActuator := (
+	Tri2_Mot_Struct : ST_LinearActuator := (
 		sName := 'Chariot2',
-		bProxIn := ADR(Cha2_In),  
-		bProxOut := ADR(Cha2_Out), 
-		bFwdDO := ADR(Cha2_Forward), 
-		bBckwDO := ADR(Cha2_Reverse)
+		bProxIn := ADR(Tri2_Prox_In),  
+		bProxOut := ADR(Tri2_Prox_Out), 
+		bFwdDO := ADR(Tri2_Mot_Fw), 
+		bBckwDO := ADR(Tri2_Mot_Bw)
 		);
 
-	Cha3 : ST_LinearActuator := (
+	Tri3_Mot_Struct : ST_LinearActuator := (
 		sName := 'Chariot3',
-		bProxIn := ADR(Cha3_In),  
-		bProxOut := ADR(Cha3_Out), 
-		bFwdDO := ADR(Cha3_Forward), 
-		bBckwDO := ADR(Cha3_Reverse)
+		bProxIn := ADR(Tri3_Prox_In),  
+		bProxOut := ADR(Tri3_Prox_Out), 
+		bFwdDO := ADR(Tri3_Mot_Fw), 
+		bBckwDO := ADR(Tri3_Mot_Bw)
 		);
 	
-	HeatC3 : ST_LinearActuator := (
+	Gui1_Mot_Struct : ST_LinearActuator := (
 		sName := 'HeatExCoupola3',
-		bProxIn := ADR(HeatC3_In),  
-		bProxOut := ADR(HeatC3_Out),
-		bProx2 := ADR(HeatC3_2),
-		bProx3 := ADR(HeatC3_3), 
-		bFwdDO := ADR(HeatC3_Forward), 
-		bBckwDO := ADR(HeatC3_Reverse),
-		bSpeedControlDO := ADR(HeatC3_SpeedControl),
-		bStopControlDO := ADR(HeatC3_StopControl),
-		bFaultDI := ADR(HeatC3_Fault)
+		bProxIn := ADR(Gui1_Prox_In),  
+		bProxOut := ADR(Gui1_Prox_Out),
+		bProx2 := ADR(Gui1_Prox_In_Slow),
+		bProx3 := ADR(Gui1_Prox_Out_Slow), 
+		bFwdDO := ADR(Gui1_Mot_Fw), 
+		bBckwDO := ADR(Gui1_Mot_Bw),
+		bSpeedControlDO := ADR(Gui1_Mot_Speed2),
+		bStopControlDO := ADR(Gui1_Mot_Stop),
+		bFaultDI := ADR(Gui1_Mot_Fault)
 		);
 		
 		
-	RegenC3 : ST_LinearActuator := (
+	Gui2_Mot_Struct : ST_LinearActuator := (
 		sName := 'RegenCoupola3',
-		bProxIn := ADR(RegenC3_In),  
-		bProxOut := ADR(RegenC3_Out), 
-		bProx2 := ADR(RegenC3_2),
-		bProx3 := ADR(RegenC3_3), 
-		bFwdDO := ADR(RegenC3_Forward), 
-		bBckwDO := ADR(RegenC3_Reverse),
-		bSpeedControlDO := ADR(RegenC3_SpeedControl),
-		bStopControlDO := ADR(RegenC3_StopControl),
-		bFaultDI := ADR(RegenC3_Fault)
+		bProxIn := ADR(Gui2_Prox_In),  
+		bProxOut := ADR(Gui2_Prox_Out), 
+		bProx2 := ADR(Gui2_Prox_In_Slow),
+		bProx3 := ADR(Gui2_Prox_Out_Slow), 
+		bFwdDO := ADR(Gui2_Mot_Fw), 
+		bBckwDO := ADR(Gui2_Mot_Bw),
+		bSpeedControlDO := ADR(Gui2_Mot_Speed2),
+		bStopControlDO := ADR(Gui2_Mot_Stop),
+		bFaultDI := ADR(Gui2_Mot_Fault)
 		);
 	
-	Cha4 : ST_LinearActuator := (
+	Tri4_Mot_Struct : ST_LinearActuator := (
 		sName := 'Chariot4',
-		bProxIn := ADR(Cha4_In),  
-		bProxOut := ADR(Cha4_Out), 
-		bFwdDO := ADR(Cha4_Forward), 
-		bBckwDO := ADR(Cha4_Reverse)
+		bProxIn := ADR(Tri4_Prox_In),  
+		bProxOut := ADR(Tri4_Prox_Out), 
+		bFwdDO := ADR(Tri4_Mot_Fw), 
+		bBckwDO := ADR(Tri4_Mot_Bw)
 		);
 	
-	Comp3 : ST_LinearActuator := (
+	Cmp2_Mot_Struct : ST_LinearActuator := (
 		sName := 'Compressor3',
-		bProxIn := ADR(Comp3_In),  
-		bProxOut := ADR(Comp3_Out),
-		bFwdDO := ADR(Comp3_Forward), 
-		bBckwDO := ADR(Comp3_Reverse),
-		bStopControlDO := ADR(Comp3_StopControl),
-		bFaultDI := ADR(Comp3_Fault)
+		bProxIn := ADR(Cmp2_Prox_In),  
+		bProxOut := ADR(Cmp2_Prox_Out),
+		bFwdDO := ADR(Cmp2_Mot_Fw), 
+		bBckwDO := ADR(Cmp2_Mot_Bw),
+		bStopControlDO := ADR(Cmp2_Mot_Stop),
+		bFaultDI := ADR(Cmp2_Mot_Fault)
 		);
 	
-	Chariot1 :    FB_LinearActuator(Actuator := ADR(Cha1));
-    Compressor1: FB_LinearActuator(Actuator := ADR(Comp1));
-    Sensor1:  FB_LinearActuator(Actuator := ADR(Sens1));
-    Chariot2:     FB_LinearActuator(Actuator := ADR(Cha2));
-    Chariot3 :    FB_LinearActuator(Actuator := ADR(Cha3));
-    HeatExCoupola3: FB_LinearActuator(Actuator := ADR(HeatC3));
-    RegenCoupola3:  FB_LinearActuator(Actuator := ADR(RegenC3));
-	Compressor3:	FB_LinearActuator(Actuator := ADR(Comp3));
-    Chariot4:     FB_LinearActuator(Actuator := ADR(Cha4));
+	Tri1_Mot_FB :  FB_LinearActuator(Actuator := ADR(Tri1_Mot_Struct));
+    Cmp1_Mot_FB :  FB_LinearActuator(Actuator := ADR(Cmp1_Mot_Struct));
+    Piv1_Mot_FB :  FB_LinearActuator(Actuator := ADR(Piv1_Mot_Struct));
+    Tri2_Mot_FB :  FB_LinearActuator(Actuator := ADR(Tri2_Mot_Struct));
+    Tri3_Mot_FB :  FB_LinearActuator(Actuator := ADR(Tri3_Mot_Struct));
+    Gui1_Mot_FB :  FB_LinearActuator(Actuator := ADR(Gui1_Mot_Struct));
+    Gui2_Mot_FB :  FB_LinearActuator(Actuator := ADR(Gui2_Mot_Struct));
+	Cmp2_Mot_FB :  FB_LinearActuator(Actuator := ADR(Cmp2_Mot_Struct));
+    Tri4_Mot_FB :  FB_LinearActuator(Actuator := ADR(Tri4_Mot_Struct));
 	
-	Chariot1Command : ST_LinearActuatorCommand;
-	Compressor1Command : ST_LinearActuatorCommand;
-	Sensor1Command : ST_LinearActuatorCommand;
-	Chariot2Command : ST_LinearACtuatorCommand;
-	Chariot3Command : ST_LinearActuatorCommand;
-	HeatExCoupola3Command : ST_LinearActuatorCommand;
-	RegenCoupola3Command : ST_LinearActuatorCommand;
-	Chariot4Command : ST_LinearActuatorCommand;
-	Compressor3Command : ST_LinearActuatorCommand;
+	Tri1_Mot_Cmd : ST_LinearActuatorCommand;
+	Cmp1_Mot_Cmd : ST_LinearActuatorCommand;
+	Piv1_Mot_Cmd : ST_LinearActuatorCommand;
+	Tri2_Mot_Cmd : ST_LinearACtuatorCommand;
+	Tri3_Mot_Cmd : ST_LinearActuatorCommand;
+	Gui1_Mot_Cmd : ST_LinearActuatorCommand;
+	Gui2_Mot_Cmd : ST_LinearActuatorCommand;
+	Tri4_Mot_Cmd : ST_LinearActuatorCommand;
+	Cmp2_Mot_Cmd : ST_LinearActuatorCommand;
 	
 	aLookupTable : ARRAY[1..100] OF ST_LookupEntry := [
-		(nX := 1, sY := 'Chariot', sValue := ADR(Chariot1), sCommand := ADR(Chariot1Command)),
-		(nX := 1, sY := 'Compressor', sValue := ADR(Compressor1), sCommand := ADR(Compressor1Command)),
-		(nX := 1, sY := 'Sensor', sValue := ADR(Sensor1), sCommand := ADR(Sensor1Command)),
-		(nX := 2, sY := 'Chariot', sValue := ADR(Chariot2), sCommand := ADR(Chariot2Command)),
-		(nX := 3, sY := 'HeatExCoupola', sValue := ADR(HeatExCoupola3), sCommand := ADR(HeatExCoupola3Command)),
-		(nX := 3, sY := 'RegenCoupola', sValue := ADR(RegenCoupola3), sCommand := ADR(RegenCoupola3Command)),
-		(nX := 3, sY := 'Chariot', sValue := ADR(Chariot3), sCommand := ADR(Chariot3Command)),
-		(nX := 3, sY := 'Compressor', sValue := ADR(Compressor3), sCommand := ADR(Compressor3Command)),
-		(nX := 4, sY := 'Chariot', sValue := ADR(Chariot4), sCommand := ADR(Chariot4Command)),
-		(nX := 1, sY := 'Home', sValue := ADR(Axis1), sCommand := ADR(Axis1Command)),
-		(nX := 1, sY := 'Motor', sValue := ADR(Axis1), sCommand := ADR(Axis1Command)),
-		(nX := 2, sY := 'Home', sValue := ADR(Axis2), sCommand := ADR(Axis2Command)),
-		(nX := 2, sY := 'Motor', sValue := ADR(Axis2), sCommand := ADR(Axis2Command)),
-		(nX := 3, sY := 'Home', sValue := ADR(Axis3), sCommand := ADR(Axis3Command)),
-		(nX := 3, sY := 'Motor', sValue := ADR(Axis3), sCommand := ADR(Axis3Command)),
-		(nX := 4, sY := 'Motor', sValue := ADR(Axis4), sCommand := ADR(Axis4Command)),
-		(nX := 4, sY := 'Motor', sValue := ADR(Axis4), sCommand := ADR(Axis4Command))
+		(nX := 1, sY := 'Chariot', sValue := ADR(Tri1_Mot_FB), sCommand := ADR(Tri1_Mot_Cmd)),
+		(nX := 1, sY := 'Compressor', sValue := ADR(Cmp1_Mot_FB), sCommand := ADR(Cmp1_Mot_Cmd)),
+		(nX := 1, sY := 'Sensor', sValue := ADR(Piv1_Mot_FB), sCommand := ADR(Piv1_Mot_Cmd)),
+		(nX := 2, sY := 'Chariot', sValue := ADR(Tri2_Mot_FB), sCommand := ADR(Tri2_Mot_Cmd)),
+		(nX := 3, sY := 'HeatExCoupola', sValue := ADR(Gui1_Mot_FB), sCommand := ADR(Gui1_Mot_Cmd)),
+		(nX := 3, sY := 'RegenCoupola', sValue := ADR(Gui2_Mot_FB), sCommand := ADR(Gui2_Mot_Cmd)),
+		(nX := 3, sY := 'Chariot', sValue := ADR(Tri3_Mot_FB), sCommand := ADR(Tri3_Mot_Cmd)),
+		(nX := 3, sY := 'Compressor', sValue := ADR(Cmp2_Mot_FB), sCommand := ADR(Cmp2_Mot_Cmd)),
+		(nX := 4, sY := 'Chariot', sValue := ADR(Tri4_Mot_FB), sCommand := ADR(Tri4_Mot_Cmd)),
+		(nX := 1, sY := 'Home', sValue := ADR(Rail1_Mot_FB), sCommand := ADR(Rail1_Mot_Cmd)),
+		(nX := 1, sY := 'Motor', sValue := ADR(Rail1_Mot_FB), sCommand := ADR(Rail1_Mot_Cmd)),
+		(nX := 2, sY := 'Home', sValue := ADR(Rail2_Mot_FB), sCommand := ADR(Rail2_Mot_Cmd)),
+		(nX := 2, sY := 'Motor', sValue := ADR(Rail2_Mot_FB), sCommand := ADR(Rail2_Mot_Cmd)),
+		(nX := 3, sY := 'Home', sValue := ADR(Rail3_Mot_FB), sCommand := ADR(Rail3_Mot_Cmd)),
+		(nX := 3, sY := 'Motor', sValue := ADR(Rail3_Mot_FB), sCommand := ADR(Rail3_Mot_Cmd)),
+		(nX := 4, sY := 'Motor', sValue := ADR(Rail4_Mot_FB), sCommand := ADR(Rail4_Mot_Cmd)),
+		(nX := 4, sY := 'Motor', sValue := ADR(Rail4_Mot_FB), sCommand := ADR(Rail4_Mot_Cmd))
 	];
     nEntryCount : INT := 17;  
 		

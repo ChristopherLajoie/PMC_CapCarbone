@@ -31,8 +31,8 @@ VAR
     f_trig_prox3    : F_TRIG;
     
     // HELPER VARIABLES
-    bIsCoupola   : BOOL;  
-	bIsCompressor   : BOOL;
+    bIsGui   : BOOL;  
+	bIsCmp   : BOOL;
     bIsBasic      : BOOL;  
     
     // EDGE DETECTION RESULTS
@@ -95,7 +95,7 @@ GetPosition();
 CASE eState OF
     LAS_LinearActuator_Retracted:
         SetForwardMovement();
-		pActuator^.tmrTimeout(IN := TRUE, PT := tTimeout);
+		pActuator^.tTimeout(IN := TRUE, PT := tTimeout);
         eState := LAS_LinearActuator_Extending;
         
     LAS_LinearActuator_AtProx2, LAS_LinearActuator_AtProx3:
@@ -109,7 +109,7 @@ CASE eState OF
 			SetForwardMovement();
 		END_IF
 		
-        IF bIsCoupola THEN
+        IF bIsGui THEN
             IF bProx2Detected THEN
                 eState := LAS_LinearActuator_AtProx2;
             ELSIF bProx3Detected THEN
@@ -124,12 +124,12 @@ CASE eState OF
         IF bProxOutDetected THEN
             eState := LAS_LinearActuator_Extended;
             SetStoppedState();
-			pActuator^.tmrTimeout(IN := FALSE);
+			pActuator^.tTimeout(IN := FALSE);
             Extend := 1; 
         END_IF
         
         // Check for timeout
-        IF pActuator^.tmrTimeout.Q THEN
+        IF pActuator^.tTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
             
             pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'MotionTimedOut');
@@ -137,7 +137,7 @@ CASE eState OF
                 pAlarmCondition^ := TRUE;
             END_IF
             
-			pActuator^.tmrTimeout(IN := FALSE);
+			pActuator^.tTimeout(IN := FALSE);
             SetStoppedState(); 
             Extend := -1;
         END_IF
@@ -176,12 +176,12 @@ END_VAR]]></Declaration>
         <ST><![CDATA[pActuator := Actuator;
 
 // Detect actuator type
-bIsCoupola := pActuator^.sName = 'HeatExCoupola3' OR pActuator^.sName = 'RegenCoupola3';
-bIsCompressor := pActuator^.sName = 'Compressor1' OR pActuator^.sName = 'Compressor3';
-bIsBasic := NOT bIsCoupola AND NOT bIsCompressor;
+bIsGui := pActuator^.sName = 'HeatExCoupola3' OR pActuator^.sName = 'RegenCoupola3';
+bIsCmp := pActuator^.sName = 'Compressor1' OR pActuator^.sName = 'Compressor3';
+bIsBasic := NOT bIsGui AND NOT bIsCmp;
 
 // Initialize speed control to fast
-IF bIsCoupola THEN
+IF bIsGui THEN
     pActuator^.bSpeedControlDO^ := FALSE; 
 END_IF
 
@@ -195,7 +195,7 @@ IF pActuator^.bProxIn^ THEN
     eState := LAS_LinearActuator_Retracted;
 ELSIF pActuator^.bProxOut^ THEN
     eState := LAS_LinearActuator_Extended;
-ELSIF bIsCoupola THEN
+ELSIF bIsGui THEN
     IF pActuator^.bProx2^ THEN
         eState := LAS_LinearActuator_AtProx2;
     ELSIF pActuator^.bProx3^ THEN
@@ -233,7 +233,7 @@ END_VAR]]></Declaration>
 ELSIF bProxOutRisingEdge = pActuator^.bProxOut^ THEN
     eState := LAS_LinearActuator_Extended;
     State := 1;  
-ELSIF bIsCoupola THEN
+ELSIF bIsGui THEN
     IF bProx2RisingEdge = pActuator^.bProx2^ THEN
         eState := LAS_LinearActuator_AtProx2;
         State := 2;  
@@ -280,7 +280,7 @@ GetPosition();
 CASE eState OF
     LAS_LinearActuator_Extended:
         SetBackwardMovement();
-		pActuator^.tmrTimeout(IN := TRUE, PT := tTimeout);
+		pActuator^.tTimeout(IN := TRUE, PT := tTimeout);
         eState := LAS_LinearActuator_Retracting;
 
     LAS_LinearActuator_AtProx3, LAS_LinearActuator_AtProx2:
@@ -294,7 +294,7 @@ CASE eState OF
 			SetBackwardMovement();
 		END_IF
 		
-        IF bIsCoupola THEN
+        IF bIsGui THEN
             IF bProx3Detected THEN
                 eState := LAS_LinearActuator_AtProx3;
             ELSIF bProx2Detected THEN
@@ -310,13 +310,13 @@ CASE eState OF
             eState := LAS_LinearActuator_Retracted;
             SetStoppedState(); 
             Home := 1; 
-			pActuator^.tmrTimeout(IN := FALSE);
+			pActuator^.tTimeout(IN := FALSE);
         END_IF
         
         // Check for timeout
-        IF pActuator^.tmrTimeout.Q THEN
+        IF pActuator^.tTimeout.Q THEN
             eState := LAS_LinearActuator_Error;
-            pActuator^.tmrTimeout(IN := FALSE);
+            pActuator^.tTimeout(IN := FALSE);
 			
             pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'MotionTimedOut');
             IF pAlarmCondition <> 0 THEN
@@ -427,7 +427,7 @@ IF NOT bIsBasic THEN
 	SetStoppedState();
 
 	UpdateProxDetection();
-	pActuator^.tmrTimeout(IN := FALSE);
+	pActuator^.tTimeout(IN := FALSE);
 	GetPosition(State => State);
 	Stop := 1;
 ELSE
@@ -444,7 +444,7 @@ ELSE
 		UpdateProxDetection();
 
 		(* 4. CANCEL MOVE TIMEOUT *)
-		pActuator^.tmrTimeout(IN := FALSE);
+		pActuator^.tTimeout(IN := FALSE);
 
 		(* 5. CHECK CURRENT POSITION *)
 		GetPosition(State => State);
@@ -471,7 +471,7 @@ f_trig_proxOut(CLK := pActuator^.bProxOut^);
 bProxInDetected := (bProxInRisingEdge AND r_trig_proxIn.Q) OR (NOT bProxInRisingEdge AND f_trig_proxIn.Q);
 bProxOutDetected := (bProxOutRisingEdge AND r_trig_proxOut.Q) OR (NOT bProxOutRisingEdge AND f_trig_proxOut.Q);
 
-IF bIsCoupola THEN
+IF bIsGui THEN
     r_trig_prox2(CLK := pActuator^.bProx2^);
     f_trig_prox2(CLK := pActuator^.bProx2^);
     r_trig_prox3(CLK := pActuator^.bProx3^);

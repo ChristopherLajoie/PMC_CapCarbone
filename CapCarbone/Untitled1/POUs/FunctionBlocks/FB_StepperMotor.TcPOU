@@ -30,8 +30,6 @@ VAR
     // Error & state handling
     // =================
     nErrID : UDINT; // Error ID
-	ErrID : DWORD;
-	ErrID2 : DWORD;
 	
     eState : ENUM_StepperMotorState := LAS_Stepper_Idle; // Current state
 	bIsUp : BOOL := FALSE;
@@ -40,16 +38,6 @@ VAR
     // Hardware check variables
     // ==========================
     eHardwareCheckState   : ENUM_HardwareCheckState; // Hardware check state
-    eHW_SavedState        : ENUM_StepperMotorState;  // Saved state before check
-    fHW_OriginalPosition  : LREAL;                   // Position before test
-    fHW_TestPosition      : LREAL;                   // Target test position
-    fHW_CurrentPosition   : LREAL;                   // Current measured position
-    fHW_TestDistance      : LREAL := 1.5;            // Test movement distance
-    fHW_PositionTolerance : LREAL := 1.0;            // Minimum detectable movement
-    fHW_UpperLimit        : LREAL;                   // Motion boundary
-    bHW_MovePositive      : BOOL;                    // Direction of test movement
-    bHW_MovementDetected  : BOOL;                    // TRUE if movement detected
-    bHW_CheckStarted      : BOOL;                    // TRUE if check is active
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -280,7 +268,7 @@ END_VAR
 
 CASE eState OF
 	LAS_Stepper_Ready, LAS_Stepper_Idle:
-		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, Velocity := StepperNormalMotionVel);
+		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, Velocity := Mot_NormalMotionVel);
 		eState := LAS_Stepper_Moving;
 
 	LAS_Stepper_Moving:
@@ -291,9 +279,6 @@ CASE eState OF
 		IF fbMoveAbs.Error THEN
 			eState := LAS_Stepper_Error;
 			nErrID := fbMoveAbs.ErrorID;
-
-			ErrID := fbReadError.AxisErrorID;
-			ErrID2 := fbReadError.ErrorID;
 			
 			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
 			IF pAlarmCondition <> 0 THEN
@@ -417,21 +402,14 @@ CASE eState OF
 			
 			// Start hardware check
 			eState := LAS_Stepper_Hardware_Check;
-			eHardwareCheckState := HW_GetOriginalPos;
-			bHW_CheckStarted := TRUE;
+			eHardwareCheckState := HW_Start;
 			RETURN; // Unlock KeepAlive before proceeding
 			
 		END_IF
 	
 	LAS_Stepper_Hardware_Check, LAS_Stepper_Homing:
 		CASE eHardwareCheckState OF
-			HW_GetOriginalPos:
-
-				IF NOT bHW_CheckStarted THEN
-					bHW_CheckStarted := TRUE;
-					fHW_OriginalPosition := -1;
-				END_IF
-				
+			HW_Start:		
 				nMoveResult := Home(TRUE, TRUE);
 				
 				CASE nMoveResult OF
@@ -448,7 +426,6 @@ CASE eState OF
 			
 			HW_Complete:
 				eState := LAS_Stepper_Ready;
-				bHW_CheckStarted := FALSE;
 				
 				// Clear all alarm conditions related to motion
 				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
@@ -480,7 +457,6 @@ CASE eState OF
 			
 			HW_Failed:
 				eState := LAS_Stepper_Error;
-				bHW_CheckStarted := FALSE;
 				
 				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
 				IF pAlarmCondition <> 0 THEN
@@ -668,8 +644,6 @@ END_CASE
       <LineId Id="45" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="60" Count="3" />
-      <LineId Id="98" Count="1" />
-      <LineId Id="64" Count="0" />
       <LineId Id="100" Count="0" />
       <LineId Id="65" Count="3" />
       <LineId Id="70" Count="1" />
@@ -704,20 +678,22 @@ END_CASE
       <LineId Id="883" Count="1" />
       <LineId Id="672" Count="0" />
       <LineId Id="880" Count="0" />
-      <LineId Id="673" Count="3" />
+      <LineId Id="673" Count="2" />
       <LineId Id="885" Count="1" />
       <LineId Id="677" Count="2" />
-      <LineId Id="681" Count="7" />
+      <LineId Id="681" Count="1" />
       <LineId Id="867" Count="10" />
       <LineId Id="866" Count="0" />
       <LineId Id="878" Count="0" />
       <LineId Id="801" Count="1" />
-      <LineId Id="804" Count="11" />
+      <LineId Id="804" Count="0" />
+      <LineId Id="806" Count="9" />
       <LineId Id="819" Count="9" />
       <LineId Id="888" Count="4" />
       <LineId Id="887" Count="0" />
       <LineId Id="893" Count="0" />
-      <LineId Id="829" Count="16" />
+      <LineId Id="829" Count="3" />
+      <LineId Id="834" Count="11" />
       <LineId Id="45" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Stop">

@@ -1,6 +1,7 @@
-- Implement homing, idle and main cycle and add hmi buttons for them
+- Implement cycle
 - Add stepper jog
 - Per alarm check instead of per zone check would be better
+- Check for fault prox for compressors
 
 
 

@@ -2,24 +2,24 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_LinearActuatorRelays" Id="{5eab831f-9447-4481-a624-13723ab2af90}">
     <Declaration><![CDATA[VAR_GLOBAL
-	Cha1_Forward AT %Q* : BOOL; 
-	Cha1_Reverse AT %Q* : BOOL; 
-	Comp1_Forward AT %Q* : BOOL; 
-	Comp1_Reverse AT %Q* : BOOL; 
-	Sens1_Forward AT %Q* : BOOL; 
-	Sens1_Reverse AT %Q* : BOOL; 
-	Cha2_Forward AT %Q* : BOOL; 
-	Cha2_Reverse AT %Q* : BOOL; 
-	Cha3_Forward AT %Q* : BOOL; 
-	Cha3_Reverse AT %Q* : BOOL; 
-	HeatC3_Forward AT %Q* : BOOL; 
-	HeatC3_Reverse AT %Q* : BOOL; 
-	RegenC3_Forward AT %Q* : BOOL; 
-	RegenC3_Reverse AT %Q* : BOOL; 
-	Comp3_Forward AT %Q* : BOOL; 
-	Comp3_Reverse AT %Q* : BOOL; 
-	Cha4_Forward AT %Q* : BOOL; 
-	Cha4_Reverse AT %Q* : BOOL;  
+	Tri1_Mot_Fw AT %Q* : BOOL; 
+	Tri1_Mot_Bw AT %Q* : BOOL; 
+	Cmp1_Mot_Fw AT %Q* : BOOL; 
+	Cmp1_Mot_Bw AT %Q* : BOOL; 
+	Piv1_Mot_Fw AT %Q* : BOOL; 
+	Piv1_Mot_Bw AT %Q* : BOOL; 
+	Tri2_Mot_Fw AT %Q* : BOOL; 
+	Tri2_Mot_Bw AT %Q* : BOOL; 
+	Tri3_Mot_Fw AT %Q* : BOOL; 
+	Tri3_Mot_Bw AT %Q* : BOOL; 
+	Gui1_Mot_Fw AT %Q* : BOOL; 
+	Gui1_Mot_Bw AT %Q* : BOOL; 
+	Gui2_Mot_Fw AT %Q* : BOOL; 
+	Gui2_Mot_Bw AT %Q* : BOOL; 
+	Cmp2_Mot_Fw AT %Q* : BOOL; 
+	Cmp2_Mot_Bw AT %Q* : BOOL; 
+	Tri4_Mot_Fw AT %Q* : BOOL; 
+	Tri4_Mot_Bw AT %Q* : BOOL;  
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -2,70 +2,62 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_Steppers" Id="{fbf55f38-8215-4244-998d-826cf1c53444}">
     <Declaration><![CDATA[VAR_GLOBAL
-	Stepper1 : AXIS_REF;
-	Stepper2 : AXIS_REF;
-	Stepper3 : AXIS_REF;
-	Stepper4 : AXIS_REF;
+	Rail1_Mot_Ref : AXIS_REF;
+	Rail2_Mot_Ref : AXIS_REF;
+	Rail3_Mot_Ref : AXIS_REF;
+	Rail4_Mot_Ref : AXIS_REF;
 	
-	Stepper_Rail1 : ST_LinearTable := (
-		object := Stepper1,
-		bProx := Axis1_Prox
+	Rail1_Mot_Struct : ST_LinearTable := (
+		object := Rail1_Mot_Ref,
+		bProx := Rail1_Prox
 		);
 	
-	Stepper_Rail2 : ST_LinearTable := (
-		object := Stepper2,
-		bProx := Axis2_Prox
+	Rail2_Mot_Struct : ST_LinearTable := (
+		object := Rail2_Mot_Ref,
+		bProx := Rail2_Prox
 		);
 	
-	Stepper_Rail3 : ST_LinearTable := (
-		object := Stepper3,
-		bProx := Axis3_Prox
+	Rail3_Mot_Struct : ST_LinearTable := (
+		object := Rail3_Mot_Ref,
+		bProx := Rail3_Prox
 		);
 	
-	Stepper_Rail4 : ST_LinearTable := (
-		object := Stepper4,
-		bProx := Axis4_Prox
+	Rail4_Mot_Struct : ST_LinearTable := (
+		object := Rail4_Mot_Ref,
+		bProx := Rail4_Prox
 		);
 	
-	Axis1 : FB_StepperMotor(init_axis := ADR(Stepper_Rail1.object), init_prox := ADR(Stepper_Rail1.bProx));
-    Axis2 : FB_StepperMotor(init_axis := ADR(Stepper_Rail2.object), init_prox := ADR(Stepper_Rail2.bProx));
-    Axis3 : FB_StepperMotor(init_axis := ADR(Stepper_Rail3.object), init_prox := ADR(Stepper_Rail3.bProx));
-    Axis4 : FB_StepperMotor(init_axis := ADR(Stepper_Rail4.object), init_prox := ADR(Stepper_Rail4.bProx));
-	
-	Cha1 : ST_LinearActuator := (
-		sName := 'Chariot1',
-		bProxIn := ADR(Cha1_In) ,  
-		bProxOut := ADR(Cha1_Out) , 
-		bFwdDO := ADR(Cha1_Forward), 
-		bBckwDO := ADR(Cha1_Reverse)
-		);
+	Rail1_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail1_Mot_Struct.object), init_prox := ADR(Rail1_Mot_Struct.bProx));
+    Rail2_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail2_Mot_Struct.object), init_prox := ADR(Rail2_Mot_Struct.bProx));
+    Rail3_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail3_Mot_Struct.object), init_prox := ADR(Rail3_Mot_Struct.bProx));
+    Rail4_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail4_Mot_Struct.object), init_prox := ADR(Rail4_Mot_Struct.bProx));
 
-	Axis1Command : ST_StepperMotorCommand := (
-		Homing := FALSE,
-		Command := 0,
-		Position := -1,
-		Homed := FALSE)
+	Rail1_Mot_Cmd : ST_StepperMotorCommand := (
+		bHoming := FALSE,
+		nCommand := 0,
+		nPosition := -1,
+		bHomed := FALSE)
 	;
-	Axis2Command : ST_StepperMotorCommand := (
-		Homing := FALSE,
-		Command := 0,
-		Position := -1,
-		Homed := FALSE)
+	Rail2_Mot_Cmd : ST_StepperMotorCommand := (
+		bHoming := FALSE,
+		nCommand := 0,
+		nPosition := -1,
+		bHomed := FALSE)
 	;
-	Axis3Command : ST_StepperMotorCommand := (
-		Homing := FALSE,
-		Command := 0,
-		Position := -1,
-		Homed := FALSE)
+	Rail3_Mot_Cmd : ST_StepperMotorCommand := (
+		bHoming := FALSE,
+		nCommand := 0,
+		nPosition := -1,
+		bHomed := FALSE)
 	;
-	Axis4Command : ST_StepperMotorCommand := (
-		Homing := FALSE,
-		Command := 0,
-		Position := -1,
-		Homed := FALSE)
+	Rail4_Mot_Cmd : ST_StepperMotorCommand := (
+		bHoming := FALSE,
+		nCommand := 0,
+		nPosition := -1,
+		bHomed := FALSE)
 	;
 	
-	StepperNormalMotionVel : LREAL := 500;
+	Mot_NormalMotionVel : LREAL := 500;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

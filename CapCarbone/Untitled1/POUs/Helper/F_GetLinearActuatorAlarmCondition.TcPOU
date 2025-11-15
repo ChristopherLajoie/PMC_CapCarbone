@@ -3,8 +3,8 @@
   <POU Name="F_GetLinearActuatorAlarmCondition" Id="{7f3504dd-74b2-4ad4-a071-94abfe09591c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_GetLinearActuatorAlarmCondition : POINTER TO BOOL
 VAR_INPUT
-    sActuatorName : STRING(50);    // e.g., 'Compressor1', 'HeatExCoupola3'
-    sAlarmType : STRING(50);       // e.g., 'MotionTimedOut', 'UnknownState'
+    sActuatorName : STRING(50);    
+    sAlarmType : STRING(50);      
 END_VAR
 VAR
     nRail : SINT;

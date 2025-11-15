@@ -2,30 +2,30 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_LinearActuatorProxSensors" Id="{455d88bd-ac82-447a-b71f-65d156b0bbbc}">
     <Declaration><![CDATA[VAR_GLOBAL
-	Cha1_In AT %I* : BOOL;
-	Cha1_Out AT %I* : BOOL;
-	Comp1_In AT %I* : BOOL;
-	Comp1_Out AT %I* : BOOL;
-	Comp1_2 AT %I* : BOOL;
-	Sens1_In AT %I* : BOOL;
-	Sens1_Out AT %I* : BOOL;
-	Cha2_In AT %I* : BOOL;
-	Cha2_Out AT %I* : BOOL;
-	Cha3_In AT %I* : BOOL;
-	Cha3_Out AT %I* : BOOL;
-	HeatC3_In AT %I* : BOOL;
-	HeatC3_Out AT %I* : BOOL;
-	HeatC3_2 AT %I* : BOOL;
-	HeatC3_3 AT %I* : BOOL;
-	RegenC3_In AT %I* : BOOL;
-	RegenC3_Out AT %I* : BOOL;
-	RegenC3_2 AT %I* : BOOL;
-	RegenC3_3 AT %I* : BOOL;
-	Comp3_In AT %I* : BOOL;
-	Comp3_Out AT %I* : BOOL;
-	Comp3_2 AT %I* : BOOL;
-	Cha4_In AT %I* : BOOL;
-	Cha4_Out AT %I* : BOOL;
+	Tri1_Prox_In AT %I* : BOOL;
+	Tri1_Prox_Out AT %I* : BOOL;
+	Cmp1_Prox_In AT %I* : BOOL;
+	Cmp1_Prox_Out AT %I* : BOOL;
+	Cmp1_Prox_Fault AT %I* : BOOL;
+	Piv1_Prox_In AT %I* : BOOL;
+	Piv1_Prox_Out AT %I* : BOOL;
+	Tri2_Prox_In AT %I* : BOOL;
+	Tri2_Prox_Out AT %I* : BOOL;
+	Tri3_Prox_In AT %I* : BOOL;
+	Tri3_Prox_Out AT %I* : BOOL;
+	Gui1_Prox_In AT %I* : BOOL;
+	Gui1_Prox_Out AT %I* : BOOL;
+	Gui1_Prox_In_Slow AT %I* : BOOL;
+	Gui1_Prox_Out_Slow AT %I* : BOOL;
+	Gui2_Prox_In AT %I* : BOOL;
+	Gui2_Prox_Out AT %I* : BOOL;
+	Gui2_Prox_In_Slow AT %I* : BOOL;
+	Gui2_Prox_Out_Slow AT %I* : BOOL;
+	Cmp2_Prox_In AT %I* : BOOL;
+	Cmp2_Prox_Out AT %I* : BOOL;
+	Cmp2_Prox_Fault AT %I* : BOOL;
+	Tri4_Prox_In AT %I* : BOOL;
+	Tri4_Prox_Out AT %I* : BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

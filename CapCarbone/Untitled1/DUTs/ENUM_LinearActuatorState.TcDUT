@@ -4,14 +4,14 @@
     <Declaration><![CDATA[TYPE ENUM_LinearActuatorState :
 (
 	LAS_LinearActuator_Uninitialized := 0,
-    LAS_LinearActuator_Extending := 2,
-    LAS_LinearActuator_Extended := 3,
-    LAS_LinearActuator_Retracting := 4,
-    LAS_LinearActuator_Retracted := 5,
-    LAS_LinearActuator_Error := 6,
-	LAS_LinearActuator_Unknown := 7,
-	LAS_LinearActuator_AtProx2 := 8,    
-    LAS_LinearActuator_AtProx3 := 9   
+    LAS_LinearActuator_Extending := 1,
+    LAS_LinearActuator_Extended := 2,
+    LAS_LinearActuator_Retracting := 3,
+    LAS_LinearActuator_Retracted := 4,
+    LAS_LinearActuator_Error := 5,
+	LAS_LinearActuator_Unknown := 6,
+	LAS_LinearActuator_AtProx2 := 7,    
+    LAS_LinearActuator_AtProx3 := 8   
 );
 END_TYPE]]></Declaration>
   </DUT>

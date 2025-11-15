@@ -2,21 +2,21 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_LinearActuatorDriveControls" Id="{f4396875-a356-4ef4-b034-83cd607c30df}">
     <Declaration><![CDATA[VAR_GLOBAL
-	HeatC3_SpeedControl AT %Q* : BOOL;
-	HeatC3_StopControl AT %Q* : BOOL;
-	HeatC3_Fault AT %I* : BOOL;
+	Gui1_Mot_Speed2 AT %Q* : BOOL;
+	Gui1_Mot_Stop AT %Q* : BOOL;
+	Gui1_Mot_Fault AT %I* : BOOL;
 	
-	RegenC3_SpeedControl AT %Q* : BOOL;
-	RegenC3_StopControl AT %Q* : BOOL;
-	RegenC3_Fault AT %I* : BOOL;
+	Gui2_Mot_Speed2 AT %Q* : BOOL;
+	Gui2_Mot_Stop AT %Q* : BOOL;
+	Gui2_Mot_Fault AT %I* : BOOL;
 	
-	Comp1_SpeedControl AT %Q* : BOOL;
-	Comp1_StopControl AT %Q* : BOOL;
-	Comp1_Fault AT %I* : BOOL;
+	Cmp1_Mot_Speed2 AT %Q* : BOOL;
+	Cmp1_Mot_Stop AT %Q* : BOOL;
+	Cmp1_Mot_Fault AT %I* : BOOL;
 	
-	Comp3_SpeedControl AT %Q* : BOOL;
-	Comp3_StopControl AT %Q* : BOOL;
-	Comp3_Fault AT %I* : BOOL;
+	Cmp2_Mot_Speed2 AT %Q* : BOOL;
+	Cmp2_Mot_Stop AT %Q* : BOOL;
+	Cmp2_Mot_Fault AT %I* : BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

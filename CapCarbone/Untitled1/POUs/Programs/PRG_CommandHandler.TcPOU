@@ -107,8 +107,8 @@ IF bCanProcessCommand THEN
     LinearTableCmd := F_GetStepperCommandMember(nX, sY);
 	
 	// Set command type
-    bisLinearTableHomeCmd := sY = 'Home' AND LinearTableCmd^.Homing;
-	bisLinearTableSetHomeCmd := sY = 'SetHome' AND LinearTableCmd^.Homing;
+    bisLinearTableHomeCmd := sY = 'Home' AND LinearTableCmd^.bHoming;
+	bisLinearTableSetHomeCmd := sY = 'SetHome' AND LinearTableCmd^.bHoming;
     bisLinearTableMoveCmd := sY = 'Motor';
     bisResetCmd := sZ = 'Reset';
 END_IF
@@ -160,7 +160,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF bisLinearActuator THEN
-    nCancelResult := LinearActuator^.Stop(State => LinearActuatorCmd^.Status);
+    nCancelResult := LinearActuator^.Stop(State => LinearActuatorCmd^.nStatus);
     bCancelComplete := (nCancelResult <> 0);
 
 ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
@@ -174,11 +174,11 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
     CASE nCancelResult OF
         1: // Success
             LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
-            LinearTableCmd^.Position := CurrentPosition;
+            LinearTableCmd^.nPosition := CurrentPosition;
             
             IF bisLinearTableHomeCmd THEN
-                LinearTableCmd^.Homed := FALSE;
-                LinearTableCmd^.Homing := FALSE;
+                LinearTableCmd^.bHomed := FALSE;
+                LinearTableCmd^.bHoming := FALSE;
             END_IF;
 
             bCancelComplete := TRUE;
@@ -189,10 +189,10 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
 			
        -1: // Failure
             IF bisLinearTableHomeCmd THEN
-                LinearTableCmd^.Homed := FALSE;
-                LinearTableCmd^.Homing := FALSE;
+                LinearTableCmd^.bHomed := FALSE;
+                LinearTableCmd^.bHoming := FALSE;
             ELSE
-                LinearTableCmd^.Position := -1;
+                LinearTableCmd^.nPosition := -1;
             END_IF;
 
             bCancelComplete := TRUE;
@@ -222,11 +222,11 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Get command value
-bisExtendCmd := LinearActuatorCmd^.Command;
+bisExtendCmd := LinearActuatorCmd^.bCommand;
 
 (* 1. RESET COMMAND CHECK *)
 IF bisResetCmd THEN
-    LinearActuator^.Reset(State => LinearActuatorCmd^.Status); // Instantaneous read of prox seonsors
+    LinearActuator^.Reset(State => LinearActuatorCmd^.nStatus); // Instantaneous read of prox seonsors
 	
 	Result := 1;
     bOperationInProgress := FALSE;
@@ -250,9 +250,9 @@ CASE Result OF
         bOperationInProgress := FALSE;
         
         IF bisExtendCmd THEN
-            LinearActuatorCmd^.Status := 1;
+            LinearActuatorCmd^.nStatus := 1;
         ELSE
-            LinearActuatorCmd^.Status := 0;
+            LinearActuatorCmd^.nStatus := 0;
         END_IF
         
         sRequestedActuator := 'close';
@@ -265,7 +265,7 @@ CASE Result OF
    -1: // Failure
         bOperationInProgress := FALSE;
 		
-        LinearActuatorCmd^.Status := -1;
+        LinearActuatorCmd^.nStatus := -1;
         
         sRequestedActuator := 'close';
         bAwaitingHMIClose := TRUE;
@@ -301,7 +301,7 @@ IF bisResetCmd THEN
 
             bOperationInProgress := FALSE;
 			
-            LinearTableCmd^.Position := CurrentPosition;
+            LinearTableCmd^.nPosition := CurrentPosition;
             
             sRequestedActuator := 'close';
             bAwaitingHMIClose := TRUE;
@@ -317,7 +317,7 @@ IF bisResetCmd THEN
        -1: // Failure
             bOperationInProgress := FALSE;
 			
-            LinearTableCmd^.Position := -1;
+            LinearTableCmd^.nPosition := -1;
             
             sRequestedActuator := 'close';
             bAwaitingHMIClose := TRUE;
@@ -345,8 +345,8 @@ IF bHome THEN
 	END_IF
 ELSE
 	IF LinearTable^.KeepAlive() THEN
-		Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.Command);
-		LinearTableCmd^.Position := CurrentPosition;
+		Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.nCommand);
+		LinearTableCmd^.nPosition := CurrentPosition;
 	ELSE
 		Result := -1;
 	END_IF
@@ -357,8 +357,8 @@ CASE Result OF
         bOperationInProgress := FALSE;
         
         IF bHome THEN    
-            LinearTableCmd^.Homed := TRUE;
-            LinearTableCmd^.Homing := FALSE;
+            LinearTableCmd^.bHomed := TRUE;
+            LinearTableCmd^.bHoming := FALSE;
         END_IF
         
         sRequestedActuator := 'close';
@@ -374,10 +374,10 @@ CASE Result OF
         bOperationInProgress := FALSE;
         
         IF bHome THEN    
-            LinearTableCmd^.Homed := FALSE;
-            LinearTableCmd^.Homing := FALSE;
+            LinearTableCmd^.bHomed := FALSE;
+            LinearTableCmd^.bHoming := FALSE;
         ELSE
-            LinearTableCmd^.Position := -1;
+            LinearTableCmd^.nPosition := -1;
         END_IF
         
         sRequestedActuator := 'close';

@@ -2,12 +2,13 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.11">
   <GVL Name="GVL_CellPositionSensors" Id="{324b8032-1e77-45c9-b1c7-509f023d8566}">
     <Declaration><![CDATA[VAR_GLOBAL
-	Ads_sensor1 AT %I* : BOOL;
-	Ads_sensor2 AT %I* : BOOL;
-	Ads_sensor3 AT %I* : BOOL;
+	Cell_Pos1 AT %I* : BOOL;
+	Cell_Pos2 AT %I* : BOOL;
+	Cell_Pos3 AT %I* : BOOL;
 	
-	HeatExOk_sensor AT %I* : BOOL;
-	RegenOK_sensor AT %I* : BOOL;
+	Cell_Pos4 AT %I* : BOOL;
+	Cell_Pos5 AT %I* : BOOL;
+	Cell_Pos6 AT %I* : BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

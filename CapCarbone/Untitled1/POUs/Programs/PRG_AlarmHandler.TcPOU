@@ -13,10 +13,10 @@ VAR
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInitComplete THEN
-    Axis1.nRail := 1;
-    Axis2.nRail := 2; 
-    Axis3.nRail := 3;
-    Axis4.nRail := 4;
+    Rail1_Mot_FB.nRail := 1;
+    Rail1_Mot_FB.nRail := 2; 
+    Rail1_Mot_FB.nRail := 3;
+    Rail1_Mot_FB.nRail := 4;
 	
     bInitComplete := TRUE;
 END_IF

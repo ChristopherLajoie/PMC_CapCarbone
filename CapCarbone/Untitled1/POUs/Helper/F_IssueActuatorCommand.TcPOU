@@ -3,16 +3,16 @@
   <POU Name="F_IssueActuatorCommand" Id="{039ba84f-c472-4325-8fd5-bb06a032bcc0}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_IssueActuatorCommand : INT
 VAR_INPUT
-    sDevice       : STRING;      // e.g. 'Chariot1', 'Compressor2', 'Sensor4', 'HeatExCoupola3', 'RegenCoupola1', 'Motor2'
-    bArg          : BOOL;        // non-Motor: TRUE=Forward, FALSE=Backward; Motor: TRUE=Home, FALSE=Motor
-    bHasPosition  : BOOL := FALSE;  // only used for Motor FALSE case
-    nPosition     : DINT := 0;      // optional position for Motor FALSE case
+    sDevice       : STRING;      
+    bArg          : BOOL;        
+    bHasPosition  : BOOL := FALSE;  
+    nPosition     : DINT := 0;      
 END_VAR
 VAR
     len           : INT;
     cLast         : BYTE;
-    n             : INT;         // extracted axis 1..4
-    sPrefix       : STRING(50);  // device prefix (without trailing digit)
+    n             : INT;         
+    sPrefix       : STRING(50);  
     i             : INT;
     sTmp          : STRING(64);
 END_VAR]]></Declaration>
@@ -54,23 +54,23 @@ IF (sPrefix = 'Chariot') OR (sPrefix = 'Compressor') OR (sPrefix = 'Sensor') OR
     CASE sPrefix OF
         'Chariot':
             CASE n OF
-                1: Chariot1Command := bArg;
-                2: Chariot2Command := bArg;
-                3: Chariot3Command := bArg;
-                4: Chariot4Command := bArg;
+                1: Tri1_Mot_Cmd := bArg;
+                2: Tri2_Mot_Cmd := bArg;
+                3: Tri3_Mot_Cmd := bArg;
+                4: Tri4_Mot_Cmd := bArg;
             END_CASE
 
         'Compressor':
             CASE n OF
-                1: Compressor1Command := bArg;
+                1: Cmp1_Mot_Cmd := bArg;
                 2: Compressor2Command := bArg;
-                3: Compressor3Command := bArg;
+                3: Cmp2_Mot_Cmd := bArg;
                 4: Compressor4Command := bArg;
             END_CASE
 
         'Sensor':
             CASE n OF
-                1: Sensor1Command := bArg;
+                1: Piv1_Mot_Cmd := bArg;
                 2: Sensor2Command := bArg;
                 3: Sensor3Command := bArg;
                 4: Sensor4Command := bArg;
@@ -80,7 +80,7 @@ IF (sPrefix = 'Chariot') OR (sPrefix = 'Compressor') OR (sPrefix = 'Sensor') OR
             CASE n OF
                 1: HeatExCoupola1Command := bArg;
                 2: HeatExCoupola2Command := bArg;
-                3: HeatExCoupola3Command := bArg;
+                3: Gui1_Mot_Cmd := bArg;
                 4: HeatExCoupola4Command := bArg;
             END_CASE
 
@@ -88,7 +88,7 @@ IF (sPrefix = 'Chariot') OR (sPrefix = 'Compressor') OR (sPrefix = 'Sensor') OR
             CASE n OF
                 1: RegenCoupola1Command := bArg;
                 2: RegenCoupola2Command := bArg;
-                3: RegenCoupola3Command := bArg;
+                3: Gui2_Mot_Cmd := bArg;
                 4: RegenCoupola4Command := bArg;
             END_CASE
     ELSE

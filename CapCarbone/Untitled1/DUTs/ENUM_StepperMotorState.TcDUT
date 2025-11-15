@@ -4,12 +4,12 @@
     <Declaration><![CDATA[TYPE ENUM_StepperMotorState :
 (
 	LAS_Stepper_Ready := 0,
-    LAS_Stepper_Moving := 2,
-    LAS_Stepper_Idle := 3,
-    LAS_Stepper_Error := 6,
-	LAS_Stepper_Homing := 1,
-	LAS_Stepper_Hardware_Check := 7,
-	LAS_Stepper_PowerError := 8
+    LAS_Stepper_Moving := 1,
+    LAS_Stepper_Idle := 2,
+    LAS_Stepper_Error := 3,
+	LAS_Stepper_Homing := 4,
+	LAS_Stepper_Hardware_Check := 5,
+	LAS_Stepper_PowerError := 6
 );
 END_TYPE]]></Declaration>
   </DUT>

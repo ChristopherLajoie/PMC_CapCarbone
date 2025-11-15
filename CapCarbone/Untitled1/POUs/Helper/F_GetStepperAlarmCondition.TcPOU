@@ -3,8 +3,8 @@
   <POU Name="F_GetStepperAlarmCondition" Id="{f26f56a2-1647-4587-ad9f-9fa1a487ca5b}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_GetStepperAlarmCondition : POINTER TO BOOL
 VAR_INPUT
-    nRail : SINT;              // Rail number (1, 2, 3, or 4)
-    sAlarmType : STRING(50);   // e.g., 'Motion_Failed', 'Homing_Failed', 'PowerUp_Failed'
+    nRail : SINT;            
+    sAlarmType : STRING(50);   
 END_VAR
 VAR
     pResult : POINTER TO BOOL;
