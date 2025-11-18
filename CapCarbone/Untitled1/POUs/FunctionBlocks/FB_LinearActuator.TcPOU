@@ -256,7 +256,7 @@ CheckDriveFault();
 GetPosition();
 
 CASE eState OF
-    LAS_LinearActuator_Extended:
+    LAS_LinearActuator_Extended, LAS_LinearActuator_Unknown:
         SetBackwardMovement();
 		pActuator^.tTimeout(IN := TRUE, PT := tTimeout);
         eState := LAS_LinearActuator_Retracting;
@@ -310,14 +310,6 @@ CASE eState OF
 
     LAS_LinearActuator_Error:
         Home := -1;
-    
-    LAS_LinearActuator_Unknown:
-        Home := -1;
-        
-        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
-        IF pAlarmCondition <> 0 THEN
-            pAlarmCondition^ := TRUE;
-        END_IF
     
     ELSE
         // default catch-all
@@ -568,7 +560,8 @@ END_IF]]></ST>
       <LineId Id="380" Count="4" />
       <LineId Id="386" Count="0" />
       <LineId Id="416" Count="0" />
-      <LineId Id="387" Count="25" />
+      <LineId Id="387" Count="13" />
+      <LineId Id="409" Count="3" />
       <LineId Id="40" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Reset">
