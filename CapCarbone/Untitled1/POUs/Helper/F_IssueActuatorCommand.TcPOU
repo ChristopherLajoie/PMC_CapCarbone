@@ -6,7 +6,7 @@ VAR_INPUT
     sDevice       : STRING(50);   // e.g. 'Chariot1', 'Motor3', ...
     bArg          : BOOL;         // see spec: direction or homing flag
     bHasPosition  : BOOL := FALSE;
-    nPosition     : DINT := 0;    // used when Motor & !bArg & position present
+    nPosition     : LREAL := 0;    // used when Motor & !bArg & position present
 END_VAR
 VAR
     nlen       : INT;
