@@ -113,7 +113,6 @@ END_IF
 
 (* 5. EXECUTE COMMAND *)
 IF bOperationInProgress AND NOT bCancelInProgress THEN
-	
     IF bisLinearActuator THEN
         ProcessLinearActuator();
     ELSIF bisLinearTableHomeCmd OR bisLinearTableSetHomeCmd THEN
@@ -271,6 +270,7 @@ VAR_INPUT
 END_VAR
 VAR
 	Error : BOOL;
+	nCmdInt : INT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* 1. WAIT FOR STEPPER POWER-UP *)
@@ -327,21 +327,34 @@ END_IF
 IF bHome THEN
 	IF bisLinearTableHomeCmd THEN
 		IF LinearTable^.KeepAlive() THEN
-			Result := LinearTable^.Home(TRUE, FALSE);
+			Result := LinearTable^.Home(TRUE);
 		ELSE
 			Result := -1;
 		END_IF
 	ELSE
 		IF LinearTable^.KeepAlive() THEN
-			Result := LinearTable^.Home(TRUE, TRUE);
+			Result := LinearTable^.Home(FALSE); //Forced homing
 		ELSE
 			Result := -1;
 		END_IF
 	END_IF
 ELSE
-	IF LinearTable^.KeepAlive() THEN
-		Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.nCommand);
-		LinearTableCmd^.nPosition := CurrentPosition;
+	IF LinearTable^.KeepAlive() THEN	
+			nCmdInt := LREAL_TO_INT(LinearTableCmd^.nCommand);
+			CASE nCmdInt OF
+				-1: Result := LinearTable^.Jog(Mode := MC_JOGMODE_STANDARD_SLOW, JogDir := TRUE, Execute := TRUE);
+				
+				-2: Result := LinearTable^.Jog(Mode := MC_JOGMODE_STANDARD_FAST, JogDir := TRUE, Execute := TRUE);
+				
+				-3: Result := LinearTable^.Jog(Mode := MC_JOGMODE_STANDARD_SLOW, JogDir := FALSE, Execute := TRUE);
+				
+				-4: Result := LinearTable^.Jog(Mode := MC_JOGMODE_STANDARD_FAST, JogDir := FALSE, Execute := TRUE);	
+
+				-5: Result := LinearTable^.Jog(Execute := FALSE);	
+			ELSE
+				Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.nCommand);
+			END_CASE		
+			LinearTableCmd^.nPosition := CurrentPosition;
 	ELSE
 		Result := -1;
 	END_IF
@@ -356,9 +369,11 @@ CASE Result OF
             LinearTableCmd^.bHoming := FALSE;
         END_IF
         
-        sRequestedActuator := 'close';
-        bAwaitingHMIClose := TRUE;
-        tmrHMICloseSignal(IN := FALSE);
+		IF nCmdInt >= 0 THEN
+			sRequestedActuator := 'close';
+			bAwaitingHMIClose := TRUE;
+			tmrHMICloseSignal(IN := FALSE);
+		END_IF
 		
 		LinearTable^.PowerDown();
     		
@@ -375,9 +390,11 @@ CASE Result OF
             LinearTableCmd^.nPosition := -1;
         END_IF
         
-        sRequestedActuator := 'close';
-        bAwaitingHMIClose := TRUE;
-        tmrHMICloseSignal(IN := FALSE); 
+        IF nCmdInt >= 0 THEN
+			sRequestedActuator := 'close';
+			bAwaitingHMIClose := TRUE;
+			tmrHMICloseSignal(IN := FALSE);
+		END_IF
 		
 		LinearTable^.PowerDown();
 END_CASE]]></ST>
@@ -410,9 +427,7 @@ END_CASE]]></ST>
       <LineId Id="853" Count="0" />
       <LineId Id="829" Count="2" />
       <LineId Id="833" Count="1" />
-      <LineId Id="836" Count="0" />
-      <LineId Id="847" Count="0" />
-      <LineId Id="837" Count="6" />
+      <LineId Id="836" Count="7" />
       <LineId Id="848" Count="0" />
       <LineId Id="640" Count="0" />
     </LineIds>
@@ -515,19 +530,30 @@ END_CASE]]></ST>
       <LineId Id="227" Count="3" />
       <LineId Id="225" Count="1" />
       <LineId Id="87" Count="0" />
-      <LineId Id="213" Count="1" />
-      <LineId Id="217" Count="0" />
+      <LineId Id="257" Count="0" />
+      <LineId Id="261" Count="0" />
+      <LineId Id="243" Count="1" />
+      <LineId Id="246" Count="5" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="259" Count="0" />
+      <LineId Id="253" Count="1" />
+      <LineId Id="245" Count="0" />
+      <LineId Id="258" Count="0" />
       <LineId Id="215" Count="1" />
       <LineId Id="212" Count="0" />
       <LineId Id="218" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="144" Count="1" />
       <LineId Id="147" Count="6" />
+      <LineId Id="262" Count="0" />
       <LineId Id="155" Count="2" />
-      <LineId Id="189" Count="1" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="263" Count="0" />
+      <LineId Id="190" Count="0" />
       <LineId Id="158" Count="4" />
       <LineId Id="164" Count="8" />
-      <LineId Id="174" Count="2" />
+      <LineId Id="264" Count="3" />
+      <LineId Id="176" Count="0" />
       <LineId Id="191" Count="1" />
       <LineId Id="51" Count="0" />
     </LineIds>

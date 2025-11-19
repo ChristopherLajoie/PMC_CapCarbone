@@ -46,21 +46,21 @@ IF nRail = 1 THEN
         IF sAlarmType = 'MotionTimedOut' THEN
             pResult := ADR(GVL_Alarms.R1_Sensor_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
-            pResult := ADR(GVL_Alarms.R1_Sensor_UnknownState.bCondition);
+            pResult := ADR(GVL_Alarms.R1_Sensor_UnknownPosition.bCondition);
         END_IF
         
     ELSIF sBaseType = 'Compressor' THEN
         IF sAlarmType = 'MotionTimedOut' THEN
             pResult := ADR(GVL_Alarms.R1_Compressor_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
-            pResult := ADR(GVL_Alarms.R1_Compressor_UnknownState.bCondition);
+            pResult := ADR(GVL_Alarms.R1_Compressor_UnknownPosition.bCondition);
         END_IF
         
     ELSIF sBaseType = 'Chariot' THEN
         IF sAlarmType = 'MotionTimedOut' THEN
             pResult := ADR(GVL_Alarms.R1_Chariot_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
-            pResult := ADR(GVL_Alarms.R1_Chariot_UnknownState.bCondition);
+            pResult := ADR(GVL_Alarms.R1_Chariot_UnknownPosition.bCondition);
         END_IF
     END_IF
     
@@ -70,7 +70,7 @@ ELSIF nRail = 2 THEN
         IF sAlarmType = 'MotionTimedOut' THEN
             pResult := ADR(GVL_Alarms.R2_Chariot_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
-            pResult := ADR(GVL_Alarms.R2_Chariot_UnknownState.bCondition);
+            pResult := ADR(GVL_Alarms.R2_Chariot_UnknownPosition.bCondition);
         END_IF
     END_IF
     
@@ -80,7 +80,7 @@ ELSIF nRail = 3 THEN
         IF sAlarmType = 'MotionTimedOut' THEN
             pResult := ADR(GVL_Alarms.R3_Compressor_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
-            pResult := ADR(GVL_Alarms.R3_Compressor_UnknownState.bCondition);
+            pResult := ADR(GVL_Alarms.R3_Compressor_UnknownPosition.bCondition);
         END_IF
         
     ELSIF sBaseType = 'HeatExCoupola' THEN
@@ -96,7 +96,7 @@ ELSIF nRail = 3 THEN
         IF sAlarmType = 'MotionTimedOut' THEN
             pResult := ADR(GVL_Alarms.R3_RegenCoupola_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
-            pResult := ADR(GVL_Alarms.R3_RegenCoupola_UnknownState.bCondition);
+            pResult := ADR(GVL_Alarms.R3_RegenCoupola_UnknownPosition.bCondition);
 		ELSIF sAlarmType = 'DriveFaulted' THEN
 			pResult := ADR(GVL_Alarms.R3_RegenCoupola_DriveFaulted.bCondition);
         END_IF
@@ -105,7 +105,7 @@ ELSIF nRail = 3 THEN
         IF sAlarmType = 'MotionTimedOut' THEN
             pResult := ADR(GVL_Alarms.R3_Chariot_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
-            pResult := ADR(GVL_Alarms.R3_Chariot_UnknownState.bCondition);
+            pResult := ADR(GVL_Alarms.R3_Chariot_UnknownPosition.bCondition);
         END_IF
     END_IF
     
@@ -115,7 +115,7 @@ ELSIF nRail = 4 THEN
         IF sAlarmType = 'MotionTimedOut' THEN
             pResult := ADR(GVL_Alarms.R4_Chariot_MotionTimedOut.bCondition);
         ELSIF sAlarmType = 'UnknownState' THEN
-            pResult := ADR(GVL_Alarms.R4_Chariot_UnknownState.bCondition);
+            pResult := ADR(GVL_Alarms.R4_Chariot_UnknownPosition.bCondition);
         END_IF
     END_IF
 END_IF

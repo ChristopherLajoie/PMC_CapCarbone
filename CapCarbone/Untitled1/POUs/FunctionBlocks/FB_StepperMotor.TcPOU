@@ -172,12 +172,67 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="Jog" Id="{13fd5d92-9a13-40b0-906d-8dfe16d4a32b}">
-      <Declaration><![CDATA[METHOD Jog : BOOL
+      <Declaration><![CDATA[METHOD Jog : INT
 VAR_INPUT
+	Mode : E_JOGMODE := MC_JOGMODE_STANDARD_SLOW; //Slow or Fast
+	JogDir  : BOOL := TRUE;
+	Execute : BOOL;
+END_VAR
+
+VAR
+	pAlarmCondition : POINTER TO BOOL;
+	sErrorMsg : STRING(255);
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[Jog := 0;
+
+CASE eState OF
+	LAS_Stepper_Ready, LAS_Stepper_Idle:
+		IF Execute THEN
+			fbJog(Axis := pAxis^, Mode := Mode, JogForward := JogDir, JogBackwards := NOT JogDir);
+		END_IF
+		eState := LAS_Stepper_Moving;
+
+	LAS_Stepper_Moving:
+		IF fbJog.Busy AND Execute THEN
+			fbJog(Axis := pAxis^);
+		ELSE
+			fbJog(Axis := pAxis^, JogForward := FALSE, JogBackwards := FALSE);
+		END_IF
+		
+		IF fbJog.Error THEN
+			eState := LAS_Stepper_Error;
+			nErrID := fbJog.ErrorID;
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+				
+				sErrorMsg := F_GetMC2ErrorDescription(fbJog.ErrorID);
+				
+				CASE nRail OF
+					1: GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 1 motion failed: ', sErrorMsg);
+					2: GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 2 motion failed: ', sErrorMsg);
+					3: GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 3 motion failed: ', sErrorMsg);
+					4: GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 4 motion failed: ', sErrorMsg);
+				END_CASE
+			END_IF
+			
+			fbJog(Axis := pAxis^, JogForward := FALSE, JogBackwards := FALSE);
+			Jog := -1;
+		END_IF
+				
+		IF fbJog.Done THEN
+			eState := LAS_Stepper_Ready;
+			Jog := 1; 
+			nErrID := 0;
+		END_IF
+	
+	LAS_Stepper_Error:
+		Jog := -1; 
+		
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="KeepAlive" Id="{3a149900-35bd-429f-af64-f1f6cf4f27bc}">
@@ -586,7 +641,15 @@ END_CASE
       <LineId Id="39" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Jog">
-      <LineId Id="1" Count="0" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="4" Count="2" />
+      <LineId Id="70" Count="2" />
+      <LineId Id="8" Count="4" />
+      <LineId Id="73" Count="1" />
+      <LineId Id="13" Count="23" />
+      <LineId Id="57" Count="1" />
+      <LineId Id="60" Count="6" />
+      <LineId Id="3" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.KeepAlive">
       <LineId Id="77" Count="1" />
