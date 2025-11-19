@@ -2176,43 +2176,11 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{06A144AE-15C8-407C-8A20-7ACC04BE137D}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{306A3A6A-7AA3-582C-8B9B-D4C8BA072031}" TmcPath="Untitled1\Untitled1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{75C5F672-22A9-4937-7040-A60C63F99C0B}" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>Main_Task Outputs</Name>
-						<Var>
-							<Name>GVL_Steppers.Rail1_Mot_Ref.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail2_Mot_Ref.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail3_Mot_Ref.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail4_Mot_Ref.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail1_Mot_Struct.object.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail2_Mot_Struct.object.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail3_Mot_Struct.object.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail4_Mot_Struct.object.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
-						</Var>
 						<Var>
 							<Name>GVL_LinearActuatorDriveControls.Gui1_Mot_Speed2</Name>
 							<Type>BOOL</Type>
@@ -2317,101 +2285,41 @@ External Setpoint Generation:
 							<Name>GVL_LinearActuatorRelays.Tri4_Mot_Bw</Name>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail1_Mot_Ref.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail2_Mot_Ref.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail3_Mot_Ref.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail4_Mot_Ref.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail1_Mot_Struct.object.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail2_Mot_Struct.object.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail3_Mot_Struct.object.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail4_Mot_Struct.object.PlcToNc</Name>
+							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="1">
 						<Name>Main_Task Inputs</Name>
-						<Var>
-							<Name>GVL.StartCycle</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL.StopCycle</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL.ResetSafety</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL.SafetyRelayStatus</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL.PLC_Fan_Steppers</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_CellPositionSensors.Cell_Pos1</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_CellPositionSensors.Cell_Pos2</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_CellPositionSensors.Cell_Pos3</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_CellPositionSensors.Cell_Pos4</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_CellPositionSensors.Cell_Pos5</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_CellPositionSensors.Cell_Pos6</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail1_Mot_Ref.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail2_Mot_Ref.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail3_Mot_Ref.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail4_Mot_Ref.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail1_Mot_Struct.object.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail2_Mot_Struct.object.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail3_Mot_Struct.object.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_Steppers.Rail4_Mot_Struct.object.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
-						</Var>
-						<Var>
-							<Name>GVL_LinearActuatorDriveControls.Gui1_Mot_Fault</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_LinearActuatorDriveControls.Gui2_Mot_Fault</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_LinearActuatorDriveControls.Cmp1_Mot_Fault</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL_LinearActuatorDriveControls.Cmp2_Mot_Fault</Name>
-							<Type>BOOL</Type>
-						</Var>
 						<Var>
 							<Name>GVL_LinearActuatorProxSensors.Tri1_Prox_In</Name>
 							<Type>BOOL</Type>
@@ -2509,6 +2417,66 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>GVL.StartCycle</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.StopCycle</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ResetSafety</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.SafetyRelayStatus</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.PLC_Fan_Steppers</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.Cell_Pos1</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.Cell_Pos2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.Cell_Pos3</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.Cell_Pos4</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.Cell_Pos5</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_CellPositionSensors.Cell_Pos6</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Gui1_Mot_Fault</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Gui2_Mot_Fault</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Cmp1_Mot_Fault</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_LinearActuatorDriveControls.Cmp2_Mot_Fault</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL_SteppersProx.Rail1_Prox</Name>
 							<Type>BOOL</Type>
 						</Var>
@@ -2519,6 +2487,38 @@ External Setpoint Generation:
 						<Var>
 							<Name>GVL_SteppersProx.Rail3_Prox</Name>
 							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail1_Mot_Ref.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail2_Mot_Ref.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail3_Mot_Ref.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail4_Mot_Ref.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail1_Mot_Struct.object.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail2_Mot_Struct.object.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail3_Mot_Struct.object.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>GVL_Steppers.Rail4_Mot_Struct.object.NcToPlc</Name>
+							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 						</Var>
 						<Var>
 							<Name>GVL_SteppersProx.Rail4_Prox</Name>
@@ -10118,9 +10118,9 @@ Bit 8 - 15 : reserved]]></Comment>
 		</SymbolWatch>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2005-0850-0020-500860000403}" Id="#x02030030"/>
-		<MappingInfo Identifier="{00000000-0010-0304-3000-040311000403}" Id="#x02030010"/>
-		<MappingInfo Identifier="{00000000-0070-0304-3000-040372000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-2005-0850-0020-500860000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-0010-0304-3000-040311000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-0070-0304-3000-040372000403}" Id="#x02030030"/>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Drive Stepper Rail1/2 (EL7062)">
 				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="DRV Following error actual value Channel 1^Following error actual value"/>
@@ -10234,8 +10234,8 @@ Bit 8 - 15 : reserved]]></Comment>
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #2 (EL2809)">
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Piv1_Mot_Bw" VarB="Channel 13^Piv1 Backward"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Piv1_Mot_Fw" VarB="Channel 5^Piv1 Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri1_Mot_Bw" VarB="Channel 9^Tri1 Pop-Up Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri1_Mot_Fw" VarB="Channel 1^Tri1 Pop-Up Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri1_Mot_Bw" VarB="Channel 1^Tri1 Pop-Up Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri1_Mot_Fw" VarB="Channel 9^Tri1 Pop-Up Backward"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri2_Mot_Bw" VarB="Channel 11^Tri2 Pop-Up Backward"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri2_Mot_Fw" VarB="Channel 3^Tri2 Pop-Up Forward"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri3_Mot_Bw" VarB="Channel 12^Tri3 Pop-Up Backward"/>

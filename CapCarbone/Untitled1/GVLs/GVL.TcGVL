@@ -15,6 +15,7 @@ VAR_GLOBAL
     bStopCycleMem  : BOOL;  
 	
 	SafetyRelayStatus AT %I*: BOOL;
+	
 	gSystemAlarmStatus : ST_SystemAlarmStatus;
 	
 	PLC_Fan_Steppers AT %I*: BOOL;

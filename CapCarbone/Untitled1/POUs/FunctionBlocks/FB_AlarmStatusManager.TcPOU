@@ -37,7 +37,7 @@ FOR i := 1 TO 5 DO
 END_FOR
 
 //Check Safety Relay status
-SafetyRelay.bCondition := SafetyRelayStatus;
+SafetyRelay.bCondition := NOT SafetyRelayStatus;
 
 // Process all alarms 
 FOR i := 1 TO nAlarmCount DO

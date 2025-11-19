@@ -29,7 +29,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">"Init"</v>
+                            <v n="Value">"stpInit"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">310L</v>
@@ -67,7 +67,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{6844a48e-46c2-4cc8-a185-a478f3b99cc0}</v>
                           <o n="Value" t="BoolValue">
-                            <v n="Value">"FALSE"</v>
+                            <v n="Value">"True"</v>
                             <v n="DefaultValue">"FALSE"</v>
                           </o>
                           <v n="Id">314L</v>
@@ -103,7 +103,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">"Init_active"</v>
+                            <v n="Value">"stpInit_active"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">318L</v>
@@ -132,7 +132,7 @@ END_VAR]]></Declaration>
                       <v n="IdParent">5L</v>
                     </o>
                     <o t="SFCTransition">
-                      <v n="VariableName">"Init__to__Homing_step"</v>
+                      <v n="VariableName">"stpInit__to__stpHoming"</v>
                       <n n="EmbeddedTransition" />
                       <l2 n="EmbeddedTransitionProperties" />
                       <l2 n="Attributes" cet="SFCAttribute">
@@ -212,7 +212,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">"Homing_step"</v>
+                            <v n="Value">"stpHoming"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">298L</v>
@@ -250,7 +250,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{6844a48e-46c2-4cc8-a185-a478f3b99cc0}</v>
                           <o n="Value" t="BoolValue">
-                            <v n="Value">"TRUE"</v>
+                            <v n="Value">"False"</v>
                             <v n="DefaultValue">"FALSE"</v>
                           </o>
                           <v n="Id">302L</v>
@@ -286,7 +286,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">"_aHoming_step_active"</v>
+                            <v n="Value">"stpHoming_Active"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">306L</v>
@@ -315,7 +315,7 @@ END_VAR]]></Declaration>
                       <v n="IdParent">5L</v>
                     </o>
                     <o t="SFCTransition">
-                      <v n="VariableName">"Homing_step__to__Cycle_Megagenial_step"</v>
+                      <v n="VariableName">"stpHoming__to__stpCycle_Megagenial"</v>
                       <n n="EmbeddedTransition" />
                       <l2 n="EmbeddedTransitionProperties" />
                       <l2 n="Attributes" cet="SFCAttribute">
@@ -395,7 +395,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">"Cycle_Megagenial_step"</v>
+                            <v n="Value">"stpCycle_Megagenial"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">242L</v>
@@ -469,7 +469,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">"_aCycle_Megagenial"</v>
+                            <v n="Value">"stpCycle_Megagenial_active"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">250L</v>
@@ -498,7 +498,7 @@ END_VAR]]></Declaration>
                       <v n="IdParent">5L</v>
                     </o>
                     <o t="SFCTransition">
-                      <v n="VariableName">"Cycle_Megagenial_step__to__Init"</v>
+                      <v n="VariableName">"stpCycle_Megagenial__to__stpInit"</v>
                       <n n="EmbeddedTransition" />
                       <l2 n="EmbeddedTransitionProperties" />
                       <l2 n="Attributes" cet="SFCAttribute">
@@ -569,7 +569,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">"Init"</v>
+                            <v n="Value">"stpInit"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">29L</v>
@@ -918,83 +918,7 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </SFC>
     </Implementation>
-    <Action Name="_a_aHoming_Rail1_step_active" Id="{fb25f31f-f5aa-42a2-b0c0-7d19b1068d98}">
-      <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor1', bArg := TRUE);
-]]></ST>
-      </Implementation>
-      <ObjectProperties>
-        <XmlArchive>
-          <Data>
-            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
-              <v n="Embedded">true</v>
-            </o>
-          </Data>
-          <TypeList>
-            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
-            <Type n="Boolean">System.Boolean</Type>
-          </TypeList>
-        </XmlArchive>
-      </ObjectProperties>
-    </Action>
-    <Action Name="_a_aHoming_Rail2_step_active" Id="{05de02ac-fc4f-4dfa-bf73-dd333619d594}">
-      <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor2', bArg := TRUE);
-]]></ST>
-      </Implementation>
-      <ObjectProperties>
-        <XmlArchive>
-          <Data>
-            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
-              <v n="Embedded">true</v>
-            </o>
-          </Data>
-          <TypeList>
-            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
-            <Type n="Boolean">System.Boolean</Type>
-          </TypeList>
-        </XmlArchive>
-      </ObjectProperties>
-    </Action>
-    <Action Name="_a_aHoming_Rail3_step_active" Id="{a8079511-f2ba-46af-a200-391749389f5a}">
-      <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor3', bArg := TRUE);
-]]></ST>
-      </Implementation>
-      <ObjectProperties>
-        <XmlArchive>
-          <Data>
-            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
-              <v n="Embedded">true</v>
-            </o>
-          </Data>
-          <TypeList>
-            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
-            <Type n="Boolean">System.Boolean</Type>
-          </TypeList>
-        </XmlArchive>
-      </ObjectProperties>
-    </Action>
-    <Action Name="_a_aHoming_Rail4_step_active" Id="{1a90254e-196a-43a6-a57f-623383978a9d}">
-      <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor4', bArg := TRUE);
-]]></ST>
-      </Implementation>
-      <ObjectProperties>
-        <XmlArchive>
-          <Data>
-            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
-              <v n="Embedded">true</v>
-            </o>
-          </Data>
-          <TypeList>
-            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
-            <Type n="Boolean">System.Boolean</Type>
-          </TypeList>
-        </XmlArchive>
-      </ObjectProperties>
-    </Action>
-    <Action Name="_aCatch_Cell_Rail1" Id="{06e8ca90-ee36-400c-a2c7-f6476c6539a8}">
+    <Action Name="stpCatch_Rail1_active" Id="{06e8ca90-ee36-400c-a2c7-f6476c6539a8}">
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Chariot1', bArg := TRUE);
 
@@ -1014,7 +938,7 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </ObjectProperties>
     </Action>
-    <Action Name="_aCycle_Megagenial" Id="{f41558d6-b881-4947-8649-a53b5a957e0e}">
+    <Action Name="stpCycle_Megagenial_active" Id="{f41558d6-b881-4947-8649-a53b5a957e0e}">
       <Implementation>
         <SFC>
           <XmlArchive>
@@ -1037,7 +961,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Init__aCycle_Megagenial"</v>
+                              <v n="Value">"stpInit_Cycle_Megagenial"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">4L</v>
@@ -1140,7 +1064,7 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"Init__aCycle_Megagenial__to__Catch_Cell_Rail1_step"</v>
+                        <v n="VariableName">"stpInit_Cycle_Megagenial__to__stpCatch_Rail1"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -1220,7 +1144,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Catch_Cell_Rail1_step"</v>
+                              <v n="Value">"stpCatch_Rail1"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">76L</v>
@@ -1294,7 +1218,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_aCatch_Cell_Rail1"</v>
+                              <v n="Value">"stpCatch_Rail1_active"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">84L</v>
@@ -1323,7 +1247,7 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"Catch_Cell_Rail1_step__to__Move_Rail1_step"</v>
+                        <v n="VariableName">"stpCatch_Rail1__to__stpMove_Rail1"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -1403,7 +1327,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Move_Rail1_step"</v>
+                              <v n="Value">"stpMove_Rail1"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">65L</v>
@@ -1477,7 +1401,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_aMove_Rail1"</v>
+                              <v n="Value">"stpMove_Rail1_active"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">42L</v>
@@ -1506,7 +1430,7 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"Move_Rail1_step__to__Drop_Cell_Rai1_step"</v>
+                        <v n="VariableName">"stpMove_Rail1__to__stpDrop_Rail1"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -1586,7 +1510,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Drop_Cell_Rai1_step"</v>
+                              <v n="Value">"stpDrop_Rail1"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">53L</v>
@@ -1660,7 +1584,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_aDrop_Cell_Rail1"</v>
+                              <v n="Value">"stpDrop_Rail1_active"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">61L</v>
@@ -1689,7 +1613,7 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"Drop_Cell_Rai1_step__to__Init__aCycle_Megagenial"</v>
+                        <v n="VariableName">"stpDrop_Rail1__to__stpInit_Cycle_Megagenial"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -1760,7 +1684,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Init__aCycle_Megagenial"</v>
+                              <v n="Value">"stpInit_Cycle_Megagenial"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">23L</v>
@@ -1790,7 +1714,35 @@ END_VAR]]></Declaration>
                       </o>
                     </l2>
                   </o>
-                  <l2 n="Attributes" />
+                  <l2 n="Attributes" cet="SFCAttribute">
+                    <o>
+                      <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
+                      <o n="Value" t="StringValue">
+                        <v n="Value">""</v>
+                        <v n="DefaultValue">""</v>
+                      </o>
+                      <v n="Id">94L</v>
+                      <v n="IdParent">2L</v>
+                    </o>
+                    <o>
+                      <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
+                      <o n="Value" t="StringValue">
+                        <v n="Value">""</v>
+                        <v n="DefaultValue">""</v>
+                      </o>
+                      <v n="Id">95L</v>
+                      <v n="IdParent">2L</v>
+                    </o>
+                    <o>
+                      <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
+                      <o n="Value" t="BoolValue">
+                        <v n="Value">"FALSE"</v>
+                        <v n="DefaultValue">"FALSE"</v>
+                      </o>
+                      <v n="Id">96L</v>
+                      <v n="IdParent">2L</v>
+                    </o>
+                  </l2>
                   <v n="Id">2L</v>
                   <v n="IdParent">-1L</v>
                 </o>
@@ -2195,7 +2147,7 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </ObjectProperties>
     </Action>
-    <Action Name="_aDrop_Cell_Rail1" Id="{4a9d4d90-45fb-4d7d-aad0-afa0f297d2d4}">
+    <Action Name="stpDrop_Rail1_active" Id="{4a9d4d90-45fb-4d7d-aad0-afa0f297d2d4}">
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Chariot1', bArg := FALSE);
 
@@ -2215,25 +2167,7 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </ObjectProperties>
     </Action>
-    <Action Name="_aEnd_Homing" Id="{0dc240cc-031c-4364-9609-10d07dafd78b}">
-      <Implementation>
-        <ST><![CDATA[bHomingDone := TRUE;]]></ST>
-      </Implementation>
-      <ObjectProperties>
-        <XmlArchive>
-          <Data>
-            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
-              <v n="Embedded">true</v>
-            </o>
-          </Data>
-          <TypeList>
-            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
-            <Type n="Boolean">System.Boolean</Type>
-          </TypeList>
-        </XmlArchive>
-      </ObjectProperties>
-    </Action>
-    <Action Name="_aHoming_step_active" Id="{af655b4e-aa21-49ae-80b0-b983e3e6a8f9}">
+    <Action Name="stpHoming_Active" Id="{af655b4e-aa21-49ae-80b0-b983e3e6a8f9}">
       <Implementation>
         <SFC>
           <XmlArchive>
@@ -2256,7 +2190,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Init_step"</v>
+                              <v n="Value">"stpInit_Homing"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">4L</v>
@@ -2330,7 +2264,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_aInit_step_active"</v>
+                              <v n="Value">""</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">12L</v>
@@ -2359,14 +2293,14 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"Init_step__to___aHoming_Rail1_step"</v>
+                        <v n="VariableName">"stpInit_Homing__to__stpHoming_Rail1"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"NOT bStopCycleMem AND FALSE"</v>
+                              <v n="Value">"NOT bStopCycleMem"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">27L</v>
@@ -2439,7 +2373,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_aHoming_Rail1_step"</v>
+                              <v n="Value">"stpHoming_Rail1"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">34L</v>
@@ -2513,7 +2447,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_a_aHoming_Rail1_step_active"</v>
+                              <v n="Value">"stpHoming_Rail1_active"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">42L</v>
@@ -2542,7 +2476,7 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"_aHoming_Rail1_step__to___aHoming_Rail2_step"</v>
+                        <v n="VariableName">"stpHoming_Rail1__to__stpHoming_Rail2"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -2622,7 +2556,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_aHoming_Rail2_step"</v>
+                              <v n="Value">"stpHoming_Rail2"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">53L</v>
@@ -2696,7 +2630,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_a_aHoming_Rail2_step_active"</v>
+                              <v n="Value">"stpHoming_Rail2_active"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">61L</v>
@@ -2725,7 +2659,7 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"_aHoming_Rail2_step__to___aHoming_Rail3_step"</v>
+                        <v n="VariableName">"stpHoming_Rail2__to__stpHoming_Rail3"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -2805,7 +2739,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_aHoming_Rail3_step"</v>
+                              <v n="Value">"stpHoming_Rail3"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">72L</v>
@@ -2879,7 +2813,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_a_aHoming_Rail3_step_active"</v>
+                              <v n="Value">"stpHoming_Rail3_active"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">80L</v>
@@ -2908,7 +2842,7 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"_aHoming_Rail3_step__to___aHoming_Rail4_step"</v>
+                        <v n="VariableName">"stpHoming_Rail3__to__stpHoming_Rail4"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -2988,7 +2922,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_aHoming_Rail4_step"</v>
+                              <v n="Value">"stpHoming_Rail4"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">91L</v>
@@ -3062,7 +2996,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"_a_aHoming_Rail4_step_active"</v>
+                              <v n="Value">"stpHoming_Rail4_active"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">99L</v>
@@ -3091,7 +3025,190 @@ END_VAR]]></Declaration>
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"_aHoming_Rail4_step__to__Init_step"</v>
+                        <v n="VariableName">"stpHoming_Rail4__to__stpHoming_End"</v>
+                        <n n="EmbeddedTransition" />
+                        <l2 n="EmbeddedTransitionProperties" />
+                        <l2 n="Attributes" cet="SFCAttribute">
+                          <o>
+                            <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">106L</v>
+                            <v n="IdParent">105L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">""</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">107L</v>
+                            <v n="IdParent">105L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
+                            <o n="Value" t="BoolValue">
+                              <v n="Value">"FALSE"</v>
+                              <v n="DefaultValue">"FALSE"</v>
+                            </o>
+                            <v n="Id">108L</v>
+                            <v n="IdParent">105L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{bc882c11-1e91-4dd8-a6b8-2075724ed18b}</v>
+                            <o n="Value" t="EnumValue">
+                              <v n="TemplateGuid">{79a4fdd5-c859-4de4-aa8d-c03372c880c2}</v>
+                              <n n="BaseType" />
+                              <v n="Value">"0"</v>
+                              <v n="DefaultValue">"0"</v>
+                            </o>
+                            <v n="Id">109L</v>
+                            <v n="IdParent">105L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{62e1754b-7629-4e63-9cec-10ae0c536f1f}</v>
+                            <o n="Value" t="BoolValue">
+                              <v n="Value">"FALSE"</v>
+                              <v n="DefaultValue">"FALSE"</v>
+                            </o>
+                            <v n="Id">110L</v>
+                            <v n="IdParent">105L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{8294df19-5962-4dee-a874-1051dabb0e3e}</v>
+                            <o n="Value" t="EnumValue">
+                              <v n="TemplateGuid">{6ecff51c-9b8f-4338-aab0-67c2b31b07e9}</v>
+                              <n n="BaseType" />
+                              <v n="Value">"0"</v>
+                              <v n="DefaultValue">"0"</v>
+                            </o>
+                            <v n="Id">111L</v>
+                            <v n="IdParent">105L</v>
+                          </o>
+                        </l2>
+                        <v n="Id">105L</v>
+                        <v n="IdParent">2L</v>
+                      </o>
+                      <o t="SFCStep">
+                        <n n="EmbeddedMainAction" />
+                        <n n="EmbeddedEntryAction" />
+                        <n n="EmbeddedExitAction" />
+                        <l2 n="EmbeddedMainActionProperties" />
+                        <l2 n="EmbeddedEntryActionProperties" />
+                        <l2 n="EmbeddedExitActionProperties" />
+                        <o n="ElementList" t="SFCElementList">
+                          <l2 n="InnerList" />
+                        </o>
+                        <l2 n="Attributes" cet="SFCAttribute">
+                          <o>
+                            <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">"stpHoming_End"</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">113L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">""</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">114L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
+                            <o n="Value" t="BoolValue">
+                              <v n="Value">"FALSE"</v>
+                              <v n="DefaultValue">"FALSE"</v>
+                            </o>
+                            <v n="Id">115L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{bc882c11-1e91-4dd8-a6b8-2075724ed18b}</v>
+                            <o n="Value" t="EnumValue">
+                              <v n="TemplateGuid">{79a4fdd5-c859-4de4-aa8d-c03372c880c2}</v>
+                              <n n="BaseType" />
+                              <v n="Value">"0"</v>
+                              <v n="DefaultValue">"0"</v>
+                            </o>
+                            <v n="Id">116L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{6844a48e-46c2-4cc8-a185-a478f3b99cc0}</v>
+                            <o n="Value" t="BoolValue">
+                              <v n="Value">"FALSE"</v>
+                              <v n="DefaultValue">"FALSE"</v>
+                            </o>
+                            <v n="Id">117L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{62e1754b-7629-4e63-9cec-10ae0c536f1f}</v>
+                            <o n="Value" t="BoolValue">
+                              <v n="Value">"FALSE"</v>
+                              <v n="DefaultValue">"FALSE"</v>
+                            </o>
+                            <v n="Id">118L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{cacf1a68-236e-47c2-b7b1-1cf9199718cb}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">""</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">119L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{b693554c-1b01-4a8d-afde-9e3a46f7465d}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">""</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">120L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">"stpHoming_End_active"</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">121L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">""</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">122L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                          <o>
+                            <v n="AttributeId">{a2621e18-7de3-4ea6-ae6d-89e9e0b7befd}</v>
+                            <o n="Value" t="StringValue">
+                              <v n="Value">""</v>
+                              <v n="DefaultValue">""</v>
+                            </o>
+                            <v n="Id">123L</v>
+                            <v n="IdParent">112L</v>
+                          </o>
+                        </l2>
+                        <v n="Id">112L</v>
+                        <v n="IdParent">2L</v>
+                      </o>
+                      <o t="SFCTransition">
+                        <v n="VariableName">"stpHoming_End__to__stpHoming_End"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -3162,7 +3279,7 @@ END_VAR]]></Declaration>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Init_step"</v>
+                              <v n="Value">"stpHoming_End"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">23L</v>
@@ -3192,7 +3309,35 @@ END_VAR]]></Declaration>
                       </o>
                     </l2>
                   </o>
-                  <l2 n="Attributes" />
+                  <l2 n="Attributes" cet="SFCAttribute">
+                    <o>
+                      <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
+                      <o n="Value" t="StringValue">
+                        <v n="Value">""</v>
+                        <v n="DefaultValue">""</v>
+                      </o>
+                      <v n="Id">102L</v>
+                      <v n="IdParent">2L</v>
+                    </o>
+                    <o>
+                      <v n="AttributeId">{7d894980-aeea-405c-a0f6-e2b26429c58f}</v>
+                      <o n="Value" t="StringValue">
+                        <v n="Value">""</v>
+                        <v n="DefaultValue">""</v>
+                      </o>
+                      <v n="Id">103L</v>
+                      <v n="IdParent">2L</v>
+                    </o>
+                    <o>
+                      <v n="AttributeId">{01580b27-6378-448b-8ecb-0e4b795b58d6}</v>
+                      <o n="Value" t="BoolValue">
+                        <v n="Value">"FALSE"</v>
+                        <v n="DefaultValue">"FALSE"</v>
+                      </o>
+                      <v n="Id">104L</v>
+                      <v n="IdParent">2L</v>
+                    </o>
+                  </l2>
                   <v n="Id">2L</v>
                   <v n="IdParent">-1L</v>
                 </o>
@@ -3597,9 +3742,9 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </ObjectProperties>
     </Action>
-    <Action Name="_aInit_step_active" Id="{6fbfe122-8bb2-4ca9-9f3c-6f967374eb7f}">
+    <Action Name="stpHoming_End_active" Id="{bf4f0d0e-d325-4508-8c9e-6a59574e2faa}">
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[bHomingDone := TRUE;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -3615,7 +3760,7 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </ObjectProperties>
     </Action>
-    <Action Name="_aMove_Rail1" Id="{28b8c964-5b72-4ee3-a1ba-894fd8a3a263}">
+    <Action Name="stpHoming_Rail1_active" Id="{56d49874-ad0c-400a-932d-c09aa003556e}">
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor1', bArg := FALSE, bHasPosition := TRUE, nPosition := Rail1_Pos4);
 
@@ -3635,7 +3780,64 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </ObjectProperties>
     </Action>
-    <Action Name="Init_active" Id="{10aa273c-50f4-48b2-827b-3d0220d77be7}">
+    <Action Name="stpHoming_Rail2_active" Id="{05de02ac-fc4f-4dfa-bf73-dd333619d594}">
+      <Implementation>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor2', bArg := TRUE);
+]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="stpHoming_Rail3_active" Id="{a8079511-f2ba-46af-a200-391749389f5a}">
+      <Implementation>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor3', bArg := TRUE);
+]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="stpHoming_Rail4_active" Id="{1a90254e-196a-43a6-a57f-623383978a9d}">
+      <Implementation>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor4', bArg := TRUE);
+]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="stpInit_active" Id="{10aa273c-50f4-48b2-827b-3d0220d77be7}">
       <Implementation>
         <ST><![CDATA[
 RTrigStart(CLK := StartCycle);
@@ -3655,10 +3857,25 @@ END_IF
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="Init_Cycle_Megagenial_active" Id="{69ec266d-c837-4b14-90a1-9314bb16ec18}">
+    <Action Name="stpMove_Rail1_active" Id="{82951208-c126-4f3b-b86c-8ccca38af486}">
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor1', bArg := FALSE, bHasPosition := TRUE, nPosition:= Rail1_Pos4);
+
+]]></ST>
       </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
     </Action>
     <ObjectProperties>
       <XmlArchive>
@@ -3757,38 +3974,32 @@ END_IF
         </TypeList>
       </XmlArchive>
     </ObjectProperties>
-    <LineIds Name="PRG_Cycle._a_aHoming_Rail1_step_active">
-      <LineId Id="1" Count="1" />
-    </LineIds>
-    <LineIds Name="PRG_Cycle._a_aHoming_Rail2_step_active">
-      <LineId Id="1" Count="1" />
-    </LineIds>
-    <LineIds Name="PRG_Cycle._a_aHoming_Rail3_step_active">
-      <LineId Id="1" Count="1" />
-    </LineIds>
-    <LineIds Name="PRG_Cycle._a_aHoming_Rail4_step_active">
-      <LineId Id="1" Count="1" />
-    </LineIds>
-    <LineIds Name="PRG_Cycle._aCatch_Cell_Rail1">
+    <LineIds Name="PRG_Cycle.stpCatch_Rail1_active">
       <LineId Id="1" Count="2" />
     </LineIds>
-    <LineIds Name="PRG_Cycle._aDrop_Cell_Rail1">
+    <LineIds Name="PRG_Cycle.stpDrop_Rail1_active">
       <LineId Id="1" Count="2" />
     </LineIds>
-    <LineIds Name="PRG_Cycle._aEnd_Homing">
+    <LineIds Name="PRG_Cycle.stpHoming_End_active">
       <LineId Id="1" Count="0" />
     </LineIds>
-    <LineIds Name="PRG_Cycle._aInit_step_active">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="PRG_Cycle._aMove_Rail1">
+    <LineIds Name="PRG_Cycle.stpHoming_Rail1_active">
       <LineId Id="1" Count="2" />
     </LineIds>
-    <LineIds Name="PRG_Cycle.Init_active">
+    <LineIds Name="PRG_Cycle.stpHoming_Rail2_active">
+      <LineId Id="1" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle.stpHoming_Rail3_active">
+      <LineId Id="1" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle.stpHoming_Rail4_active">
+      <LineId Id="1" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle.stpInit_active">
       <LineId Id="1" Count="15" />
     </LineIds>
-    <LineIds Name="PRG_Cycle.Init_Cycle_Megagenial_active">
-      <LineId Id="1" Count="0" />
+    <LineIds Name="PRG_Cycle.stpMove_Rail1_active">
+      <LineId Id="1" Count="2" />
     </LineIds>
   </POU>
 </TcPlcObject>

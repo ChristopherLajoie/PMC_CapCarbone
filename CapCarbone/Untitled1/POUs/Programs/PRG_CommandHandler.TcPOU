@@ -282,8 +282,8 @@ VAR
 	Error : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF LinearTable^.KeepAlive(Error => Error) THEN
-	// Get command value
+        <ST><![CDATA[(* 1. WAIT FOR STEPPER POWER-UP *)
+IF LinearTable^.KeepAlive(Error => Error) THEN
 	LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
 ELSIF Error THEN
 	Result := -1;
@@ -291,7 +291,7 @@ ELSE
 	RETURN;
 END_IF
 	
-(* 1. RESET COMMAND CHECK *)
+(* 2. RESET COMMAND CHECK *)
 IF bisResetCmd THEN
 	LinearTable^.bHoldKeepAlive := TRUE;
 	
@@ -315,8 +315,7 @@ IF bisResetCmd THEN
 			LinearTable^.PowerDown();
             RETURN;
             
-        0: // Continue
-            // Operation in progress
+        0: // Operation in progress
 			RETURN;
             
        -1: // Failure
@@ -333,7 +332,7 @@ IF bisResetCmd THEN
     END_CASE
 END_IF
 
-(* 2. EXECUTE MOVEMENT COMMAND *)
+(* 3. EXECUTE MOVEMENT COMMAND *)
 IF bHome THEN
 	IF bisLinearTableHomeCmd THEN
 		IF LinearTable^.KeepAlive() THEN
@@ -486,9 +485,8 @@ END_CASE]]></ST>
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
-      <LineId Id="193" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="194" Count="0" />
+      <LineId Id="233" Count="0" />
+      <LineId Id="193" Count="1" />
       <LineId Id="231" Count="1" />
       <LineId Id="196" Count="3" />
       <LineId Id="60" Count="0" />
@@ -503,7 +501,7 @@ END_CASE]]></ST>
       <LineId Id="125" Count="2" />
       <LineId Id="187" Count="0" />
       <LineId Id="182" Count="0" />
-      <LineId Id="128" Count="3" />
+      <LineId Id="128" Count="2" />
       <LineId Id="222" Count="0" />
       <LineId Id="132" Count="1" />
       <LineId Id="135" Count="0" />
