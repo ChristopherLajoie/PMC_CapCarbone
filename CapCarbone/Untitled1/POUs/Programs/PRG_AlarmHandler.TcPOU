@@ -14,13 +14,12 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInitComplete THEN
     Rail1_Mot_FB.nRail := 1;
-    Rail1_Mot_FB.nRail := 2; 
-    Rail1_Mot_FB.nRail := 3;
-    Rail1_Mot_FB.nRail := 4;
+    Rail2_Mot_FB.nRail := 2; 
+    Rail3_Mot_FB.nRail := 3;
+    Rail4_Mot_FB.nRail := 4;
 	
     bInitComplete := TRUE;
 END_IF
-
 
 fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);
 gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
@@ -29,7 +28,6 @@ gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
       <LineId Id="172" Count="4" />
       <LineId Id="274" Count="0" />
       <LineId Id="178" Count="1" />
-      <LineId Id="188" Count="0" />
       <LineId Id="264" Count="1" />
       <LineId Id="58" Count="0" />
     </LineIds>

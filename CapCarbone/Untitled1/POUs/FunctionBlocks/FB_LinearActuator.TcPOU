@@ -4,8 +4,8 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_LinearActuator
 VAR
     // STATE & CONFIGURATION
-    eState      : ENUM_LinearActuatorState := LAS_LinearActuator_Uninitialized;
-    tTimeout    : TIME := T#50S;
+    eState      : ENUM_LinearActuatorState := LAS_LinearActuator_Uninitialised;
+    tTimeout    : TIME := T#10S;
 
     // ERROR HANDLING
     bError      : BOOL;
@@ -45,16 +45,6 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Brake" Id="{9115bb2d-4925-438c-8ce9-f996bedccfd8}">
-      <Declaration><![CDATA[METHOD Brake : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[pActuator^.bFwdDO^ := FALSE;
-pActuator^.bBckwDO^ := FALSE;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="CheckDriveFault" Id="{fa98b561-2deb-4912-871f-79363f500ba9}">
       <Declaration><![CDATA[METHOD CheckDriveFault : BOOL
 VAR
@@ -63,10 +53,11 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT bIsBasic THEN
-	eState := LAS_LinearActuator_Error;
 	pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'DriveFaulted');
 	
     IF pActuator^.bFaultDI^ := TRUE THEN
+		eState := LAS_LinearActuator_Error;
+		
 		IF pAlarmCondition <> 0 THEN
 			pAlarmCondition^ := TRUE;
 		END_IF
@@ -91,7 +82,7 @@ CheckDriveFault();
 UpdateProxDetection();
 
 CASE eState OF
-    LAS_LinearActuator_Retracted, LAS_LinearActuator_Unknown: //Allow Linear Actuator jogging when pos unknown
+    LAS_LinearActuator_Retracted, LAS_LinearActuator_Error: //Allow Linear Actuator movement when position is unknown
         SetForwardMovement();
 		pActuator^.tTimeout(IN := TRUE, PT := tTimeout);
         eState := LAS_LinearActuator_Extending;
@@ -110,8 +101,8 @@ CASE eState OF
 			IF bIsGui THEN
 				eState := LAS_LinearActuator_AtProx2;
 			ELSIF bIsCmp THEN
-				eState := LAS_LinearActuator_Unknown;		
-				pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+				eState := LAS_LinearActuator_Error;		
+				pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownPosition');
 				IF pAlarmCondition <> 0 THEN
 					pAlarmCondition^ := TRUE;
 				END_IF
@@ -136,9 +127,8 @@ CASE eState OF
 		    pActuator^.tTimeout(IN := FALSE);
         END_IF
         
-        // Check for timeout
-        IF pActuator^.tTimeout.Q THEN
-            eState := LAS_LinearActuator_Unknown;
+        IF pActuator^.tTimeout.Q THEN // Check for timeout
+            eState := LAS_LinearActuator_Error;
             
             pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'MotionTimedOut');
             IF pAlarmCondition <> 0 THEN
@@ -153,12 +143,6 @@ CASE eState OF
     LAS_LinearActuator_Extended:
         Extend := 1; // Already extended
 
-    LAS_LinearActuator_Error:
-        Extend := -1;
-
-    ELSE
-        // default catch-all
-        Extend := -1;
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -175,25 +159,24 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[pActuator := Actuator;
 
-// Detect actuator type
+(* Detect actuator type *)
 bIsGui := pActuator^.sName = 'HeatExCoupola3' OR pActuator^.sName = 'RegenCoupola3';
 bIsCmp := pActuator^.sName = 'Compressor1' OR pActuator^.sName = 'Compressor3';
 bIsBasic := NOT bIsGui AND NOT bIsCmp;
 
-// Initialize speed control to fast
+(* Initialise speed control to fast *)
 IF bIsGui THEN
     pActuator^.bSpeedControlDO^ := FALSE; 
 END_IF
 
-// Initialize stop status to false
+(* Initialise stop to false *)
 IF NOT bIsBasic THEN
 	pActuator^.bStopControlDO^ := FALSE; 
 END_IF
 
-// Determine initial position
-//GetPosition();
-
-FB_Init := TRUE;]]></ST>
+IF pActuator^.sName = 'Chariot1' THEN
+	GetPosition();
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetPosition" Id="{0399b1b7-cdd3-4ec3-9edf-6a45105de5e5}">
@@ -211,41 +194,38 @@ IF bProxInRisingEdge = pActuator^.bProxIn^ THEN
     eState := LAS_LinearActuator_Retracted;
     State := 0;  
 	GetPosition := TRUE;
+	RETURN;
 ELSIF bProxOutRisingEdge = pActuator^.bProxOut^ THEN
     eState := LAS_LinearActuator_Extended;
     State := 1;  
 	GetPosition := TRUE;
-ELSIF bIsGui THEN
-    IF bProx2RisingEdge = pActuator^.bProx2^ THEN
-        eState := LAS_LinearActuator_AtProx2;
-        State := 2;  
-    ELSIF bProx3RisingEdge = pActuator^.bProx3^ THEN
-        eState := LAS_LinearActuator_AtProx3;
-        State := 3;  
-    ELSE
-		eState := LAS_LinearActuator_Unknown;
-		
-        pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
-		IF pAlarmCondition <> 0 THEN
-			pAlarmCondition^ := TRUE;
-		END_IF
-		
-		State := -1;
-		GetPosition := FALSE;
-        RETURN;
-    END_IF
-ELSE
-	eState := LAS_LinearActuator_Unknown;
-	
-    pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
-	IF pAlarmCondition <> 0 THEN
-		pAlarmCondition^ := TRUE;
-	END_IF
-	
-	State := -1;
-	GetPosition := FALSE;
 	RETURN;
-END_IF]]></ST>
+END_IF
+
+IF bIsGui THEN
+	IF bProx2RisingEdge = pActuator^.bProx2^ THEN
+		eState := LAS_LinearActuator_AtProx2;
+		State := 2;  
+		GetPosition := TRUE;
+		RETURN;
+	ELSIF bProx3RisingEdge = pActuator^.bProx3^ THEN
+		eState := LAS_LinearActuator_AtProx3;
+		State := 3;  
+		GetPosition := TRUE;
+		RETURN;
+	END_IF
+END_IF
+
+//Else
+eState := LAS_LinearActuator_Error;
+
+pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownPosition');
+IF pAlarmCondition <> 0 THEN
+	pAlarmCondition^ := TRUE;
+END_IF
+
+State := -1;
+GetPosition := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Home" Id="{f928c3cc-e926-4d68-aa06-e49d712546af}">
@@ -261,7 +241,7 @@ CheckDriveFault();
 UpdateProxDetection();
 
 CASE eState OF
-    LAS_LinearActuator_Extended, LAS_LinearActuator_Unknown:
+    LAS_LinearActuator_Extended, LAS_LinearActuator_Error: //Allow Linear Actuator movement when position is unknown
         SetBackwardMovement();
 		pActuator^.tTimeout(IN := TRUE, PT := tTimeout);
         eState := LAS_LinearActuator_Retracting;
@@ -272,9 +252,8 @@ CASE eState OF
         eState := LAS_LinearActuator_Retracting;
 
     LAS_LinearActuator_Retracting:
-		//Continuous call of basic linear actuators
 		IF bIsBasic THEN
-			SetBackwardMovement();
+			SetBackwardMovement(); //Continuous call of basic linear actuators
 		END_IF
 		
         IF bIsGui THEN
@@ -282,9 +261,9 @@ CASE eState OF
                 eState := LAS_LinearActuator_AtProx3;
             ELSIF bProx2Detected THEN
                 eState := LAS_LinearActuator_AtProx2;
-                // Slow down when reaching Prox2
+
                 IF pActuator^.bSpeedControlDO <> 0 THEN
-                    pActuator^.bSpeedControlDO^ := TRUE;  
+                    pActuator^.bSpeedControlDO^ := TRUE;  // Slow down when reaching Prox2
                 END_IF
             END_IF
         END_IF
@@ -312,14 +291,8 @@ CASE eState OF
         END_IF
 
     LAS_LinearActuator_Retracted:
-        Home := 1; // Already retracted
+        Home := 1; 
 
-    LAS_LinearActuator_Error:
-        Home := -1;
-    
-    ELSE
-        // default catch-all
-        Home := -1;
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -371,41 +344,25 @@ pActuator^.bBckwDO^ := FALSE;]]></ST>
     </Method>
     <Method Name="Stop" Id="{fb95bc7a-c6f6-46a4-ad31-adc69398fdb2}">
       <Declaration><![CDATA[METHOD Stop : INT
-VAR
-    bValidPosition : BOOL := FALSE;
-	pAlarmCondition : POINTER TO BOOL;
-	tmrBrake 			: TON;
-END_VAR
+
 VAR_OUTPUT
 	State : SINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Stop := 0;
+        <ST><![CDATA[CheckDriveFault();
 
-(* 1. CHECK DRIVE STATE *)
-CheckDriveFault();
-
-(* 2. STOP ALL MOVEMENT *)
 IF NOT bIsBasic THEN
 	pActuator^.bStopControlDO^ := TRUE;
 
 	pActuator^.tTimeout(IN := FALSE);
-	GetPosition(State => State);
-	Stop := 1;
 ELSE
-
 	pActuator^.bFwdDO^ := FALSE;
 	pActuator^.bBckwDO^ := FALSE;
 	
-	(* 4. CANCEL MOVE TIMEOUT *)
 	pActuator^.tTimeout(IN := FALSE);
+END_IF
 
-	(* 5. CHECK CURRENT POSITION *)
-	GetPosition(State => State);
-
-	Stop := 1;
-
-END_IF]]></ST>
+GetPosition(State => State);]]></ST>
       </Implementation>
     </Method>
     <Method Name="UpdateProxDetection" Id="{6e178de4-6a01-4e7a-9cb7-df152934fa89}">
@@ -413,45 +370,37 @@ END_IF]]></ST>
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Update all edge detection triggers ONCE per scan cycle
-r_trig_proxIn(CLK := pActuator^.bProxIn^);
+        <ST><![CDATA[r_trig_proxIn(CLK := pActuator^.bProxIn^);
 f_trig_proxIn(CLK := pActuator^.bProxIn^);
 r_trig_proxOut(CLK := pActuator^.bProxOut^);
 f_trig_proxOut(CLK := pActuator^.bProxOut^);
 
+(* Select which edge is valid based on configuration flags *)
 bProxInDetected := (bProxInRisingEdge AND r_trig_proxIn.Q) OR (NOT bProxInRisingEdge AND f_trig_proxIn.Q);
 bProxOutDetected := (bProxOutRisingEdge AND r_trig_proxOut.Q) OR (NOT bProxOutRisingEdge AND f_trig_proxOut.Q);
 
-IF bIsGui THEN
+IF NOT bIsBasic THEN
     r_trig_prox2(CLK := pActuator^.bProx2^);
-    f_trig_prox2(CLK := pActuator^.bProx2^);
-    r_trig_prox3(CLK := pActuator^.bProx3^);
-    f_trig_prox3(CLK := pActuator^.bProx3^);
-    
-    bProx2Detected := (bProx2RisingEdge AND r_trig_prox2.Q) OR (NOT bProx2RisingEdge AND f_trig_prox2.Q);
-    bProx3Detected := (bProx3RisingEdge AND r_trig_prox3.Q) OR (NOT bProx3RisingEdge AND f_trig_prox3.Q);
-ELSIF bIsCmp THEN
-	r_trig_prox2(CLK := pActuator^.bProx2^);
     f_trig_prox2(CLK := pActuator^.bProx2^);
 	
 	bProx2Detected := (bProx2RisingEdge AND r_trig_prox2.Q) OR (NOT bProx2RisingEdge AND f_trig_prox2.Q);
-	bProx3Detected := FALSE;
-ELSE
-    bProx2Detected := FALSE;
-    bProx3Detected := FALSE;
+	
+	IF bIsGui THEN
+		r_trig_prox3(CLK := pActuator^.bProx3^);
+    	f_trig_prox3(CLK := pActuator^.bProx3^);
+      
+    	bProx3Detected := (bProx3RisingEdge AND r_trig_prox3.Q) OR (NOT bProx3RisingEdge AND f_trig_prox3.Q);
+	END_IF
 END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LinearActuator">
       <LineId Id="1" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LinearActuator.Brake">
-      <LineId Id="1" Count="1" />
-    </LineIds>
     <LineIds Name="FB_LinearActuator.CheckDriveFault">
-      <LineId Id="1" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="2" Count="11" />
+      <LineId Id="1" Count="3" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="5" Count="8" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Extend">
       <LineId Id="348" Count="0" />
@@ -482,11 +431,12 @@ END_IF]]></ST>
       <LineId Id="464" Count="0" />
       <LineId Id="468" Count="0" />
       <LineId Id="465" Count="2" />
-      <LineId Id="388" Count="4" />
+      <LineId Id="388" Count="1" />
+      <LineId Id="391" Count="1" />
       <LineId Id="394" Count="5" />
       <LineId Id="426" Count="0" />
-      <LineId Id="400" Count="8" />
-      <LineId Id="417" Count="3" />
+      <LineId Id="400" Count="5" />
+      <LineId Id="420" Count="0" />
       <LineId Id="44" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.FB_Init">
@@ -499,33 +449,32 @@ END_IF]]></ST>
       <LineId Id="251" Count="0" />
       <LineId Id="250" Count="0" />
       <LineId Id="252" Count="0" />
-      <LineId Id="255" Count="2" />
-      <LineId Id="253" Count="0" />
-      <LineId Id="244" Count="0" />
-      <LineId Id="29" Count="0" />
+      <LineId Id="255" Count="0" />
+      <LineId Id="257" Count="3" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.GetPosition">
       <LineId Id="73" Count="1" />
       <LineId Id="37" Count="2" />
       <LineId Id="75" Count="0" />
+      <LineId Id="79" Count="0" />
       <LineId Id="40" Count="2" />
       <LineId Id="76" Count="0" />
-      <LineId Id="43" Count="7" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="77" Count="1" />
+      <LineId Id="43" Count="3" />
+      <LineId Id="81" Count="1" />
+      <LineId Id="47" Count="2" />
+      <LineId Id="83" Count="1" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="85" Count="0" />
       <LineId Id="71" Count="1" />
       <LineId Id="57" Count="2" />
       <LineId Id="51" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="69" Count="0" />
       <LineId Id="64" Count="0" />
-      <LineId Id="52" Count="2" />
-      <LineId Id="67" Count="1" />
-      <LineId Id="60" Count="2" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="70" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="35" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Home">
       <LineId Id="340" Count="0" />
@@ -539,7 +488,6 @@ END_IF]]></ST>
       <LineId Id="351" Count="2" />
       <LineId Id="355" Count="1" />
       <LineId Id="358" Count="2" />
-      <LineId Id="423" Count="0" />
       <LineId Id="418" Count="1" />
       <LineId Id="417" Count="0" />
       <LineId Id="420" Count="0" />
@@ -552,8 +500,8 @@ END_IF]]></ST>
       <LineId Id="380" Count="4" />
       <LineId Id="386" Count="0" />
       <LineId Id="416" Count="0" />
-      <LineId Id="387" Count="13" />
-      <LineId Id="409" Count="3" />
+      <LineId Id="387" Count="10" />
+      <LineId Id="412" Count="0" />
       <LineId Id="40" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Reset">
@@ -571,24 +519,26 @@ END_IF]]></ST>
       <LineId Id="10" Count="1" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.Stop">
-      <LineId Id="361" Count="7" />
-      <LineId Id="371" Count="2" />
-      <LineId Id="375" Count="1" />
-      <LineId Id="379" Count="1" />
+      <LineId Id="364" Count="0" />
+      <LineId Id="366" Count="2" />
+      <LineId Id="371" Count="1" />
+      <LineId Id="376" Count="0" />
+      <LineId Id="380" Count="0" />
       <LineId Id="407" Count="0" />
       <LineId Id="406" Count="0" />
-      <LineId Id="394" Count="4" />
-      <LineId Id="400" Count="1" />
-      <LineId Id="405" Count="0" />
+      <LineId Id="395" Count="0" />
       <LineId Id="57" Count="0" />
+      <LineId Id="410" Count="0" />
+      <LineId Id="409" Count="0" />
     </LineIds>
     <LineIds Name="FB_LinearActuator.UpdateProxDetection">
-      <LineId Id="24" Count="4" />
-      <LineId Id="30" Count="9" />
-      <LineId Id="41" Count="1" />
-      <LineId Id="46" Count="5" />
-      <LineId Id="43" Count="2" />
-      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="3" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="30" Count="6" />
+      <LineId Id="53" Count="3" />
+      <LineId Id="59" Count="2" />
+      <LineId Id="57" Count="1" />
+      <LineId Id="42" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

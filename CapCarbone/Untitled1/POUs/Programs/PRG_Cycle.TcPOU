@@ -3762,9 +3762,7 @@ END_VAR]]></Declaration>
     </Action>
     <Action Name="stpHoming_Rail1_active" Id="{56d49874-ad0c-400a-932d-c09aa003556e}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor1', bArg := FALSE, bHasPosition := TRUE, nPosition := Rail1_Pos4);
-
-]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor1', bArg := FALSE, bHasPosition := TRUE, nPosition := Rail1_Pos4);]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -3782,8 +3780,7 @@ END_VAR]]></Declaration>
     </Action>
     <Action Name="stpHoming_Rail2_active" Id="{05de02ac-fc4f-4dfa-bf73-dd333619d594}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor2', bArg := TRUE);
-]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor2', bArg := TRUE);]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -3801,8 +3798,7 @@ END_VAR]]></Declaration>
     </Action>
     <Action Name="stpHoming_Rail3_active" Id="{a8079511-f2ba-46af-a200-391749389f5a}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor3', bArg := TRUE);
-]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor3', bArg := TRUE);]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -3820,8 +3816,7 @@ END_VAR]]></Declaration>
     </Action>
     <Action Name="stpHoming_Rail4_active" Id="{1a90254e-196a-43a6-a57f-623383978a9d}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor4', bArg := TRUE);
-]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'Motor4', bArg := TRUE);]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -3984,16 +3979,16 @@ END_IF
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail1_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail2_active">
-      <LineId Id="1" Count="1" />
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail3_active">
-      <LineId Id="1" Count="1" />
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail4_active">
-      <LineId Id="1" Count="1" />
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpInit_active">
       <LineId Id="1" Count="15" />

@@ -6,7 +6,7 @@
 	// ================================================================
     // RAIL 1
     // ================================================================
-	R1_Sensor_UnknownState : ST_Alarm := (
+	R1_Sensor_UnknownPosition : ST_Alarm := (
 		nID := 1001,
 		nSeverity := 3);
 	
@@ -14,7 +14,7 @@
 		nID := 1002,
 		nSeverity := 3);
 	
-	R1_Chariot_UnknownState : ST_Alarm := (
+	R1_Chariot_UnknownPosition : ST_Alarm := (
 		nID := 1003,
 		nSeverity := 3);
 	
@@ -22,7 +22,7 @@
 		nID := 1004,
 		nSeverity := 3);
 	
-	R1_Compressor_UnknownState : ST_Alarm := (
+	R1_Compressor_UnknownPosition : ST_Alarm := (
 		nID := 1005,
 		nSeverity := 3);
 	
@@ -98,7 +98,7 @@
 		nID := 2006,
 		nSeverity := 3);
 		
-	R2_Chariot_UnknownState : ST_Alarm := (
+	R2_Chariot_UnknownPosition : ST_Alarm := (
 		nID := 2007,
 		nSeverity := 3);
 	
@@ -120,7 +120,7 @@
 	// ================================================================
     // RAIL 3
     // ================================================================
-	R3_Compressor_UnknownState : ST_Alarm := (
+	R3_Compressor_UnknownPosition : ST_Alarm := (
 		nID := 3001,
 		nSeverity := 3);
 	
@@ -136,7 +136,7 @@
 		nID := 3004,
 		nSeverity := 3);
 	
-	R3_RegenCoupola_UnknownState : ST_Alarm := (
+	R3_RegenCoupola_UnknownPosition : ST_Alarm := (
 		nID := 3005,
 		nSeverity := 3);
 	
@@ -144,7 +144,7 @@
 		nID := 3006,
 		nSeverity := 3);
 	
-	R3_Chariot_UnknownState : ST_Alarm := (
+	R3_Chariot_UnknownPosition : ST_Alarm := (
 		nID := 3007,
 		nSeverity := 3);
 	
@@ -227,7 +227,7 @@
 		nID := 4006,
 		nSeverity := 3);
 	
-	R4_Chariot_UnknownState : ST_Alarm := (
+	R4_Chariot_UnknownPosition : ST_Alarm := (
 		nID := 4007,
 		nSeverity := 3);
 	

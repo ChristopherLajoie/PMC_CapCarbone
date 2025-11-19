@@ -69,12 +69,12 @@ AddAlarm := TRUE;]]></ST>
         <ST><![CDATA[nAlarmCount := 0;
 
 (* RAIL 1 *)
-AddAlarm(ADR(GVL_Alarms.R1_Sensor_UnknownState), 'R1_Sensor_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R1_Sensor_UnknownPosition), 'R1_Sensor_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R1_Sensor_MotionTimedOut), 'R1_Sensor_MotionTimedOut');
-AddAlarm(ADR(GVL_Alarms.R1_Compressor_UnknownState), 'R1_Compressor_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R1_Compressor_UnknownPosition), 'R1_Compressor_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R1_Compressor_MotionTimedOut), 'R1_Compressor_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R1_Chariot_MotionTimedOut), 'R1_Chariot_MotionTimedOut');
-AddAlarm(ADR(GVL_Alarms.R1_Chariot_UnknownState), 'R1_Chariot_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R1_Chariot_UnknownPosition), 'R1_Chariot_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_Motion_Failed), 'R1_Stepper_Motion_Failed');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_Homing_Failed), 'R1_Stepper_Homing_Failed');
 AddAlarm(ADR(GVL_Alarms.R1_Stepper_Motion_Interrupted), 'R1_Stepper_Motion_Interrupted');
@@ -89,21 +89,21 @@ AddAlarm(ADR(GVL_Alarms.R2_Stepper_Homing_Failed), 'R2_Stepper_Homing_Failed');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Motion_Failed), 'R2_Stepper_Motion_Failed');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Motion_Interrupted), 'R2_Stepper_Motion_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Reset_Failed), 'R2_Stepper_Reset_Failed');
-AddAlarm(ADR(GVL_Alarms.R2_Chariot_UnknownState), 'R2_Chariot_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R2_Chariot_UnknownPosition), 'R2_Chariot_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R2_Chariot_MotionTimedOut), 'R2_Chariot_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_Stop_Failed), 'R2_Stepper_Stop_Failed');
 AddAlarm(ADR(GVL_Alarms.R2_Stepper_UnableToReadPosition), 'R2_Stepper_UnableToReadPosition');
 
 (* RAIL 3 *)
-AddAlarm(ADR(GVL_Alarms.R3_Compressor_UnknownState), 'R3_Compressor_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R3_Compressor_UnknownPosition), 'R3_Compressor_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_DriveFaulted), 'R3_HeatExCoupola_DriveFaulted');
 AddAlarm(ADR(GVL_Alarms.R3_RegenCoupola_DriveFaulted), 'R3_RegenCoupola_DriveFaulted');
 AddAlarm(ADR(GVL_Alarms.R3_Compressor_MotionTimedOut), 'R3_Compressor_MotionTimedOut');
-AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_UnknownState), 'R3_HeatExCoupola_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_UnknownState), 'R3_HeatExCoupola_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R3_HeatExCoupola_MotionTimedOut), 'R3_HeatExCoupola_MotionTimedOut');
-AddAlarm(ADR(GVL_Alarms.R3_RegenCoupola_UnknownState), 'R3_RegenCoupola_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R3_RegenCoupola_UnknownPosition), 'R3_RegenCoupola_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R3_RegenCoupola_MotionTimedOut), 'R3_RegenCoupola_MotionTimedOut');
-AddAlarm(ADR(GVL_Alarms.R3_Chariot_UnknownState), 'R3_Chariot_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R3_Chariot_UnknownPosition), 'R3_Chariot_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R3_Chariot_MotionTimedOut), 'R3_Chariot_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_PowerUp_Failed), 'R3_Stepper_PowerUp_Failed');
 AddAlarm(ADR(GVL_Alarms.R3_Stepper_Homing_Failed), 'R3_Stepper_Homing_Failed');
@@ -119,7 +119,7 @@ AddAlarm(ADR(GVL_Alarms.R4_Stepper_Homing_Failed), 'R4_Stepper_Homing_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Motion_Failed), 'R4_Stepper_Motion_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Motion_Interrupted), 'R4_Stepper_Motion_Interrupted');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Reset_Failed), 'R4_Stepper_Reset_Failed');
-AddAlarm(ADR(GVL_Alarms.R4_Chariot_UnknownState), 'R4_Chariot_UnknownState');
+AddAlarm(ADR(GVL_Alarms.R4_Chariot_UnknownPosition), 'R4_Chariot_UnknownPosition');
 AddAlarm(ADR(GVL_Alarms.R4_Chariot_MotionTimedOut), 'R4_Chariot_MotionTimedOut');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_Stop_Failed), 'R4_Stepper_Stop_Failed');
 AddAlarm(ADR(GVL_Alarms.R4_Stepper_UnableToReadPosition), 'R4_Stepper_UnableToReadPosition');
@@ -155,7 +155,7 @@ IF LEN(sAlarmName) >= 3 AND LEFT(sAlarmName, 1) = 'R' THEN
     END_IF
 	
 ELSE
-    ParseAlarmZone := 5;  // global alarms
+    ParseAlarmZone := 5;  
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -180,20 +180,19 @@ nSeverity := pAlarm^.nSeverity;
 bAlarmActive := pAlarm^.bCondition;  
 
 IF bAlarmActive THEN
-
     IF nSeverity > stSystemStatus.aZoneStatus[nZone].nHighestSeverity THEN
         stSystemStatus.aZoneStatus[nZone].nHighestSeverity := nSeverity;
     END_IF
 
     CASE nSeverity OF
-        1, 2:  // Info, Warning - No blocking 
+        1, 2: // Info, Warning - No blocking 
             
-        3, 4:     // Error - Block unless maintenance mode
+        3, 4: // Error - Block unless maintenance mode
             IF NOT bMaintenanceMode THEN
                 stSystemStatus.aZoneStatus[nZone].bOkToRun := FALSE;
             END_IF
             
-        5:     // Critical 
+        5: // Critical 
             stSystemStatus.aZoneStatus[nZone].bOkToRun := FALSE;
 			bCriticalAlarm := TRUE;
     END_CASE
@@ -254,7 +253,8 @@ ProcessAlarm := TRUE;]]></ST>
     <LineIds Name="FB_AlarmStatusManager.ProcessAlarm">
       <LineId Id="62" Count="4" />
       <LineId Id="68" Count="2" />
-      <LineId Id="75" Count="5" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="78" Count="2" />
       <LineId Id="82" Count="2" />
       <LineId Id="86" Count="7" />
       <LineId Id="97" Count="0" />

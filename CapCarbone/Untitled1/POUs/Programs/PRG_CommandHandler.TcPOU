@@ -33,8 +33,6 @@ VAR
 
     // OUTPUTS / RESULTS
     CurrentPosition : LREAL;
-    (* Result          : INT := 0; *)
-    nCancelResult   : INT := 0;
 
     // LOOP / TEMP VARIABLES
     i : INT;
@@ -151,22 +149,18 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="ProcessCancelOperation" Id="{ac957e77-13a6-4f5c-8c3f-8b6fbdb8d91f}">
-      <Declaration><![CDATA[
-METHOD ProcessCancelOperation
+      <Declaration><![CDATA[METHOD ProcessCancelOperation
 VAR
-    bCancelComplete : BOOL := FALSE;
-    bTimeoutExpired : BOOL := FALSE;
-    bSafetyTimeoutExpired : BOOL := FALSE;
+	nCancelResult   : INT := 0;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF bisLinearActuator THEN
-    nCancelResult := LinearActuator^.Stop(State => LinearActuatorCmd^.nStatus);
-    bCancelComplete := (nCancelResult <> 0);
+    LinearActuator^.Stop(State => LinearActuatorCmd^.nStatus); //Linear Actuator stop fails silently with motion timed out
 
 ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
 	
 	IF LinearTable^.KeepAlive() THEN
-		nCancelResult := LinearTable^.Stop(TRUE);
+		nCancelResult := LinearTable^.Stop();
 	ELSE
 		nCancelResult := -1;
 	END_IF
@@ -181,11 +175,9 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
                 LinearTableCmd^.bHoming := FALSE;
             END_IF;
 
-            bCancelComplete := TRUE;
 			LinearTable^.PowerDown();
 			
-		0: // Continue
-        	// Operation in progress
+		0: // Operation in progress
 			
        -1: // Failure
             IF bisLinearTableHomeCmd THEN
@@ -195,22 +187,21 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
                 LinearTableCmd^.nPosition := -1;
             END_IF;
 
-            bCancelComplete := TRUE;
 			LinearTable^.PowerDown();
     END_CASE;
 END_IF;
 
-// Cleanup
-IF bCancelComplete THEN
-	sRequestedActuator := 'close';
-	bAwaitingHMIClose := TRUE;
-	tmrHMICloseSignal(IN := FALSE); 
+//Request Pop-up close
+sRequestedActuator := 'close';
+bAwaitingHMIClose := TRUE;
+tmrHMICloseSignal(IN := FALSE); 
 
-    bOperationInProgress := FALSE;
-    bCancelInProgress := FALSE;
-    CancelMove := FALSE;
-    nCancelResult := 0;
-END_IF
+//Cleanup
+bOperationInProgress := FALSE; //Stop processing even if cancel fails
+bCancelInProgress := FALSE;
+CancelMove := FALSE;
+nCancelResult := 0;
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -438,24 +429,29 @@ END_CASE]]></ST>
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessCancelOperation">
       <LineId Id="136" Count="1" />
-      <LineId Id="143" Count="2" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="145" Count="0" />
       <LineId Id="201" Count="0" />
       <LineId Id="197" Count="0" />
       <LineId Id="202" Count="0" />
       <LineId Id="204" Count="1" />
       <LineId Id="203" Count="0" />
       <LineId Id="198" Count="0" />
-      <LineId Id="148" Count="10" />
+      <LineId Id="148" Count="8" />
+      <LineId Id="158" Count="0" />
       <LineId Id="199" Count="0" />
       <LineId Id="195" Count="0" />
       <LineId Id="159" Count="0" />
-      <LineId Id="194" Count="0" />
       <LineId Id="196" Count="0" />
-      <LineId Id="160" Count="8" />
+      <LineId Id="160" Count="6" />
+      <LineId Id="168" Count="0" />
       <LineId Id="200" Count="0" />
-      <LineId Id="169" Count="4" />
+      <LineId Id="169" Count="1" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="173" Count="0" />
       <LineId Id="188" Count="1" />
       <LineId Id="187" Count="0" />
+      <LineId Id="208" Count="0" />
       <LineId Id="175" Count="2" />
       <LineId Id="190" Count="0" />
       <LineId Id="178" Count="0" />

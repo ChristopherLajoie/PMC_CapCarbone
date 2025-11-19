@@ -55,8 +55,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[pAxis := init_axis;
-pProx := init_prox;
-]]></ST>
+pProx := init_prox;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetPosition" Id="{c99d767f-ea4a-49f6-ba95-aa6815963f09}">
@@ -102,7 +101,6 @@ END_IF
     <Method Name="Home" Id="{8276e0ce-98e0-421a-babf-511ef600c743}">
       <Declaration><![CDATA[METHOD Home : INT
 VAR_INPUT
-    bExecute : BOOL; 
 	bIsForced : BOOL;    
 END_VAR
 VAR
@@ -343,19 +341,12 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE eState OF
-	LAS_Stepper_Error, LAS_Stepper_PowerError:
-		fbPower(Axis := pAxis^, Enable := FALSE);
-		bIsUp := FALSE;
-		
-	ELSE
-		fbPower(Axis := pAxis^, Enable := FALSE);
+        <ST><![CDATA[fbPower(Axis := pAxis^, Enable := FALSE);
+bIsUp := FALSE;
 
-		eState := LAS_Stepper_Idle;
-		bIsUp := FALSE;
-END_CASE
-
-]]></ST>
+IF (eState <> LAS_Stepper_Error) AND (eState <> LAS_Stepper_PowerError) THEN
+	eState := LAS_Stepper_Idle;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{185c3e3a-adea-4170-9d64-3a4611a9e6c3}">
@@ -415,7 +406,7 @@ CASE eState OF
 	LAS_Stepper_Hardware_Check, LAS_Stepper_Homing:
 		CASE eHardwareCheckState OF
 			HW_Start:		
-				nMoveResult := Home(TRUE, TRUE);
+				nMoveResult := Home(bIsForced := TRUE);
 				
 				CASE nMoveResult OF
 					0: // Continue
@@ -470,19 +461,11 @@ CASE eState OF
 				
 				Reset := -1;
 		END_CASE
-	
-	ELSE
-		// Unknown state during reset
-		Reset := -1;
 END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="Stop" Id="{9b515f94-46a2-4ab1-aca0-af2dcdfe9f04}">
       <Declaration><![CDATA[METHOD Stop : INT
-VAR_INPUT
-    bEnable : BOOL;
-END_VAR
-
 VAR
 	pAlarmCondition : POINTER TO BOOL;
 	sErrorMsg : STRING(255);
@@ -496,7 +479,7 @@ CASE eState OF
         Stop := 1;
         
     LAS_Stepper_Moving:
-        fbStop(Axis := pAxis^, Execute := bEnable);
+        fbStop(Axis := pAxis^, Execute := TRUE);
               
 		IF fbStop.Error THEN
 			fbStop(Axis := pAxis^, Execute := FALSE);
@@ -524,13 +507,11 @@ CASE eState OF
         ELSIF fbStop.Done THEN
 			fbStop(Axis := pAxis^, Execute := FALSE);
 			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
-            eState := LAS_Stepper_Idle;
             Stop := 1; 
             nErrID := 0;
 		END_IF
     
     LAS_Stepper_Homing :
-	
 	   fbStop(Axis := pAxis^, Execute := TRUE);
 	   
 	   IF fbStop.Done THEN
@@ -539,10 +520,9 @@ CASE eState OF
 		   fbReset(Axis := pAxis^, Execute := TRUE);
 		   IF fbReset.Done THEN
 		       fbReset(Axis := pAxis^, Execute := FALSE);
-			   eState := LAS_Stepper_Idle;
 		   	   Stop   := 1;          
 	   	   END_IF
-	    ELSIF fbStop.Error THEN
+	   ELSIF fbStop.Error THEN
 			eState := LAS_Stepper_Error;
 			nErrID := fbStop.ErrorID;
 			
@@ -562,10 +542,6 @@ CASE eState OF
 			
 			Stop := -1;
 	   END_IF
-    
-    LAS_Stepper_Error:
-        Stop := -1;              
-        
 END_CASE
 
 ]]></ST>
@@ -577,7 +553,6 @@ END_CASE
     <LineIds Name="FB_StepperMotor.FB_Init">
       <LineId Id="1" Count="0" />
       <LineId Id="3" Count="0" />
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.GetPosition">
       <LineId Id="1" Count="3" />
@@ -665,15 +640,10 @@ END_CASE
       <LineId Id="36" Count="1" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.PowerDown">
-      <LineId Id="6" Count="1" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="12" Count="2" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="4" Count="1" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="24" Count="1" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Reset">
       <LineId Id="651" Count="0" />
@@ -700,7 +670,7 @@ END_CASE
       <LineId Id="887" Count="0" />
       <LineId Id="893" Count="0" />
       <LineId Id="829" Count="3" />
-      <LineId Id="834" Count="11" />
+      <LineId Id="834" Count="7" />
       <LineId Id="45" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Stop">
@@ -717,22 +687,22 @@ END_CASE
       <LineId Id="367" Count="1" />
       <LineId Id="468" Count="0" />
       <LineId Id="467" Count="0" />
-      <LineId Id="369" Count="4" />
-      <LineId Id="442" Count="2" />
+      <LineId Id="370" Count="3" />
+      <LineId Id="442" Count="0" />
+      <LineId Id="444" Count="0" />
       <LineId Id="461" Count="0" />
       <LineId Id="447" Count="0" />
       <LineId Id="462" Count="0" />
       <LineId Id="466" Count="0" />
       <LineId Id="463" Count="2" />
-      <LineId Id="452" Count="1" />
+      <LineId Id="453" Count="0" />
       <LineId Id="460" Count="0" />
       <LineId Id="491" Count="7" />
       <LineId Id="500" Count="1" />
       <LineId Id="503" Count="7" />
       <LineId Id="457" Count="0" />
       <LineId Id="392" Count="0" />
-      <LineId Id="417" Count="2" />
-      <LineId Id="439" Count="2" />
+      <LineId Id="440" Count="1" />
       <LineId Id="33" Count="0" />
     </LineIds>
   </POU>
