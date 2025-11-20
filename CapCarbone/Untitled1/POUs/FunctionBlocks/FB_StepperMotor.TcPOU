@@ -568,7 +568,6 @@ CASE eState OF
 			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
 			eState := LAS_Stepper_Idle;
             Stop := 1; 
-            nErrID := 0;
 		END_IF
     
     LAS_Stepper_Homing :
@@ -759,7 +758,8 @@ END_CASE
       <LineId Id="468" Count="0" />
       <LineId Id="467" Count="0" />
       <LineId Id="511" Count="0" />
-      <LineId Id="370" Count="3" />
+      <LineId Id="370" Count="0" />
+      <LineId Id="372" Count="1" />
       <LineId Id="442" Count="0" />
       <LineId Id="444" Count="0" />
       <LineId Id="461" Count="0" />

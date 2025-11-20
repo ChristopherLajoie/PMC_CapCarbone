@@ -42,7 +42,7 @@ VAR
     tCancelTimeout     : TIME := T#5S;
 
     tmrHMICloseSignal  : TON;
-    tHMICloseHoldTime  : TIME := T#1000MS;
+    tHMICloseHoldTime  : TIME := T#2000MS;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -157,7 +157,6 @@ END_VAR]]></Declaration>
     LinearActuator^.Stop(State => LinearActuatorCmd^.nStatus); //Linear Actuator stop fails silently with motion timed out
 
 ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
-	
 	IF LinearTable^.KeepAlive() THEN
 		nCancelResult := LinearTable^.Stop();
 	ELSE
@@ -177,6 +176,7 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
 			LinearTable^.PowerDown();
 			
 		0: // Operation in progress
+			RETURN;
 			
        -1: // Failure
             IF bisLinearTableHomeCmd THEN
@@ -219,12 +219,11 @@ IF bisResetCmd THEN
     LinearActuator^.Reset(State => LinearActuatorCmd^.nStatus); // Instantaneous read of prox seonsors
 	
 	Result := 1;
-    bOperationInProgress := FALSE;
-	
+
 	sRequestedActuator := 'close';
     bAwaitingHMIClose := TRUE;
-    tmrHMICloseSignal(IN := FALSE); 
 	
+	bOperationInProgress := FALSE;
     RETURN;
 END_IF
 
@@ -236,9 +235,7 @@ ELSE
 END_IF
 
 CASE Result OF
-    1: // Success
-        bOperationInProgress := FALSE;
-        
+    1: // Success   
         IF bisExtendCmd THEN
             LinearActuatorCmd^.nStatus := 1;
         ELSE
@@ -247,8 +244,9 @@ CASE Result OF
         
         sRequestedActuator := 'close';
         bAwaitingHMIClose := TRUE;
-        tmrHMICloseSignal(IN := FALSE); 
-    
+    	
+		bOperationInProgress := FALSE;
+		
     0: // Continue
         // Operation in progress
         
@@ -259,7 +257,6 @@ CASE Result OF
         
         sRequestedActuator := 'close';
         bAwaitingHMIClose := TRUE;
-        tmrHMICloseSignal(IN := FALSE); 
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -293,10 +290,7 @@ IF bisResetCmd THEN
 	END_IF
 
     CASE Result OF
-        1: // Success
-
-            bOperationInProgress := FALSE;
-			
+        1: // Success	
             LinearTableCmd^.nPosition := CurrentPosition;
             
             sRequestedActuator := 'close';
@@ -304,14 +298,14 @@ IF bisResetCmd THEN
             tmrHMICloseSignal(IN := FALSE); 
 			
 			LinearTable^.PowerDown();
+			
+			bOperationInProgress := FALSE;
             RETURN;
             
         0: // Operation in progress
 			RETURN;
             
-       -1: // Failure
-            bOperationInProgress := FALSE;
-			
+       -1: // Failure	
             LinearTableCmd^.nPosition := -1;
             
             sRequestedActuator := 'close';
@@ -319,12 +313,16 @@ IF bisResetCmd THEN
             tmrHMICloseSignal(IN := FALSE);
 			
 			LinearTable^.PowerDown();
+			
+			bOperationInProgress := FALSE;
             RETURN;
     END_CASE
 END_IF
 
 (* 3. EXECUTE MOVEMENT COMMAND *)
 IF bHome THEN
+	LinearTableCmd^.bHomed := FALSE;
+	
 	IF bisLinearTableHomeCmd THEN
 		IF LinearTable^.KeepAlive() THEN
 			Result := LinearTable^.Home(FALSE);
@@ -362,8 +360,6 @@ END_IF
 
 CASE Result OF
     1: // Success
-        bOperationInProgress := FALSE;
-        
         IF bHome THEN    
             LinearTableCmd^.bHomed := TRUE;
             LinearTableCmd^.bHoming := FALSE;
@@ -376,13 +372,13 @@ CASE Result OF
 		END_IF
 		
 		LinearTable^.PowerDown();
-    		
+    	
+		bOperationInProgress := FALSE;
+		
     0: // Continue
         // Operation in progress
     
    -1: // Failure
-        bOperationInProgress := FALSE;
-        
         IF bHome THEN    
             LinearTableCmd^.bHomed := FALSE;
             LinearTableCmd^.bHoming := FALSE;
@@ -397,6 +393,8 @@ CASE Result OF
 		END_IF
 		
 		LinearTable^.PowerDown();
+		
+		bOperationInProgress := FALSE;
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -446,7 +444,6 @@ END_CASE]]></ST>
       <LineId Id="136" Count="1" />
       <LineId Id="206" Count="0" />
       <LineId Id="145" Count="0" />
-      <LineId Id="201" Count="0" />
       <LineId Id="197" Count="0" />
       <LineId Id="202" Count="0" />
       <LineId Id="204" Count="1" />
@@ -457,6 +454,7 @@ END_CASE]]></ST>
       <LineId Id="199" Count="0" />
       <LineId Id="195" Count="0" />
       <LineId Id="159" Count="0" />
+      <LineId Id="209" Count="0" />
       <LineId Id="196" Count="0" />
       <LineId Id="160" Count="6" />
       <LineId Id="168" Count="0" />
@@ -469,30 +467,32 @@ END_CASE]]></ST>
       <LineId Id="208" Count="0" />
       <LineId Id="175" Count="2" />
       <LineId Id="190" Count="0" />
+      <LineId Id="210" Count="1" />
       <LineId Id="178" Count="0" />
-      <LineId Id="182" Count="0" />
-      <LineId Id="65" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearActuator">
       <LineId Id="110" Count="0" />
       <LineId Id="38" Count="4" />
       <LineId Id="111" Count="0" />
       <LineId Id="118" Count="0" />
-      <LineId Id="45" Count="0" />
       <LineId Id="77" Count="0" />
-      <LineId Id="79" Count="2" />
+      <LineId Id="79" Count="1" />
       <LineId Id="112" Count="0" />
+      <LineId Id="121" Count="0" />
       <LineId Id="78" Count="0" />
       <LineId Id="47" Count="2" />
       <LineId Id="113" Count="3" />
       <LineId Id="54" Count="1" />
       <LineId Id="82" Count="1" />
-      <LineId Id="85" Count="7" />
-      <LineId Id="94" Count="7" />
+      <LineId Id="87" Count="5" />
+      <LineId Id="94" Count="1" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="119" Count="1" />
+      <LineId Id="98" Count="3" />
       <LineId Id="103" Count="0" />
       <LineId Id="117" Count="0" />
       <LineId Id="104" Count="1" />
-      <LineId Id="107" Count="2" />
+      <LineId Id="107" Count="1" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
@@ -506,23 +506,23 @@ END_CASE]]></ST>
       <LineId Id="204" Count="2" />
       <LineId Id="201" Count="0" />
       <LineId Id="63" Count="0" />
-      <LineId Id="118" Count="3" />
-      <LineId Id="181" Count="0" />
+      <LineId Id="118" Count="1" />
       <LineId Id="122" Count="1" />
       <LineId Id="125" Count="2" />
       <LineId Id="187" Count="0" />
       <LineId Id="182" Count="0" />
+      <LineId Id="270" Count="1" />
       <LineId Id="128" Count="2" />
       <LineId Id="222" Count="0" />
       <LineId Id="132" Count="1" />
-      <LineId Id="135" Count="0" />
-      <LineId Id="183" Count="0" />
       <LineId Id="136" Count="1" />
       <LineId Id="139" Count="2" />
       <LineId Id="184" Count="0" />
       <LineId Id="188" Count="0" />
+      <LineId Id="272" Count="1" />
       <LineId Id="142" Count="1" />
       <LineId Id="82" Count="3" />
+      <LineId Id="268" Count="1" />
       <LineId Id="223" Count="0" />
       <LineId Id="208" Count="3" />
       <LineId Id="207" Count="0" />
@@ -544,17 +544,20 @@ END_CASE]]></ST>
       <LineId Id="218" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="144" Count="1" />
-      <LineId Id="147" Count="6" />
+      <LineId Id="149" Count="4" />
       <LineId Id="262" Count="0" />
       <LineId Id="155" Count="2" />
       <LineId Id="189" Count="0" />
       <LineId Id="263" Count="0" />
       <LineId Id="190" Count="0" />
-      <LineId Id="158" Count="4" />
-      <LineId Id="164" Count="8" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="274" Count="1" />
+      <LineId Id="159" Count="3" />
+      <LineId Id="166" Count="6" />
       <LineId Id="264" Count="3" />
       <LineId Id="176" Count="0" />
       <LineId Id="191" Count="1" />
+      <LineId Id="276" Count="1" />
       <LineId Id="51" Count="0" />
     </LineIds>
   </POU>

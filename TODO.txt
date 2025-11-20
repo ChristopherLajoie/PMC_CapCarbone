@@ -1,8 +1,6 @@
 - Implement cycle
 - Per alarm check instead of per zone check would be better
 - Homing stop estate value
-- Add reset homing button
-- Add position setting after homing
 
 
 
