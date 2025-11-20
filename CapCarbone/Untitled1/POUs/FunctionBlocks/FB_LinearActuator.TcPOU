@@ -175,7 +175,7 @@ IF NOT bIsBasic THEN
 END_IF
 
 IF pActuator^.sName = 'Chariot1' THEN
-	GetPosition();
+	//GetPosition();
 END_IF]]></ST>
       </Implementation>
     </Method>

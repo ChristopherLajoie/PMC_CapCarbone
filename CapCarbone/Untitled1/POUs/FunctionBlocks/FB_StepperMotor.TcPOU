@@ -113,7 +113,7 @@ VAR
     // ==================
     // Pass configuration
     // ==================
-    Options    : ST_HomingOptions := (SearchVelocity := 100, SearchDirection := MC_Positive_Direction); // Fast homing config
+    Options    : ST_HomingOptions := (SearchVelocity := 10, SearchDirection := MC_Positive_Direction); // Fast homing config
  
     // ============================
     // External references / pointers
