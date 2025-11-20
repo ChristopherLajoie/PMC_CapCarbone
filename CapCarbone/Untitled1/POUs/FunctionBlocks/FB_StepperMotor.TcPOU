@@ -104,27 +104,16 @@ VAR_INPUT
 	bIsForced : BOOL;    
 END_VAR
 VAR
-    // ==========================
-    // Position-related 
-    // ==========================
-    Currentpos   : LREAL;              // Current position feedback
-    ReferencePos : LREAL := 100.0;      // Reference position for homing
-
-    // ==================
-    // Pass configuration
-    // ==================
+    ReferencePos : LREAL := 10.0;      // Reference position for homing
+	
     Options    : ST_HomingOptions := (SearchVelocity := 30, SearchDirection := MC_Positive_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM); // Fast homing config
- 
-    // ============================
-    // External references / pointers
-    // ============================
+
     pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
 	sErrorMsg : STRING(255);
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Home := 0;
-GetPosition(fCurrentPosition => Currentpos);
 
 CASE eState OF
     LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
@@ -234,8 +223,7 @@ CASE eState OF
 		END_IF
 	
 	LAS_Stepper_Error:
-		Jog := -1; 
-		
+		Jog := -1; 	
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -622,7 +610,7 @@ END_CASE
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="872" Count="0" />
-      <LineId Id="730" Count="6" />
+      <LineId Id="731" Count="5" />
       <LineId Id="881" Count="3" />
       <LineId Id="742" Count="0" />
       <LineId Id="880" Count="0" />
@@ -655,7 +643,7 @@ END_CASE
       <LineId Id="73" Count="1" />
       <LineId Id="13" Count="23" />
       <LineId Id="57" Count="1" />
-      <LineId Id="60" Count="6" />
+      <LineId Id="60" Count="5" />
       <LineId Id="3" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.KeepAlive">

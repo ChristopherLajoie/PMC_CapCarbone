@@ -173,8 +173,6 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
                 LinearTableCmd^.bHoming := FALSE;
             END_IF;
 
-			LinearTable^.PowerDown();
-			
 		0: // Operation in progress
 			RETURN;
 			
@@ -185,23 +183,19 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
             ELSE
                 LinearTableCmd^.nPosition := -1;
             END_IF;
-
-			LinearTable^.PowerDown();
     END_CASE;
 END_IF;
+
+LinearTable^.PowerDown();
 
 //Request Pop-up close
 sRequestedActuator := 'close';
 bAwaitingHMIClose := TRUE;
-tmrHMICloseSignal(IN := FALSE); 
 
 //Cleanup
 bOperationInProgress := FALSE; //Stop processing even if cancel fails
 bCancelInProgress := FALSE;
-CancelMove := FALSE;
-nCancelResult := 0;
-
-]]></ST>
+CancelMove := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="ProcessLinearActuator" Id="{fa11d454-59c0-4fad-b564-0953d0ce78c6}">
@@ -336,6 +330,7 @@ IF bHome THEN
 			Result := -1;
 		END_IF
 	END_IF
+	LinearTableCmd^.nPosition := CurrentPosition;
 ELSE
 	IF LinearTable^.KeepAlive() THEN	
 			nCmdInt := LREAL_TO_INT(LinearTableCmd^.nCommand);
@@ -450,25 +445,19 @@ END_CASE]]></ST>
       <LineId Id="203" Count="0" />
       <LineId Id="198" Count="0" />
       <LineId Id="148" Count="8" />
-      <LineId Id="158" Count="0" />
-      <LineId Id="199" Count="0" />
       <LineId Id="195" Count="0" />
       <LineId Id="159" Count="0" />
       <LineId Id="209" Count="0" />
       <LineId Id="196" Count="0" />
       <LineId Id="160" Count="6" />
-      <LineId Id="168" Count="0" />
-      <LineId Id="200" Count="0" />
       <LineId Id="169" Count="1" />
-      <LineId Id="207" Count="0" />
-      <LineId Id="173" Count="0" />
-      <LineId Id="188" Count="1" />
-      <LineId Id="187" Count="0" />
+      <LineId Id="227" Count="0" />
+      <LineId Id="223" Count="0" />
+      <LineId Id="228" Count="0" />
+      <LineId Id="224" Count="2" />
       <LineId Id="208" Count="0" />
       <LineId Id="175" Count="2" />
       <LineId Id="190" Count="0" />
-      <LineId Id="210" Count="1" />
-      <LineId Id="178" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearActuator">
       <LineId Id="110" Count="0" />
@@ -529,6 +518,7 @@ END_CASE]]></ST>
       <LineId Id="224" Count="0" />
       <LineId Id="227" Count="3" />
       <LineId Id="225" Count="1" />
+      <LineId Id="278" Count="0" />
       <LineId Id="87" Count="0" />
       <LineId Id="257" Count="0" />
       <LineId Id="261" Count="0" />
