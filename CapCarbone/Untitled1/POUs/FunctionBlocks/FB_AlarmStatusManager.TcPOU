@@ -37,7 +37,8 @@ FOR i := 1 TO 5 DO
 END_FOR
 
 //Check Safety Relay status
-SafetyRelay.bCondition := NOT SafetyRelayStatus;
+//SafetyRelay.bCondition := NOT SafetyRelayStatus;
+SafetyRelay.bCondition := SafetyRelayStatus;
 
 // Process all alarms 
 FOR i := 1 TO nAlarmCount DO
@@ -209,6 +210,7 @@ ProcessAlarm := TRUE;]]></ST>
       <LineId Id="155" Count="0" />
       <LineId Id="133" Count="0" />
       <LineId Id="156" Count="1" />
+      <LineId Id="160" Count="0" />
       <LineId Id="134" Count="1" />
       <LineId Id="151" Count="0" />
       <LineId Id="136" Count="0" />

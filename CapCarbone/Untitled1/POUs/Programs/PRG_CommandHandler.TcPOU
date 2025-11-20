@@ -327,13 +327,13 @@ END_IF
 IF bHome THEN
 	IF bisLinearTableHomeCmd THEN
 		IF LinearTable^.KeepAlive() THEN
-			Result := LinearTable^.Home(TRUE);
+			Result := LinearTable^.Home(FALSE);
 		ELSE
 			Result := -1;
 		END_IF
 	ELSE
 		IF LinearTable^.KeepAlive() THEN
-			Result := LinearTable^.Home(FALSE); //Forced homing
+			Result := LinearTable^.Home(TRUE); //Forced homing
 		ELSE
 			Result := -1;
 		END_IF

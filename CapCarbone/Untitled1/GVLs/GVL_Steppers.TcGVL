@@ -7,30 +7,35 @@
 	Rail3_Mot_Ref : AXIS_REF;
 	Rail4_Mot_Ref : AXIS_REF;
 	
+	Rail1_Prox AT %I* : BOOL;
+	Rail2_Prox AT %I* : BOOL;
+	Rail3_Prox AT %I* : BOOL;
+	Rail4_Prox AT %I* : BOOL;
+	
 	Rail1_Mot_Struct : ST_LinearTable := (
 		object := Rail1_Mot_Ref,
-		bProx := Rail1_Prox
+		bProx := ADR(Rail1_Prox)
 		);
 	
 	Rail2_Mot_Struct : ST_LinearTable := (
 		object := Rail2_Mot_Ref,
-		bProx := Rail2_Prox
+		bProx := ADR(Rail2_Prox)
 		);
 	
 	Rail3_Mot_Struct : ST_LinearTable := (
 		object := Rail3_Mot_Ref,
-		bProx := Rail3_Prox
+		bProx := ADR(Rail3_Prox)
 		);
 	
 	Rail4_Mot_Struct : ST_LinearTable := (
 		object := Rail4_Mot_Ref,
-		bProx := Rail4_Prox
+		bProx := ADR(Rail4_Prox)
 		);
 	
-	Rail1_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail1_Mot_Struct.object), init_prox := ADR(Rail1_Mot_Struct.bProx));
-    Rail2_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail2_Mot_Struct.object), init_prox := ADR(Rail2_Mot_Struct.bProx));
-    Rail3_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail3_Mot_Struct.object), init_prox := ADR(Rail3_Mot_Struct.bProx));
-    Rail4_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail4_Mot_Struct.object), init_prox := ADR(Rail4_Mot_Struct.bProx));
+	Rail1_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail1_Mot_Struct.object), init_prox := Rail1_Mot_Struct.bProx);
+    Rail2_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail2_Mot_Struct.object), init_prox := Rail2_Mot_Struct.bProx);
+    Rail3_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail3_Mot_Struct.object), init_prox := Rail3_Mot_Struct.bProx);
+    Rail4_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail4_Mot_Struct.object), init_prox := Rail4_Mot_Struct.bProx);
 
 	Rail1_Mot_Cmd : ST_StepperMotorCommand := (
 		bHoming := FALSE,

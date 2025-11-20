@@ -108,12 +108,12 @@ VAR
     // Position-related 
     // ==========================
     Currentpos   : LREAL;              // Current position feedback
-    ReferencePos : LREAL := 10.0;      // Reference position for homing
+    ReferencePos : LREAL := 100.0;      // Reference position for homing
 
     // ==================
     // Pass configuration
     // ==================
-    Options    : ST_HomingOptions := (SearchVelocity := 10, SearchDirection := MC_Positive_Direction); // Fast homing config
+    Options    : ST_HomingOptions := (SearchVelocity := 30, SearchDirection := MC_Positive_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM); // Fast homing config
  
     // ============================
     // External references / pointers
@@ -138,7 +138,11 @@ CASE eState OF
         END_IF
 		
     LAS_Stepper_Homing:
-        fbHome(Axis := pAxis^, Execute := TRUE);
+		IF bIsForced THEN
+			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := ReferencePos);
+		ELSE
+			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := ReferencePos, bCalibrationCam := pProx^, Options := Options);
+		END_IF
         
         IF fbHome.Error THEN		
             eState := LAS_Stepper_Error;
@@ -562,6 +566,7 @@ CASE eState OF
         ELSIF fbStop.Done THEN
 			fbStop(Axis := pAxis^, Execute := FALSE);
 			fbMoveAbs(Axis := pAxis^, Execute := FALSE);
+			eState := LAS_Stepper_Idle;
             Stop := 1; 
             nErrID := 0;
 		END_IF
@@ -572,11 +577,9 @@ CASE eState OF
 	   IF fbStop.Done THEN
 		   fbStop(Axis := pAxis^, Execute := FALSE);
 		   fbHome(Axis := pAxis^, Execute := FALSE);
-		   fbReset(Axis := pAxis^, Execute := TRUE);
-		   IF fbReset.Done THEN
-		       fbReset(Axis := pAxis^, Execute := FALSE);
-		   	   Stop   := 1;          
-	   	   END_IF
+		   eState := LAS_Stepper_Idle;
+		   Stop   := 1;          
+
 	   ELSIF fbStop.Error THEN
 			eState := LAS_Stepper_Error;
 			nErrID := fbStop.ErrorID;
@@ -624,7 +627,12 @@ END_CASE
       <LineId Id="881" Count="3" />
       <LineId Id="742" Count="0" />
       <LineId Id="880" Count="0" />
-      <LineId Id="743" Count="4" />
+      <LineId Id="743" Count="0" />
+      <LineId Id="886" Count="1" />
+      <LineId Id="889" Count="0" />
+      <LineId Id="891" Count="0" />
+      <LineId Id="890" Count="0" />
+      <LineId Id="745" Count="2" />
       <LineId Id="877" Count="0" />
       <LineId Id="879" Count="0" />
       <LineId Id="834" Count="3" />
@@ -750,6 +758,7 @@ END_CASE
       <LineId Id="367" Count="1" />
       <LineId Id="468" Count="0" />
       <LineId Id="467" Count="0" />
+      <LineId Id="511" Count="0" />
       <LineId Id="370" Count="3" />
       <LineId Id="442" Count="0" />
       <LineId Id="444" Count="0" />
@@ -757,7 +766,7 @@ END_CASE
       <LineId Id="447" Count="0" />
       <LineId Id="462" Count="0" />
       <LineId Id="466" Count="0" />
-      <LineId Id="463" Count="2" />
+      <LineId Id="465" Count="0" />
       <LineId Id="453" Count="0" />
       <LineId Id="460" Count="0" />
       <LineId Id="491" Count="7" />

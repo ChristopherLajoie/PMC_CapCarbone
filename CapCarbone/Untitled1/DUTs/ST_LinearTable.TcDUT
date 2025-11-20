@@ -4,7 +4,7 @@
     <Declaration><![CDATA[TYPE ST_LinearTable :
 STRUCT
 	object : AXIS_REF;
-	bProx : BOOL;
+	bProx : POINTER TO BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
