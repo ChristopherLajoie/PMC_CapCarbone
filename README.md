@@ -32,7 +32,6 @@ A OPC UA server must be set up using the TF6100 Configurator tool available with
 
 Christopher Lajoie 
 lajc1503@usherbrooke.ca
-
 Vincent Fradet
 frav1401@usherbrooke.ca
 

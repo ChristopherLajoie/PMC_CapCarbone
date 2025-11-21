@@ -5,6 +5,14 @@
       "tagType": "Folder",
       "tags": [
         {
+          "valueSource": "opc",
+          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dPRG_CommandHandler.CancelMove",
+          "dataType": "Boolean",
+          "name": "CancelMove",
+          "tagType": "AtomicTag",
+          "opcServer": "PLC OPC UA"
+        },
+        {
           "name": "Rail_4",
           "tagType": "Folder",
           "tags": [
@@ -83,14 +91,6 @@
               ]
             }
           ]
-        },
-        {
-          "valueSource": "opc",
-          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dPRG_CommandHandler.CancelMove",
-          "dataType": "Boolean",
-          "name": "CancelMove",
-          "tagType": "AtomicTag",
-          "opcServer": "PLC OPC UA"
         },
         {
           "name": "Rail_1",
@@ -261,14 +261,14 @@
             {
               "valueSource": "opc",
               "dataType": "Boolean",
-              "name": "CellPosSensor3",
+              "name": "CellPosSensor6",
               "tagType": "AtomicTag",
               "opcServer": "PLC OPC UA"
             },
             {
               "valueSource": "opc",
               "dataType": "Boolean",
-              "name": "CellPosSensor6",
+              "name": "CellPosSensor3",
               "tagType": "AtomicTag",
               "opcServer": "PLC OPC UA"
             },
@@ -421,6 +421,10 @@
           "value": true,
           "tagType": "AtomicTag",
           "opcServer": "PLC OPC UA"
+        },
+        {
+          "name": "Fans",
+          "tagType": "Folder"
         },
         {
           "name": "Rail_3",
@@ -584,10 +588,6 @@
           ]
         },
         {
-          "name": "Fans",
-          "tagType": "Folder"
-        },
-        {
           "name": "Boiler",
           "tagType": "Folder"
         }
@@ -615,14 +615,14 @@
                 {
                   "valueSource": "memory",
                   "dataType": "Float4",
-                  "name": "PT_204",
+                  "name": "PT_206",
                   "value": 50.0,
                   "tagType": "AtomicTag"
                 },
                 {
                   "valueSource": "memory",
                   "dataType": "Float4",
-                  "name": "PT_206",
+                  "name": "PT_204",
                   "value": 50.0,
                   "tagType": "AtomicTag"
                 },
@@ -729,14 +729,14 @@
                 {
                   "valueSource": "memory",
                   "dataType": "Float4",
-                  "name": "TT_208",
+                  "name": "TT_213",
                   "value": 30.0,
                   "tagType": "AtomicTag"
                 },
                 {
                   "valueSource": "memory",
                   "dataType": "Float4",
-                  "name": "TT_213",
+                  "name": "TT_208",
                   "value": 30.0,
                   "tagType": "AtomicTag"
                 },
@@ -764,13 +764,6 @@
                 {
                   "valueSource": "memory",
                   "dataType": "Float4",
-                  "name": "TT_212",
-                  "value": 30.0,
-                  "tagType": "AtomicTag"
-                },
-                {
-                  "valueSource": "memory",
-                  "dataType": "Float4",
                   "name": "TT_203",
                   "value": 118.0,
                   "tagType": "AtomicTag"
@@ -778,8 +771,8 @@
                 {
                   "valueSource": "memory",
                   "dataType": "Float4",
-                  "name": "TT_201",
-                  "value": 15.0,
+                  "name": "TT_212",
+                  "value": 30.0,
                   "tagType": "AtomicTag"
                 },
                 {
@@ -787,6 +780,13 @@
                   "dataType": "Float4",
                   "name": "TT_205",
                   "value": 110.0,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "TT_201",
+                  "value": 15.0,
                   "tagType": "AtomicTag"
                 },
                 {
@@ -1002,13 +1002,6 @@
                 {
                   "valueSource": "memory",
                   "dataType": "Float4",
-                  "name": "TT_102",
-                  "value": 25.0,
-                  "tagType": "AtomicTag"
-                },
-                {
-                  "valueSource": "memory",
-                  "dataType": "Float4",
                   "name": "TT_104",
                   "value": 25.0,
                   "tagType": "AtomicTag"
@@ -1017,6 +1010,13 @@
                   "valueSource": "memory",
                   "dataType": "Float4",
                   "name": "TT_105",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "TT_102",
+                  "value": 25.0,
                   "tagType": "AtomicTag"
                 }
               ]
@@ -1449,22 +1449,6 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_HeatExCoupola_UnknownState.bCondition",
-                  "dataType": "Boolean",
-                  "sourceTagPath": "[.]../../OPC_tags/Rail_3/R3_HeatExCoupola_UnknownState",
-                  "alarms": [
-                    {
-                      "setpointA": 1.0,
-                      "name": "R3_HeatExCoupola_UnknownState"
-                    }
-                  ],
-                  "name": "R3_HeatExCoupola_UnknownState",
-                  "tagGroup": "Default",
-                  "tagType": "AtomicTag",
-                  "opcServer": "PLC OPC UA"
-                },
-                {
-                  "valueSource": "opc",
                   "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_Compressor_MotionTimedOut.bCondition",
                   "dataType": "Boolean",
                   "sourceTagPath": "[.]../../OPC_tags/Rail_3/R3_Compressor_MotionTimedOut",
@@ -1475,6 +1459,22 @@
                     }
                   ],
                   "name": "R3_Compressor_MotionTimedOut",
+                  "tagGroup": "Default",
+                  "tagType": "AtomicTag",
+                  "opcServer": "PLC OPC UA"
+                },
+                {
+                  "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_HeatExCoupola_UnknownState.bCondition",
+                  "dataType": "Boolean",
+                  "sourceTagPath": "[.]../../OPC_tags/Rail_3/R3_HeatExCoupola_UnknownState",
+                  "alarms": [
+                    {
+                      "setpointA": 1.0,
+                      "name": "R3_HeatExCoupola_UnknownState"
+                    }
+                  ],
+                  "name": "R3_HeatExCoupola_UnknownState",
                   "tagGroup": "Default",
                   "tagType": "AtomicTag",
                   "opcServer": "PLC OPC UA"
@@ -1707,17 +1707,17 @@
                   "tags": [
                     {
                       "valueSource": "opc",
-                      "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Stepper_Homing_Failed.sMessage",
+                      "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R2_Stepper_Stop_Failed.sMessage",
                       "dataType": "String",
-                      "name": "Rail1_HomingFailed",
+                      "name": "Rail1_StopFailed",
                       "tagType": "AtomicTag",
                       "opcServer": "PLC OPC UA"
                     },
                     {
                       "valueSource": "opc",
-                      "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R2_Stepper_Stop_Failed.sMessage",
+                      "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Stepper_Homing_Failed.sMessage",
                       "dataType": "String",
-                      "name": "Rail1_StopFailed",
+                      "name": "Rail1_HomingFailed",
                       "tagType": "AtomicTag",
                       "opcServer": "PLC OPC UA"
                     },
@@ -1755,17 +1755,17 @@
                     },
                     {
                       "valueSource": "opc",
-                      "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Stepper_UnableToReadPosition.sMessage",
+                      "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Stepper_Motion_Failed.sMessage",
                       "dataType": "String",
-                      "name": "Rail1_UnableToReadPosition",
+                      "name": "Rail1_MotionFailed",
                       "tagType": "AtomicTag",
                       "opcServer": "PLC OPC UA"
                     },
                     {
                       "valueSource": "opc",
-                      "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Stepper_Motion_Failed.sMessage",
+                      "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Stepper_UnableToReadPosition.sMessage",
                       "dataType": "String",
-                      "name": "Rail1_MotionFailed",
+                      "name": "Rail1_UnableToReadPosition",
                       "tagType": "AtomicTag",
                       "opcServer": "PLC OPC UA"
                     },
@@ -1913,20 +1913,20 @@
                       "opcServer": "PLC OPC UA"
                     },
                     {
-                      "valueSource": "expr",
-                      "expression": "if({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_error_msg} \u003d \"\" , \"material/check_box\", \"material/warning\"\r\n)\r\n",
-                      "dataType": "String",
-                      "name": "Rail4_status_icon_path",
-                      "executionMode": "FixedRate",
-                      "tagType": "AtomicTag"
-                    },
-                    {
                       "valueSource": "opc",
                       "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R4_Stepper_PowerUp_Failed.sMessage",
                       "dataType": "String",
                       "name": "Rail4_PowerUpFailed",
                       "tagType": "AtomicTag",
                       "opcServer": "PLC OPC UA"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "expression": "if({[default]Security/Alerts/Stepper_error_msg/Rail4/Rail4_error_msg} \u003d \"\" , \"material/check_box\", \"material/warning\"\r\n)\r\n",
+                      "dataType": "String",
+                      "name": "Rail4_status_icon_path",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag"
                     },
                     {
                       "valueSource": "expr",
@@ -2098,6 +2098,20 @@
                 },
                 {
                   "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R2_Chariot_MotionTimedOut.bCondition",
+                  "dataType": "Boolean",
+                  "alarms": [
+                    {
+                      "setpointA": 1.0,
+                      "name": "Alarm"
+                    }
+                  ],
+                  "name": "R2_Chariot_MotionTimedOut",
+                  "tagType": "AtomicTag",
+                  "opcServer": "PLC OPC UA"
+                },
+                {
+                  "valueSource": "opc",
                   "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R2_Stepper_Homing_Failed.bCondition",
                   "dataType": "Boolean",
                   "sourceTagPath": "[.]../../OPC_tags/Rail_2/R2_Stepper_Homing_Failed",
@@ -2109,20 +2123,6 @@
                   ],
                   "name": "R2_Stepper_Homing_Failed",
                   "tagGroup": "Default",
-                  "tagType": "AtomicTag",
-                  "opcServer": "PLC OPC UA"
-                },
-                {
-                  "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R2_Chariot_MotionTimedOut.bCondition",
-                  "dataType": "Boolean",
-                  "alarms": [
-                    {
-                      "setpointA": 1.0,
-                      "name": "Alarm"
-                    }
-                  ],
-                  "name": "R2_Chariot_MotionTimedOut",
                   "tagType": "AtomicTag",
                   "opcServer": "PLC OPC UA"
                 },
