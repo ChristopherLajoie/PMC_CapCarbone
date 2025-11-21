@@ -8,7 +8,7 @@ This project is developped inside the Beckhoff TwinCAT3 environment and uses the
 
 - [PLC Architecture](doc/plc-architecture.md)
 
-![Overview](Overview.png)
+![Overview](doc/overview.png)
 
 ## Getting Started
 
