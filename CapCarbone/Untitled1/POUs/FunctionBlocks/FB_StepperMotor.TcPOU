@@ -59,7 +59,7 @@ pProx := init_prox;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetPosition" Id="{c99d767f-ea4a-49f6-ba95-aa6815963f09}">
-      <Declaration><![CDATA[METHOD GetPosition : BOOL
+      <Declaration><![CDATA[METHOD GetPosition : INT
 VAR
 	pAlarmCondition : POINTER TO BOOL;
 	sErrorMsg : STRING(255);
@@ -70,7 +70,9 @@ VAR_OUTPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
+        <ST><![CDATA[GetPosition := 0;
+
+fbRead(Axis := pAxis^, Enable := TRUE, Position => fCurrentPosition);
 
 IF fbRead.Busy THEN
 	IF fbRead.Error THEN
@@ -78,20 +80,22 @@ IF fbRead.Busy THEN
 		IF pAlarmCondition <> 0 THEN
 			pAlarmCondition^ := TRUE;
 		END_IF
-	
-	sErrorMsg := F_GetMC2ErrorDescription(fbRead.ErrorID);
-				
-	CASE nRail OF
-		1: GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 1 position read failed: ', sErrorMsg);
-		2: GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 2 position read failed: ', sErrorMsg);
-		3: GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 3 position read failed: ', sErrorMsg);
-		4: GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 4 position read failed: ', sErrorMsg);
-	END_CASE
+		
+		GetPosition := -1;
+		sErrorMsg := F_GetMC2ErrorDescription(fbRead.ErrorID);
+					
+		CASE nRail OF
+			1: GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 1 position read failed: ', sErrorMsg);
+			2: GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 2 position read failed: ', sErrorMsg);
+			3: GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 3 position read failed: ', sErrorMsg);
+			4: GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 4 position read failed: ', sErrorMsg);
+		END_CASE
 	END_IF
 
 ELSE
 	IF NOT fbRead.Valid THEN
 		fCurrentPosition := -1;
+		GetPosition := 1;
 	END_IF
 END_IF
 
@@ -600,13 +604,17 @@ END_CASE
       <LineId Id="3" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.GetPosition">
+      <LineId Id="28" Count="1" />
       <LineId Id="1" Count="3" />
       <LineId Id="16" Count="2" />
       <LineId Id="5" Count="0" />
       <LineId Id="19" Count="0" />
+      <LineId Id="30" Count="0" />
       <LineId Id="21" Count="6" />
       <LineId Id="20" Count="0" />
-      <LineId Id="6" Count="8" />
+      <LineId Id="6" Count="4" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="11" Count="3" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="872" Count="0" />

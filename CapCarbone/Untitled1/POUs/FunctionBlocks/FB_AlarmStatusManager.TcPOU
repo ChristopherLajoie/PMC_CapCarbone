@@ -42,7 +42,6 @@ SafetyRelay.bCondition := SafetyRelayStatus;
 
 // Process all alarms 
 FOR i := 1 TO nAlarmCount DO
-	
     IF aAllAlarms[i].pAlarm <> 0 THEN
 		nZone := ParseAlarmZone(aAllAlarms[i].sName);
 		ProcessAlarm(aAllAlarms[i].pAlarm, nZone);	
@@ -211,9 +210,7 @@ ProcessAlarm := TRUE;]]></ST>
       <LineId Id="133" Count="0" />
       <LineId Id="156" Count="1" />
       <LineId Id="160" Count="0" />
-      <LineId Id="134" Count="1" />
-      <LineId Id="151" Count="0" />
-      <LineId Id="136" Count="0" />
+      <LineId Id="134" Count="2" />
       <LineId Id="138" Count="0" />
       <LineId Id="140" Count="1" />
       <LineId Id="152" Count="0" />

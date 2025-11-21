@@ -262,19 +262,31 @@ END_VAR
 VAR
 	Error : BOOL;
 	nCmdInt : INT;
+	nFetchPosition : INT := 0;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* 1. WAIT FOR STEPPER POWER-UP *)
 IF LinearTable^.KeepAlive(Error => Error) THEN
-	(*CASE nFetchPosition OF
-		1:
-		
-		0:
-		
-		-1:
-	END_CASE*)
+	nFetchPosition := LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
 	
-	LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
+	CASE nFetchPosition OF
+		1: //Continue
+		
+		0: //Continue
+			RETURN;
+		
+		-1: LinearTableCmd^.nPosition := -1;      
+            Result := -1;                         
+            LinearTable^.PowerDown();             
+            bOperationInProgress := FALSE;
+			
+			sRequestedActuator := 'close';
+			bAwaitingHMIClose := TRUE;
+			tmrHMICloseSignal(IN := FALSE);
+			
+            RETURN;           
+	END_CASE
+	
 ELSIF Error THEN
 	Result := -1;
 ELSE
@@ -424,7 +436,18 @@ END_CASE]]></ST>
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
-      <LineId Id="279" Count="133" />
+      <LineId Id="279" Count="1" />
+      <LineId Id="413" Count="1" />
+      <LineId Id="281" Count="3" />
+      <LineId Id="415" Count="0" />
+      <LineId Id="285" Count="0" />
+      <LineId Id="416" Count="0" />
+      <LineId Id="418" Count="3" />
+      <LineId Id="423" Count="1" />
+      <LineId Id="422" Count="0" />
+      <LineId Id="425" Count="0" />
+      <LineId Id="286" Count="2" />
+      <LineId Id="290" Count="122" />
       <LineId Id="51" Count="0" />
     </LineIds>
   </POU>
