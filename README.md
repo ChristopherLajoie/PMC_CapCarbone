@@ -6,7 +6,7 @@ Repository for the CapCarbone final year project at the University of Sherbrooke
 
 This project is developped inside the Beckhoff TwinCAT3 environment and uses the Ignition platform for HMI purposes. 
 
-- [PLC Architecture](/plc-architecture)
+- [PLC Architecture](doc/plc-architecture)
 
 ![Overview](Overview.png)
 
