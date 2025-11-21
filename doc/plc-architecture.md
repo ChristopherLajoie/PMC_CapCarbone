@@ -87,14 +87,14 @@ This lookup table is the core indirection mechanism that lets generic string com
 
 ### 3.2 Linear actuator control (FB_LinearActuator)
 
-`FB_LinearActuator` implements a robust state machine for controlling pneumatic cylinders and linear drives. Unlike the stepper block, this FB relies on discrete boolean logic, edge detection, and timing rather than MC2 motion commands.
+`FB_LinearActuator` implements a robust state machine for controlling linear electric motors. Unlike the stepper block, this FB relies on discrete boolean logic, edge detection, and timing rather than MC2 motion commands.
 
 **Dynamic Configuration**
 The block automatically categorizes the actuator behavior by inspecting the `pActuator^.sName` string during initialization (`FB_Init`):
 
-* **GUI (Guillotine/Coupolas):** Identified by names containing 'HeatExCoupola' or 'RegenCoupola'. These actuators utilize intermediate sensors (`Prox2`, `Prox3`) and specific speed control outputs to slow down movement at specific points.
-* **CMP (Compressor):** Identified by names containing 'Compressor'. These require strict position validation and treat unexpected intermediate signals as errors.
-* **Basic:** Any actuator not identified as GUI or CMP. These follow standard Extend/Retract logic with end-of-travel sensors only[cite: 29].
+* **GUI (Guillotine):** Identified by names containing 'HeatExCoupola' or 'RegenCoupola'. These actuators utilize intermediate sensors (`Prox2`, `Prox3`) and specific speed control outputs to slow down movement at specific points.
+* **CMP (Compressor):** Identified by names containing 'Compressor'. These require strict position validation.
+* **Basic:** Any actuator not identified as GUI or CMP. These follow standard Extend/Retract logic with end-of-travel sensors only.
 
 **State Machine & Motion Methods**
 The block manages `eState` (`ENUM_LinearActuatorState`) through three primary methods:
@@ -102,7 +102,7 @@ The block manages `eState` (`ENUM_LinearActuatorState`) through three primary me
 * **Extend:**
     * Initiates forward movement by setting `bFwdDO` and clearing `bBckwDO`.
     * Starts the `tTimeout` timer to detect mechanical jams.
-    * **Intermediate Logic:** For 'GUI' types, it monitors `Prox2` and `Prox3` to trigger speed control outputs (slowing down before the end stop).
+    * **Intermediate Logic:** For 'GUI' types, it monitors `Prox2` and `Prox3` to trigger speed control outputs (slowing down before the end stop). For 'CMP' types, it checks if the fault prox (`Prox2`) is detected during motion, and triggers an error accordingly.
     * **Completion:** Stops motion upon detecting `bProxOut` (rising or falling edge based on config), updates state to `LAS_LinearActuator_Extended`, and resets the timeout.
     * **Errors:** Triggers a `MotionTimedOut` alarm if the operation exceeds `tTimeout`.
 
@@ -117,7 +117,7 @@ The block manages `eState` (`ENUM_LinearActuatorState`) through three primary me
 
 **Position & Error Handling**
 * **GetPosition:** Polls hardware inputs against rising/falling edge triggers. It updates the internal `eState` to `Retracted`, `Extended`, `AtProx2`, or `AtProx3`. If inputs are inconsistent (e.g., unknown position), it flags an `UnknownPosition` alarm.
-* **CheckDriveFault:** Called cyclically to monitor the physical `bFaultDI` input. If a drive fault occurs, it transitions `eState` to `Error` and triggers a `DriveFaulted` alarm.
+* **CheckDriveFault:** Called cyclically to monitor the physical `bFaultDI` input for all types but 'Basic'. If a drive fault occurs, it transitions `eState` to `Error` and triggers a `DriveFaulted` alarm.
 
 ## 4. Alarm and safety management
 
@@ -149,7 +149,7 @@ The block manages `eState` (`ENUM_LinearActuatorState`) through three primary me
 
 Commands are encoded as strings:
 
-**From HMI → PLC:**
+**From Cycle → PLC:**
 High-level function `F_IssueActuatorCommand(sDevice, bArg, bHasPosition, nPosition)` is exposed.
 * Examples:
     * `F_IssueActuatorCommand('Chariot1', TRUE)` → move Chariot1 forward.
@@ -177,7 +177,7 @@ This lets a single handler program route any valid command to the right object.
 
 ### 5.3 PRG_CommandHandler
 
-`PRG_CommandHandler` is the central dispatcher that ties everything together:
+`PRG_CommandHandler` is the central dispatcher that ties commands request from `F_IssueActuatorCommand()` and the HMI:
 
 * **Safety gate:** Calls `EvaluateSystemSafety()` and refuses to start new motions if the system is unsafe and the command is not a reset-type command. Also checks global `bCriticalAlarm`.
 * **HMI handshake:** Uses `bAwaitingHMIClose` and `tmrHMICloseSignal` to hold the “close” command state for a short time, then resets `sRequestedActuator := 'none'` so the HMI can close the popup.
@@ -198,9 +198,8 @@ This program is designed so that only one operation is in progress at a time, wi
 
 A typical end-to-end interaction looks like this:
 
-1.  **HMI:** User chooses a device and action (e.g., “Move Rail 3 to position 600”).
-2.  **HMI Script:** Calls `F_IssueActuatorCommand('Motor3', FALSE, TRUE, 600)` via OPC UA and monitors the returned `Result` and position feedback.
-3.  **PLC:** `F_IssueActuatorCommand` writes `sRequestedActuator := 'R3_Motor'` and updates `Rail3_Mot_Cmd.nCommand`.
-4.  **PLC:** `PRG_CommandHandler` validates `R3_Motor`, resolves it to `Rail3_Mot_FB` / `Rail3_Mot_Cmd` using the lookup table, checks safety, then calls `MoveToPosition(600)` on `FB_StepperMotor`.
-5.  **PLC:** `FB_StepperMotor` executes the move using MC2 blocks, updates alarms on error and returns a status code.
-6.  **HMI feedback:** Ignition reads back the axis position and any alarm messages (via OPC UA) to show success, error or timeout to the user.
+1.  **HMI:** Operator chooses a device and action (e.g., “Move Rail 3 to position 600”).
+2.  **HMI Script:** Calls `sRequestedActuator` and `nCommand` via OPC UA and monitors the returned position feedback.
+3.  **PLC:** `PRG_CommandHandler` validates `R3_Motor`, resolves it to `Rail3_Mot_FB` / `Rail3_Mot_Cmd` using the lookup table, checks safety, then calls `MoveToPosition(600)` on `FB_StepperMotor`.
+4.  **PLC:** `FB_StepperMotor` executes the move using MC2 blocks, updates alarms on error and returns a status code.
+5.  **HMI feedback:** Ignition reads back the axis position and any alarm messages (via OPC UA) to show success, error or timeout to the user.
