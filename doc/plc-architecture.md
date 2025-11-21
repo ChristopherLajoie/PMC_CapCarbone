@@ -90,33 +90,34 @@ This lookup table is the core indirection mechanism that lets generic string com
 `FB_LinearActuator` implements a robust state machine for controlling pneumatic cylinders and linear drives. Unlike the stepper block, this FB relies on discrete boolean logic, edge detection, and timing rather than MC2 motion commands.
 
 **Dynamic Configuration**
-[cite_start]The block automatically categorizes the actuator behavior by inspecting the `pActuator^.sName` string during initialization (`FB_Init`)[cite: 27, 28]:
-* [cite_start]**GUI (Guillotine/Coupolas):** Identified by names containing 'HeatExCoupola' or 'RegenCoupola'[cite: 28]. [cite_start]These actuators utilize intermediate sensors (`Prox2`, `Prox3`) and specific speed control outputs to slow down movement at specific points[cite: 30, 31, 36].
-* [cite_start]**CMP (Compressor):** Identified by names containing 'Compressor'[cite: 29]. [cite_start]These require strict position validation and treat unexpected intermediate signals as errors[cite: 19, 20].
-* [cite_start]**Basic:** Any actuator not identified as GUI or CMP[cite: 29]. [cite_start]These follow standard Extend/Retract logic with end-of-travel sensors only[cite: 29].
+The block automatically categorizes the actuator behavior by inspecting the `pActuator^.sName` string during initialization (`FB_Init`):
+
+* **GUI (Guillotine/Coupolas):** Identified by names containing 'HeatExCoupola' or 'RegenCoupola'. These actuators utilize intermediate sensors (`Prox2`, `Prox3`) and specific speed control outputs to slow down movement at specific points.
+* **CMP (Compressor):** Identified by names containing 'Compressor'. These require strict position validation and treat unexpected intermediate signals as errors.
+* **Basic:** Any actuator not identified as GUI or CMP. These follow standard Extend/Retract logic with end-of-travel sensors only[cite: 29].
 
 **State Machine & Motion Methods**
 The block manages `eState` (`ENUM_LinearActuatorState`) through three primary methods:
 
 * **Extend:**
-    * [cite_start]Initiates forward movement by setting `bFwdDO` and clearing `bBckwDO`[cite: 18].
-    * [cite_start]Starts the `tTimeout` timer to detect mechanical jams[cite: 17].
-    * [cite_start]**Intermediate Logic:** For 'GUI' types, it monitors `Prox2` and `Prox3` to trigger speed control outputs (slowing down before the end stop)[cite: 19, 21].
-    * [cite_start]**Completion:** Stops motion upon detecting `bProxOut` (rising or falling edge based on config) [cite: 22][cite_start], updates state to `LAS_LinearActuator_Extended`, and resets the timeout[cite: 22].
-    * [cite_start]**Errors:** Triggers a `MotionTimedOut` alarm if the operation exceeds `tTimeout`[cite: 23].
+    * Initiates forward movement by setting `bFwdDO` and clearing `bBckwDO`.
+    * Starts the `tTimeout` timer to detect mechanical jams.
+    * **Intermediate Logic:** For 'GUI' types, it monitors `Prox2` and `Prox3` to trigger speed control outputs (slowing down before the end stop).
+    * **Completion:** Stops motion upon detecting `bProxOut` (rising or falling edge based on config), updates state to `LAS_LinearActuator_Extended`, and resets the timeout.
+    * **Errors:** Triggers a `MotionTimedOut` alarm if the operation exceeds `tTimeout`.
 
 * **Home (Retract):**
-    * [cite_start]Initiates backward movement via `SetBackwardMovement`[cite: 40].
-    * [cite_start]For 'GUI' types, it monitors intermediate sensors (`Prox2`, `Prox3`) to adjust speed on the return stroke[cite: 42, 43].
-    * [cite_start]Stops motion upon detecting `bProxIn` and updates state to `LAS_LinearActuator_Retracted`[cite: 45].
+    * Initiates backward movement via `SetBackwardMovement`.
+    * For 'GUI' types, it monitors intermediate sensors (`Prox2`, `Prox3`) to adjust speed on the return stroke.
+    * Stops motion upon detecting `bProxIn` and updates state to `LAS_LinearActuator_Retracted`.
 
 * **Stop:**
-    * [cite_start]Immediately clears both forward and backward outputs (unless it is a 'Basic' type, in which case it handles outputs directly)[cite: 53, 54].
-    * [cite_start]Resets the motion timer to prevent false timeout alarms while idle[cite: 54].
+    * Immediately clears both forward and backward outputs (unless it is a 'Basic' type, in which case it handles outputs directly).
+    * Resets the motion timer to prevent false timeout alarms while idle.
 
 **Position & Error Handling**
-* [cite_start]**GetPosition:** Polls hardware inputs against rising/falling edge triggers[cite: 33]. [cite_start]It updates the internal `eState` to `Retracted`, `Extended`, `AtProx2`, or `AtProx3`[cite: 34, 35, 36]. [cite_start]If inputs are inconsistent (e.g., unknown position), it flags an `UnknownPosition` alarm[cite: 37].
-* [cite_start]**CheckDriveFault:** Called cyclically to monitor the physical `bFaultDI` input[cite: 13]. [cite_start]If a drive fault occurs, it transitions `eState` to `Error` and triggers a `DriveFaulted` alarm[cite: 14].
+* **GetPosition:** Polls hardware inputs against rising/falling edge triggers. It updates the internal `eState` to `Retracted`, `Extended`, `AtProx2`, or `AtProx3`. If inputs are inconsistent (e.g., unknown position), it flags an `UnknownPosition` alarm.
+* **CheckDriveFault:** Called cyclically to monitor the physical `bFaultDI` input. If a drive fault occurs, it transitions `eState` to `Error` and triggers a `DriveFaulted` alarm.
 
 ## 4. Alarm and safety management
 
