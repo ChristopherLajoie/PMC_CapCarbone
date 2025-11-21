@@ -1,6 +1,6 @@
 - Implement cycle
 - Per alarm check instead of per zone check would be better
-- Checker n Position qui retourne de la sauce
+- Checker get position dans processlineartable
 
 
 

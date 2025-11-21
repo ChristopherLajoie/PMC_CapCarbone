@@ -266,6 +266,14 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* 1. WAIT FOR STEPPER POWER-UP *)
 IF LinearTable^.KeepAlive(Error => Error) THEN
+	(*CASE nFetchPosition OF
+		1:
+		
+		0:
+		
+		-1:
+	END_CASE*)
+	
 	LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
 ELSIF Error THEN
 	Result := -1;
@@ -394,35 +402,7 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="PRG_CommandHandler">
-      <LineId Id="772" Count="4" />
-      <LineId Id="778" Count="1" />
-      <LineId Id="781" Count="11" />
-      <LineId Id="851" Count="1" />
-      <LineId Id="793" Count="3" />
-      <LineId Id="850" Count="0" />
-      <LineId Id="797" Count="4" />
-      <LineId Id="861" Count="0" />
-      <LineId Id="868" Count="0" />
-      <LineId Id="854" Count="4" />
-      <LineId Id="802" Count="0" />
-      <LineId Id="859" Count="0" />
-      <LineId Id="803" Count="2" />
-      <LineId Id="807" Count="2" />
-      <LineId Id="849" Count="0" />
-      <LineId Id="810" Count="2" />
-      <LineId Id="844" Count="0" />
-      <LineId Id="815" Count="0" />
-      <LineId Id="845" Count="0" />
-      <LineId Id="816" Count="3" />
-      <LineId Id="865" Count="0" />
-      <LineId Id="846" Count="0" />
-      <LineId Id="828" Count="0" />
-      <LineId Id="853" Count="0" />
-      <LineId Id="829" Count="2" />
-      <LineId Id="833" Count="1" />
-      <LineId Id="836" Count="7" />
-      <LineId Id="848" Count="0" />
-      <LineId Id="640" Count="0" />
+      <LineId Id="869" Count="75" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.EvaluateSystemSafety">
       <LineId Id="6" Count="0" />
@@ -436,118 +416,15 @@ END_CASE]]></ST>
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessCancelOperation">
-      <LineId Id="136" Count="1" />
-      <LineId Id="206" Count="0" />
-      <LineId Id="145" Count="0" />
-      <LineId Id="197" Count="0" />
-      <LineId Id="202" Count="0" />
-      <LineId Id="204" Count="1" />
-      <LineId Id="203" Count="0" />
-      <LineId Id="198" Count="0" />
-      <LineId Id="148" Count="8" />
-      <LineId Id="195" Count="0" />
-      <LineId Id="159" Count="0" />
-      <LineId Id="209" Count="0" />
-      <LineId Id="196" Count="0" />
-      <LineId Id="160" Count="6" />
-      <LineId Id="169" Count="1" />
-      <LineId Id="227" Count="0" />
-      <LineId Id="223" Count="0" />
-      <LineId Id="228" Count="0" />
-      <LineId Id="224" Count="2" />
-      <LineId Id="208" Count="0" />
-      <LineId Id="175" Count="2" />
+      <LineId Id="229" Count="41" />
       <LineId Id="190" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearActuator">
-      <LineId Id="110" Count="0" />
-      <LineId Id="38" Count="4" />
-      <LineId Id="111" Count="0" />
-      <LineId Id="118" Count="0" />
-      <LineId Id="77" Count="0" />
-      <LineId Id="79" Count="1" />
-      <LineId Id="112" Count="0" />
-      <LineId Id="121" Count="0" />
-      <LineId Id="78" Count="0" />
-      <LineId Id="47" Count="2" />
-      <LineId Id="113" Count="3" />
-      <LineId Id="54" Count="1" />
-      <LineId Id="82" Count="1" />
-      <LineId Id="87" Count="5" />
-      <LineId Id="94" Count="1" />
-      <LineId Id="97" Count="0" />
-      <LineId Id="119" Count="1" />
-      <LineId Id="98" Count="3" />
-      <LineId Id="103" Count="0" />
-      <LineId Id="117" Count="0" />
-      <LineId Id="104" Count="1" />
-      <LineId Id="107" Count="1" />
+      <LineId Id="122" Count="45" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearTable">
-      <LineId Id="233" Count="0" />
-      <LineId Id="193" Count="1" />
-      <LineId Id="231" Count="1" />
-      <LineId Id="196" Count="3" />
-      <LineId Id="60" Count="0" />
-      <LineId Id="219" Count="2" />
-      <LineId Id="202" Count="0" />
-      <LineId Id="204" Count="2" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="118" Count="1" />
-      <LineId Id="122" Count="1" />
-      <LineId Id="125" Count="2" />
-      <LineId Id="187" Count="0" />
-      <LineId Id="182" Count="0" />
-      <LineId Id="270" Count="1" />
-      <LineId Id="128" Count="2" />
-      <LineId Id="222" Count="0" />
-      <LineId Id="132" Count="1" />
-      <LineId Id="136" Count="1" />
-      <LineId Id="139" Count="2" />
-      <LineId Id="184" Count="0" />
-      <LineId Id="188" Count="0" />
-      <LineId Id="272" Count="1" />
-      <LineId Id="142" Count="1" />
-      <LineId Id="82" Count="3" />
-      <LineId Id="268" Count="1" />
-      <LineId Id="223" Count="0" />
-      <LineId Id="208" Count="3" />
-      <LineId Id="207" Count="0" />
-      <LineId Id="224" Count="0" />
-      <LineId Id="227" Count="3" />
-      <LineId Id="225" Count="1" />
-      <LineId Id="278" Count="0" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="257" Count="0" />
-      <LineId Id="261" Count="0" />
-      <LineId Id="243" Count="1" />
-      <LineId Id="246" Count="5" />
-      <LineId Id="260" Count="0" />
-      <LineId Id="259" Count="0" />
-      <LineId Id="253" Count="1" />
-      <LineId Id="245" Count="0" />
-      <LineId Id="258" Count="0" />
-      <LineId Id="215" Count="1" />
-      <LineId Id="212" Count="0" />
-      <LineId Id="218" Count="0" />
-      <LineId Id="91" Count="0" />
-      <LineId Id="144" Count="1" />
-      <LineId Id="149" Count="4" />
-      <LineId Id="262" Count="0" />
-      <LineId Id="155" Count="2" />
-      <LineId Id="189" Count="0" />
-      <LineId Id="263" Count="0" />
-      <LineId Id="190" Count="0" />
-      <LineId Id="158" Count="0" />
-      <LineId Id="274" Count="1" />
-      <LineId Id="159" Count="3" />
-      <LineId Id="166" Count="6" />
-      <LineId Id="264" Count="3" />
-      <LineId Id="176" Count="0" />
-      <LineId Id="191" Count="1" />
-      <LineId Id="276" Count="1" />
+      <LineId Id="279" Count="133" />
       <LineId Id="51" Count="0" />
     </LineIds>
   </POU>
