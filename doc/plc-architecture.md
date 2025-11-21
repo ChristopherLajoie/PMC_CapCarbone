@@ -1,13 +1,13 @@
 # PLC Architecture
 
-This document gives a high-level overview of the TwinCAT 3 PLC code used in the CapCarbone project and how it is structured. It’s meant as a technical companion to the main README and can be linked directly from there as `plc-architecture.md`.
+This document gives a high-level overview of the TwinCAT 3 PLC code used in the CapCarbone project and how it is structured. 
 
 ## 1. System overview
 
-The PLC project runs on Beckhoff TwinCAT 3 and controls:
+The PLC project controls:
 
 * **4 stepper-driven rails** (`Rail1`…`Rail4`), each represented as a motion axis (`AXIS_REF`) and wrapped by a `FB_StepperMotor` instance.
-* **Multiple linear actuators** (chariots, compressors, sensor pivot, heat-exchange and regeneration coupolas) grouped under `ST_LinearActuator` structures and controlled by `FB_LinearActuator` function blocks.
+* **Multiple linear actuators** (chariots, compressors, sensor pivot, heat-exchange and regeneration guillotines) grouped under `ST_LinearActuator` structures and controlled by `FB_LinearActuator` function blocks.
 * **Discrete cell position sensors** and drive control signals (speed, stop, fault) mapped to meaningful global variables.
 * **A global alarm and safety layer** that aggregates per-device alarms into zone-level status and a global “OK to run” flag.
 * **Commands coming from the HMI** (Ignition via OPC UA) are encoded as strings (e.g., `R1_Chariot`, `R3_Motor`, `R2_Home`) and dispatched dynamically to the correct function block through a lookup table and a central `PRG_CommandHandler` program.
@@ -85,16 +85,38 @@ This lookup table is the core indirection mechanism that lets generic string com
     * `-1` on error
 * **Jog, Stop, Reset, GetPosition:** Provide jogging, controlled stops, error reset plus automatic hardware check (forced homing) and safe position reads with `UnableToReadPosition` alarms if anything goes wrong.
 
-Overall, `FB_StepperMotor` is a self-contained state machine for one rail, with thorough alarm reporting per rail.
-
 ### 3.2 Linear actuator control (FB_LinearActuator)
 
-While the implementation details of `FB_LinearActuator` are not fully listed in the combined export, its usage pattern is clear from `GVL_LinearActuators`. Each instance is linked to:
+`FB_LinearActuator` implements a robust state machine for controlling pneumatic cylinders and linear drives. Unlike the stepper block, this FB relies on discrete boolean logic, edge detection, and timing rather than MC2 motion commands.
 
-* Two to four proximity sensors (in, out, slow-speed in/out, fault detection).
-* Forward/backward drive outputs and optional speed/stop/fault signals.
+**Dynamic Configuration**
+[cite_start]The block automatically categorizes the actuator behavior by inspecting the `pActuator^.sName` string during initialization (`FB_Init`)[cite: 27, 28]:
+* [cite_start]**GUI (Guillotine/Coupolas):** Identified by names containing 'HeatExCoupola' or 'RegenCoupola'[cite: 28]. [cite_start]These actuators utilize intermediate sensors (`Prox2`, `Prox3`) and specific speed control outputs to slow down movement at specific points[cite: 30, 31, 36].
+* [cite_start]**CMP (Compressor):** Identified by names containing 'Compressor'[cite: 29]. [cite_start]These require strict position validation and treat unexpected intermediate signals as errors[cite: 19, 20].
+* [cite_start]**Basic:** Any actuator not identified as GUI or CMP[cite: 29]. [cite_start]These follow standard Extend/Retract logic with end-of-travel sensors only[cite: 29].
 
-Combined with `ENUM_LinearActuatorState` and the timeout timer in the struct, the block implements an extend/retract state machine with motion timeout and fault detection.
+**State Machine & Motion Methods**
+The block manages `eState` (`ENUM_LinearActuatorState`) through three primary methods:
+
+* **Extend:**
+    * [cite_start]Initiates forward movement by setting `bFwdDO` and clearing `bBckwDO`[cite: 18].
+    * [cite_start]Starts the `tTimeout` timer to detect mechanical jams[cite: 17].
+    * [cite_start]**Intermediate Logic:** For 'GUI' types, it monitors `Prox2` and `Prox3` to trigger speed control outputs (slowing down before the end stop)[cite: 19, 21].
+    * [cite_start]**Completion:** Stops motion upon detecting `bProxOut` (rising or falling edge based on config) [cite: 22][cite_start], updates state to `LAS_LinearActuator_Extended`, and resets the timeout[cite: 22].
+    * [cite_start]**Errors:** Triggers a `MotionTimedOut` alarm if the operation exceeds `tTimeout`[cite: 23].
+
+* **Home (Retract):**
+    * [cite_start]Initiates backward movement via `SetBackwardMovement`[cite: 40].
+    * [cite_start]For 'GUI' types, it monitors intermediate sensors (`Prox2`, `Prox3`) to adjust speed on the return stroke[cite: 42, 43].
+    * [cite_start]Stops motion upon detecting `bProxIn` and updates state to `LAS_LinearActuator_Retracted`[cite: 45].
+
+* **Stop:**
+    * [cite_start]Immediately clears both forward and backward outputs (unless it is a 'Basic' type, in which case it handles outputs directly)[cite: 53, 54].
+    * [cite_start]Resets the motion timer to prevent false timeout alarms while idle[cite: 54].
+
+**Position & Error Handling**
+* [cite_start]**GetPosition:** Polls hardware inputs against rising/falling edge triggers[cite: 33]. [cite_start]It updates the internal `eState` to `Retracted`, `Extended`, `AtProx2`, or `AtProx3`[cite: 34, 35, 36]. [cite_start]If inputs are inconsistent (e.g., unknown position), it flags an `UnknownPosition` alarm[cite: 37].
+* [cite_start]**CheckDriveFault:** Called cyclically to monitor the physical `bFaultDI` input[cite: 13]. [cite_start]If a drive fault occurs, it transitions `eState` to `Error` and triggers a `DriveFaulted` alarm[cite: 14].
 
 ## 4. Alarm and safety management
 
@@ -169,7 +191,7 @@ This program is designed so that only one operation is in progress at a time, wi
 
 ### 5.4 Process-level sequencing (PRG_Cycle)
 
-`PRG_Cycle` is a higher-level program that manages the overall process state machine (heat exchange, adsorption, regeneration) using a simple `Status` integer and booleans from `GVL_Process` (`StartHeatExchange`, `RegenerationRunning`, etc.). While only its declaration is visible in the export, its role is to sequence the different modes by issuing appropriate actuator and stepper commands through the mechanisms described above.
+`PRG_Cycle` is a higher-level program that manages the overall process state machine (heat exchange, adsorption, regeneration) using a `Status` integer to flag motion status and booleans from `GVL` to conditionaly control execution based on the state of machine security mechanism. 
 
 ## 6. Typical flow from HMI to motion
 
@@ -181,17 +203,3 @@ A typical end-to-end interaction looks like this:
 4.  **PLC:** `PRG_CommandHandler` validates `R3_Motor`, resolves it to `Rail3_Mot_FB` / `Rail3_Mot_Cmd` using the lookup table, checks safety, then calls `MoveToPosition(600)` on `FB_StepperMotor`.
 5.  **PLC:** `FB_StepperMotor` executes the move using MC2 blocks, updates alarms on error and returns a status code.
 6.  **HMI feedback:** Ignition reads back the axis position and any alarm messages (via OPC UA) to show success, error or timeout to the user.
-
-## 7. Extending the architecture
-
-To add a new actuator or rail:
-
-1.  **Hardware mapping:** Add I/O signals to the appropriate GVL (`GVL_LinearActuatorProxSensors`, `GVL_LinearActuatorRelays`, `GVL_Steppers`, etc.).
-2.  **Instance creation:** Add a new `ST_LinearActuator` or `ST_LinearTable` entry plus its `FB_LinearActuator` or `FB_StepperMotor` instance in `GVL_LinearActuators` / `GVL_Steppers`.
-3.  **Lookup table:** Add an `ST_LookupEntry` row to `aLookupTable` with the correct `(nX, sY)` and pointers to the new FB and command struct.
-4.  **Alarms (optional):** Add new `ST_Alarm` entries in `GVL_Alarms` and register them in `FB_AlarmStatusManager.InitializeAlarmList`.
-
-With these steps, the existing command string pattern, validation and `PRG_CommandHandler` logic can drive the new device with minimal additional code.
-
----
-*You can place this file at the repository root as `plc-architecture.md`. The existing README link `[PLC Architecture](plc-architecture)` will then automatically point to it on GitHub.*
