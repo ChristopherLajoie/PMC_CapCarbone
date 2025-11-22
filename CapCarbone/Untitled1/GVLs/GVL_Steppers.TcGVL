@@ -12,35 +12,36 @@
 	Rail3_Prox AT %I* : BOOL;
 	Rail4_Prox AT %I* : BOOL;
 	
-	Mot_NormalMotionVel : LREAL := 50;
-	Mot_NormalHomingvel : LREAL := 50;
+	Mot_LoadedVel : LREAL := 50;
+	Mot_HomingVel : LREAL := 50;
+	Mot_UnloadedVel : LREAL := 250;
 	
 	Rail1_Mot_Struct : ST_LinearTable := (
 		object := Rail1_Mot_Ref,
 		bProx := ADR(Rail1_Prox),
 		fReferencePos := 18.1,
-		stHomingOptions := (SearchVelocity := Mot_NormalHomingvel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
+		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail2_Mot_Struct : ST_LinearTable := (
 		object := Rail2_Mot_Ref,
 		bProx := ADR(Rail2_Prox),
 		fReferencePos := 10.0,
-		stHomingOptions := (SearchVelocity := Mot_NormalHomingvel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
+		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail3_Mot_Struct : ST_LinearTable := (
 		object := Rail3_Mot_Ref,
 		bProx := ADR(Rail3_Prox),
 		fReferencePos := 10.0,
-		stHomingOptions := (SearchVelocity := Mot_NormalHomingvel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
+		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail4_Mot_Struct : ST_LinearTable := (
 		object := Rail4_Mot_Ref,
 		bProx := ADR(Rail4_Prox),
 		fReferencePos := 10.0,
-		stHomingOptions := (SearchVelocity := Mot_NormalHomingvel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
+		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail1_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail1_Mot_Struct.object), init_prox := Rail1_Mot_Struct.bProx, init_refpos := ADR(Rail1_Mot_Struct.fReferencePos), init_homingoptions := ADR(Rail1_Mot_Struct.stHomingOptions));

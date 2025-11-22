@@ -5,6 +5,7 @@
 STRUCT
 	bHoming : BOOL;
 	nCommand : LREAL;
+	fVelocity : LREAL;
 	nPosition : LREAL;
 	bHomed : BOOL;
 END_STRUCT

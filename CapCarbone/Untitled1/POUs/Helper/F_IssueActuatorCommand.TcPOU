@@ -7,6 +7,7 @@ VAR_INPUT
     bArg          : BOOL;         // see spec: direction or homing flag
     bHasPosition  : BOOL := FALSE;
     nPosition     : LREAL := 0;    // used when Motor & !bArg & position present
+	fVelocity    : LREAL := 100.0;
 END_VAR
 VAR
     nlen       : INT;
@@ -66,7 +67,7 @@ IF (sPrefix = 'Chariot') OR (sPrefix = 'Compressor') OR (sPrefix = 'Sensor') OR
 
     ELSIF sPrefix = 'HeatExCoupola' THEN
         CASE n OF
-            1: Gui1_Mot_Cmd.bCommand := bArg;
+            3: Gui1_Mot_Cmd.bCommand := bArg;
         END_CASE
 
     ELSIF sPrefix = 'RegenCoupola' THEN
@@ -86,6 +87,7 @@ END_IF
 (* Motor devices         *)
 (* ===================== *)
 IF sPrefix = 'Motor' THEN
+    
     IF bArg THEN
         (* Homing *)
         sRequestedActuator := CONCAT(sTmp, 'Home');   // "R<n>_Home"
@@ -98,18 +100,47 @@ IF sPrefix = 'Motor' THEN
     ELSE
         (* Normal move *)
         sRequestedActuator := CONCAT(sTmp, 'Motor');  // "R<n>_Motor"
+        
         IF bHasPosition THEN
             CASE n OF
-                1: Rail1_Mot_Cmd.nCommand := nPosition;
-                2: Rail2_Mot_Cmd.nCommand := nPosition;
-                3: Rail3_Mot_Cmd.nCommand := nPosition;
-                4: Rail4_Mot_Cmd.nCommand := nPosition;
+                1: 
+                    Rail1_Mot_Cmd.nCommand := nPosition;
+                    (* Velocity Logic *)
+                    IF fVelocity > 0.0 THEN
+                        Rail1_Mot_Cmd.fVelocity := fVelocity;
+                    ELSE
+                        Rail1_Mot_Cmd.fVelocity := Mot_LoadedVel;
+                    END_IF;
+
+                2: 
+                    Rail2_Mot_Cmd.nCommand := nPosition;
+                    IF fVelocity > 0.0 THEN
+                        Rail2_Mot_Cmd.fVelocity := fVelocity;
+                    ELSE
+                        Rail2_Mot_Cmd.fVelocity := Mot_LoadedVel;
+                    END_IF;
+
+                3: 
+                    Rail3_Mot_Cmd.nCommand := nPosition;
+                    IF fVelocity > 0.0 THEN
+                        Rail3_Mot_Cmd.fVelocity := fVelocity;
+                    ELSE
+                        Rail3_Mot_Cmd.fVelocity := Mot_LoadedVel;
+                    END_IF;
+
+                4: 
+                    Rail4_Mot_Cmd.nCommand := nPosition;
+                    IF fVelocity > 0.0 THEN
+                        Rail4_Mot_Cmd.fVelocity := fVelocity;
+                    ELSE
+                        Rail4_Mot_Cmd.fVelocity := Mot_LoadedVel;
+                    END_IF;
             END_CASE
         END_IF
     END_IF;
 
     // <<< return handling for motors >>>
-    F_IssueActuatorCommand := Result;
+    F_IssueActuatorCommand := Result; // Assuming 'Result' is defined globally or earlier
     RETURN;
 END_IF
 
@@ -121,7 +152,10 @@ F_IssueActuatorCommand := -3;
     <LineIds Name="F_IssueActuatorCommand">
       <LineId Id="276" Count="0" />
       <LineId Id="382" Count="10" />
-      <LineId Id="296" Count="85" />
+      <LineId Id="296" Count="51" />
+      <LineId Id="393" Count="3" />
+      <LineId Id="402" Count="57" />
+      <LineId Id="380" Count="1" />
       <LineId Id="119" Count="0" />
     </LineIds>
   </POU>

@@ -365,7 +365,7 @@ ELSE
 
 				-5: Result := LinearTable^.Jog(Execute := FALSE);	
 			ELSE
-				Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.nCommand);
+				Result := LinearTable^.MoveToPosition(fPosition := LinearTableCmd^.nCommand, fVelocity := LinearTableCmd^.fVelocity);
 			END_CASE		
 			LinearTableCmd^.nPosition := CurrentPosition;
 	ELSE

@@ -5,7 +5,9 @@
 VAR_GLOBAL
 	
 	StartCycle AT %I*: BOOL;
+	StartCycle_HMI : BOOL;
 	StopCycle AT %I*: BOOL;
+	StopCycle_HMI : BOOL;
 	ResetSafety AT %I*: BOOL;
 
     RTrigStart : R_TRIG;

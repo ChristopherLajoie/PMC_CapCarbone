@@ -310,6 +310,7 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD MoveToPosition : INT
 VAR_INPUT
     fPosition : LREAL;  // Target position
+	fVelocity : LREAL;
 END_VAR
 
 VAR
@@ -322,7 +323,7 @@ END_VAR
 
 CASE eState OF
 	LAS_Stepper_Ready, LAS_Stepper_Idle:
-		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, Velocity := Mot_NormalMotionVel);
+		fbMoveAbs(Axis := pAxis^, Execute := TRUE, Position := fPosition, Velocity := fVelocity);
 		eState := LAS_Stepper_Moving;
 
 	LAS_Stepper_Moving:
