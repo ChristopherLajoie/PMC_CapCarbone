@@ -1105,7 +1105,7 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R4_Chariot_UnknownState.bCondition",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R4_Chariot_UnknownPosition.bCondition",
                   "dataType": "Boolean",
                   "alarms": [
                     {
@@ -1341,7 +1341,7 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_RegenCoupola_UnknownState.bCondition",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_RegenCoupola_UnknownPosition.bCondition",
                   "dataType": "Boolean",
                   "sourceTagPath": "[.]../../OPC_tags/Rail_3/R3_RegenCoupola_UnknownState",
                   "alarms": [
@@ -1387,7 +1387,7 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_Chariot_UnknownState.bCondition",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_Chariot_UnknownPosition.bCondition",
                   "dataType": "Boolean",
                   "alarms": [
                     {
@@ -1417,7 +1417,7 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_Compressor_UnknownState.bCondition",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R3_Compressor_UnknownPosition.bCondition",
                   "dataType": "Boolean",
                   "sourceTagPath": "[.]../../OPC_tags/Rail_3/R3_Compressor_UnknownState",
                   "alarms": [
@@ -1512,12 +1512,13 @@
                     }
                   ],
                   "name": "R1_Chariot_MotionTimedOut",
+                  "historyEnabled": false,
                   "tagType": "AtomicTag",
                   "opcServer": "PLC OPC UA"
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Sensor_UnknownState.bCondition",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Sensor_UnknownPosition.bCondition",
                   "dataType": "Boolean",
                   "sourceTagPath": "[.]../../OPC_tags/Rail_1/R1_Sensor_UnknownState",
                   "alarms": [
@@ -1571,7 +1572,7 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Compressor_UnknownState.bCondition",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Compressor_UnknownPosition.bCondition",
                   "dataType": "Boolean",
                   "sourceTagPath": "[.]../../OPC_tags/Rail_1/R1_Compressor_UnknownState",
                   "alarms": [
@@ -1603,7 +1604,7 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Chariot_UnknownState.bCondition",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R1_Chariot_UnknownPosition.bCondition",
                   "dataType": "Boolean",
                   "alarms": [
                     {
@@ -2084,7 +2085,7 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R2_Chariot_UnknownState.bCondition",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Alarms.R2_Chariot_UnknownPosition.bCondition",
                   "dataType": "Boolean",
                   "alarms": [
                     {
