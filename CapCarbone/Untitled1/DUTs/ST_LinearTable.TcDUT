@@ -5,6 +5,8 @@
 STRUCT
 	object : AXIS_REF;
 	bProx : POINTER TO BOOL;
+	fReferencePos : LREAL;
+	stHomingOptions : ST_HomingOptions;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

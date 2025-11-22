@@ -13,6 +13,8 @@ VAR
     // ==========================
     pAxis : POINTER TO AXIS_REF; // Pointer to axis reference
 	pProx : POINTER TO BOOL;
+	pRefPos : POINTER TO LREAL;
+	pHomingOptions : POINTER TO ST_HomingOptions;
 
     // ======================
     // Motion control function blocks
@@ -51,11 +53,15 @@ VAR_INPUT
 	
 	init_axis : POINTER TO AXIS_REF;
 	init_prox : POINTER TO BOOL;
+	init_refpos : POINTER TO LREAL;
+	init_homingoptions : POINTER TO ST_HomingOptions;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[pAxis := init_axis;
-pProx := init_prox;]]></ST>
+pProx := init_prox;
+pRefPos := init_refpos;
+pHomingOptions := init_homingoptions;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetPosition" Id="{c99d767f-ea4a-49f6-ba95-aa6815963f09}">
@@ -106,10 +112,6 @@ VAR_INPUT
 	bIsForced : BOOL;    
 END_VAR
 VAR
-    ReferencePos : LREAL := 18.1;      // Reference position for homing
-	
-    Options    : ST_HomingOptions := (SearchVelocity := 30, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction); // Fast homing config
-
     pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
 	sErrorMsg : STRING(255);
 END_VAR
@@ -120,19 +122,19 @@ END_VAR
 CASE eState OF
     LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
         IF bIsForced THEN
-            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := ReferencePos);
+            fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := pRefPos^);
             eState := LAS_Stepper_Homing;
 		
 		ELSE
-			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := ReferencePos, bCalibrationCam := pProx^, Options := Options);
+			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := pRefPos^, bCalibrationCam := pProx^, Options := pHomingOptions^);
             eState := LAS_Stepper_Homing;
         END_IF
 		
     LAS_Stepper_Homing:
 		IF bIsForced THEN
-			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := ReferencePos);
+			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := pRefPos^);
 		ELSE
-			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := ReferencePos, bCalibrationCam := pProx^, Options := Options);
+			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := pRefPos^, bCalibrationCam := pProx^, Options := pHomingOptions^);
 		END_IF
         
         IF fbHome.Error THEN		
@@ -445,71 +447,37 @@ CASE eState OF
 			
 			bHoldKeepAlive := FALSE;
 			
-			// Start hardware check
-			eState := LAS_Stepper_Hardware_Check;
-			eHardwareCheckState := HW_Start;
-			RETURN; // Unlock KeepAlive before proceeding
+			eState := LAS_Stepper_Ready;
+				
+			// Clear all alarm conditions related to motion
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
+			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Interrupted');
+			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
+			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Stop_Failed');
+			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+			
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'UnableToReadPosition');
+			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+			
+			CASE nRail OF
+				1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := '';
+				2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := '';
+				3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := '';
+				4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := '';
+			END_CASE
+			
+			Reset := 1;
 			
 		END_IF
-	
-	LAS_Stepper_Hardware_Check, LAS_Stepper_Homing:
-		CASE eHardwareCheckState OF
-			HW_Start:		
-				nMoveResult := Home(bIsForced := TRUE);
-				
-				CASE nMoveResult OF
-					0: // Continue
-						
-					1: // Success
-						eState := LAS_Stepper_Hardware_Check; // Stay in hardware check
-						eHardwareCheckState := HW_Complete;
-						
-					-1: // Failure
-						eHardwareCheckState := HW_Failed;
-				END_CASE
-				
-			
-			HW_Complete:
-				eState := LAS_Stepper_Ready;
-				
-				// Clear all alarm conditions related to motion
-				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
-				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-				
-				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
-				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-				
-				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Interrupted');
-				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-				
-				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
-				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-				
-				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Stop_Failed');
-				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-				
-				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'UnableToReadPosition');
-				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-				
-				CASE nRail OF
-					1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := '';
-					2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := '';
-					3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := '';
-					4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := '';
-				END_CASE
-				
-				Reset := 1;
-			
-			HW_Failed:
-				eState := LAS_Stepper_Error;
-				
-				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
-				IF pAlarmCondition <> 0 THEN
-					pAlarmCondition^ := TRUE;
-				END_IF
-				
-				Reset := -1;
-		END_CASE
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -599,7 +567,7 @@ END_CASE
     </LineIds>
     <LineIds Name="FB_StepperMotor.FB_Init">
       <LineId Id="1" Count="0" />
-      <LineId Id="3" Count="0" />
+      <LineId Id="3" Count="2" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.GetPosition">
       <LineId Id="28" Count="1" />
@@ -719,22 +687,9 @@ END_CASE
       <LineId Id="883" Count="1" />
       <LineId Id="672" Count="0" />
       <LineId Id="880" Count="0" />
-      <LineId Id="673" Count="2" />
+      <LineId Id="894" Count="27" />
       <LineId Id="885" Count="1" />
-      <LineId Id="677" Count="2" />
-      <LineId Id="681" Count="1" />
-      <LineId Id="867" Count="10" />
-      <LineId Id="866" Count="0" />
-      <LineId Id="878" Count="0" />
-      <LineId Id="801" Count="1" />
-      <LineId Id="804" Count="0" />
-      <LineId Id="806" Count="9" />
-      <LineId Id="819" Count="9" />
-      <LineId Id="888" Count="4" />
-      <LineId Id="887" Count="0" />
-      <LineId Id="893" Count="0" />
-      <LineId Id="829" Count="3" />
-      <LineId Id="834" Count="7" />
+      <LineId Id="677" Count="0" />
       <LineId Id="45" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Stop">

@@ -12,30 +12,41 @@
 	Rail3_Prox AT %I* : BOOL;
 	Rail4_Prox AT %I* : BOOL;
 	
+	Mot_NormalMotionVel : LREAL := 50;
+	Mot_NormalHomingvel : LREAL := 50;
+	
 	Rail1_Mot_Struct : ST_LinearTable := (
 		object := Rail1_Mot_Ref,
-		bProx := ADR(Rail1_Prox)
+		bProx := ADR(Rail1_Prox),
+		fReferencePos := 18.1,
+		stHomingOptions := (SearchVelocity := Mot_NormalHomingvel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail2_Mot_Struct : ST_LinearTable := (
 		object := Rail2_Mot_Ref,
-		bProx := ADR(Rail2_Prox)
+		bProx := ADR(Rail2_Prox),
+		fReferencePos := 10.0,
+		stHomingOptions := (SearchVelocity := Mot_NormalHomingvel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail3_Mot_Struct : ST_LinearTable := (
 		object := Rail3_Mot_Ref,
-		bProx := ADR(Rail3_Prox)
+		bProx := ADR(Rail3_Prox),
+		fReferencePos := 10.0,
+		stHomingOptions := (SearchVelocity := Mot_NormalHomingvel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail4_Mot_Struct : ST_LinearTable := (
 		object := Rail4_Mot_Ref,
-		bProx := ADR(Rail4_Prox)
+		bProx := ADR(Rail4_Prox),
+		fReferencePos := 10.0,
+		stHomingOptions := (SearchVelocity := Mot_NormalHomingvel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
-	Rail1_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail1_Mot_Struct.object), init_prox := Rail1_Mot_Struct.bProx);
-    Rail2_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail2_Mot_Struct.object), init_prox := Rail2_Mot_Struct.bProx);
-    Rail3_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail3_Mot_Struct.object), init_prox := Rail3_Mot_Struct.bProx);
-    Rail4_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail4_Mot_Struct.object), init_prox := Rail4_Mot_Struct.bProx);
+	Rail1_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail1_Mot_Struct.object), init_prox := Rail1_Mot_Struct.bProx, init_refpos := ADR(Rail1_Mot_Struct.fReferencePos), init_homingoptions := ADR(Rail1_Mot_Struct.stHomingOptions));
+    Rail2_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail2_Mot_Struct.object), init_prox := Rail2_Mot_Struct.bProx, init_refpos := ADR(Rail2_Mot_Struct.fReferencePos), init_homingoptions := ADR(Rail2_Mot_Struct.stHomingOptions));
+    Rail3_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail3_Mot_Struct.object), init_prox := Rail3_Mot_Struct.bProx, init_refpos := ADR(Rail3_Mot_Struct.fReferencePos), init_homingoptions := ADR(Rail3_Mot_Struct.stHomingOptions));
+    Rail4_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail4_Mot_Struct.object), init_prox := Rail4_Mot_Struct.bProx, init_refpos := ADR(Rail4_Mot_Struct.fReferencePos), init_homingoptions := ADR(Rail4_Mot_Struct.stHomingOptions));
 
 	Rail1_Mot_Cmd : ST_StepperMotorCommand := (
 		bHoming := FALSE,
@@ -61,8 +72,6 @@
 		nPosition := -1,
 		bHomed := FALSE)
 	;
-	
-	Mot_NormalMotionVel : LREAL := 50;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
