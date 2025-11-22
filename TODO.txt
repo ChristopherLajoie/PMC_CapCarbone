@@ -1,5 +1,10 @@
 - Implement cycle
 - Per alarm check instead of per zone check would be better
+- Check set home error
+- Check PLC powered off hmi display
+- fix reset of steppers
+- add homing position settable for each axis
+- add variable speed command to stepper depending on movement
 
 
 

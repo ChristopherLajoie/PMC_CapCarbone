@@ -62,7 +62,7 @@
 		bHomed := FALSE)
 	;
 	
-	Mot_NormalMotionVel : LREAL := 500;
+	Mot_NormalMotionVel : LREAL := 100;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

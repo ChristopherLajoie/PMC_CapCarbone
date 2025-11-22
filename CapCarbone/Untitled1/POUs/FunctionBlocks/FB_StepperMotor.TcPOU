@@ -90,12 +90,10 @@ IF fbRead.Busy THEN
 			3: GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 3 position read failed: ', sErrorMsg);
 			4: GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := CONCAT('Stepper rail 4 position read failed: ', sErrorMsg);
 		END_CASE
-	END_IF
-
-ELSE
-	IF NOT fbRead.Valid THEN
-		fCurrentPosition := -1;
+	ELSIF fbRead.Valid THEN
 		GetPosition := 1;
+	ELSIF NOT fbRead.Valid THEN
+	GetPosition := -1;
 	END_IF
 END_IF
 
@@ -108,9 +106,9 @@ VAR_INPUT
 	bIsForced : BOOL;    
 END_VAR
 VAR
-    ReferencePos : LREAL := 10.0;      // Reference position for homing
+    ReferencePos : LREAL := 18.1;      // Reference position for homing
 	
-    Options    : ST_HomingOptions := (SearchVelocity := 30, SearchDirection := MC_Positive_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM); // Fast homing config
+    Options    : ST_HomingOptions := (SearchVelocity := 30, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction); // Fast homing config
 
     pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
 	sErrorMsg : STRING(255);
@@ -612,9 +610,9 @@ END_CASE
       <LineId Id="30" Count="0" />
       <LineId Id="21" Count="6" />
       <LineId Id="20" Count="0" />
-      <LineId Id="6" Count="4" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="11" Count="3" />
+      <LineId Id="34" Count="3" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="12" Count="2" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="872" Count="0" />

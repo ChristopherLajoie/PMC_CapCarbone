@@ -1570,9 +1570,9 @@ External Setpoint Generation:
 		<ImageData Id="1007">424dd6020000000000003600000028000000100000000e0000000100180000000000a002000000000000000000000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff00ff0000ff0000ff0000ff0000ff0000ff00c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff00ff0000ff0000ff0000ff0000ff0000ff00c0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ff00ff0000ff0000ff0000ff0000ff0000ff00c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff00ff0000ff0000ff0000ff0000ff0000ff00c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff00ff0000ff0000ff0000ff0000ff0000ff00c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff00ff0000ff0000ff0000ff0000ff0000ff00c0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ff00ff0000ff0000ff0000ff0000ff0000ff00c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
 		<ImageData Id="1008">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
 	</ImageDatas>
-	<Project ProjectGUID="{06418B6F-05C1-450A-BCFB-591E2E8D8474}" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{06418B6F-05C1-450A-BCFB-591E2E8D8474}" TargetNetId="192.168.137.76.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
-			<Settings MaxCpus="12" NonWinCpus="1">
+			<Settings MaxCpus="2" NonWinCpus="1">
 				<Cpu/>
 				<Cpu CpuId="1"/>
 				<Debugger Priority="61"/>
@@ -1613,7 +1613,7 @@ External Setpoint Generation:
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="19">
-						<EncPara MaxCount="#xffffffff">
+						<EncPara ScaleFactorNumerator="0.000115" MaxCount="#xffffffff">
 							<Inc RefSoftSyncMask="#x0000ffff"/>
 						</EncPara>
 						<Vars VarGrpType="1">
@@ -2176,7 +2176,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{06A144AE-15C8-407C-8A20-7ACC04BE137D}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{23075A42-7970-549E-9FBB-299138A22108}" TmcPath="Untitled1\Untitled1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{08230D28-70FE-D3C2-2871-DD17B112B127}" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -4370,7 +4370,7 @@ External Setpoint Generation:
 				</Box>
 				<EtherCAT/>
 			</Device>
-			<Device Id="4" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28676" AmsNetId="192.168.0.14.5.1" RemoteName="Device 4 (EtherCAT)" InfoImageId="7">
+			<Device Id="4" DevType="111" DevFlags="#x0003" AmsPort="28676" AmsNetId="192.168.0.14.5.1" RemoteName="Device 4 (EtherCAT)" InfoImageId="7">
 				<Name>Device 4 (EtherCAT)</Name>
 				<AddressInfo>
 					<Ccat>
@@ -10118,6 +10118,9 @@ Bit 8 - 15 : reserved]]></Comment>
 		</SymbolWatch>
 	</Project>
 	<Mappings>
+		<MappingInfo Identifier="{00000000-2005-0850-0020-500860000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-0010-0304-3000-040311000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-0070-0304-3000-040372000403}" Id="#x02030030"/>
 		<MappingInfo Identifier="{08502005-0010-0500-0020-500830000403}" Id="#x02030040" Watchdog="04000000140000000400000004000000"/>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Drive Stepper Rail1/2 (EL7062)">
