@@ -33,21 +33,21 @@
 	Rail2_Mot_Struct : ST_LinearTable := (
 		object := Rail2_Mot_Ref,
 		bProx := ADR(Rail2_Prox),
-		fReferencePos := 10.0,
+		fReferencePos := 16.1,
 		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail3_Mot_Struct : ST_LinearTable := (
 		object := Rail3_Mot_Ref,
 		bProx := ADR(Rail3_Prox),
-		fReferencePos := 10.0,
+		fReferencePos := 13.0,
 		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail4_Mot_Struct : ST_LinearTable := (
 		object := Rail4_Mot_Ref,
 		bProx := ADR(Rail4_Prox),
-		fReferencePos := 10.0,
+		fReferencePos := 17.8,
 		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
