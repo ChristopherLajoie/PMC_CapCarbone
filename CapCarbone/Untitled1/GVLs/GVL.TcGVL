@@ -52,7 +52,7 @@ VAR_GLOBAL
 		(nX := 4, sY := 'SetHome', sValue := ADR(Rail4_Mot_FB), sCommand := ADR(Rail4_Mot_Cmd)),
 		(nX := 4, sY := 'Motor', sValue := ADR(Rail4_Mot_FB), sCommand := ADR(Rail4_Mot_Cmd))
 	];
-    nEntryCount : INT := 17; 
+    nEntryCount : INT := 21; 
 END_VAR
 
 ]]></Declaration>

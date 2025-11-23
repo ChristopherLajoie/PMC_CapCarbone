@@ -378,6 +378,10 @@ CASE Result OF
         IF bHome THEN    
             LinearTableCmd^.bHomed := TRUE;
             LinearTableCmd^.bHoming := FALSE;
+			
+			sRequestedActuator := 'close';
+			bAwaitingHMIClose := TRUE;
+			tmrHMICloseSignal(IN := FALSE);
         END_IF
         
 		IF nCmdInt >= 0 THEN
@@ -447,7 +451,11 @@ END_CASE]]></ST>
       <LineId Id="422" Count="0" />
       <LineId Id="425" Count="0" />
       <LineId Id="286" Count="2" />
-      <LineId Id="290" Count="122" />
+      <LineId Id="290" Count="90" />
+      <LineId Id="426" Count="0" />
+      <LineId Id="428" Count="1" />
+      <LineId Id="427" Count="0" />
+      <LineId Id="381" Count="31" />
       <LineId Id="51" Count="0" />
     </LineIds>
   </POU>

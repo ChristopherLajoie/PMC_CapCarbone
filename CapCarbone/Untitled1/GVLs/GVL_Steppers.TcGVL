@@ -16,39 +16,39 @@
 	Mot_HomingVel : LREAL := 50;
 	Mot_UnloadedVel : LREAL := 250;
 	
-	Mot_HomingAccel : LREAL := 537;
-	Mot_NormalAccel : LREAL := 89.5;
-	Mot_HomingDecel : LREAL := 537;
-	Mot_NormalDecel : LREAL := 89.5;
-	Mot_HomingJerk : LREAL := 2433.5;
-	Mot_NormalJerk : LREAL := 67.8;
+	Mot_HomingAccel : LREAL := 537.001;
+	Mot_NormalAccel : LREAL := 89.5002;
+	Mot_HomingDecel : LREAL := 537.001;
+	Mot_NormalDecel : LREAL := 89.5002;
+	Mot_HomingJerk : LREAL := 2433.49;
+	Mot_NormalJerk : LREAL := 67.597;
 	
 	Rail1_Mot_Struct : ST_LinearTable := (
 		object := Rail1_Mot_Ref,
 		bProx := ADR(Rail1_Prox),
 		fReferencePos := 18.1,
-		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Positive_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Negative_Direction)
+		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail2_Mot_Struct : ST_LinearTable := (
 		object := Rail2_Mot_Ref,
 		bProx := ADR(Rail2_Prox),
 		fReferencePos := 10.0,
-		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Positive_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Negative_Direction)
+		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail3_Mot_Struct : ST_LinearTable := (
 		object := Rail3_Mot_Ref,
 		bProx := ADR(Rail3_Prox),
 		fReferencePos := 10.0,
-		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Positive_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Negative_Direction)
+		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail4_Mot_Struct : ST_LinearTable := (
 		object := Rail4_Mot_Ref,
 		bProx := ADR(Rail4_Prox),
 		fReferencePos := 10.0,
-		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Positive_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Negative_Direction)
+		stHomingOptions := (SearchVelocity := Mot_HomingVel, SearchDirection := MC_Negative_Direction, ReferenceMode := ENCODERREFERENCEMODE_PLCCAM, SyncDirection := MC_Positive_Direction)
 		);
 	
 	Rail1_Mot_FB : FB_StepperMotor(init_axis := ADR(Rail1_Mot_Struct.object), init_prox := Rail1_Mot_Struct.bProx, init_refpos := ADR(Rail1_Mot_Struct.fReferencePos), init_homingoptions := ADR(Rail1_Mot_Struct.stHomingOptions));

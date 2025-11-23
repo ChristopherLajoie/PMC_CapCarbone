@@ -41,6 +41,11 @@ VAR
     eState : ENUM_StepperMotorState := LAS_Stepper_Idle; // Current state
 	bIsUp : BOOL := FALSE;
 	
+	bHomingWritten : BOOL;
+	bNormalWritten : BOOL;
+	bHomingFinished : BOOL;
+	bHomingRead : BOOL;
+	
     // ==========================
     // Hardware check variables
     // ==========================
@@ -120,17 +125,13 @@ VAR
     pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
 	sErrorMsg : STRING(255);
 	nOutput : INT := 0;
-	bHomingWritten : BOOL;
-	bNormalWritten : BOOL;
-	bHomingDone : BOOL;
-	bHomingRead : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Home := 0;
 
 CASE eState OF
-    LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
+    LAS_Stepper_Ready:
 		IF NOT bHomingWritten THEN
 			nOutput := WriteParam(bMode := TRUE);
 		
@@ -167,9 +168,9 @@ CASE eState OF
         END_IF
 		
     LAS_Stepper_Homing:
-		IF bIsForced AND NOT bHomingDone THEN
+		IF bIsForced AND NOT bHomingFinished THEN
 			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := pRefPos^);
-		ELSIF NOT bHomingDone THEN
+		ELSIF NOT bHomingFinished THEN
 			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := pRefPos^, bCalibrationCam := pProx^, Options := pHomingOptions^);
 		END_IF
         
@@ -193,13 +194,13 @@ CASE eState OF
             
             Home := -1;
 
-        ELSIF fbHome.Done THEN
+        ELSIF fbHome.Done AND NOT bHomingFinished THEN
             fbHome(Axis := pAxis^, Execute := FALSE);
-			bHomingDone := TRUE;
+			bHomingFinished := TRUE;
 			RETURN;
 		END_IF
 		
-		IF bHomingDone THEN	
+		IF bHomingFinished THEN	
 			IF NOT bNormalWritten THEN
 				nOutput := WriteParam(bMode := FALSE);
 		
@@ -218,7 +219,7 @@ CASE eState OF
 			
 				CASE nOutput OF
 					1: Home := 1; 	
-					   bHomingDone := FALSE;
+					   bHomingFinished := FALSE;
 					   bHomingWritten := FALSE;	
 					   bNormalWritten := FALSE;	
 					   bHomingRead := FALSE;
@@ -477,14 +478,23 @@ END_VAR
 VAR
     pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
 	sErrorMsg : STRING(255);
+	fAccel : LREAL;
+	fDecel : LREAL;
+	fJerk : LREAL;
 	fValue : LREAL;
 	bReadingDone : BOOL;
+	STR1 : STRING(255);
+	STR2 : STRING(255);
+	STR3 : STRING(255);
+	STR4 : STRING(255);
+	sError : STRING(255); 
+	bValueMatch : BOOl;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[ReadParam := 0;
 
 CASE eState OF
-    LAS_Stepper_Ready:
+    LAS_Stepper_Ready, LAS_Stepper_Homing:
 		
 		CASE nStepRead OF
 			0: fbReadParam(Axis := pAxis^, Enable := TRUE, ParameterNumber := MC_AxisParameter.AxisAcc, ReadMode := READMODE_ONCE);
@@ -518,58 +528,57 @@ CASE eState OF
 
 		ELSIF fbReadParam.Valid THEN
 			fValue := fbReadParam.Value;
+			bValueMatch := FALSE;
 			
-			IF bMode THEN	
-				CASE nStepRead OF
-					0: IF fValue = Mot_HomingAccel THEN
-					   	  nStepRead := nStepRead + 1;
-						  fbReadParam(Axis := pAxis^, Enable := FALSE);
-						  RETURN;
-					   END_IF
-						
-					1: IF fValue = Mot_HomingDecel THEN
-						  nStepRead := nStepRead + 1;
-						  fbReadParam(Axis := pAxis^, Enable := FALSE);
-						  RETURN;
-					   END_IF
-
-					2: IF fValue = Mot_HomingJerk THEN
-						  nStepRead := nStepRead + 1;
-						  fbReadParam(Axis := pAxis^, Enable := FALSE);
-						  RETURN;
-					   END_IF
-				END_CASE
-			ELSE
-				CASE nStepRead OF
-					0: IF fValue = Mot_NormalAccel THEN
-					   	  nStepRead := nStepRead + 1;
-						  fbReadParam(Axis := pAxis^, Enable := FALSE);
-						  RETURN;
-					   END_IF
-						
-					1: IF fValue = Mot_NormalDecel THEN
-						  nStepRead := nStepRead + 1;
-						  fbReadParam(Axis := pAxis^, Enable := FALSE);
-						  RETURN;
-					   END_IF
-
-					2: IF fValue = Mot_NormalJerk THEN
-						  nStepRead := nStepRead + 1;
-						  fbReadParam(Axis := pAxis^, Enable := FALSE);
-						  RETURN;
-					   END_IF
-				END_CASE
-			END_IF
+			IF bMode THEN   
+                CASE nStepRead OF
+                    0: fAccel := fValue;
+                       IF ABS(fValue - Mot_HomingAccel) < 0.001 THEN bValueMatch := TRUE; END_IF
+                    1: fDecel := fValue;
+                       IF ABS(fValue - Mot_HomingDecel) < 0.001 THEN bValueMatch := TRUE; END_IF
+                    2: fJerk := fValue;
+                       IF ABS(fValue - Mot_HomingJerk) < 0.001 THEN bValueMatch := TRUE; END_IF
+                END_CASE
+            ELSE
+                CASE nStepRead OF
+                    0: IF ABS(fValue - Mot_NormalAccel) < 0.001 THEN bValueMatch := TRUE; END_IF
+                    1: IF ABS(fValue - Mot_NormalDecel) < 0.001 THEN bValueMatch := TRUE; END_IF
+                    2: IF ABS(fValue - Mot_NormalJerk) < 0.001 THEN bValueMatch := TRUE; END_IF
+                END_CASE
+            END_IF
 			
-			ReadParam := -1;
+			IF bValueMatch THEN
+                nStepRead := nStepRead + 1;
+                fbReadParam(Axis := pAxis^, Enable := FALSE);
+                RETURN; 
+            END_IF
+            
+            ReadParam := -1;
+            
+            pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+            IF pAlarmCondition <> 0 THEN
+              pAlarmCondition^ := TRUE;
+            END_IF
+		   	
+			sError := CONCAT(
+				STR1 := 'One or more value wrong: ',
+				STR2 := CONCAT(
+					STR1 := LREAL_TO_STRING(fAccel),
+					STR2 := CONCAT(
+						STR1 := ', ',
+						STR2 := CONCAT(
+							STR1 := LREAL_TO_STRING(fDecel),
+							STR2 := CONCAT(
+								STR1 := ', ',
+								STR2 := LREAL_TO_STRING(fJerk)
+							)
+						)
+					)
+				)
+			);
 			
-		    pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
-		    IF pAlarmCondition <> 0 THEN
-			  pAlarmCondition^ := TRUE;
-		    END_IF
-		   
 		    CASE nRail OF
-			 1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 1 homing (Reading parameters) failed: ', 'One or more value wrong');
+			 1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 1 homing (Reading parameters) failed: ', sError);
 			 2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 2 homing (Reading parameters) failed: ', 'One or more value wrong');
 			 3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 3 homing (Reading parameters) failed: ', 'One or more value wrong');
 			 4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 4 homing (Reading parameters) failed: ', 'One or more value wrong');
@@ -578,7 +587,8 @@ CASE eState OF
 	
 	IF bReadingDone THEN
 		ReadParam := 1;
-		bReadingDone := FALSE;
+        nStepRead := 0; 
+        bReadingDone := FALSE;
 	END_IF
     
     LAS_Stepper_Error:
@@ -656,9 +666,32 @@ CASE eState OF
 			
 			CASE nRail OF
 				1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := '';
+				   GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := '';
+				   GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := '';
+				   GVL_Alarms.R1_Stepper_Motion_Interrupted.sMessage := '';
+				   GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := '';
+				   GVL_Alarms.R1_Stepper_UnableToReadPosition.sMessage := '';
+				   
 				2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := '';
+				   GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := '';
+				   GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := '';
+				   GVL_Alarms.R2_Stepper_Motion_Interrupted.sMessage := '';
+				   GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := '';
+				   GVL_Alarms.R2_Stepper_UnableToReadPosition.sMessage := '';
+				   
 				3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := '';
+				   GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := '';
+				   GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := '';
+				   GVL_Alarms.R3_Stepper_Motion_Interrupted.sMessage := '';
+				   GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := '';
+				   GVL_Alarms.R3_Stepper_UnableToReadPosition.sMessage := '';
+				   
 				4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := '';
+				   GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := '';
+				   GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := '';
+				   GVL_Alarms.R4_Stepper_Motion_Interrupted.sMessage := '';
+				   GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := '';
+				   GVL_Alarms.R4_Stepper_UnableToReadPosition.sMessage := '';
 			END_CASE
 			
 			Reset := 1;
@@ -762,7 +795,7 @@ END_VAR
         <ST><![CDATA[WriteParam := 0;
 
 CASE eState OF
-    LAS_Stepper_Ready:
+    LAS_Stepper_Ready, LAS_Stepper_Homing:
 		IF bMode THEN
 			CASE nStepWrite OF
 				0: fbWriteParam(Axis := pAxis^, ParameterNumber := MC_AxisParameter.AxisAcc, Value := Mot_HomingAccel, Execute := TRUE);
@@ -805,7 +838,7 @@ CASE eState OF
 			fbWriteParam(Axis := pAxis^, Execute := FALSE);
 			nStepWrite := nStepWrite + 1;
 			
-			IF nStepWrite = 2 THEN
+			IF nStepWrite > 2 THEN
 				WriteParam := 1; 
 				nStepWrite := 0;
 			END_IF
@@ -837,57 +870,7 @@ END_CASE]]></ST>
       <LineId Id="12" Count="2" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
-      <LineId Id="872" Count="0" />
-      <LineId Id="731" Count="2" />
-      <LineId Id="913" Count="0" />
-      <LineId Id="917" Count="3" />
-      <LineId Id="925" Count="0" />
-      <LineId Id="921" Count="3" />
-      <LineId Id="915" Count="1" />
-      <LineId Id="955" Count="0" />
-      <LineId Id="957" Count="10" />
-      <LineId Id="956" Count="0" />
-      <LineId Id="901" Count="0" />
-      <LineId Id="734" Count="2" />
-      <LineId Id="881" Count="3" />
-      <LineId Id="742" Count="0" />
-      <LineId Id="880" Count="0" />
-      <LineId Id="743" Count="0" />
-      <LineId Id="886" Count="1" />
-      <LineId Id="889" Count="0" />
-      <LineId Id="891" Count="0" />
-      <LineId Id="890" Count="0" />
-      <LineId Id="745" Count="2" />
-      <LineId Id="877" Count="0" />
-      <LineId Id="879" Count="0" />
-      <LineId Id="834" Count="3" />
-      <LineId Id="839" Count="1" />
-      <LineId Id="842" Count="0" />
-      <LineId Id="873" Count="2" />
-      <LineId Id="846" Count="3" />
-      <LineId Id="751" Count="0" />
-      <LineId Id="756" Count="2" />
-      <LineId Id="939" Count="0" />
-      <LineId Id="952" Count="0" />
-      <LineId Id="902" Count="0" />
-      <LineId Id="937" Count="1" />
-      <LineId Id="993" Count="0" />
-      <LineId Id="983" Count="3" />
-      <LineId Id="991" Count="0" />
-      <LineId Id="987" Count="3" />
-      <LineId Id="981" Count="1" />
-      <LineId Id="994" Count="0" />
-      <LineId Id="992" Count="0" />
-      <LineId Id="970" Count="5" />
-      <LineId Id="995" Count="0" />
-      <LineId Id="976" Count="0" />
-      <LineId Id="996" Count="0" />
-      <LineId Id="977" Count="2" />
-      <LineId Id="969" Count="0" />
-      <LineId Id="941" Count="0" />
-      <LineId Id="940" Count="0" />
-      <LineId Id="792" Count="2" />
-      <LineId Id="798" Count="0" />
+      <LineId Id="997" Count="105" />
       <LineId Id="39" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Jog">
@@ -959,7 +942,21 @@ END_CASE]]></ST>
       <LineId Id="24" Count="1" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.ReadParam">
-      <LineId Id="1" Count="102" />
+      <LineId Id="1" Count="37" />
+      <LineId Id="129" Count="15" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="159" Count="0" />
+      <LineId Id="145" Count="2" />
+      <LineId Id="149" Count="2" />
+      <LineId Id="154" Count="4" />
+      <LineId Id="86" Count="1" />
+      <LineId Id="113" Count="14" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="88" Count="8" />
+      <LineId Id="160" Count="1" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="99" Count="4" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Reset">
       <LineId Id="651" Count="0" />
@@ -971,7 +968,20 @@ END_CASE]]></ST>
       <LineId Id="883" Count="1" />
       <LineId Id="672" Count="0" />
       <LineId Id="880" Count="0" />
-      <LineId Id="894" Count="27" />
+      <LineId Id="894" Count="22" />
+      <LineId Id="922" Count="5" />
+      <LineId Id="917" Count="0" />
+      <LineId Id="929" Count="3" />
+      <LineId Id="928" Count="0" />
+      <LineId Id="933" Count="0" />
+      <LineId Id="918" Count="0" />
+      <LineId Id="935" Count="3" />
+      <LineId Id="934" Count="0" />
+      <LineId Id="939" Count="0" />
+      <LineId Id="919" Count="0" />
+      <LineId Id="941" Count="3" />
+      <LineId Id="940" Count="0" />
+      <LineId Id="920" Count="1" />
       <LineId Id="885" Count="1" />
       <LineId Id="677" Count="0" />
       <LineId Id="45" Count="0" />
