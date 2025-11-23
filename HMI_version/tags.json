@@ -37,6 +37,14 @@
                 },
                 {
                   "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Rail4_Mot_Cmd.fVelocity",
+                  "dataType": "Float4",
+                  "opcServer": "PLC OPC UA",
+                  "name": "Velocity",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "opc",
                   "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Rail4_Mot_Cmd.nPosition",
                   "value": 50,
                   "opcServer": "PLC OPC UA",
@@ -191,6 +199,14 @@
                 },
                 {
                   "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Rail1_Mot_Cmd.fVelocity",
+                  "dataType": "Float4",
+                  "opcServer": "PLC OPC UA",
+                  "name": "Velocity",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "opc",
                   "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Rail1_Mot_Cmd.bHoming",
                   "value": true,
                   "opcServer": "PLC OPC UA",
@@ -241,7 +257,7 @@
         },
         {
           "valueSource": "opc",
-          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.StartCycle",
+          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.StartCycle_HMI",
           "dataType": "Boolean",
           "name": "START_trig",
           "tagType": "AtomicTag",
@@ -317,7 +333,7 @@
         },
         {
           "valueSource": "opc",
-          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.StopCycle",
+          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.StopCycle_HMI",
           "dataType": "Boolean",
           "name": "STOP__trig",
           "tagType": "AtomicTag",
@@ -394,6 +410,14 @@
                 },
                 {
                   "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Rail2_Mot_Cmd.fVelocity",
+                  "dataType": "Float4",
+                  "opcServer": "PLC OPC UA",
+                  "name": "Velocity",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "opc",
                   "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Rail2_Mot_Cmd.nCommand",
                   "value": 88,
                   "opcServer": "PLC OPC UA",
@@ -464,6 +488,14 @@
               "typeId": "MotorStruct",
               "tagType": "UdtInstance",
               "tags": [
+                {
+                  "valueSource": "opc",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Rail3_Mot_Cmd.fVelocity",
+                  "dataType": "Float4",
+                  "opcServer": "PLC OPC UA",
+                  "name": "Velocity",
+                  "tagType": "AtomicTag"
+                },
                 {
                   "valueSource": "opc",
                   "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_Steppers.Rail3_Mot_Cmd.bHoming",

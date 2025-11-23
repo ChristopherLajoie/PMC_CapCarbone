@@ -40,17 +40,6 @@
       "tags": [
         {
           "valueSource": "memory",
-          "name": "Command",
-          "tagType": "AtomicTag"
-        },
-        {
-          "valueSource": "memory",
-          "dataType": "Boolean",
-          "name": "Homed",
-          "tagType": "AtomicTag"
-        },
-        {
-          "valueSource": "memory",
           "dataType": "Boolean",
           "name": "Homing",
           "value": false,
@@ -58,8 +47,24 @@
         },
         {
           "valueSource": "memory",
+          "name": "Command",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "memory",
+          "name": "Velocity",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "memory",
           "dataType": "Int4",
           "name": "Position",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "memory",
+          "dataType": "Boolean",
+          "name": "Homed",
           "tagType": "AtomicTag"
         }
       ]

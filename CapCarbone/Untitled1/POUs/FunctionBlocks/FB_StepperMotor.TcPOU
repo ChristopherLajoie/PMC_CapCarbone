@@ -15,7 +15,10 @@ VAR
 	pProx : POINTER TO BOOL;
 	pRefPos : POINTER TO LREAL;
 	pHomingOptions : POINTER TO ST_HomingOptions;
-
+	
+	nStepWrite : INT := 0;
+	nStepRead : INT := 0;
+	
     // ======================
     // Motion control function blocks
     // ======================
@@ -27,6 +30,8 @@ VAR
     fbReset   : MC_Reset;            // Reset errors
 	fbReadError : MC_ReadAxisError;
 	fbJog     : MC_Jog;
+	fbWriteParam : MC_WriteParameter;
+	fbReadParam : MC_ReadParameter;
 
     // =================
     // Error & state handling
@@ -114,6 +119,11 @@ END_VAR
 VAR
     pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
 	sErrorMsg : STRING(255);
+	nOutput : INT := 0;
+	bHomingWritten : BOOL;
+	bNormalWritten : BOOL;
+	bHomingDone : BOOL;
+	bHomingRead : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -121,6 +131,32 @@ END_VAR
 
 CASE eState OF
     LAS_Stepper_Ready, LAS_Stepper_Hardware_Check:
+		IF NOT bHomingWritten THEN
+			nOutput := WriteParam(bMode := TRUE);
+		
+			CASE nOutput OF
+				1: //Continue
+					bHomingWritten := TRUE;
+				
+				0: RETURN;
+				
+				-1: Home := -1;
+			END_CASE
+		END_IF
+		
+		IF NOT bHomingRead THEN
+			nOutput := ReadParam(bMode := TRUE);
+		
+			CASE nOutput OF
+				1: //Continue
+					bHomingRead := TRUE;
+				
+				0: RETURN;
+				
+				-1: Home := -1;
+			END_CASE
+		END_IF
+		
         IF bIsForced THEN
             fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := pRefPos^);
             eState := LAS_Stepper_Homing;
@@ -131,9 +167,9 @@ CASE eState OF
         END_IF
 		
     LAS_Stepper_Homing:
-		IF bIsForced THEN
+		IF bIsForced AND NOT bHomingDone THEN
 			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_Direct, Position := pRefPos^);
-		ELSE
+		ELSIF NOT bHomingDone THEN
 			fbHome(Axis := pAxis^, Execute := TRUE, HomingMode := MC_DefaultHoming, Position := pRefPos^, bCalibrationCam := pProx^, Options := pHomingOptions^);
 		END_IF
         
@@ -159,8 +195,40 @@ CASE eState OF
 
         ELSIF fbHome.Done THEN
             fbHome(Axis := pAxis^, Execute := FALSE);
-			Home := 1; 
-        END_IF
+			bHomingDone := TRUE;
+			RETURN;
+		END_IF
+		
+		IF bHomingDone THEN	
+			IF NOT bNormalWritten THEN
+				nOutput := WriteParam(bMode := FALSE);
+		
+				CASE nOutput OF
+					1: bNormalWritten := TRUE;
+					   RETURN;
+					
+					0: RETURN;
+					
+					-1: Home := -1;
+				END_CASE
+			END_IF
+			
+			IF bNormalWritten THEN
+				nOutput := ReadParam(bMode := FALSE);
+			
+				CASE nOutput OF
+					1: Home := 1; 	
+					   bHomingDone := FALSE;
+					   bHomingWritten := FALSE;	
+					   bNormalWritten := FALSE;	
+					   bHomingRead := FALSE;
+					   
+					0: RETURN;
+					
+					-1: Home := -1;
+				END_CASE
+			END_IF
+		END_IF
     
     LAS_Stepper_Error:
         Home := -1;
@@ -401,6 +469,123 @@ IF (eState <> LAS_Stepper_Error) AND (eState <> LAS_Stepper_PowerError) THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="ReadParam" Id="{75577892-49ad-4c1a-8689-c10337db8313}">
+      <Declaration><![CDATA[METHOD ReadParam : INT
+VAR_INPUT
+	bMode : BOOL;
+END_VAR
+VAR
+    pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
+	sErrorMsg : STRING(255);
+	fValue : LREAL;
+	bReadingDone : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ReadParam := 0;
+
+CASE eState OF
+    LAS_Stepper_Ready:
+		
+		CASE nStepRead OF
+			0: fbReadParam(Axis := pAxis^, Enable := TRUE, ParameterNumber := MC_AxisParameter.AxisAcc, ReadMode := READMODE_ONCE);
+			
+			1: fbReadParam(Axis := pAxis^, Enable := TRUE, ParameterNumber := MC_AxisParameter.AxisDec, ReadMode := READMODE_ONCE);
+			
+			2: fbReadParam(Axis := pAxis^, Enable := TRUE, ParameterNumber := MC_AxisParameter.AxisJerk, ReadMode := READMODE_ONCE);
+			
+			3: bReadingDone := TRUE;
+		END_CASE
+	
+		IF fbReadParam.Error THEN		
+			eState := LAS_Stepper_Error;
+			nErrID := fbReadParam.ErrorID;
+		
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+			
+			sErrorMsg := F_GetMC2ErrorDescription(fbReadParam.ErrorID);
+			
+			CASE nRail OF
+				1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 1 homing (Reading parameters) failed: ', sErrorMsg);
+				2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 2 homing (Reading parameters) failed: ', sErrorMsg);
+				3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 3 homing (Reading parameters) failed: ', sErrorMsg);
+				4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 4 homing (Reading parameters) failed: ', sErrorMsg);
+			END_CASE
+		
+			ReadParam := -1;
+
+		ELSIF fbReadParam.Valid THEN
+			fValue := fbReadParam.Value;
+			
+			IF bMode THEN	
+				CASE nStepRead OF
+					0: IF fValue = Mot_HomingAccel THEN
+					   	  nStepRead := nStepRead + 1;
+						  fbReadParam(Axis := pAxis^, Enable := FALSE);
+						  RETURN;
+					   END_IF
+						
+					1: IF fValue = Mot_HomingDecel THEN
+						  nStepRead := nStepRead + 1;
+						  fbReadParam(Axis := pAxis^, Enable := FALSE);
+						  RETURN;
+					   END_IF
+
+					2: IF fValue = Mot_HomingJerk THEN
+						  nStepRead := nStepRead + 1;
+						  fbReadParam(Axis := pAxis^, Enable := FALSE);
+						  RETURN;
+					   END_IF
+				END_CASE
+			ELSE
+				CASE nStepRead OF
+					0: IF fValue = Mot_NormalAccel THEN
+					   	  nStepRead := nStepRead + 1;
+						  fbReadParam(Axis := pAxis^, Enable := FALSE);
+						  RETURN;
+					   END_IF
+						
+					1: IF fValue = Mot_NormalDecel THEN
+						  nStepRead := nStepRead + 1;
+						  fbReadParam(Axis := pAxis^, Enable := FALSE);
+						  RETURN;
+					   END_IF
+
+					2: IF fValue = Mot_NormalJerk THEN
+						  nStepRead := nStepRead + 1;
+						  fbReadParam(Axis := pAxis^, Enable := FALSE);
+						  RETURN;
+					   END_IF
+				END_CASE
+			END_IF
+			
+			ReadParam := -1;
+			
+		    pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+		    IF pAlarmCondition <> 0 THEN
+			  pAlarmCondition^ := TRUE;
+		    END_IF
+		   
+		    CASE nRail OF
+			 1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 1 homing (Reading parameters) failed: ', 'One or more value wrong');
+			 2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 2 homing (Reading parameters) failed: ', 'One or more value wrong');
+			 3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 3 homing (Reading parameters) failed: ', 'One or more value wrong');
+			 4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 4 homing (Reading parameters) failed: ', 'One or more value wrong');
+		    END_CASE
+		END_IF
+	
+	IF bReadingDone THEN
+		ReadParam := 1;
+		bReadingDone := FALSE;
+	END_IF
+    
+    LAS_Stepper_Error:
+       ReadParam := -1;     
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Reset" Id="{185c3e3a-adea-4170-9d64-3a4611a9e6c3}">
       <Declaration><![CDATA[METHOD Reset : INT
 VAR_INPUT
@@ -563,6 +748,74 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="WriteParam" Id="{52ff2d31-b5d1-429c-be79-e604bacff3be}">
+      <Declaration><![CDATA[METHOD WriteParam : INT
+VAR_INPUT
+	bMode : BOOL;
+END_VAR
+VAR
+    pAlarmCondition : POINTER TO BOOL; // Pointer to external alarm condition
+	sErrorMsg : STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WriteParam := 0;
+
+CASE eState OF
+    LAS_Stepper_Ready:
+		IF bMode THEN
+			CASE nStepWrite OF
+				0: fbWriteParam(Axis := pAxis^, ParameterNumber := MC_AxisParameter.AxisAcc, Value := Mot_HomingAccel, Execute := TRUE);
+				
+				1: fbWriteParam(Axis := pAxis^, ParameterNumber := MC_AxisParameter.AxisDec, Value := Mot_HomingDecel, Execute := TRUE);
+				
+				2: fbWriteParam(Axis := pAxis^, ParameterNumber := MC_AxisParameter.AxisJerk, Value := Mot_HomingJerk, Execute := TRUE);
+			END_CASE
+		ELSE
+			CASE nStepWrite OF
+				0: fbWriteParam(Axis := pAxis^, ParameterNumber := MC_AxisParameter.AxisAcc, Value := Mot_NormalAccel, Execute := TRUE);
+				
+				1: fbWriteParam(Axis := pAxis^, ParameterNumber := MC_AxisParameter.AxisDec, Value := Mot_NormalDecel, Execute := TRUE);
+				
+				2: fbWriteParam(Axis := pAxis^, ParameterNumber := MC_AxisParameter.AxisJerk, Value := Mot_NormalJerk, Execute := TRUE);
+			END_CASE
+		END_IF
+		
+		IF fbWriteParam.Error THEN		
+			eState := LAS_Stepper_Error;
+			nErrID := fbWriteParam.ErrorID;
+		
+			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+			IF pAlarmCondition <> 0 THEN
+				pAlarmCondition^ := TRUE;
+			END_IF
+			
+			sErrorMsg := F_GetMC2ErrorDescription(fbWriteParam.ErrorID);
+			
+			CASE nRail OF
+				1: GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 1 homing (writing parameters) failed: ', sErrorMsg);
+				2: GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 2 homing (writing parameters) failed: ', sErrorMsg);
+				3: GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 3 homing (writing parameters) failed: ', sErrorMsg);
+				4: GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := CONCAT('Stepper rail 4 homing (writing parameters) failed: ', sErrorMsg);
+			END_CASE
+		
+			WriteParam := -1;
+
+		ELSIF fbWriteParam.Done THEN
+			fbWriteParam(Axis := pAxis^, Execute := FALSE);
+			nStepWrite := nStepWrite + 1;
+			
+			IF nStepWrite = 2 THEN
+				WriteParam := 1; 
+				nStepWrite := 0;
+			END_IF
+		END_IF
+    
+    LAS_Stepper_Error:
+       WriteParam := -1;     
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_StepperMotor">
       <LineId Id="1" Count="0" />
     </LineIds>
@@ -585,7 +838,17 @@ END_CASE
     </LineIds>
     <LineIds Name="FB_StepperMotor.Home">
       <LineId Id="872" Count="0" />
-      <LineId Id="731" Count="5" />
+      <LineId Id="731" Count="2" />
+      <LineId Id="913" Count="0" />
+      <LineId Id="917" Count="3" />
+      <LineId Id="925" Count="0" />
+      <LineId Id="921" Count="3" />
+      <LineId Id="915" Count="1" />
+      <LineId Id="955" Count="0" />
+      <LineId Id="957" Count="10" />
+      <LineId Id="956" Count="0" />
+      <LineId Id="901" Count="0" />
+      <LineId Id="734" Count="2" />
       <LineId Id="881" Count="3" />
       <LineId Id="742" Count="0" />
       <LineId Id="880" Count="0" />
@@ -604,8 +867,25 @@ END_CASE
       <LineId Id="846" Count="3" />
       <LineId Id="751" Count="0" />
       <LineId Id="756" Count="2" />
-      <LineId Id="885" Count="0" />
-      <LineId Id="762" Count="0" />
+      <LineId Id="939" Count="0" />
+      <LineId Id="952" Count="0" />
+      <LineId Id="902" Count="0" />
+      <LineId Id="937" Count="1" />
+      <LineId Id="993" Count="0" />
+      <LineId Id="983" Count="3" />
+      <LineId Id="991" Count="0" />
+      <LineId Id="987" Count="3" />
+      <LineId Id="981" Count="1" />
+      <LineId Id="994" Count="0" />
+      <LineId Id="992" Count="0" />
+      <LineId Id="970" Count="5" />
+      <LineId Id="995" Count="0" />
+      <LineId Id="976" Count="0" />
+      <LineId Id="996" Count="0" />
+      <LineId Id="977" Count="2" />
+      <LineId Id="969" Count="0" />
+      <LineId Id="941" Count="0" />
+      <LineId Id="940" Count="0" />
       <LineId Id="792" Count="2" />
       <LineId Id="798" Count="0" />
       <LineId Id="39" Count="0" />
@@ -678,6 +958,9 @@ END_CASE
       <LineId Id="22" Count="0" />
       <LineId Id="24" Count="1" />
     </LineIds>
+    <LineIds Name="FB_StepperMotor.ReadParam">
+      <LineId Id="1" Count="102" />
+    </LineIds>
     <LineIds Name="FB_StepperMotor.Reset">
       <LineId Id="651" Count="0" />
       <LineId Id="653" Count="10" />
@@ -726,6 +1009,9 @@ END_CASE
       <LineId Id="392" Count="0" />
       <LineId Id="440" Count="1" />
       <LineId Id="33" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StepperMotor.WriteParam">
+      <LineId Id="1" Count="54" />
     </LineIds>
   </POU>
 </TcPlcObject>

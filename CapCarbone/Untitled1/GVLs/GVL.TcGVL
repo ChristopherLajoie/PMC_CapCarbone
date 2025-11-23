@@ -40,12 +40,16 @@ VAR_GLOBAL
 		(nX := 3, sY := 'Compressor', sValue := ADR(Cmp2_Mot_FB), sCommand := ADR(Cmp2_Mot_Cmd)),
 		(nX := 4, sY := 'Chariot', sValue := ADR(Tri4_Mot_FB), sCommand := ADR(Tri4_Mot_Cmd)),
 		(nX := 1, sY := 'Home', sValue := ADR(Rail1_Mot_FB), sCommand := ADR(Rail1_Mot_Cmd)),
+		(nX := 1, sY := 'SetHome', sValue := ADR(Rail1_Mot_FB), sCommand := ADR(Rail1_Mot_Cmd)),
 		(nX := 1, sY := 'Motor', sValue := ADR(Rail1_Mot_FB), sCommand := ADR(Rail1_Mot_Cmd)),
 		(nX := 2, sY := 'Home', sValue := ADR(Rail2_Mot_FB), sCommand := ADR(Rail2_Mot_Cmd)),
+		(nX := 2, sY := 'SetHome', sValue := ADR(Rail2_Mot_FB), sCommand := ADR(Rail2_Mot_Cmd)),
 		(nX := 2, sY := 'Motor', sValue := ADR(Rail2_Mot_FB), sCommand := ADR(Rail2_Mot_Cmd)),
 		(nX := 3, sY := 'Home', sValue := ADR(Rail3_Mot_FB), sCommand := ADR(Rail3_Mot_Cmd)),
+		(nX := 3, sY := 'SetHome', sValue := ADR(Rail3_Mot_FB), sCommand := ADR(Rail3_Mot_Cmd)),
 		(nX := 3, sY := 'Motor', sValue := ADR(Rail3_Mot_FB), sCommand := ADR(Rail3_Mot_Cmd)),
-		(nX := 4, sY := 'Motor', sValue := ADR(Rail4_Mot_FB), sCommand := ADR(Rail4_Mot_Cmd)),
+		(nX := 4, sY := 'Home', sValue := ADR(Rail4_Mot_FB), sCommand := ADR(Rail4_Mot_Cmd)),
+		(nX := 4, sY := 'SetHome', sValue := ADR(Rail4_Mot_FB), sCommand := ADR(Rail4_Mot_Cmd)),
 		(nX := 4, sY := 'Motor', sValue := ADR(Rail4_Mot_FB), sCommand := ADR(Rail4_Mot_Cmd))
 	];
     nEntryCount : INT := 17; 

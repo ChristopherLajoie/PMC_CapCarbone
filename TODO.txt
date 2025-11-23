@@ -1,6 +1,7 @@
 - Implement cycle
 - Per alarm check instead of per zone check would be better
-- Check set home error
+- fix error messages overwritting each other**
+- fix reset message not updating (add message clearing in reset for all alarms)
 
 
 
