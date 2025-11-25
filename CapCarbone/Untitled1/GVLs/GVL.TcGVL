@@ -15,7 +15,7 @@ VAR_GLOBAL
 
     bStartCycleMem : BOOL;  
     bStopCycleMem  : BOOL;  
-	
+	STEP : BOOL;
 	SafetyRelayStatus AT %I*: BOOL;
 	
 	gSystemAlarmStatus : ST_SystemAlarmStatus;

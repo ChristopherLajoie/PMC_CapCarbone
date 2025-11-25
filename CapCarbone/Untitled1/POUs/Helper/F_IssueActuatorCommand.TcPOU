@@ -16,26 +16,41 @@ VAR
     i         : INT;
     sTmp      : STRING(64);
     sIndexStr : STRING(1);
+	nUnderscorePos : INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* ---- basic checks ---- *)
+      <ST><![CDATA[(* ========================================================= *)
+(* PARSING LOGIC: R<ID>_<Name> (e.g., 'R1_Chariot')         *)
+(* ========================================================= *)
 nLen := LEN(sDevice);
-IF nLen < 2 THEN
-    F_IssueActuatorCommand := -1;
+nUnderscorePos := FIND(sDevice, '_');
+
+(* Safety Checks: Length must be sufficient and underscore must exist *)
+(* We expect at least 'R1_A' (4 chars) and underscore cannot be at start *)
+IF (nLen < 4) OR (nUnderscorePos < 3) THEN
+    F_IssueActuatorCommand := -1; (* Error: Invalid Format *)
     RETURN;
 END_IF;
 
-// last digit "1".."4"
-sIndexStr := MID(sDevice, 1, nLen);      // 1 char at position nLen
+(* 1. Extract the ID Number *)
+(* Take string between 'R' (pos 1) and '_' *)
+(* Start at 2, Length is (UnderscorePos - 2) *)
+sIndexStr := MID(sDevice, nUnderscorePos - 2, 2); 
 n := STRING_TO_INT(sIndexStr);
 
-// prefix = everything except last char
-sPrefix := LEFT(sDevice, nLen - 1);
+(* 2. Extract the Name (Prefix) *)
+(* Take everything to the right of the underscore *)
+sPrefix := RIGHT(sDevice, nLen - nUnderscorePos);
 
-(* ---- build "R<n>_" into sTmp ---- *)
+(* 3. Rebuild the Base String "R<n>_" for reconstruction later *)
 sTmp := CONCAT('R', INT_TO_STRING(n));
 sTmp := CONCAT(sTmp, '_');
+
+
+(* ========================================================= *)
+(* DEVICE HANDLING LOGIC (Unchanged)                        *)
+(* ========================================================= *)
 
 (* ===================== *)
 (* Non-motor devices     *)
@@ -43,7 +58,7 @@ sTmp := CONCAT(sTmp, '_');
 IF (sPrefix = 'Chariot') OR (sPrefix = 'Compressor') OR (sPrefix = 'Sensor') OR
    (sPrefix = 'HeatExCoupola') OR (sPrefix = 'RegenCoupola') THEN
 
-    sRequestedActuator := CONCAT(sTmp, sPrefix);   // "R<n>_Prefix"
+    sRequestedActuator := CONCAT(sTmp, sPrefix);   // Reconstructs "R1_Chariot"
 
     IF sPrefix = 'Chariot' THEN
         CASE n OF
@@ -77,11 +92,11 @@ IF (sPrefix = 'Chariot') OR (sPrefix = 'Compressor') OR (sPrefix = 'Sensor') OR
     END_IF;
 
     // <<< return handling for non-motor >>>
-    // function returns the global Result:
-    //   -1 = failure, 0 = in progress, 1 = success
+    // function returns the global Result
     F_IssueActuatorCommand := Result;
     RETURN;
 END_IF
+
 
 (* ===================== *)
 (* Motor devices         *)
@@ -90,7 +105,7 @@ IF sPrefix = 'Motor' THEN
     
     IF bArg THEN
         (* Homing *)
-        sRequestedActuator := CONCAT(sTmp, 'Home');   // "R<n>_Home"
+        sRequestedActuator := CONCAT(sTmp, 'Home');   // Becomes "R<n>_Home"
         CASE n OF
             1: Rail1_Mot_Cmd.bHoming := TRUE;
             2: Rail2_Mot_Cmd.bHoming := TRUE;
@@ -99,13 +114,12 @@ IF sPrefix = 'Motor' THEN
         END_CASE
     ELSE
         (* Normal move *)
-        sRequestedActuator := CONCAT(sTmp, 'Motor');  // "R<n>_Motor"
+        sRequestedActuator := CONCAT(sTmp, 'Motor');  // Becomes "R<n>_Motor"
         
         IF bHasPosition THEN
             CASE n OF
                 1: 
                     Rail1_Mot_Cmd.nCommand := nPosition;
-                    (* Velocity Logic *)
                     IF fVelocity > 0.0 THEN
                         Rail1_Mot_Cmd.fVelocity := fVelocity;
                     ELSE
@@ -140,22 +154,15 @@ IF sPrefix = 'Motor' THEN
     END_IF;
 
     // <<< return handling for motors >>>
-    F_IssueActuatorCommand := Result; // Assuming 'Result' is defined globally or earlier
+    F_IssueActuatorCommand := Result; 
     RETURN;
 END_IF
 
-(* Unknown prefix *)
-F_IssueActuatorCommand := -3;
-
-]]></ST>
+(* Unknown prefix / Fallthrough *)
+F_IssueActuatorCommand := -3;]]></ST>
     </Implementation>
     <LineIds Name="F_IssueActuatorCommand">
-      <LineId Id="276" Count="0" />
-      <LineId Id="382" Count="10" />
-      <LineId Id="296" Count="51" />
-      <LineId Id="393" Count="3" />
-      <LineId Id="402" Count="57" />
-      <LineId Id="380" Count="1" />
+      <LineId Id="460" Count="138" />
       <LineId Id="119" Count="0" />
     </LineIds>
   </POU>

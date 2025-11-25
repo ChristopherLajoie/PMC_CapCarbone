@@ -2183,7 +2183,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{06A144AE-15C8-407C-8A20-7ACC04BE137D}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{0F90453A-9C1F-2474-78C8-6755129F8177}" TmcPath="Untitled1\Untitled1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{32F3EE1A-5B9F-044F-6DFE-643D0822D9A7}" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -4422,82 +4422,82 @@ External Setpoint Generation:
 							<SyncMan>010f01004400010003000000000000000100010f44090000</SyncMan>
 							<Fmmu>0000000000000000000f00020100000001000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1600" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Water Pump OUT" Index="#x7000" Sub="#x01">
+								<Entry Name="K1_COIL" Index="#x7000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1601" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Fan Heat Transfer OUT" Index="#x7010" Sub="#x01">
+								<Entry Name="K2_COIL" Index="#x7010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 3" Index="#x1602" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Wire Heater" Index="#x7020" Sub="#x01">
+								<Entry Name="K3_COIL" Index="#x7020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1603" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Radiator1 OUT" Index="#x7030" Sub="#x01">
+								<Entry Name="K4_COIL" Index="#x7030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Radiator2 OUT" Index="#x7040" Sub="#x01">
+								<Entry Name="K5_COIL" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 6" Index="#x1605" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Spare" Index="#x7050" Sub="#x01">
+								<Entry Name="SPARE" Index="#x7050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Fan mode" Index="#x7060" Sub="#x01">
+								<Entry Name="SPARE2" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Spare" Index="#x7070" Sub="#x01">
+								<Entry Name="SPARE3" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x7080" Sub="#x01">
+								<Entry Name="LED_START" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 10" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x7090" Sub="#x01">
+								<Entry Name="LED_STOP" Index="#x7090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 11" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x70a0" Sub="#x01">
+								<Entry Name="LED_RESET" Index="#x70a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x70b0" Sub="#x01">
+								<Entry Name="SPARE4" Index="#x70b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x70c0" Sub="#x01">
+								<Entry Name="SPARE5" Index="#x70c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 14" Index="#x160d" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x70d0" Sub="#x01">
+								<Entry Name="SPARE6" Index="#x70d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 15" Index="#x160e" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x70e0" Sub="#x01">
+								<Entry Name="SPARE7" Index="#x70e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 16" Index="#x160f" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x70f0" Sub="#x01">
+								<Entry Name="SPARE8" Index="#x70f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -4511,82 +4511,82 @@ External Setpoint Generation:
 							<SyncMan>010f01004400010003000000000000000100010f44090000</SyncMan>
 							<Fmmu>0000000000000000000f00020100000001000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1600" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Tri1 Pop-Up Forward" Index="#x7000" Sub="#x01">
+								<Entry Name="TRI1_IN" Index="#x7000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1601" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Tri4 Forward" Index="#x7010" Sub="#x01">
+								<Entry Name="TRI2_IN" Index="#x7010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 3" Index="#x1602" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Tri2 Pop-Up Forward" Index="#x7020" Sub="#x01">
+								<Entry Name="TRI3_IN" Index="#x7020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1603" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Tri3 Pop-Up Forward" Index="#x7030" Sub="#x01">
+								<Entry Name="TRI4_IN" Index="#x7030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Piv1 Forward" Index="#x7040" Sub="#x01">
+								<Entry Name="PIV1_FW" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 6" Index="#x1605" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Spare" Index="#x7050" Sub="#x01">
+								<Entry Name="SPARE" Index="#x7050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Spare" Index="#x7060" Sub="#x01">
+								<Entry Name="SPARE2" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Spare" Index="#x7070" Sub="#x01">
+								<Entry Name="SPARE3" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Tri1 Pop-Up Backward" Index="#x7080" Sub="#x01">
+								<Entry Name="TRI1_OUT" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 10" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Tri4 Pop-Up Backward" Index="#x7090" Sub="#x01">
+								<Entry Name="TRI2_OUT" Index="#x7090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 11" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Tri2 Pop-Up Backward" Index="#x70a0" Sub="#x01">
+								<Entry Name="TRI3_OUT" Index="#x70a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Tri3 Pop-Up Backward" Index="#x70b0" Sub="#x01">
+								<Entry Name="TRI4_OUT" Index="#x70b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Piv1 Backward" Index="#x70c0" Sub="#x01">
+								<Entry Name="PIV1_BW" Index="#x70c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 14" Index="#x160d" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare4" Index="#x70d0" Sub="#x01">
+								<Entry Name="SPARE4" Index="#x70d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 15" Index="#x160e" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x70e0" Sub="#x01">
+								<Entry Name="SPARE5" Index="#x70e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 16" Index="#x160f" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Spare" Index="#x70f0" Sub="#x01">
+								<Entry Name="SPARE6" Index="#x70f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -4600,82 +4600,82 @@ External Setpoint Generation:
 							<SyncMan>010f01004400010003000000000000000100010f44090000</SyncMan>
 							<Fmmu>0000000000000000000f00020100000001000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1600" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Cmp1 Backward" Index="#x7000" Sub="#x01">
+								<Entry Name="CMP1.MOT-BW" Index="#x7000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1601" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Cmp1 Forward" Index="#x7010" Sub="#x01">
+								<Entry Name="CMP1.MOT-FW" Index="#x7010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 3" Index="#x1602" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Cmp1 Stop" Index="#x7020" Sub="#x01">
+								<Entry Name="CMP1.MOT-STOP" Index="#x7020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1603" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Cmp1 Speed2" Index="#x7030" Sub="#x01">
+								<Entry Name="CMP1.MOT-SPEED2" Index="#x7030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 5" Index="#x1604" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Gui1 Backward" Index="#x7040" Sub="#x01">
+								<Entry Name="CMP2.MOT-BW" Index="#x7040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 6" Index="#x1605" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Gui1 Forward" Index="#x7050" Sub="#x01">
+								<Entry Name="CMP2.MOT-FW" Index="#x7050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 7" Index="#x1606" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Gui1 Stop" Index="#x7060" Sub="#x01">
+								<Entry Name="GUI1.MOT-STOP" Index="#x7060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 8" Index="#x1607" InOut="1" Flags="#x0011" SyncMan="0">
-								<Entry Name="Gui1 Speed2" Index="#x7070" Sub="#x01">
+								<Entry Name="GUI1.MOT-SPEED2" Index="#x7070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 9" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Gui2 Backward" Index="#x7080" Sub="#x01">
+								<Entry Name="GUI1.MOT-DOWN" Index="#x7080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 10" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Gui2 Forward" Index="#x7090" Sub="#x01">
+								<Entry Name="GUI1.MOT-UP" Index="#x7090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 11" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Gui2 Stop" Index="#x70a0" Sub="#x01">
+								<Entry Name="GUI2.MOT-STOP" Index="#x70a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 12" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Gui2 Speed2" Index="#x70b0" Sub="#x01">
+								<Entry Name="GUI2.MOT-SPEED2" Index="#x70b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 13" Index="#x160c" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Cmp2 Backward" Index="#x70c0" Sub="#x01">
+								<Entry Name="GUI2.MOT-DOWN" Index="#x70c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 14" Index="#x160d" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Cmp2 Forward" Index="#x70d0" Sub="#x01">
+								<Entry Name="GUI2.MOT-UP" Index="#x70d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 15" Index="#x160e" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Cmp2 Stop" Index="#x70e0" Sub="#x01">
+								<Entry Name="CMP2.MOT-STOP" Index="#x70e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 16" Index="#x160f" InOut="1" Flags="#x0011" SyncMan="1">
-								<Entry Name="Cmp2 Speed2" Index="#x70f0" Sub="#x01">
+								<Entry Name="CMP2.MOT-SPEED2" Index="#x70f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -7367,52 +7367,52 @@ Bit 8 - 15 : reserved]]></Comment>
 							<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="DIP Inputs" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Triangle Rétractable Chariot1 Prox In" Index="#x6000" Sub="#x01">
+								<Entry Name="TRI1.PRX-IN" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Triangle Rétractable Chariot1 Prox Out" Index="#x6010" Sub="#x01">
+								<Entry Name="TRI1.PRX-OUT" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Triangle Rétractable Chariot2 Prox In" Index="#x6020" Sub="#x01">
+								<Entry Name="TRI2.PRX-IN" Index="#x6020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Triangle Rétractable Chariot2 Prox Out" Index="#x6030" Sub="#x01">
+								<Entry Name="TRI2.PRX-OUT" Index="#x6030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Triangle Rétractable Chariot3 Prox In" Index="#x6040" Sub="#x01">
+								<Entry Name="TRI3.PRX-IN" Index="#x6040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Triangle Rétractable Chariot3 Prox Out" Index="#x6050" Sub="#x01">
+								<Entry Name="TRI3.PRX-OUT" Index="#x6050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Triangle Rétractable Chariot4 Prox In" Index="#x6060" Sub="#x01">
+								<Entry Name="TRI4.PRX-IN" Index="#x6060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Triangle Rétractable Chariot4 Prox Out" Index="#x6070" Sub="#x01">
+								<Entry Name="TRI4.PRX-OUT" Index="#x6070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Cell Position 1" Index="#x6080" Sub="#x01">
+								<Entry Name="CELL.POS1" Index="#x6080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Cell Position 2" Index="#x6090" Sub="#x01">
+								<Entry Name="CELL.POS2" Index="#x6090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Cell Position 3" Index="#x60a0" Sub="#x01">
+								<Entry Name="CELL.POS3" Index="#x60a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Cell Position 4" Index="#x60b0" Sub="#x01">
+								<Entry Name="CELL.POS4" Index="#x60b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Cell Position 5" Index="#x60c0" Sub="#x01">
+								<Entry Name="CELL.POS5" Index="#x60c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Cell Position 6" Index="#x60d0" Sub="#x01">
+								<Entry Name="SPARE" Index="#x60d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Spare" Index="#x60e0" Sub="#x01">
+								<Entry Name="SPARE2" Index="#x60e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Spare 2" Index="#x60f0" Sub="#x01">
+								<Entry Name="SPARE3" Index="#x60f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -7425,52 +7425,52 @@ Bit 8 - 15 : reserved]]></Comment>
 							<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="DIP Inputs" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Prox Homing Rail1 " Index="#x6000" Sub="#x01">
+								<Entry Name="RAIL1.PRX" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Prox Homing Rail2" Index="#x6010" Sub="#x01">
+								<Entry Name="RAIL2.PRX" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Gui2 Prox In Slow" Index="#x6020" Sub="#x01">
+								<Entry Name="GUI1.PRX-DOWN-SLOW" Index="#x6020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Gui2 Prox Out Slow" Index="#x6030" Sub="#x01">
+								<Entry Name="GUI1.PRX-UP-SLOW" Index="#x6030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Gui2 Prox Out" Index="#x6040" Sub="#x01">
+								<Entry Name="GUI1.PRX-UP" Index="#x6040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Gui1 Prox In Slow" Index="#x6050" Sub="#x01">
+								<Entry Name="GUI2.PRX-DOWN-SLOW" Index="#x6050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Gui1 Prox Out Slow" Index="#x6060" Sub="#x01">
+								<Entry Name="GUI2.PRX-UP-SLOW" Index="#x6060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Gui1 Prox Out" Index="#x6070" Sub="#x01">
+								<Entry Name="GUI2.PRX-UP" Index="#x6070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="-" Index="#x6080" Sub="#x01">
+								<Entry Name="GUI1.PRX-DOWN" Index="#x6080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="--" Index="#x6090" Sub="#x01">
+								<Entry Name="GUI2.PRX-DOWN" Index="#x6090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="---" Index="#x60a0" Sub="#x01">
+								<Entry Name="CMP1.PRX-IN" Index="#x60a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="----" Index="#x60b0" Sub="#x01">
+								<Entry Name="CMP1.PRX-OUT" Index="#x60b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="-----" Index="#x60c0" Sub="#x01">
+								<Entry Name="CMP1.PRX-FAULT" Index="#x60c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="------" Index="#x60d0" Sub="#x01">
+								<Entry Name="CMP2.PRX-IN" Index="#x60d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="-------" Index="#x60e0" Sub="#x01">
+								<Entry Name="CMP2.PRX-OUT" Index="#x60e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="--------" Index="#x60f0" Sub="#x01">
+								<Entry Name="CMP2.PRX-FAULT" Index="#x60f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -7483,52 +7483,52 @@ Bit 8 - 15 : reserved]]></Comment>
 							<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="DIP Inputs" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Prox Homing Rail3" Index="#x6000" Sub="#x01">
+								<Entry Name="RAIL3.PRX" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Prox Homing Rail4" Index="#x6010" Sub="#x01">
+								<Entry Name="RAIL4.PRX" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Safety Relay Status" Index="#x6020" Sub="#x01">
+								<Entry Name="SAFETY.QM1" Index="#x6020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Piv1 Prox In" Index="#x6030" Sub="#x01">
+								<Entry Name="PIV1.PRX-IN" Index="#x6030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Piv1 Prox Out" Index="#x6040" Sub="#x01">
+								<Entry Name="PIV1.PRX-OUT" Index="#x6040" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Spare" Index="#x6050" Sub="#x01">
+								<Entry Name="PB.RESET" Index="#x6050" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Cmp1 Fault" Index="#x6060" Sub="#x01">
+								<Entry Name="PB.STOP" Index="#x6060" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Gui2 Fault" Index="#x6070" Sub="#x01">
+								<Entry Name="PB.START" Index="#x6070" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Gui1 Fault" Index="#x6080" Sub="#x01">
+								<Entry Name="SPARE" Index="#x6080" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Cmp2 Fault" Index="#x6090" Sub="#x01">
+								<Entry Name="SPARE2" Index="#x6090" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Fan Stepper Status" Index="#x60a0" Sub="#x01">
+								<Entry Name="ZB6.FAN-DIAG" Index="#x60a0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Start Cycle" Index="#x60b0" Sub="#x01">
+								<Entry Name="SPARE3" Index="#x60b0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Stop Cycle" Index="#x60c0" Sub="#x01">
+								<Entry Name="SPARE4" Index="#x60c0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Reset Safety" Index="#x60d0" Sub="#x01">
+								<Entry Name="SPARE5" Index="#x60d0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Spare2" Index="#x60e0" Sub="#x01">
+								<Entry Name="SPARE6" Index="#x60e0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
-								<Entry Name="Spare3" Index="#x60f0" Sub="#x01">
+								<Entry Name="SPARE7" Index="#x60f0" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -10117,11 +10117,11 @@ Bit 8 - 15 : reserved]]></Comment>
 			</Device>
 		</Io>
 		<SymbolWatch>
-			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #3 (EL2809)^Channel 2^Cmp1 Forward</Variable>
-			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^-----</Variable>
-			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^------</Variable>
-			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^-------</Variable>
-			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^--------</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #3 (EL2809)^Channel 2^CMP1.MOT-FW</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^CMP1.PRX-FAULT</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^CMP2.PRX-IN</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^CMP2.PRX-OUT</Variable>
+			<Variable>TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)^DIP Inputs^CMP2.PRX-FAULT</Variable>
 		</SymbolWatch>
 	</Project>
 	<Mappings>
@@ -10199,75 +10199,77 @@ Bit 8 - 15 : reserved]]></Comment>
 		</OwnerA>
 		<OwnerA Name="TIPC^Untitled1^Untitled1 Instance">
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #1 (EL1409)">
-				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos1" VarB="DIP Inputs^Cell Position 1"/>
-				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos2" VarB="DIP Inputs^Cell Position 2"/>
-				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos3" VarB="DIP Inputs^Cell Position 3"/>
-				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos4" VarB="DIP Inputs^Cell Position 4"/>
-				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos5" VarB="DIP Inputs^Cell Position 5"/>
-				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos6" VarB="DIP Inputs^Cell Position 6"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri1_Prox_In" VarB="DIP Inputs^Triangle Rétractable Chariot1 Prox In"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri1_Prox_Out" VarB="DIP Inputs^Triangle Rétractable Chariot1 Prox Out"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri2_Prox_In" VarB="DIP Inputs^Triangle Rétractable Chariot2 Prox In"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri2_Prox_Out" VarB="DIP Inputs^Triangle Rétractable Chariot2 Prox Out"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri3_Prox_In" VarB="DIP Inputs^Triangle Rétractable Chariot3 Prox In"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri3_Prox_Out" VarB="DIP Inputs^Triangle Rétractable Chariot3 Prox Out"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri4_Prox_In" VarB="DIP Inputs^Triangle Rétractable Chariot4 Prox In"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri4_Prox_Out" VarB="DIP Inputs^Triangle Rétractable Chariot4 Prox Out"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos1" VarB="DIP Inputs^CELL.POS1"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos2" VarB="DIP Inputs^CELL.POS2"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos3" VarB="DIP Inputs^CELL.POS3"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos4" VarB="DIP Inputs^CELL.POS4"/>
+				<Link VarA="Main_Task Inputs^GVL_CellPositionSensors.Cell_Pos5" VarB="DIP Inputs^CELL.POS5"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri1_Prox_In" VarB="DIP Inputs^TRI1.PRX-IN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri1_Prox_Out" VarB="DIP Inputs^TRI1.PRX-OUT"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri2_Prox_In" VarB="DIP Inputs^TRI2.PRX-IN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri2_Prox_Out" VarB="DIP Inputs^TRI2.PRX-OUT"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri3_Prox_In" VarB="DIP Inputs^TRI3.PRX-IN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri3_Prox_Out" VarB="DIP Inputs^TRI3.PRX-OUT"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri4_Prox_In" VarB="DIP Inputs^TRI4.PRX-IN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Tri4_Prox_Out" VarB="DIP Inputs^TRI4.PRX-OUT"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #2 (EL1409)">
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_In_Slow" VarB="DIP Inputs^Gui1 Prox In Slow"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_Out" VarB="DIP Inputs^Gui1 Prox Out"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_Out_Slow" VarB="DIP Inputs^Gui1 Prox Out Slow"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_In_Slow" VarB="DIP Inputs^Gui2 Prox In Slow"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_Out" VarB="DIP Inputs^Gui2 Prox Out"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_Out_Slow" VarB="DIP Inputs^Gui2 Prox Out Slow"/>
-				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail1_Prox" VarB="DIP Inputs^Prox Homing Rail1 "/>
-				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail2_Prox" VarB="DIP Inputs^Prox Homing Rail2"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp1_Prox_Fault" VarB="DIP Inputs^CMP1.PRX-FAULT"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp1_Prox_In" VarB="DIP Inputs^CMP1.PRX-IN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp1_Prox_Out" VarB="DIP Inputs^CMP1.PRX-OUT"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp2_Prox_Fault" VarB="DIP Inputs^CMP2.PRX-FAULT"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp2_Prox_In" VarB="DIP Inputs^CMP2.PRX-IN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp2_Prox_Out" VarB="DIP Inputs^CMP2.PRX-OUT"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_In" VarB="DIP Inputs^GUI1.PRX-UP"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_In_Slow" VarB="DIP Inputs^GUI1.PRX-UP-SLOW"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_Out" VarB="DIP Inputs^GUI1.PRX-DOWN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_Out_Slow" VarB="DIP Inputs^GUI1.PRX-DOWN-SLOW"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_In" VarB="DIP Inputs^GUI2.PRX-UP"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_In_Slow" VarB="DIP Inputs^GUI2.PRX-UP-SLOW"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_Out" VarB="DIP Inputs^GUI2.PRX-DOWN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_Out_Slow" VarB="DIP Inputs^GUI2.PRX-DOWN-SLOW"/>
+				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail1_Prox" VarB="DIP Inputs^RAIL1.PRX"/>
+				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail2_Prox" VarB="DIP Inputs^RAIL2.PRX"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DI #3 (EL1409)">
-				<Link VarA="Main_Task Inputs^GVL.PLC_Fan_Steppers" VarB="DIP Inputs^Fan Stepper Status"/>
-				<Link VarA="Main_Task Inputs^GVL.ResetSafety" VarB="DIP Inputs^Reset Safety"/>
-				<Link VarA="Main_Task Inputs^GVL.SafetyRelayStatus" VarB="DIP Inputs^Safety Relay Status"/>
-				<Link VarA="Main_Task Inputs^GVL.StartCycle" VarB="DIP Inputs^Start Cycle"/>
-				<Link VarA="Main_Task Inputs^GVL.StopCycle" VarB="DIP Inputs^Stop Cycle"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorDriveControls.Cmp1_Mot_Fault" VarB="DIP Inputs^Cmp1 Fault"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorDriveControls.Cmp2_Mot_Fault" VarB="DIP Inputs^Cmp2 Fault"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorDriveControls.Gui1_Mot_Fault" VarB="DIP Inputs^Gui1 Fault"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorDriveControls.Gui2_Mot_Fault" VarB="DIP Inputs^Gui2 Fault"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Piv1_Prox_In" VarB="DIP Inputs^Piv1 Prox In"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Piv1_Prox_Out" VarB="DIP Inputs^Piv1 Prox Out"/>
-				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail3_Prox" VarB="DIP Inputs^Prox Homing Rail3"/>
-				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail4_Prox" VarB="DIP Inputs^Prox Homing Rail4"/>
+				<Link VarA="Main_Task Inputs^GVL.PLC_Fan_Steppers" VarB="DIP Inputs^ZB6.FAN-DIAG"/>
+				<Link VarA="Main_Task Inputs^GVL.SafetyRelayStatus" VarB="DIP Inputs^SAFETY.QM1"/>
+				<Link VarA="Main_Task Inputs^GVL.StartCycle" VarB="DIP Inputs^PB.START"/>
+				<Link VarA="Main_Task Inputs^GVL.StopCycle" VarB="DIP Inputs^PB.STOP"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Piv1_Prox_In" VarB="DIP Inputs^PIV1.PRX-IN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Piv1_Prox_Out" VarB="DIP Inputs^PIV1.PRX-OUT"/>
+				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail3_Prox" VarB="DIP Inputs^RAIL3.PRX"/>
+				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail4_Prox" VarB="DIP Inputs^RAIL4.PRX"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #2 (EL2809)">
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Piv1_Mot_Bw" VarB="Channel 13^Piv1 Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Piv1_Mot_Fw" VarB="Channel 5^Piv1 Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri1_Mot_Bw" VarB="Channel 1^Tri1 Pop-Up Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri1_Mot_Fw" VarB="Channel 9^Tri1 Pop-Up Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri2_Mot_Bw" VarB="Channel 11^Tri2 Pop-Up Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri2_Mot_Fw" VarB="Channel 3^Tri2 Pop-Up Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri3_Mot_Bw" VarB="Channel 12^Tri3 Pop-Up Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri3_Mot_Fw" VarB="Channel 4^Tri3 Pop-Up Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri4_Mot_Bw" VarB="Channel 10^Tri4 Pop-Up Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri4_Mot_Fw" VarB="Channel 2^Tri4 Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Piv1_Mot_Bw" VarB="Channel 13^PIV1_BW"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Piv1_Mot_Fw" VarB="Channel 5^PIV1_FW"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri1_Mot_Bw" VarB="Channel 1^TRI1_IN"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri1_Mot_Fw" VarB="Channel 9^TRI1_OUT"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri2_Mot_Bw" VarB="Channel 2^TRI2_IN"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri2_Mot_Fw" VarB="Channel 10^TRI2_OUT"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri3_Mot_Bw" VarB="Channel 3^TRI3_IN"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri3_Mot_Fw" VarB="Channel 11^TRI3_OUT"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri4_Mot_Bw" VarB="Channel 4^TRI4_IN"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Tri4_Mot_Fw" VarB="Channel 12^TRI4_OUT"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #3 (EL2809)">
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Cmp1_Mot_Speed2" VarB="Channel 4^Cmp1 Speed2"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Cmp1_Mot_Stop" VarB="Channel 3^Cmp1 Stop"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Cmp2_Mot_Speed2" VarB="Channel 16^Cmp2 Speed2"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Cmp2_Mot_Stop" VarB="Channel 15^Cmp2 Stop"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Gui1_Mot_Speed2" VarB="Channel 8^Gui1 Speed2"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Gui1_Mot_Stop" VarB="Channel 7^Gui1 Stop"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Gui2_Mot_Speed2" VarB="Channel 12^Gui2 Speed2"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Gui2_Mot_Stop" VarB="Channel 11^Gui2 Stop"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp1_Mot_Bw" VarB="Channel 1^Cmp1 Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp1_Mot_Fw" VarB="Channel 2^Cmp1 Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp2_Mot_Bw" VarB="Channel 13^Cmp2 Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp2_Mot_Fw" VarB="Channel 14^Cmp2 Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui1_Mot_Bw" VarB="Channel 5^Gui1 Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui1_Mot_Fw" VarB="Channel 6^Gui1 Forward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui2_Mot_Bw" VarB="Channel 9^Gui2 Backward"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui2_Mot_Fw" VarB="Channel 10^Gui2 Forward"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Cmp1_Mot_Speed2" VarB="Channel 4^CMP1.MOT-SPEED2"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Cmp1_Mot_Stop" VarB="Channel 3^CMP1.MOT-STOP"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Cmp2_Mot_Speed2" VarB="Channel 16^CMP2.MOT-SPEED2"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Cmp2_Mot_Stop" VarB="Channel 15^CMP2.MOT-STOP"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Gui1_Mot_Speed2" VarB="Channel 8^GUI1.MOT-SPEED2"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Gui1_Mot_Stop" VarB="Channel 7^GUI1.MOT-STOP"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Gui2_Mot_Speed2" VarB="Channel 12^GUI2.MOT-SPEED2"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorDriveControls.Gui2_Mot_Stop" VarB="Channel 11^GUI2.MOT-STOP"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp1_Mot_Bw" VarB="Channel 1^CMP1.MOT-BW"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp1_Mot_Fw" VarB="Channel 2^CMP1.MOT-FW"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp2_Mot_Bw" VarB="Channel 5^CMP2.MOT-BW"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp2_Mot_Fw" VarB="Channel 6^CMP2.MOT-FW"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui1_Mot_Bw" VarB="Channel 10^GUI1.MOT-UP"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui1_Mot_Fw" VarB="Channel 9^GUI1.MOT-DOWN"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui2_Mot_Bw" VarB="Channel 14^GUI2.MOT-UP"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui2_Mot_Fw" VarB="Channel 13^GUI2.MOT-DOWN"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail1_Mot_Struct.object.NcToPlc" VarB="Outputs^ToPlc"/>

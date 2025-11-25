@@ -1,6 +1,8 @@
 - Implement cycle
 - Per alarm check instead of per zone check would be better
 - fix error messages overwritting each other**
+- fix 10s timeout not working
+- fix linear actuator status not accurate
 
 
 

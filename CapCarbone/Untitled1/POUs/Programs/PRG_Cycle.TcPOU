@@ -922,7 +922,29 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Chariot', bArg := TRUE);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpCatch_Rail1_entry" Id="{bdfde7bc-628f-4a08-90eb-953031ec4601}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -942,7 +964,29 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R2_Chariot', bArg := TRUE);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpCatch_Rail2_entry" Id="{274a5ad7-af56-4c9c-b2dc-3617c4b28a6d}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -962,7 +1006,29 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Chariot', bArg := TRUE);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpCatch_Rail3_entry" Id="{6189bb92-dd3f-41fa-9442-1e62813196af}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -982,7 +1048,29 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Chariot', bArg := TRUE);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpCatch_Rail4_entry" Id="{f6a359cc-ad6a-4a57-aa92-a563aabb4c9f}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1017,11 +1105,51 @@ bStopCycleMem := FALSE;]]></ST>
         </XmlArchive>
       </ObjectProperties>
     </Action>
+    <Action Name="_astpDrop_Rail1_entry" Id="{dd7866e6-0c2a-4c71-9ccc-fc077edbd165}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
     <Action Name="_astpDrop_Rail2_active" Id="{2d4e5bf1-06e4-4a49-84d6-26c0c11f7ba6}">
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R2_Chariot', bArg := FALSE);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpDrop_Rail2_entry" Id="{3219babe-58a5-464b-ad1e-ce504d3b3b15}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1041,7 +1169,29 @@ bStopCycleMem := FALSE;]]></ST>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Chariot', bArg := FALSE);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpDrop_Rail3_entry" Id="{76bb0c11-7930-4ab7-a2a0-2b69127bfe3f}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1061,7 +1211,47 @@ bStopCycleMem := FALSE;]]></ST>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Chariot', bArg := FALSE);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpDrop_Rail4_entry" Id="{5d56dc90-1674-4b88-930d-0a2a24d84991}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_End_entry" Id="{447298fe-e596-4e9d-9459-8bf4533c3495}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1079,7 +1269,29 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpHoming_Gui1_active" Id="{eea42098-7e11-449b-9e3c-1c5d002e8c94}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_HeatExCoupola', bArg := FALSE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_HeatExCoupola', bArg := FALSE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Gui1_entry" Id="{8d7344fe-2a6f-4865-9650-48e5e336e48e}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1097,7 +1309,29 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpHoming_Gui2_active" Id="{fe375883-eb9a-4d15-afc8-7aa8543450b8}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_RegenCoupola', bArg := FALSE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_RegenCoupola', bArg := FALSE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Gui2_entry" Id="{54590f6c-729b-4f48-b277-b7f454b92c5b}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1115,7 +1349,29 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpHoming_Pous1_active" Id="{75730ea4-7107-4c35-9681-08dcb362ce0e}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Compressor', bArg := FALSE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Compressor', bArg := FALSE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Pous1_entry" Id="{4b44316a-d849-46eb-b00f-33a978d09f15}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1133,7 +1389,101 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpHoming_Pous2_active" Id="{62ba4e48-037d-4c24-85fb-b51ef8c16e96}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Compressor', bArg := FALSE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Compressor', bArg := FALSE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Pous2_entry" Id="{2d9270e8-239b-4009-b957-964e4dcf5d03}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Rail1_entry" Id="{7e053e09-4ef0-4b89-bd47-d44432589724}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Rail2_entry" Id="{325c9c0c-8a71-4fa6-91c3-19a3f35afeef}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Rail3_entry" Id="{bf459a70-bde3-4a09-b414-45eebfc802a0}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Rail4_entry" Id="{a399ef9d-5bbc-449b-90bf-50e2ec4fd1f0}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1151,7 +1501,11 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpHoming_Tri1_active" Id="{b6a8400f-75e0-4b47-9b29-3fa47fd0503e}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Chariot', bArg := FALSE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Chariot', bArg := FALSE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1169,7 +1523,29 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpHoming_Tri2_active" Id="{c04d3f22-a0e4-4630-b19b-b107fd2fd0d1}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R2_Chariot', bArg := FALSE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R2_Chariot', bArg := FALSE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Tri2_entry" Id="{77b0d538-b88a-42bb-8392-3729054c840b}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1187,7 +1563,29 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpHoming_Tri3_active" Id="{971962bb-2f64-4d7c-a7be-208fa82164fb}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Chariot', bArg := FALSE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Chariot', bArg := FALSE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Tri3_entry" Id="{3ff2b6d8-0782-4496-9a39-e8631377378a}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1205,7 +1603,47 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpHoming_Tri4_active" Id="{4cb91600-7140-40c9-9842-1156876d3fa0}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Chariot', bArg := FALSE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Chariot', bArg := FALSE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpHoming_Tri4_entry" Id="{4367386c-c132-44ed-9fee-7008d2885b97}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpInit_Homing_active" Id="{309757e9-73b6-42d8-9a1a-85df415823f8}">
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1225,7 +1663,29 @@ bStopCycleMem := FALSE;]]></ST>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 100, fVelocity := Mot_LoadedVel);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpMoveBw_Rail1_entry" Id="{3eebb312-5460-4038-8d09-7613c4c13b19}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1245,7 +1705,29 @@ bStopCycleMem := FALSE;]]></ST>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R2_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 100, fVelocity := Mot_LoadedVel);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpMoveBw_Rail2_entry" Id="{dce9cf22-f69e-476d-96b0-4263aae25079}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1265,7 +1747,29 @@ bStopCycleMem := FALSE;]]></ST>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 100, fVelocity := Mot_LoadedVel);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpMoveBw_Rail3_entry" Id="{13d33900-a017-4f19-a30c-fdb048e6ed6f}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1285,7 +1789,29 @@ bStopCycleMem := FALSE;]]></ST>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 100, fVelocity := Mot_LoadedVel);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpMoveBw_Rail4_entry" Id="{7869959f-1ba7-4e34-9979-54c0cb5859b0}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1303,9 +1829,31 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpMoveFw_Rail1_active" Id="{06e8ca90-ee36-400c-a2c7-f6476c6539a8}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 1295, fVelocity := Mot_UnloadedVel);
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 1290, fVelocity := Mot_UnloadedVel);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF
 
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpMoveFw_Rail1_entry" Id="{a7c0ca7c-1904-4b59-b8cf-622e2a7a6f74}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1325,7 +1873,29 @@ bStopCycleMem := FALSE;]]></ST>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R2_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 980, fVelocity := Mot_UnloadedVel);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpMoveFw_Rail2_entry" Id="{e0bc69ca-4003-4fce-90eb-6635978800b2}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1343,7 +1913,11 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="_astpMoveFw_Rail3_active" Id="{6a96c489-a3a3-4b96-b95c-0c4d2ef3b7d6}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 1295, fVelocity := Mot_UnloadedVel);
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 1290, fVelocity := Mot_UnloadedVel);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF
 
 ]]></ST>
       </Implementation>
@@ -1361,11 +1935,51 @@ bStopCycleMem := FALSE;]]></ST>
         </XmlArchive>
       </ObjectProperties>
     </Action>
+    <Action Name="_astpMoveFw_Rail3_entry" Id="{9a8d21b1-9e69-47fa-9c44-410eb5d015b1}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
     <Action Name="_astpMoveFw_Rail4_active" Id="{c102d237-2a20-4c62-a356-1f4e48751a2c}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 1295, fVelocity := Mot_UnloadedVel);
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 960, fVelocity := Mot_UnloadedVel);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF
 
 ]]></ST>
+      </Implementation>
+      <ObjectProperties>
+        <XmlArchive>
+          <Data>
+            <o xml:space="preserve" t="ActionObjectDuplicationModeProperty">
+              <v n="Embedded">true</v>
+            </o>
+          </Data>
+          <TypeList>
+            <Type n="ActionObjectDuplicationModeProperty">{6a58c9ae-b0e2-4127-8d9c-cbfc36a09580}</Type>
+            <Type n="Boolean">System.Boolean</Type>
+          </TypeList>
+        </XmlArchive>
+      </ObjectProperties>
+    </Action>
+    <Action Name="_astpMoveFw_Rail4_entry" Id="{44961982-540a-4ab7-9c0a-6bb5f0501515}">
+      <Implementation>
+        <ST><![CDATA[Status := 0;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -1514,7 +2128,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"NOT bStopCycleMem"</v>
+                              <v n="Value">"NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">88L</v>
@@ -1670,7 +2284,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpMoveFw_Rail1_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">85L</v>
@@ -1697,7 +2311,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">98L</v>
@@ -1853,7 +2467,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpCatch_Rail1_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">114L</v>
@@ -1880,7 +2494,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">69L</v>
@@ -2036,7 +2650,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpMoveBw_Rail1_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">43L</v>
@@ -2063,7 +2677,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">46L</v>
@@ -2219,7 +2833,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpDrop_Rail1_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">62L</v>
@@ -2246,7 +2860,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">117L</v>
@@ -2402,7 +3016,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpMoveFw_Rail2_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">133L</v>
@@ -2429,7 +3043,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">136L</v>
@@ -2585,7 +3199,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpCatch_Rail2_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">152L</v>
@@ -2612,7 +3226,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">155L</v>
@@ -2768,7 +3382,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpMoveBw_Rail2_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">171L</v>
@@ -2795,7 +3409,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">174L</v>
@@ -2951,7 +3565,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpDrop_Rail2_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">190L</v>
@@ -2978,7 +3592,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">193L</v>
@@ -3134,7 +3748,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpMoveFw_Rail3_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">209L</v>
@@ -3161,7 +3775,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">212L</v>
@@ -3317,7 +3931,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpCatch_Rail3_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">228L</v>
@@ -3344,7 +3958,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">231L</v>
@@ -3500,7 +4114,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpMoveBw_Rail3_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">247L</v>
@@ -3527,7 +4141,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">250L</v>
@@ -3683,7 +4297,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpDrop_Rail3_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">266L</v>
@@ -3710,7 +4324,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">269L</v>
@@ -3866,7 +4480,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpMoveFw_Rail4_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">285L</v>
@@ -3893,7 +4507,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">288L</v>
@@ -4049,7 +4663,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpCatch_Rail4_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">304L</v>
@@ -4076,7 +4690,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">307L</v>
@@ -4232,7 +4846,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpMoveBw_Rail4_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">323L</v>
@@ -4259,7 +4873,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">326L</v>
@@ -4415,7 +5029,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpDrop_Rail4_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">342L</v>
@@ -4973,6 +5587,10 @@ bStopCycleMem := FALSE;]]></ST>
       <Implementation>
         <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Chariot', bArg := FALSE);
 
+IF Status = 1 THEN
+	Result := 0;
+END_IF
+
 ]]></ST>
       </Implementation>
       <ObjectProperties>
@@ -5086,7 +5704,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{700a583f-b4d4-43e4-8c14-629c7cd3bec8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpInit_Homing_active"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">12L</v>
@@ -5305,7 +5923,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">144L</v>
@@ -5461,7 +6079,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Tri2_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">160L</v>
@@ -5488,7 +6106,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">163L</v>
@@ -5644,7 +6262,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Tri3_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">179L</v>
@@ -5671,7 +6289,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">182L</v>
@@ -5827,7 +6445,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Tri4_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">198L</v>
@@ -5854,7 +6472,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">27L</v>
@@ -6010,7 +6628,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Rail1_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">43L</v>
@@ -6037,7 +6655,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">46L</v>
@@ -6193,7 +6811,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Rail2_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">62L</v>
@@ -6220,7 +6838,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">65L</v>
@@ -6376,7 +6994,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Rail3_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">81L</v>
@@ -6403,7 +7021,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">84L</v>
@@ -6559,7 +7177,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Rail4_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">100L</v>
@@ -6586,7 +7204,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">201L</v>
@@ -6742,7 +7360,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Gui1_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">217L</v>
@@ -6769,7 +7387,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">220L</v>
@@ -6925,7 +7543,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Gui2_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">236L</v>
@@ -6952,7 +7570,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">239L</v>
@@ -7108,7 +7726,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Pous1_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">255L</v>
@@ -7135,7 +7753,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">258L</v>
@@ -7291,7 +7909,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_Pous2_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">274L</v>
@@ -7318,7 +7936,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Status = 1 AND NOT bStopCycleMem"</v>
+                              <v n="Value">"Status = 1 AND NOT bStopCycleMem AND STEP"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">106L</v>
@@ -7474,7 +8092,7 @@ bStopCycleMem := FALSE;]]></ST>
                           <o>
                             <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">""</v>
+                              <v n="Value">"_astpHoming_End_entry"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">122L</v>
@@ -8048,7 +8666,11 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="stpHoming_Rail1_active" Id="{56d49874-ad0c-400a-932d-c09aa003556e}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Motor', bArg := TRUE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R1_Motor', bArg := TRUE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -8066,7 +8688,11 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="stpHoming_Rail2_active" Id="{05de02ac-fc4f-4dfa-bf73-dd333619d594}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R2_Motor', bArg := TRUE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R2_Motor', bArg := TRUE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -8084,7 +8710,11 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="stpHoming_Rail3_active" Id="{a8079511-f2ba-46af-a200-391749389f5a}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := TRUE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := TRUE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -8102,7 +8732,11 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="stpHoming_Rail4_active" Id="{1a90254e-196a-43a6-a57f-623383978a9d}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Motor', bArg := TRUE);]]></ST>
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Motor', bArg := TRUE);
+
+IF Status = 1 THEN
+	Result := 0;
+END_IF]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -8120,21 +8754,23 @@ bStopCycleMem := FALSE;]]></ST>
     </Action>
     <Action Name="stpInit_active" Id="{10aa273c-50f4-48b2-827b-3d0220d77be7}">
       <Implementation>
-        <ST><![CDATA[RTrigStart(CLK := StartCycle OR StartCycle_HMI);
+        <ST><![CDATA[(* Read Inputs *)
+RTrigStart(CLK := StartCycle OR StartCycle_HMI);
 RTrigStop (CLK := StopCycle OR StopCycle_HMI);
 
-(* If START is pressed -> remember START, forget STOP *)
 IF RTrigStart.Q THEN
     bStartCycleMem := TRUE;
     bStopCycleMem  := FALSE;
+    
+    StartCycle_HMI := FALSE; 
 END_IF
 
-(* If STOP is pressed -> remember STOP, forget START *)
 IF RTrigStop.Q THEN
     bStopCycleMem  := TRUE;
     bStartCycleMem := FALSE;
-END_IF
-]]></ST>
+
+    StopCycle_HMI := FALSE;
+END_IF]]></ST>
       </Implementation>
     </Action>
     <ObjectProperties>
@@ -8235,98 +8871,263 @@ END_IF
       </XmlArchive>
     </ObjectProperties>
     <LineIds Name="PRG_Cycle._astpCatch_Rail1_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpCatch_Rail1_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatch_Rail2_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpCatch_Rail2_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatch_Rail3_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpCatch_Rail3_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatch_Rail4_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpCatch_Rail4_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCycle_Megagenial_exit">
       <LineId Id="1" Count="1" />
     </LineIds>
+    <LineIds Name="PRG_Cycle._astpDrop_Rail1_entry">
+      <LineId Id="1" Count="0" />
+    </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Rail2_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpDrop_Rail2_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Rail3_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpDrop_Rail3_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Rail4_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpDrop_Rail4_entry">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_End_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Gui1_active">
+      <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Gui1_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Gui2_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Gui2_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Pous1_active">
+      <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Pous1_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Pous2_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Pous2_entry">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Rail1_entry">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Rail2_entry">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Rail3_entry">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Rail4_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri1_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri2_active">
+      <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Tri2_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri3_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Tri3_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri4_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpHoming_Tri4_entry">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpInit_Homing_active">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail1_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpMoveBw_Rail1_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail2_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpMoveBw_Rail2_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail3_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpMoveBw_Rail3_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail4_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpMoveBw_Rail4_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail1_active">
-      <LineId Id="4" Count="1" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="7" Count="2" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
       <LineId Id="3" Count="0" />
     </LineIds>
+    <LineIds Name="PRG_Cycle._astpMoveFw_Rail1_entry">
+      <LineId Id="1" Count="0" />
+    </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail2_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpMoveFw_Rail2_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail3_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpMoveFw_Rail3_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail4_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle._astpMoveFw_Rail4_entry">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpDrop_Rail1_active">
-      <LineId Id="1" Count="2" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="2" Count="1" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_End_active">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail1_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail2_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail3_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail4_active">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpInit_active">
-      <LineId Id="2" Count="14" />
+      <LineId Id="17" Count="2" />
+      <LineId Id="21" Count="4" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="30" Count="3" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="16" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

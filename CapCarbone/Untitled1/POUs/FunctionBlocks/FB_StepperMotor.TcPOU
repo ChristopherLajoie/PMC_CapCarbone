@@ -320,7 +320,7 @@ IF NOT bHoldKeepAlive THEN
 		bIsUp := FALSE;
 		
 		pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'PowerUp_Failed');
-	   IF pAlarmCondition <> 0 THEN
+	    IF pAlarmCondition <> 0 THEN
 			pAlarmCondition^ := TRUE;
 	
 			sErrorMsg := F_GetMC2ErrorDescription(fbPower.ErrorID);

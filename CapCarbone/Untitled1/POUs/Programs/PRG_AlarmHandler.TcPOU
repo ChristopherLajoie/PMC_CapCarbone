@@ -21,6 +21,24 @@ END_VAR]]></Declaration>
     bInitComplete := TRUE;
 END_IF
 
+(* Read Inputs *)
+RTrigStart(CLK := StartCycle OR StartCycle_HMI);
+RTrigStop (CLK := StopCycle OR StopCycle_HMI);
+
+IF RTrigStart.Q THEN
+    bStartCycleMem := TRUE;
+    bStopCycleMem  := FALSE;
+    
+    StartCycle_HMI := FALSE; 
+END_IF
+
+IF RTrigStop.Q THEN
+    bStopCycleMem  := TRUE;
+    bStartCycleMem := FALSE;
+
+    StopCycle_HMI := FALSE;
+END_IF
+
 fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);
 gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
     </Implementation>
@@ -28,6 +46,9 @@ gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
       <LineId Id="172" Count="4" />
       <LineId Id="274" Count="0" />
       <LineId Id="178" Count="1" />
+      <LineId Id="275" Count="0" />
+      <LineId Id="290" Count="15" />
+      <LineId Id="289" Count="0" />
       <LineId Id="264" Count="1" />
       <LineId Id="58" Count="0" />
     </LineIds>
