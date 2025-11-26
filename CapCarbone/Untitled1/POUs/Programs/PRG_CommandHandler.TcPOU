@@ -161,30 +161,30 @@ ELSIF bisLinearTableHomeCmd OR bisLinearTableMoveCmd THEN
 		nCancelResult := -1;
 	END_IF
 	
-    CASE nCancelResult OF
-        1: // Success
-            LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
-            LinearTableCmd^.nPosition := CurrentPosition;
-            
-            IF bisLinearTableHomeCmd THEN
-                LinearTableCmd^.bHomed := FALSE;
-                LinearTableCmd^.bHoming := FALSE;
-            END_IF;
+	CASE nCancelResult OF
+	1: // Success
+		LinearTable^.GetPosition(fCurrentPosition => CurrentPosition);
+		LinearTableCmd^.nPosition := CurrentPosition;
+		LinearTable^.PowerDown();
+		
+		IF bisLinearTableHomeCmd THEN
+			LinearTableCmd^.bHomed := FALSE;
+			LinearTableCmd^.bHoming := FALSE;
+		END_IF;
 
-		0: // Operation in progress
-			RETURN;
-			
-       -1: // Failure
-            IF bisLinearTableHomeCmd THEN
-                LinearTableCmd^.bHomed := FALSE;
-                LinearTableCmd^.bHoming := FALSE;
-            ELSE
-                LinearTableCmd^.nPosition := -1;
-            END_IF;
-    END_CASE;
-END_IF;
-
-LinearTable^.PowerDown();
+	0: // Operation in progress
+		RETURN;
+		
+   -1: // Failure
+		IF bisLinearTableHomeCmd THEN
+			LinearTableCmd^.bHomed := FALSE;
+			LinearTableCmd^.bHoming := FALSE;
+		ELSE
+			LinearTableCmd^.nPosition := -1;
+		END_IF;
+		LinearTable^.PowerDown();
+	END_CASE;
+END_IF
 
 //Request Pop-up close
 sRequestedActuator := 'close';
@@ -430,7 +430,12 @@ END_CASE]]></ST>
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessCancelOperation">
-      <LineId Id="229" Count="41" />
+      <LineId Id="229" Count="8" />
+      <LineId Id="274" Count="0" />
+      <LineId Id="276" Count="21" />
+      <LineId Id="275" Count="0" />
+      <LineId Id="238" Count="0" />
+      <LineId Id="263" Count="7" />
       <LineId Id="190" Count="0" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.ProcessLinearActuator">

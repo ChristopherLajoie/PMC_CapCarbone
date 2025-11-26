@@ -91,8 +91,11 @@ VAR
 	fbLoopTimer   : TON;        (* The 1s timer between loops *)
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF bResetSafetyMem AND NOT bCriticalAlarm AND NOT bSafetyOk THEN
+        <ST><![CDATA[IF bSafetyOk THEN
+	bResetSafetyMem := FALSE;
+END_IF
 
+IF bResetSafetyMem AND NOT bCriticalAlarm AND NOT bSafetyOk THEN
     CASE nMainState OF
         0: (* INITIALIZATION *)
             nRepetition := 0;
@@ -297,7 +300,7 @@ ProcessAlarm := TRUE;]]></ST>
       <LineId Id="1" Count="4" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.HandlePhysicalResetReq">
-      <LineId Id="1" Count="57" />
+      <LineId Id="1" Count="60" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.InitializeAlarmList">
       <LineId Id="1" Count="0" />
