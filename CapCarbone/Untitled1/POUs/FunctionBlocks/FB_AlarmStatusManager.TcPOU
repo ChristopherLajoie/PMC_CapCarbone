@@ -16,6 +16,9 @@ VAR
     nZone : SINT;
     bIsGlobalAlarm : BOOL;
 	
+	nMainState    : INT := 0;   (* Controls the flow of the repetitions *)
+	nRepetition   : INT := 0;   (* Counts how many times we have finished the sequence *)
+	nStep : INT := 1;
     aAllAlarms : ARRAY[1..100] OF ST_AlarmEntry;
     nAlarmCount : INT := 0;
 	fbFlashTimer : TON;
@@ -56,6 +59,8 @@ ELSE
 	bResetLED := FALSE;
 END_IF
 
+HandlePhysicalResetReq();
+
 // Process all alarms 
 FOR i := 1 TO nAlarmCount DO
     IF aAllAlarms[i].pAlarm <> 0 THEN
@@ -77,6 +82,73 @@ aAllAlarms[nAlarmCount].pAlarm := pAlarm;
 aAllAlarms[nAlarmCount].sName := sAlarmName;
 
 AddAlarm := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="HandlePhysicalResetReq" Id="{69edb4ad-be36-4050-94ad-b5e3e5143fe4}">
+      <Declaration><![CDATA[METHOD HandlePhysicalResetReq : BOOL
+VAR
+	nOutput : INT;
+	fbLoopTimer   : TON;        (* The 1s timer between loops *)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bResetSafetyMem AND NOT bCriticalAlarm AND NOT bSafetyOk THEN
+
+    CASE nMainState OF
+        0: (* INITIALIZATION *)
+            nRepetition := 0;
+            nStep := 1;          (* Ensure motors start at 1 *)
+            nMainState := 10;    (* Start the sequence *)
+
+        10: (* EXECUTE THE 4 STEPS (Your Original Logic) *)
+            
+            CASE nStep OF
+                1: sRequestedActuator := 'R1_Motor_Reset';
+                2: sRequestedActuator := 'R2_Motor_Reset';
+                3: sRequestedActuator := 'R3_Motor_Reset';
+                4: sRequestedActuator := 'R4_Motor_Reset';
+            END_CASE
+            
+            nOutput := Result;
+            
+            CASE nOutput OF
+                1:  nStep := nStep + 1; (* Success, next motor *)
+                0:  RETURN;             (* Still working, wait *)
+                -1: nStep := nStep + 1; (* Error, skip to next *)
+            END_CASE
+            
+            (* WHEN ALL 4 MOTORS ARE DONE *)
+            IF nStep > 4 THEN
+                nMainState := 20; (* Don't finish yet! Go to the waiting state. *)
+            END_IF
+
+        20: (* WAIT 1 SECOND *)
+            fbLoopTimer(IN := TRUE, PT := T#1S);
+            
+            IF fbLoopTimer.Q THEN
+                (* 1 Second has passed *)
+                fbLoopTimer(IN := FALSE);       (* Reset timer *)
+                nRepetition := nRepetition + 1; (* Count this run *)
+                
+                (* CHECK IF WE ARE DONE *)
+                IF nRepetition < 4 THEN
+                    nStep := 1;       (* Reset motors to start *)
+                    nMainState := 10; (* Go back and run them again *)
+                ELSE
+                    nMainState := 30; (* We have done 4 runs, finish up *)
+                END_IF
+            END_IF
+
+        30: (* FINISH *)
+            bResetSafetyMem := FALSE; (* Turn off the master trigger *)
+            nMainState := 0;          (* Reset state for next time safety is pressed *)
+            
+    END_CASE
+
+ELSE
+    (* Safety precaution: Reset everything if the trigger condition is lost *)
+    nMainState := 0;
+    fbLoopTimer(IN := FALSE);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="InitializeAlarmList" Id="{29d25a2e-365e-4965-b599-96f6962c9be3}">
@@ -218,28 +290,14 @@ ProcessAlarm := TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_AlarmStatusManager">
-      <LineId Id="153" Count="1" />
-      <LineId Id="118" Count="6" />
-      <LineId Id="158" Count="1" />
-      <LineId Id="125" Count="3" />
-      <LineId Id="155" Count="0" />
-      <LineId Id="133" Count="0" />
-      <LineId Id="156" Count="0" />
-      <LineId Id="161" Count="0" />
-      <LineId Id="157" Count="0" />
-      <LineId Id="168" Count="8" />
-      <LineId Id="162" Count="0" />
-      <LineId Id="177" Count="1" />
-      <LineId Id="163" Count="0" />
-      <LineId Id="160" Count="0" />
-      <LineId Id="134" Count="2" />
-      <LineId Id="138" Count="0" />
-      <LineId Id="140" Count="1" />
-      <LineId Id="152" Count="0" />
+      <LineId Id="182" Count="42" />
       <LineId Id="142" Count="0" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.AddAlarm">
       <LineId Id="1" Count="4" />
+    </LineIds>
+    <LineIds Name="FB_AlarmStatusManager.HandlePhysicalResetReq">
+      <LineId Id="1" Count="57" />
     </LineIds>
     <LineIds Name="FB_AlarmStatusManager.InitializeAlarmList">
       <LineId Id="1" Count="0" />

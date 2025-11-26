@@ -9,9 +9,10 @@ VAR_GLOBAL
 	StopCycle AT %I*: BOOL;
 	StopCycle_HMI : BOOL;
 	bResetSafety AT %I*: BOOL;
-
+	
     RTrigStart : R_TRIG;
     RTrigStop  : R_TRIG;
+	RTrigReset : R_TRIG;
 	bCycleDone : BOOL;
 	
 	bSafetyOk  : BOOL := FALSE;
@@ -20,6 +21,7 @@ VAR_GLOBAL
 	bStopLED AT %Q* : BOOL;
 	bResetLED AT %Q* : BOOL;
 	
+	bResetSafetyMem : BOOL;
     bStartCycleMem : BOOL;  
     bStopCycleMem  : BOOL;  
 	STEP : BOOL := TRUE;

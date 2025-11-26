@@ -29,7 +29,8 @@ END_IF
 (* Read Inputs *)
 RTrigStart(CLK := StartCycle OR StartCycle_HMI);
 RTrigStop (CLK := StopCycle OR StopCycle_HMI);
-
+RTrigReset(CLK := bResetSafety);
+	
 IF RTrigStart.Q THEN
     bStartCycleMem := TRUE;   
     StartCycle_HMI := FALSE; 
@@ -38,6 +39,10 @@ END_IF
 IF RTrigStop.Q THEN
     bStopCycleMem  := TRUE;
     StopCycle_HMI := FALSE;
+END_IF
+
+IF RTrigReset.Q THEN
+    bResetSafetyMem := TRUE;
 END_IF
 
 IF bSafetyOk AND NOT bStartCycleMem THEN
@@ -82,8 +87,13 @@ gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
       <LineId Id="274" Count="0" />
       <LineId Id="178" Count="1" />
       <LineId Id="275" Count="0" />
-      <LineId Id="306" Count="10" />
-      <LineId Id="335" Count="2" />
+      <LineId Id="306" Count="3" />
+      <LineId Id="378" Count="0" />
+      <LineId Id="310" Count="6" />
+      <LineId Id="335" Count="1" />
+      <LineId Id="380" Count="2" />
+      <LineId Id="379" Count="0" />
+      <LineId Id="337" Count="0" />
       <LineId Id="324" Count="0" />
       <LineId Id="341" Count="8" />
       <LineId Id="340" Count="0" />

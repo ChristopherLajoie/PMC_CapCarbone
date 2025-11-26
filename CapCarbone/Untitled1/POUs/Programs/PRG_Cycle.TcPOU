@@ -932,6 +932,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -982,6 +983,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1057,6 +1059,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1122,6 +1125,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -1170,6 +1174,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -1218,6 +1223,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -1284,6 +1290,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1346,6 +1353,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -1394,6 +1402,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -1442,6 +1451,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -1514,6 +1524,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -1562,6 +1573,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1612,6 +1624,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1662,6 +1675,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1713,6 +1727,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1835,6 +1850,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1900,6 +1916,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -1968,6 +1985,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -2018,6 +2036,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -2105,6 +2124,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -2158,6 +2178,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -2206,6 +2227,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -2254,6 +2276,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -2291,7 +2314,7 @@ END_CASE]]></ST>
     </Action>
     <Action Name="_astpMoveFinal_Rail3_active" Id="{868d3b76-a02b-4e70-8735-9182079229e3}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 1295, fVelocity := Mot_UnloadedVel);
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 6, fVelocity := Mot_UnloadedVel);
 
 CASE Status OF
 	1: Result := 0;
@@ -2302,6 +2325,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -2350,6 +2374,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -2400,6 +2425,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -2466,6 +2492,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -2514,6 +2541,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -2551,7 +2579,7 @@ END_CASE]]></ST>
     </Action>
     <Action Name="_astpMovePickUp_Rail3_active" Id="{0bfac081-6762-49da-97b8-c44aba5cf64f}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 1100, fVelocity := Mot_UnloadedVel);
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 250, fVelocity := Mot_UnloadedVel);
 
 CASE Status OF
 	1: Result := 0;
@@ -2562,6 +2590,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -2610,6 +2639,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -2658,6 +2688,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE]]></ST>
       </Implementation>
@@ -7946,6 +7977,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -10847,6 +10879,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -10879,6 +10912,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -10911,6 +10945,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -10943,6 +10978,7 @@ CASE Status OF
 		bStartCycleMem := FALSE;
 		bHomingDone := FALSE;
 		bCycleDone := FALSE;
+		Result := 0;
 		SFCReset := TRUE;
 END_CASE
 
@@ -10964,7 +11000,9 @@ END_CASE
     </Action>
     <Action Name="stpInit_active" Id="{10aa273c-50f4-48b2-827b-3d0220d77be7}">
       <Implementation>
-        <ST><![CDATA[(* Read Inputs *)
+        <ST><![CDATA[SFCReset := FALSE;
+
+(* Read Inputs *)
 RTrigStart(CLK := StartCycle OR StartCycle_HMI);
 RTrigStop (CLK := StopCycle OR StopCycle_HMI);
 
@@ -11088,7 +11126,9 @@ END_IF]]></ST>
     </ObjectProperties>
     <LineIds Name="PRG_Cycle._astpCatch_Rail1_active">
       <LineId Id="32" Count="1" />
-      <LineId Id="20" Count="11" />
+      <LineId Id="20" Count="8" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="29" Count="2" />
       <LineId Id="3" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatch_Rail1_entry">
@@ -11096,7 +11136,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatch_Rail2_active">
       <LineId Id="56" Count="1" />
-      <LineId Id="28" Count="27" />
+      <LineId Id="28" Count="8" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="37" Count="18" />
       <LineId Id="20" Count="6" />
       <LineId Id="8" Count="0" />
       <LineId Id="2" Count="1" />
@@ -11106,7 +11148,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatch_Rail3_active">
       <LineId Id="46" Count="1" />
-      <LineId Id="36" Count="9" />
+      <LineId Id="36" Count="8" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="45" Count="0" />
       <LineId Id="20" Count="14" />
       <LineId Id="8" Count="0" />
       <LineId Id="2" Count="1" />
@@ -11116,20 +11160,22 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatch_Rail4_active">
       <LineId Id="55" Count="1" />
-      <LineId Id="45" Count="9" />
+      <LineId Id="45" Count="8" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="54" Count="0" />
       <LineId Id="43" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatch_Rail4_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatchPickUp_Rail3_active">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpCatchPickUp_Rail3_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Gui1_active">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Gui1_entry">
       <LineId Id="1" Count="0" />
@@ -11139,7 +11185,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Rail2_active">
       <LineId Id="43" Count="1" />
-      <LineId Id="33" Count="9" />
+      <LineId Id="33" Count="8" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="42" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="20" Count="10" />
       <LineId Id="8" Count="0" />
@@ -11150,20 +11198,22 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Rail3_active">
       <LineId Id="50" Count="1" />
-      <LineId Id="40" Count="9" />
+      <LineId Id="40" Count="8" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="49" Count="0" />
       <LineId Id="20" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Rail3_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Rail4_active_1">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDrop_Rail4_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDropMoveFinal_Rail3_active">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpDropMoveFinal_Rail3_entry">
       <LineId Id="1" Count="0" />
@@ -11177,14 +11227,16 @@ END_IF]]></ST>
       <LineId Id="55" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpExtend_Pous2_active">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpExtend_Pous2_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Gui1_active">
       <LineId Id="52" Count="1" />
-      <LineId Id="40" Count="11" />
+      <LineId Id="40" Count="8" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="49" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Gui1_entry">
@@ -11192,7 +11244,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Gui2_active">
       <LineId Id="30" Count="1" />
-      <LineId Id="18" Count="11" />
+      <LineId Id="18" Count="8" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="27" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Gui2_entry">
@@ -11200,7 +11254,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Pous1_active">
       <LineId Id="30" Count="1" />
-      <LineId Id="18" Count="11" />
+      <LineId Id="18" Count="8" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="27" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Pous1_entry">
@@ -11210,7 +11266,9 @@ END_IF]]></ST>
       <LineId Id="31" Count="1" />
       <LineId Id="19" Count="1" />
       <LineId Id="33" Count="0" />
-      <LineId Id="21" Count="9" />
+      <LineId Id="21" Count="6" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="28" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Pous2_entry">
@@ -11229,7 +11287,7 @@ END_IF]]></ST>
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri1_active">
-      <LineId Id="1" Count="14" />
+      <LineId Id="1" Count="15" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri1_entry">
       <LineId Id="1" Count="0" />
@@ -11239,7 +11297,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri2_active_1">
       <LineId Id="50" Count="1" />
-      <LineId Id="38" Count="11" />
+      <LineId Id="38" Count="8" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="47" Count="2" />
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri2_entry">
@@ -11250,7 +11310,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri3_active">
       <LineId Id="40" Count="1" />
-      <LineId Id="28" Count="11" />
+      <LineId Id="28" Count="8" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="37" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri3_entry">
@@ -11258,7 +11320,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri4_active">
       <LineId Id="41" Count="1" />
-      <LineId Id="29" Count="11" />
+      <LineId Id="29" Count="8" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="38" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpHoming_Tri4_entry">
@@ -11273,7 +11337,9 @@ END_IF]]></ST>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail1_active">
       <LineId Id="35" Count="0" />
       <LineId Id="34" Count="0" />
-      <LineId Id="22" Count="11" />
+      <LineId Id="22" Count="8" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="31" Count="2" />
       <LineId Id="19" Count="1" />
       <LineId Id="2" Count="1" />
     </LineIds>
@@ -11282,7 +11348,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail2_active">
       <LineId Id="68" Count="1" />
-      <LineId Id="31" Count="10" />
+      <LineId Id="31" Count="8" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="40" Count="1" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail2_entry">
       <LineId Id="1" Count="0" />
@@ -11290,28 +11358,34 @@ END_IF]]></ST>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail3_active">
       <LineId Id="67" Count="0" />
       <LineId Id="66" Count="0" />
-      <LineId Id="39" Count="10" />
+      <LineId Id="39" Count="8" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="48" Count="1" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail3_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail4_active">
       <LineId Id="54" Count="1" />
-      <LineId Id="44" Count="9" />
+      <LineId Id="44" Count="8" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="53" Count="0" />
       <LineId Id="20" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail4_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFinal_Rail3_active">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFinal_Rail3_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail1_active">
       <LineId Id="33" Count="1" />
-      <LineId Id="21" Count="11" />
+      <LineId Id="21" Count="8" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="30" Count="2" />
       <LineId Id="3" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail1_entry">
@@ -11319,7 +11393,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail2_active">
       <LineId Id="47" Count="1" />
-      <LineId Id="27" Count="19" />
+      <LineId Id="27" Count="8" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="36" Count="10" />
       <LineId Id="25" Count="0" />
       <LineId Id="20" Count="4" />
       <LineId Id="8" Count="0" />
@@ -11330,7 +11406,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail3_active">
       <LineId Id="59" Count="1" />
-      <LineId Id="35" Count="10" />
+      <LineId Id="35" Count="8" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="44" Count="1" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail3_entry">
       <LineId Id="1" Count="0" />
@@ -11339,58 +11417,71 @@ END_IF]]></ST>
       <LineId Id="54" Count="1" />
       <LineId Id="44" Count="3" />
       <LineId Id="56" Count="0" />
-      <LineId Id="49" Count="4" />
+      <LineId Id="49" Count="3" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="53" Count="0" />
       <LineId Id="42" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveFw_Rail4_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMovePickUp_Rail3_active">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMovePickUp_Rail3_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpRetract_Gui1_active">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpRetract_Gui1_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpRetract_Pous2_active">
-      <LineId Id="1" Count="12" />
+      <LineId Id="1" Count="13" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpRetract_Pous2_entry">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpDrop_Rail1_active">
       <LineId Id="39" Count="1" />
-      <LineId Id="24" Count="14" />
+      <LineId Id="24" Count="8" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="33" Count="5" />
       <LineId Id="20" Count="2" />
       <LineId Id="8" Count="0" />
       <LineId Id="2" Count="1" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail1_active">
       <LineId Id="40" Count="1" />
-      <LineId Id="28" Count="11" />
+      <LineId Id="28" Count="8" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="37" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail2_active">
       <LineId Id="40" Count="1" />
-      <LineId Id="28" Count="11" />
+      <LineId Id="28" Count="8" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="37" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail3_active">
       <LineId Id="40" Count="1" />
-      <LineId Id="28" Count="11" />
+      <LineId Id="28" Count="8" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="37" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpHoming_Rail4_active">
       <LineId Id="40" Count="1" />
-      <LineId Id="28" Count="11" />
+      <LineId Id="28" Count="8" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="37" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpInit_active">
+      <LineId Id="58" Count="1" />
       <LineId Id="57" Count="0" />
       <LineId Id="41" Count="4" />
       <LineId Id="48" Count="4" />
