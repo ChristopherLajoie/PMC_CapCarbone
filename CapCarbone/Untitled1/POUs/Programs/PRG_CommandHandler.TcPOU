@@ -16,8 +16,6 @@ VAR
 
     bOperationInProgress  : BOOL := FALSE;
     bCancelInProgress     : BOOL := FALSE;
-    CancelMove            : BOOL := FALSE;
-    bSafetyOk             : BOOL := FALSE;
     bAwaitingHMIClose     : BOOL := FALSE;
 
     // REFERENCES TO FUNCTION BLOCKS / STRUCTURES

@@ -8,15 +8,23 @@ VAR_GLOBAL
 	StartCycle_HMI : BOOL;
 	StopCycle AT %I*: BOOL;
 	StopCycle_HMI : BOOL;
-	ResetSafety AT %I*: BOOL;
+	bResetSafety AT %I*: BOOL;
 
     RTrigStart : R_TRIG;
     RTrigStop  : R_TRIG;
-
+	bCycleDone : BOOL;
+	
+	bSafetyOk  : BOOL := FALSE;
+	
+	bStartLED AT %Q* : BOOL;
+	bStopLED AT %Q* : BOOL;
+	bResetLED AT %Q* : BOOL;
+	
     bStartCycleMem : BOOL;  
     bStopCycleMem  : BOOL;  
-	STEP : BOOL;
+	STEP : BOOL := TRUE;
 	SafetyRelayStatus AT %I*: BOOL;
+	CancelMove : BOOL := FALSE;
 	
 	gSystemAlarmStatus : ST_SystemAlarmStatus;
 	

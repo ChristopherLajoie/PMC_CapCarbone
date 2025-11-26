@@ -18,6 +18,8 @@ VAR
 	
     aAllAlarms : ARRAY[1..100] OF ST_AlarmEntry;
     nAlarmCount : INT := 0;
+	fbFlashTimer : TON;
+	bFlashState  : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[stSystemStatus.bMaintenanceMode := bMaintenanceMode;
@@ -38,7 +40,21 @@ END_FOR
 
 //Check Safety Relay status
 SafetyRelay.bCondition := NOT SafetyRelayStatus;
-//SafetyRelay.bCondition := SafetyRelayStatus;
+
+IF SafetyRelay.bCondition THEN
+	(* Timer counts to 250ms, then resets itself *)
+	fbFlashTimer(IN := NOT fbFlashTimer.Q, PT := T#250MS);
+
+	(* Every time the timer finishes (Q=TRUE), toggle the state *)
+	IF fbFlashTimer.Q THEN
+		bFlashState := NOT bFlashState;
+	END_IF
+
+	(* Map to your physical output *)
+	bResetLED := bFlashState;
+ELSE
+	bResetLED := FALSE;
+END_IF
 
 // Process all alarms 
 FOR i := 1 TO nAlarmCount DO
@@ -208,7 +224,13 @@ ProcessAlarm := TRUE;]]></ST>
       <LineId Id="125" Count="3" />
       <LineId Id="155" Count="0" />
       <LineId Id="133" Count="0" />
-      <LineId Id="156" Count="1" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="168" Count="8" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="177" Count="1" />
+      <LineId Id="163" Count="0" />
       <LineId Id="160" Count="0" />
       <LineId Id="134" Count="2" />
       <LineId Id="138" Count="0" />

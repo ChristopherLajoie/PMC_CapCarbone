@@ -7,6 +7,11 @@ VAR
 	bInitComplete : BOOL := FALSE;
 
 	nIndex : SINT;
+	fbFlashTimerStart : TON;
+	bFlashStateStart  : BOOL;
+	
+	fbFlashTimerStop : TON;
+	bFlashStateStop  : BOOL;
 	
 	(* MAINTENANCE MODE TOGGLE *)
     bMaintenanceMode : BOOL := FALSE;
@@ -26,18 +31,48 @@ RTrigStart(CLK := StartCycle OR StartCycle_HMI);
 RTrigStop (CLK := StopCycle OR StopCycle_HMI);
 
 IF RTrigStart.Q THEN
-    bStartCycleMem := TRUE;
-    bStopCycleMem  := FALSE;
-    
+    bStartCycleMem := TRUE;   
     StartCycle_HMI := FALSE; 
 END_IF
 
 IF RTrigStop.Q THEN
     bStopCycleMem  := TRUE;
-    bStartCycleMem := FALSE;
-
     StopCycle_HMI := FALSE;
 END_IF
+
+IF bSafetyOk AND NOT bStartCycleMem THEN
+	(* Timer counts to 250ms, then resets itself *)
+	fbFlashTimerStart (IN := NOT fbFlashTimerStart .Q, PT := T#250MS);
+
+	(* Every time the timer finishes (Q=TRUE), toggle the state *)
+	IF fbFlashTimerStart .Q THEN
+		bFlashStateStart  := NOT bFlashStateStart ;
+	END_IF
+
+	(* Map to your physical output *)
+	bStartLED := bFlashStateStart ;
+ELSIF bStartCycleMem AND bSafetyOk THEN
+	bStartLED := TRUE;
+ELSE
+	bStartLED := FALSE;
+END_IF
+
+IF bStopCycleMem AND NOT bCycleDone THEN
+	(* Timer counts to 250ms, then resets itself *)
+	fbFlashTimerStop(IN := NOT fbFlashTimerStop .Q, PT := T#250MS);
+
+	(* Every time the timer finishes (Q=TRUE), toggle the state *)
+	IF fbFlashTimerStop .Q THEN
+		bFlashStateStop  := NOT bFlashStateStop ;
+	END_IF
+
+	(* Map to your physical output *)
+	bStopLED := bFlashStateStop ;
+ELSE
+	bStopLED := FALSE;
+END_IF
+
+bCycleDone := FALSE;
 
 fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);
 gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
@@ -47,7 +82,20 @@ gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
       <LineId Id="274" Count="0" />
       <LineId Id="178" Count="1" />
       <LineId Id="275" Count="0" />
-      <LineId Id="290" Count="15" />
+      <LineId Id="306" Count="10" />
+      <LineId Id="335" Count="2" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="341" Count="8" />
+      <LineId Id="340" Count="0" />
+      <LineId Id="350" Count="3" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="364" Count="0" />
+      <LineId Id="354" Count="0" />
+      <LineId Id="367" Count="8" />
+      <LineId Id="365" Count="0" />
+      <LineId Id="376" Count="1" />
+      <LineId Id="366" Count="0" />
+      <LineId Id="321" Count="0" />
       <LineId Id="289" Count="0" />
       <LineId Id="264" Count="1" />
       <LineId Id="58" Count="0" />

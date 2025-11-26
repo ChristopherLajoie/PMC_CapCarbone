@@ -12,9 +12,9 @@
 	Rail3_Prox AT %I* : BOOL;
 	Rail4_Prox AT %I* : BOOL;
 	
-	Mot_LoadedVel : LREAL := 50;
+	Mot_LoadedVel : LREAL := 100;
 	Mot_HomingVel : LREAL := 50;
-	Mot_UnloadedVel : LREAL := 250;
+	Mot_UnloadedVel : LREAL := 800;
 	
 	Mot_HomingAccel : LREAL := 537.001;
 	Mot_NormalAccel : LREAL := 89.5002;

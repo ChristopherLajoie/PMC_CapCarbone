@@ -84,7 +84,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Extend := 0;
 
-CheckDriveFault();
+//CheckDriveFault();
 UpdateProxDetection();
 
 IF bFirstCycle THEN
@@ -106,10 +106,10 @@ CASE eState OF
     LAS_LinearActuator_Extending:
 		pActuator^.tTimeout(IN := TRUE, PT := tTimeout);
 		
-		IF bHoldDriveFaulted THEN
+		IF bCriticalAlarm THEN
 			pActuator^.tTimeout(IN := FALSE);
             Stop(); 
-			bHoldDriveFaulted := FALSE;
+			//bHoldDriveFaulted := FALSE;
 			bFirstCycle := TRUE;
             Extend := -1;
 		END_IF
@@ -169,6 +169,7 @@ CASE eState OF
 
     LAS_LinearActuator_Extended:
         Extend := 1; // Already extended
+		
 		bFirstCycle := TRUE;
 		pActuator^.tTimeout(IN := FALSE);
 END_CASE]]></ST>
@@ -203,7 +204,7 @@ IF NOT bIsBasic THEN
 	pActuator^.bStopControlDO^ := FALSE; 
 END_IF
 
-GetPosition();
+//GetPosition();
 ]]></ST>
       </Implementation>
     </Method>
@@ -224,6 +225,7 @@ IF bProxInRisingEdge = pActuator^.bProxIn^ THEN
     State := 0;  
 	GetPosition := TRUE;
 	bDetectError := TRUE;
+
 ELSIF bProxOutRisingEdge = pActuator^.bProxOut^ THEN
     eState := LAS_LinearActuator_Extended;
     State := 1;  
@@ -231,7 +233,7 @@ ELSIF bProxOutRisingEdge = pActuator^.bProxOut^ THEN
 	bDetectError := TRUE;
 END_IF
 
-IF bIsGui THEN
+IF bIsGui AND NOT bDetectError THEN
 	IF bProx2RisingEdge = pActuator^.bProx2^ THEN
 		eState := LAS_LinearActuator_AtProx2;
 		State := 2;  
@@ -267,7 +269,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Home := 0;
 
-CheckDriveFault();
+//CheckDriveFault();
 UpdateProxDetection();
 
 IF bFirstCycle THEN
@@ -287,10 +289,10 @@ CASE eState OF
         eState := LAS_LinearActuator_Retracting;
 
     LAS_LinearActuator_Retracting:
-		IF bHoldDriveFaulted THEN
+		IF bCriticalAlarm THEN
 			pActuator^.tTimeout(IN := FALSE);
             Stop(); 
-			bHoldDriveFaulted := FALSE;
+			//bHoldDriveFaulted := FALSE;
 			bFirstCycle := TRUE;
             Home := -1;
 		END_IF
@@ -360,10 +362,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[sActuatorName := pActuator^.sName;
 
-CheckDriveFault();
+//CheckDriveFault();
 
 IF GetPosition(State => State) THEN
-	pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownState');
+	pAlarmCondition := F_GetLinearActuatorAlarmCondition(pActuator^.sName, 'UnknownPosition');
 	IF pAlarmCondition <> 0 THEN
 		pAlarmCondition^ := FALSE;
 	END_IF
@@ -400,7 +402,7 @@ VAR_OUTPUT
 	State : SINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CheckDriveFault();
+        <ST><![CDATA[//CheckDriveFault();
 
 pActuator^.bFwdDO^ := FALSE;
 pActuator^.bBckwDO^ := FALSE;
@@ -503,6 +505,7 @@ END_IF]]></ST>
       <LineId Id="477" Count="0" />
       <LineId Id="493" Count="0" />
       <LineId Id="401" Count="4" />
+      <LineId Id="495" Count="0" />
       <LineId Id="494" Count="0" />
       <LineId Id="469" Count="0" />
       <LineId Id="44" Count="0" />
@@ -528,6 +531,7 @@ END_IF]]></ST>
       <LineId Id="37" Count="2" />
       <LineId Id="75" Count="0" />
       <LineId Id="89" Count="0" />
+      <LineId Id="94" Count="0" />
       <LineId Id="40" Count="2" />
       <LineId Id="76" Count="0" />
       <LineId Id="90" Count="0" />

@@ -1611,7 +1611,7 @@ External Setpoint Generation:
 					<Name>Stepper1</Name>
 					<AxisPara>
 						<Dynamic Acceleration="89.5002" Deceleration="89.5002" Jerk="67.597"/>
-						<Velo Maximum="150"/>
+						<Velo Maximum="1000"/>
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="19">
@@ -1754,7 +1754,7 @@ External Setpoint Generation:
 					<Name>Stepper2</Name>
 					<AxisPara>
 						<Dynamic Acceleration="89.5002" Deceleration="89.5002" Jerk="67.597"/>
-						<Velo Maximum="150"/>
+						<Velo Maximum="1000"/>
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="19">
@@ -1897,7 +1897,7 @@ External Setpoint Generation:
 					<Name>Stepper3</Name>
 					<AxisPara>
 						<Dynamic Acceleration="89.5002" Deceleration="89.5002" Jerk="67.597"/>
-						<Velo Maximum="150"/>
+						<Velo Maximum="1000"/>
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="19">
@@ -2040,11 +2040,11 @@ External Setpoint Generation:
 					<Name>Stepper4</Name>
 					<AxisPara>
 						<Dynamic Acceleration="89.5002" Deceleration="89.5002" Jerk="67.597"/>
-						<Velo Maximum="150"/>
+						<Velo Maximum="1000"/>
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="19">
-						<EncPara ScaleFactorNumerator="0.00011408" Inverse="true" MaxCount="#xffffffff">
+						<EncPara ScaleFactorNumerator="0.0001172742" Inverse="true" MaxCount="#xffffffff">
 							<Inc RefSoftSyncMask="#x0000ffff"/>
 						</EncPara>
 						<Vars VarGrpType="1">
@@ -2183,11 +2183,23 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{06A144AE-15C8-407C-8A20-7ACC04BE137D}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{32F3EE1A-5B9F-044F-6DFE-643D0822D9A7}" TmcPath="Untitled1\Untitled1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{43D7A7E1-C200-CAF5-ED76-347B3C2D7DD7}" TmcPath="Untitled1\Untitled1.tmc">
 					<Name>Untitled1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>Main_Task Outputs</Name>
+						<Var>
+							<Name>GVL.bStartLED</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.bStopLED</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.bResetLED</Name>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>GVL_Steppers.Rail1_Mot_Ref.PlcToNc</Name>
 							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
@@ -2328,15 +2340,15 @@ External Setpoint Generation:
 					<Vars VarGrpType="1">
 						<Name>Main_Task Inputs</Name>
 						<Var>
+							<Name>GVL.bResetSafety</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>GVL.StartCycle</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL.StopCycle</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>GVL.ResetSafety</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -10220,14 +10232,14 @@ Bit 8 - 15 : reserved]]></Comment>
 				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp2_Prox_Fault" VarB="DIP Inputs^CMP2.PRX-FAULT"/>
 				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp2_Prox_In" VarB="DIP Inputs^CMP2.PRX-IN"/>
 				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Cmp2_Prox_Out" VarB="DIP Inputs^CMP2.PRX-OUT"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_In" VarB="DIP Inputs^GUI1.PRX-UP"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_In_Slow" VarB="DIP Inputs^GUI1.PRX-UP-SLOW"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_Out" VarB="DIP Inputs^GUI1.PRX-DOWN"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_Out_Slow" VarB="DIP Inputs^GUI1.PRX-DOWN-SLOW"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_In" VarB="DIP Inputs^GUI2.PRX-UP"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_In_Slow" VarB="DIP Inputs^GUI2.PRX-UP-SLOW"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_Out" VarB="DIP Inputs^GUI2.PRX-DOWN"/>
-				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_Out_Slow" VarB="DIP Inputs^GUI2.PRX-DOWN-SLOW"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_In" VarB="DIP Inputs^GUI1.PRX-DOWN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_In_Slow" VarB="DIP Inputs^GUI1.PRX-DOWN-SLOW"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_Out" VarB="DIP Inputs^GUI1.PRX-UP"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui1_Prox_Out_Slow" VarB="DIP Inputs^GUI1.PRX-UP-SLOW"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_In" VarB="DIP Inputs^GUI2.PRX-DOWN"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_In_Slow" VarB="DIP Inputs^GUI2.PRX-DOWN-SLOW"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_Out" VarB="DIP Inputs^GUI2.PRX-UP"/>
+				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Gui2_Prox_Out_Slow" VarB="DIP Inputs^GUI2.PRX-UP-SLOW"/>
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail1_Prox" VarB="DIP Inputs^RAIL1.PRX"/>
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail2_Prox" VarB="DIP Inputs^RAIL2.PRX"/>
 			</OwnerB>
@@ -10236,10 +10248,16 @@ Bit 8 - 15 : reserved]]></Comment>
 				<Link VarA="Main_Task Inputs^GVL.SafetyRelayStatus" VarB="DIP Inputs^SAFETY.QM1"/>
 				<Link VarA="Main_Task Inputs^GVL.StartCycle" VarB="DIP Inputs^PB.START"/>
 				<Link VarA="Main_Task Inputs^GVL.StopCycle" VarB="DIP Inputs^PB.STOP"/>
+				<Link VarA="Main_Task Inputs^GVL.bResetSafety" VarB="DIP Inputs^PB.RESET"/>
 				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Piv1_Prox_In" VarB="DIP Inputs^PIV1.PRX-IN"/>
 				<Link VarA="Main_Task Inputs^GVL_LinearActuatorProxSensors.Piv1_Prox_Out" VarB="DIP Inputs^PIV1.PRX-OUT"/>
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail3_Prox" VarB="DIP Inputs^RAIL3.PRX"/>
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail4_Prox" VarB="DIP Inputs^RAIL4.PRX"/>
+			</OwnerB>
+			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #1 (EL2809)">
+				<Link VarA="Main_Task Outputs^GVL.bResetLED" VarB="Channel 11^LED_RESET"/>
+				<Link VarA="Main_Task Outputs^GVL.bStartLED" VarB="Channel 9^LED_START"/>
+				<Link VarA="Main_Task Outputs^GVL.bStopLED" VarB="Channel 10^LED_STOP"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 4 (EtherCAT)^ECAT E-Bus (EK1200)^Carte DO #2 (EL2809)">
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Piv1_Mot_Bw" VarB="Channel 13^PIV1_BW"/>
@@ -10266,10 +10284,10 @@ Bit 8 - 15 : reserved]]></Comment>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp1_Mot_Fw" VarB="Channel 2^CMP1.MOT-FW"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp2_Mot_Bw" VarB="Channel 5^CMP2.MOT-BW"/>
 				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Cmp2_Mot_Fw" VarB="Channel 6^CMP2.MOT-FW"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui1_Mot_Bw" VarB="Channel 10^GUI1.MOT-UP"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui1_Mot_Fw" VarB="Channel 9^GUI1.MOT-DOWN"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui2_Mot_Bw" VarB="Channel 14^GUI2.MOT-UP"/>
-				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui2_Mot_Fw" VarB="Channel 13^GUI2.MOT-DOWN"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui1_Mot_Bw" VarB="Channel 9^GUI1.MOT-DOWN"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui1_Mot_Fw" VarB="Channel 10^GUI1.MOT-UP"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui2_Mot_Bw" VarB="Channel 13^GUI2.MOT-DOWN"/>
+				<Link VarA="Main_Task Outputs^GVL_LinearActuatorRelays.Gui2_Mot_Fw" VarB="Channel 14^GUI2.MOT-UP"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Stepper1">
 				<Link VarA="Main_Task Inputs^GVL_Steppers.Rail1_Mot_Struct.object.NcToPlc" VarB="Outputs^ToPlc"/>
