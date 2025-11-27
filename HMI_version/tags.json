@@ -6,7 +6,7 @@
       "tags": [
         {
           "valueSource": "opc",
-          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dPRG_CommandHandler.CancelMove",
+          "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.CancelMove",
           "dataType": "Boolean",
           "name": "CancelMove",
           "tagType": "AtomicTag",
@@ -90,7 +90,7 @@
                 },
                 {
                   "valueSource": "opc",
-                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_LinearActuators.Tril4_Mot_Cmd.bCommand",
+                  "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL_LinearActuators.Tri4_Mot_Cmd.bCommand",
                   "value": true,
                   "opcServer": "PLC OPC UA",
                   "name": "Command",
@@ -319,7 +319,7 @@
               "valueSource": "memory",
               "dataType": "Int1",
               "name": "CurrentPopup",
-              "value": 1,
+              "value": 3,
               "tagType": "AtomicTag"
             },
             {
@@ -1067,7 +1067,7 @@
           "tags": [
             {
               "valueSource": "opc",
-              "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dPRG_CommandHandler.bSafetyOk",
+              "opcItemPath": "nsu\u003dTcOpcUaServer/urn:BeckhoffAutomation:Ua:PLC1;s\u003dGVL.bSafetyOk",
               "dataType": "Boolean",
               "name": "SafetyOK",
               "tagType": "AtomicTag",
