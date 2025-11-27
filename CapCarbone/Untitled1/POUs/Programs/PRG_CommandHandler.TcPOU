@@ -47,8 +47,8 @@ END_VAR
       <ST><![CDATA[(* 1. SAFETY CHECK *)
 bSafetyOk := EvaluateSystemSafety();
 
-(* 2. WAIT FOR HMI TO EXIT COMMAND PROMPT IF NEEDED*)
-IF bAwaitingHMIClose THEN
+(* 2. WAIT FOR HMI TO EXIT COMMAND PROMPT IF NEEDED *)
+IF bAwaitingHMIClose AND NOT bSkipHMIWait THEN
     tmrHMICloseSignal(IN := TRUE, PT := tHMICloseHoldTime);
     
     IF tmrHMICloseSignal.Q THEN     
@@ -58,6 +58,9 @@ IF bAwaitingHMIClose THEN
     END_IF
     
     RETURN;
+ELSE
+	bAwaitingHMIClose := FALSE;
+	sRequestedActuator := 'none';
 END_IF
 
 (* 3. COMMAND CANCEL CHECK *)
@@ -277,7 +280,7 @@ IF LinearTable^.KeepAlive(Error => Error) THEN
             Result := -1;                         
             LinearTable^.PowerDown();             
             bOperationInProgress := FALSE;
-			
+					
 			sRequestedActuator := 'close';
 			bAwaitingHMIClose := TRUE;
 			tmrHMICloseSignal(IN := FALSE);
@@ -416,7 +419,9 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="PRG_CommandHandler">
-      <LineId Id="869" Count="75" />
+      <LineId Id="869" Count="13" />
+      <LineId Id="945" Count="2" />
+      <LineId Id="883" Count="61" />
     </LineIds>
     <LineIds Name="PRG_CommandHandler.EvaluateSystemSafety">
       <LineId Id="6" Count="0" />

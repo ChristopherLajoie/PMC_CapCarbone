@@ -1,8 +1,8 @@
-- Implement cycle
 - Per alarm check instead of per zone check would be better
 - fix error messages overwritting each other**
-- ajouter routine sfcreset
 - fix linear actuator status not accurate
+
+commit : 4d38b5f3c24736421dd4c67b1b6f059927d5a242
 
 
 

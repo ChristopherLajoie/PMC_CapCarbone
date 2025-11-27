@@ -27,7 +27,7 @@ IF NOT bInitComplete THEN
     bInitComplete := TRUE;
 END_IF
 
-(* Read Inputs *)
+(* Read physical door and HMI inputs *)
 RTrigStart(CLK := StartCycle OR StartCycle_HMI);
 RTrigStop (CLK := StopCycle OR StopCycle_HMI);
 RTrigReset(CLK := bResetSafety);
@@ -46,16 +46,14 @@ IF RTrigReset.Q THEN
     bResetSafetyMem := TRUE;
 END_IF
 
+(* Start LED flash *)
 IF bSafetyOk AND NOT bStartCycleMem THEN
-	(* Timer counts to 250ms, then resets itself *)
 	fbFlashTimerStart (IN := NOT fbFlashTimerStart .Q, PT := T#250MS);
 
-	(* Every time the timer finishes (Q=TRUE), toggle the state *)
 	IF fbFlashTimerStart .Q THEN
 		bFlashStateStart  := NOT bFlashStateStart ;
 	END_IF
 
-	(* Map to your physical output *)
 	bStartLED := bFlashStateStart ;
 ELSIF bStartCycleMem AND bSafetyOk THEN
 	bStartLED := TRUE;
@@ -63,19 +61,27 @@ ELSE
 	bStartLED := FALSE;
 END_IF
 
+(* Stop LED flash *)
 IF bStopCycleMem AND NOT bCycleDone THEN
-	(* Timer counts to 250ms, then resets itself *)
 	fbFlashTimerStop(IN := NOT fbFlashTimerStop .Q, PT := T#250MS);
 
-	(* Every time the timer finishes (Q=TRUE), toggle the state *)
 	IF fbFlashTimerStop .Q THEN
 		bFlashStateStop  := NOT bFlashStateStop ;
 	END_IF
 
-	(* Map to your physical output *)
 	bStopLED := bFlashStateStop ;
 ELSE
 	bStopLED := FALSE;
+END_IF
+
+(* If Safety is triggered but command doesnt return -1 in cycle, force it *)
+IF NOT bSafetyOk AND bStartCycleMem THEN
+	bSFCResetCommand^ := TRUE;
+	bStopCycleMem := FALSE;
+	bStartCycleMem := FALSE;
+	bHomingDone := FALSE;
+	bCycleDone := FALSE;
+	Result := 0;
 END_IF
 
 fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);
@@ -93,19 +99,32 @@ gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
       <LineId Id="335" Count="1" />
       <LineId Id="380" Count="2" />
       <LineId Id="379" Count="0" />
+      <LineId Id="397" Count="0" />
       <LineId Id="337" Count="0" />
       <LineId Id="324" Count="0" />
-      <LineId Id="341" Count="8" />
+      <LineId Id="342" Count="0" />
+      <LineId Id="344" Count="3" />
+      <LineId Id="349" Count="0" />
       <LineId Id="340" Count="0" />
       <LineId Id="350" Count="3" />
       <LineId Id="339" Count="0" />
+      <LineId Id="396" Count="0" />
       <LineId Id="364" Count="0" />
       <LineId Id="354" Count="0" />
-      <LineId Id="367" Count="8" />
+      <LineId Id="368" Count="0" />
+      <LineId Id="370" Count="3" />
+      <LineId Id="375" Count="0" />
       <LineId Id="365" Count="0" />
       <LineId Id="376" Count="1" />
       <LineId Id="366" Count="0" />
-      <LineId Id="264" Count="1" />
+      <LineId Id="395" Count="0" />
+      <LineId Id="385" Count="0" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="387" Count="0" />
+      <LineId Id="390" Count="4" />
+      <LineId Id="388" Count="0" />
+      <LineId Id="386" Count="0" />
+      <LineId Id="265" Count="0" />
       <LineId Id="58" Count="0" />
     </LineIds>
   </POU>

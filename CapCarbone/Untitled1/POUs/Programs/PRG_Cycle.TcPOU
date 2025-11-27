@@ -4,7 +4,6 @@
     <Declaration><![CDATA[PROGRAM PRG_Cycle
 VAR	
 Status : INT := 0;
-bHomingDone: BOOL;
 bCycleDone: BOOL;
 SFCReset : BOOL;
 END_VAR]]></Declaration>
@@ -11464,7 +11463,9 @@ END_CASE
     </Action>
     <Action Name="stpInit_active" Id="{10aa273c-50f4-48b2-827b-3d0220d77be7}">
       <Implementation>
-        <ST><![CDATA[SFCReset := FALSE;
+        <ST><![CDATA[bSFCResetCommand := ADR(SFCReset);
+SFCReset := FALSE;
+bSkipHMIWait := FALSE;
 
 (* Read Inputs *)
 RTrigStart(CLK := StartCycle OR StartCycle_HMI);
@@ -11964,7 +11965,8 @@ Result := 0;]]></ST>
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle.stpInit_active">
-      <LineId Id="58" Count="1" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="59" Count="1" />
       <LineId Id="57" Count="0" />
       <LineId Id="41" Count="4" />
       <LineId Id="48" Count="4" />

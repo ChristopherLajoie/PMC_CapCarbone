@@ -20,37 +20,26 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* ========================================================= *)
-(* PARSING LOGIC: R<ID>_<Name> (e.g., 'R1_Chariot')         *)
-(* ========================================================= *)
+      <ST><![CDATA[bSkipHMIWait := TRUE;
+
 nLen := LEN(sDevice);
 nUnderscorePos := FIND(sDevice, '_');
 
-(* Safety Checks: Length must be sufficient and underscore must exist *)
-(* We expect at least 'R1_A' (4 chars) and underscore cannot be at start *)
 IF (nLen < 4) OR (nUnderscorePos < 3) THEN
     F_IssueActuatorCommand := -1; (* Error: Invalid Format *)
     RETURN;
 END_IF;
 
 (* 1. Extract the ID Number *)
-(* Take string between 'R' (pos 1) and '_' *)
-(* Start at 2, Length is (UnderscorePos - 2) *)
 sIndexStr := MID(sDevice, nUnderscorePos - 2, 2); 
 n := STRING_TO_INT(sIndexStr);
 
 (* 2. Extract the Name (Prefix) *)
-(* Take everything to the right of the underscore *)
 sPrefix := RIGHT(sDevice, nLen - nUnderscorePos);
 
 (* 3. Rebuild the Base String "R<n>_" for reconstruction later *)
 sTmp := CONCAT('R', INT_TO_STRING(n));
 sTmp := CONCAT(sTmp, '_');
-
-
-(* ========================================================= *)
-(* DEVICE HANDLING LOGIC (Unchanged)                        *)
-(* ========================================================= *)
 
 (* ===================== *)
 (* Non-motor devices     *)
@@ -92,7 +81,6 @@ IF (sPrefix = 'Chariot') OR (sPrefix = 'Compressor') OR (sPrefix = 'Sensor') OR
     END_IF;
 
     // <<< return handling for non-motor >>>
-    // function returns the global Result
     F_IssueActuatorCommand := Result;
     RETURN;
 END_IF
@@ -162,7 +150,14 @@ END_IF
 F_IssueActuatorCommand := -3;]]></ST>
     </Implementation>
     <LineIds Name="F_IssueActuatorCommand">
-      <LineId Id="460" Count="138" />
+      <LineId Id="462" Count="0" />
+      <LineId Id="599" Count="0" />
+      <LineId Id="463" Count="1" />
+      <LineId Id="467" Count="6" />
+      <LineId Id="476" Count="3" />
+      <LineId Id="481" Count="4" />
+      <LineId Id="491" Count="40" />
+      <LineId Id="533" Count="65" />
       <LineId Id="119" Count="0" />
     </LineIds>
   </POU>

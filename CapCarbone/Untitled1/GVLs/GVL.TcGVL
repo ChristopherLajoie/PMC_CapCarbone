@@ -15,6 +15,9 @@ VAR_GLOBAL
 	RTrigReset : R_TRIG;
 	bCycleDone : BOOL;
 	
+	bSFCResetCommand : POINTER TO BOOL;
+	bHomingDone: BOOL;
+	bSkipHMIWait : BOOL;
 	bSafetyOk  : BOOL := FALSE;
 	
 	bStartLED AT %Q* : BOOL;

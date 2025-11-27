@@ -636,67 +636,65 @@ CASE eState OF
 				END_IF
 				
 				Reset := -1;
-			END_IF
-		
-		ELSIF fbReset.Done THEN		
-			fbReset(Axis := pAxis^, Execute := FALSE);
-			
-			bHoldKeepAlive := FALSE;
-			
-			eState := LAS_Stepper_Ready;
+			ELSIF fbReset.Done THEN		
+				fbReset(Axis := pAxis^, Execute := FALSE);
 				
-			// Clear all alarm conditions related to motion
-			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
-			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-			
-			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
-			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-			
-			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Interrupted');
-			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-			
-			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
-			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-			
-			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Stop_Failed');
-			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-			
-			pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'UnableToReadPosition');
-			IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
-			
-			CASE nRail OF
-				1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := '';
-				   GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := '';
-				   GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := '';
-				   GVL_Alarms.R1_Stepper_Motion_Interrupted.sMessage := '';
-				   GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := '';
-				   GVL_Alarms.R1_Stepper_UnableToReadPosition.sMessage := '';
-				   
-				2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := '';
-				   GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := '';
-				   GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := '';
-				   GVL_Alarms.R2_Stepper_Motion_Interrupted.sMessage := '';
-				   GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := '';
-				   GVL_Alarms.R2_Stepper_UnableToReadPosition.sMessage := '';
-				   
-				3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := '';
-				   GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := '';
-				   GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := '';
-				   GVL_Alarms.R3_Stepper_Motion_Interrupted.sMessage := '';
-				   GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := '';
-				   GVL_Alarms.R3_Stepper_UnableToReadPosition.sMessage := '';
-				   
-				4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := '';
-				   GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := '';
-				   GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := '';
-				   GVL_Alarms.R4_Stepper_Motion_Interrupted.sMessage := '';
-				   GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := '';
-				   GVL_Alarms.R4_Stepper_UnableToReadPosition.sMessage := '';
-			END_CASE
-			
-			Reset := 1;
-			
-		END_IF
+				bHoldKeepAlive := FALSE;
+				
+				eState := LAS_Stepper_Ready;
+					
+				// Clear all alarm conditions related to motion
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Homing_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Motion_Interrupted');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Reset_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'Stop_Failed');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				pAlarmCondition := F_GetStepperAlarmCondition(nRail, 'UnableToReadPosition');
+				IF pAlarmCondition <> 0 THEN pAlarmCondition^ := FALSE; END_IF
+				
+				CASE nRail OF
+					1: GVL_Alarms.R1_Stepper_Reset_Failed.sMessage := '';
+					   GVL_Alarms.R1_Stepper_Motion_Failed.sMessage := '';
+					   GVL_Alarms.R1_Stepper_Homing_Failed.sMessage := '';
+					   GVL_Alarms.R1_Stepper_Motion_Interrupted.sMessage := '';
+					   GVL_Alarms.R1_Stepper_Stop_Failed.sMessage := '';
+					   GVL_Alarms.R1_Stepper_UnableToReadPosition.sMessage := '';
+					   
+					2: GVL_Alarms.R2_Stepper_Reset_Failed.sMessage := '';
+					   GVL_Alarms.R2_Stepper_Motion_Failed.sMessage := '';
+					   GVL_Alarms.R2_Stepper_Homing_Failed.sMessage := '';
+					   GVL_Alarms.R2_Stepper_Motion_Interrupted.sMessage := '';
+					   GVL_Alarms.R2_Stepper_Stop_Failed.sMessage := '';
+					   GVL_Alarms.R2_Stepper_UnableToReadPosition.sMessage := '';
+					   
+					3: GVL_Alarms.R3_Stepper_Reset_Failed.sMessage := '';
+					   GVL_Alarms.R3_Stepper_Motion_Failed.sMessage := '';
+					   GVL_Alarms.R3_Stepper_Homing_Failed.sMessage := '';
+					   GVL_Alarms.R3_Stepper_Motion_Interrupted.sMessage := '';
+					   GVL_Alarms.R3_Stepper_Stop_Failed.sMessage := '';
+					   GVL_Alarms.R3_Stepper_UnableToReadPosition.sMessage := '';
+					   
+					4: GVL_Alarms.R4_Stepper_Reset_Failed.sMessage := '';
+					   GVL_Alarms.R4_Stepper_Motion_Failed.sMessage := '';
+					   GVL_Alarms.R4_Stepper_Homing_Failed.sMessage := '';
+					   GVL_Alarms.R4_Stepper_Motion_Interrupted.sMessage := '';
+					   GVL_Alarms.R4_Stepper_Stop_Failed.sMessage := '';
+					   GVL_Alarms.R4_Stepper_UnableToReadPosition.sMessage := '';
+				END_CASE
+				Reset := 1;
+				
+			END_IF
+		END_IF		
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -964,7 +962,7 @@ END_CASE]]></ST>
       <LineId Id="848" Count="2" />
       <LineId Id="852" Count="1" />
       <LineId Id="855" Count="7" />
-      <LineId Id="668" Count="3" />
+      <LineId Id="668" Count="1" />
       <LineId Id="883" Count="1" />
       <LineId Id="672" Count="0" />
       <LineId Id="880" Count="0" />
@@ -981,10 +979,9 @@ END_CASE]]></ST>
       <LineId Id="919" Count="0" />
       <LineId Id="941" Count="3" />
       <LineId Id="940" Count="0" />
+      <LineId Id="945" Count="2" />
       <LineId Id="920" Count="1" />
-      <LineId Id="885" Count="1" />
       <LineId Id="677" Count="0" />
-      <LineId Id="45" Count="0" />
     </LineIds>
     <LineIds Name="FB_StepperMotor.Stop">
       <LineId Id="345" Count="0" />
