@@ -1496,7 +1496,7 @@ END_CASE]]></ST>
 END_IF
 
 bHomingDone := FALSE;
-//bCycleDone := TRUE;]]></ST>
+bCycleDone := TRUE;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -2265,7 +2265,7 @@ END_CASE]]></ST>
     </Action>
     <Action Name="_astpMoveBw_Rail4_active" Id="{41541f05-84bc-42f6-ba00-975ac632aeaa}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 6, fVelocity := Mot_LoadedVel);
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R4_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 9, fVelocity := Mot_LoadedVel);
 
 CASE Status OF
 	1: Result := 0;
@@ -2579,7 +2579,7 @@ END_CASE]]></ST>
     </Action>
     <Action Name="_astpMovePickUp_Rail3_active" Id="{0bfac081-6762-49da-97b8-c44aba5cf64f}">
       <Implementation>
-        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 250, fVelocity := Mot_UnloadedVel);
+        <ST><![CDATA[Status := F_IssueActuatorCommand(sDevice := 'R3_Motor', bArg := FALSE, bHasPosition := TRUE, nPosition:= 150, fVelocity := Mot_UnloadedVel);
 
 CASE Status OF
 	1: Result := 0;

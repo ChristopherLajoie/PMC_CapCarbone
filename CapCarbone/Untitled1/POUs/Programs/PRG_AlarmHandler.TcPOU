@@ -78,8 +78,6 @@ ELSE
 	bStopLED := FALSE;
 END_IF
 
-bCycleDone := FALSE;
-
 fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);
 gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
     </Implementation>
@@ -107,8 +105,6 @@ gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
       <LineId Id="365" Count="0" />
       <LineId Id="376" Count="1" />
       <LineId Id="366" Count="0" />
-      <LineId Id="321" Count="0" />
-      <LineId Id="289" Count="0" />
       <LineId Id="264" Count="1" />
       <LineId Id="58" Count="0" />
     </LineIds>
