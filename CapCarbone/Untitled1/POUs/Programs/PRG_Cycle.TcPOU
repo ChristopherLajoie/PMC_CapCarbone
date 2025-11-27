@@ -122,7 +122,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="AttributeId">{a2621e18-7de3-4ea6-ae6d-89e9e0b7befd}</v>
                           <o n="Value" t="StringValue">
-                            <v n="Value">""</v>
+                            <v n="Value">"stpInit_exit"</v>
                             <v n="DefaultValue">""</v>
                           </o>
                           <v n="Id">320L</v>
@@ -1495,7 +1495,8 @@ END_CASE]]></ST>
 	bHomingDone := FALSE;
 END_IF
 
-bCycleDone := TRUE;]]></ST>
+bHomingDone := FALSE;
+//bCycleDone := TRUE;]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -2094,8 +2095,7 @@ END_CASE
     </Action>
     <Action Name="_astpInit_Homing_active" Id="{309757e9-73b6-42d8-9a1a-85df415823f8}">
       <Implementation>
-        <ST><![CDATA[bCycleDone := FALSE;
-Result := 0;]]></ST>
+        <ST><![CDATA[]]></ST>
       </Implementation>
       <ObjectProperties>
         <XmlArchive>
@@ -11481,6 +11481,12 @@ IF RTrigStop.Q THEN
 END_IF]]></ST>
       </Implementation>
     </Action>
+    <Action Name="stpInit_exit" Id="{dcce3caa-9028-4c2f-8708-fd9c7506d3f5}">
+      <Implementation>
+        <ST><![CDATA[bCycleDone := FALSE;
+Result := 0;]]></ST>
+      </Implementation>
+    </Action>
     <ObjectProperties>
       <XmlArchive>
         <Data>
@@ -11687,6 +11693,7 @@ END_IF]]></ST>
       <LineId Id="52" Count="0" />
       <LineId Id="56" Count="0" />
       <LineId Id="51" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="57" Count="0" />
       <LineId Id="55" Count="0" />
     </LineIds>
@@ -11796,7 +11803,7 @@ END_IF]]></ST>
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpInit_Homing_active">
-      <LineId Id="2" Count="1" />
+      <LineId Id="3" Count="0" />
     </LineIds>
     <LineIds Name="PRG_Cycle._astpMoveBw_Rail1_active">
       <LineId Id="35" Count="0" />
@@ -11963,6 +11970,9 @@ END_IF]]></ST>
       <LineId Id="48" Count="4" />
       <LineId Id="55" Count="0" />
       <LineId Id="39" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_Cycle.stpInit_exit">
+      <LineId Id="1" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

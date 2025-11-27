@@ -11,6 +11,8 @@ VAR
     bError      : BOOL;
     sErrorMsg   : STRING(80);
 	bHoldDriveFaulted : BOOL;
+	fbDelayTimerHome : TON;
+	fbDelayTimerExtend : TON;
 	
     // REFERENCES
     pActuator   : POINTER TO ST_LinearActuator;
@@ -81,7 +83,6 @@ END_IF]]></ST>
 VAR
     pAlarmCondition : POINTER TO BOOL;
 	nStop : INT;
-	fbDelayTimer : TON;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Extend := 0;
@@ -159,7 +160,6 @@ CASE eState OF
 			eState := LAS_LinearActuator_Extended;
 			bHoldDriveFaulted := FALSE;
 			bFirstCycle := TRUE;
-            Extend := 1; 
 		    pActuator^.tTimeout(IN := FALSE);
         END_IF
         
@@ -184,14 +184,14 @@ CASE eState OF
 
     LAS_LinearActuator_Extended:		
 		IF bIsPiv THEN
-			fbDelayTimer(IN := TRUE, PT := T#1S);		
+			fbDelayTimerExtend(IN := TRUE, PT := T#1S);		
 			GetPosition();
 			
-			IF fbDelayTimer.Q THEN
+			IF fbDelayTimerExtend.Q THEN
 				Extend := 1; 
 				Stop();
 				bFirstCycle := TRUE;			
-				fbDelayTimer(IN := FALSE); 		
+				fbDelayTimerExtend(IN := FALSE); 		
 			END_IF		
 		ELSE
 			Extend := 1; 
@@ -232,6 +232,10 @@ END_IF
 (* Initialise stop to false *)
 IF NOT bIsBasic THEN
 	pActuator^.bStopControlDO^ := FALSE; 
+END_IF
+
+IF bIsPiv THEN
+	eState := LAS_LinearActuator_Retracted;
 END_IF
 
 //GetPosition();
@@ -390,14 +394,14 @@ CASE eState OF
 
     LAS_LinearActuator_Retracted:
 		IF bIsPiv THEN
-			fbDelayTimer(IN := TRUE, PT := T#1S);		
+			fbDelayTimerHome(IN := TRUE, PT := T#1S);		
 			GetPosition();
 			
-			IF fbDelayTimer.Q THEN
+			IF fbDelayTimerHome.Q THEN
 				Home := 1; 
 				Stop();
 				bFirstCycle := TRUE;			
-				fbDelayTimer(IN := FALSE); 		
+				fbDelayTimerHome(IN := FALSE); 		
 			END_IF		
 		ELSE
 			Home := 1; 
@@ -577,7 +581,7 @@ END_IF]]></ST>
       <LineId Id="465" Count="0" />
       <LineId Id="476" Count="0" />
       <LineId Id="492" Count="0" />
-      <LineId Id="466" Count="1" />
+      <LineId Id="467" Count="0" />
       <LineId Id="388" Count="1" />
       <LineId Id="391" Count="0" />
       <LineId Id="501" Count="0" />
@@ -607,6 +611,9 @@ END_IF]]></ST>
       <LineId Id="250" Count="0" />
       <LineId Id="252" Count="0" />
       <LineId Id="255" Count="0" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="266" Count="1" />
       <LineId Id="257" Count="0" />
       <LineId Id="259" Count="1" />
     </LineIds>

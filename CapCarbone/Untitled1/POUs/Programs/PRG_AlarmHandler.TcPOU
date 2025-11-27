@@ -17,7 +17,8 @@ VAR
     bMaintenanceMode : BOOL := FALSE;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF NOT bInitComplete THEN
+      <ST><![CDATA[(* Rail number Init *)
+IF NOT bInitComplete THEN
     Rail1_Mot_FB.nRail := 1;
     Rail2_Mot_FB.nRail := 2; 
     Rail3_Mot_FB.nRail := 3;
@@ -83,6 +84,7 @@ fbAlarmStatusManager(bMaintenanceMode := bMaintenanceMode);
 gSystemAlarmStatus := fbAlarmStatusManager.stSystemStatus;]]></ST>
     </Implementation>
     <LineIds Name="PRG_AlarmHandler">
+      <LineId Id="384" Count="0" />
       <LineId Id="172" Count="4" />
       <LineId Id="274" Count="0" />
       <LineId Id="178" Count="1" />
