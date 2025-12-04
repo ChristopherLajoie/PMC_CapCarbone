@@ -58,7 +58,7 @@ IF bAwaitingHMIClose AND NOT bSkipHMIWait THEN
     END_IF
     
     RETURN;
-ELSE
+ELSIF bAwaitingHMIClose AND bSkipHMIWait THEN
 	bAwaitingHMIClose := FALSE;
 	sRequestedActuator := 'none';
 END_IF
