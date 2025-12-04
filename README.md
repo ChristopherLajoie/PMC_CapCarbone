@@ -40,6 +40,8 @@ frav1401@usherbrooke.ca
 
 * 0.01
     * Pre-release development
+* 1.00
+    * Mégagénial
 
 ## Acknowledgments
 
